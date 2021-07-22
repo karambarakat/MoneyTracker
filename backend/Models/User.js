@@ -29,7 +29,7 @@ const UserSchema = new Schema(
       required: true,
     },
     logs: [LogSchema],
-    categories: [CategorySchema],
+    categories: { type: [CategorySchema] },
     isAdmin: Boolean,
   },
   {

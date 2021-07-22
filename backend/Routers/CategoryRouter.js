@@ -14,6 +14,7 @@ const getAllCategories = asyncHF(async (req, res, next) => {
     res.status(204);
     res.json({ msg: "empty resource" });
   } else {
+    req.user.categories.shift(); // don't show first item 'uncategorized'
     res.json(req.user.categories);
   }
 });
@@ -33,7 +34,9 @@ const AddCategory = asyncHF(async (req, res, next) => {
  * @route   DELETE   /api/category          */
 const deleteAllCateories = asyncHF(async (req, res, next) => {
   try {
+    const firstCat = req.user.categories[0];
     req.user.categories = [];
+    req.user.categories.push(firstCat); // keep only the first 'uncategorized' category
     await req.user.save();
     res.json({ msg: "successful removing" });
   } catch {
@@ -51,7 +54,6 @@ const deleteAllCateories = asyncHF(async (req, res, next) => {
 const getCategory = async (req, res, next) => {
   const { id } = req.params;
   const category = req.user.getCategory(id);
-  console.log(category);
 
   if (!category) {
     res.status(404);
@@ -67,11 +69,24 @@ const EditCategory = asyncHF(async (req, res, next) => {
   const { id } = req.params;
   const { title, color, icon } = req.body;
   const category = req.user.getCategory(id);
-
   if (!category) {
     res.status(404);
     res.json({ msg: "not found" });
   }
+
+  if (id === String(req.user.categories[0]._id)) {
+    res.status(401);
+    throw new Error(
+      "nice try you are not allowed to edit or delete this category"
+    );
+  }
+
+  // todo: bug detected when there is a typo in here and I request this route
+  // it will give me 200Ok response msg:category_typohere is not defined
+  // suppose to give me 500 error
+  // if (category_typohere._id === req.user.categories[0]._id) {
+  //   console.log("got it");
+  // }
 
   const updated = category.update({ title, color, icon });
   await req.user.save();
@@ -90,6 +105,21 @@ const deleteCategory = asyncHF(async (req, res, next) => {
     res.status(404);
     res.json({ msg: "not found" });
   }
+
+  if (id === String(req.user.categories[0]._id)) {
+    res.status(401);
+    throw new Error(
+      "nice try you are not allowed to edit or delete this category"
+    );
+  }
+
+  // change all log that have this cat as thier category
+  // change them to have the first category 'uncategorized' as their category
+  req.user.logs.forEach((e) => {
+    if (e.category._id === id) {
+      e.update({ category: String(req.user.categories[0]._id) });
+    }
+  });
 
   category.remove();
   await req.user.save();
