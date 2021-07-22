@@ -25,6 +25,9 @@ if (process.env.ENV === "development") {
 }
 app.all("/", (req, res) => res.json({ msg: "api is working" }));
 
+// init error handler
+app.use(require("./Middlewares/errorMiddlewares").init);
+
 // Mount routers
 app.use("/api/user", require("./Routers/UserRouter"));
 app.use("/api/log", require("./Routers/LogRouter"));
@@ -32,7 +35,7 @@ app.use("/api/category", require("./Routers/CategoryRouter"));
 app.use("/api/meta", require("./Routers/MetaRouter"));
 
 // Error handlers
-app.use(require("./Middlewares/errorMiddlewares"));
+app.use(require("./Middlewares/errorMiddlewares").errors);
 
 const PORT = process.env.PORT || 8811;
 app.listen(PORT, () => {

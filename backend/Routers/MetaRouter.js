@@ -8,8 +8,7 @@ const protect = [
     if (req.user.isAdmin) {
       next();
     } else {
-      res.status(401);
-      throw new Error("this user is not an admin");
+      res.error(401, "this user is not an admin");
     }
   },
 ];

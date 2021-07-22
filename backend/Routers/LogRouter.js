@@ -33,13 +33,9 @@ const AddLog = asyncHF(async (req, res, next) => {
  * @desc    delete all logs for a given user
  * @route   DELETE   /api/log          */
 const deleteAllLogs = asyncHF(async (req, res, next) => {
-  try {
-    req.user.logs = [];
-    await req.user.save();
-    res.json({ msg: "successful removing" });
-  } catch {
-    throw new Error();
-  }
+  req.user.logs = [];
+  await req.user.save();
+  res.json({ msg: "successful removing" });
 });
 
 /**
@@ -54,8 +50,7 @@ const getLog = async (req, res, next) => {
   const log = req.user.getLog(id);
 
   if (!log) {
-    res.status(404);
-    res.json({ msg: "not found" });
+    res.error(404, "not found");
   } else {
     res.json(log.getJson());
   }
@@ -70,8 +65,7 @@ const EditLog = asyncHF(async (req, res, next) => {
   const log = req.user.getLog(id);
 
   if (!log) {
-    res.status(404);
-    res.json({ msg: "not found" });
+    res.error(404, "not found");
   }
 
   const updated = log.update({ title, amount, note, category });
@@ -87,8 +81,7 @@ const deleteLog = asyncHF(async (req, res, next) => {
   const log = req.user.getLog(id);
 
   if (!log) {
-    res.status(404);
-    res.json({ msg: "not found" });
+    res.error(404, "not found");
   }
 
   log.remove();

@@ -13,8 +13,7 @@ const registerUser = asyncHF(async (req, res, next) => {
 
   const userExist = await User.findOne({ email });
   if (userExist) {
-    res.status(400);
-    throw new Error("User already exist");
+    res.error(400, "User already exist");
   }
 
   const userNew = await User.create({
@@ -53,8 +52,7 @@ const authUser = asyncHF(async (req, res, next) => {
   if (user && user.matchPassword(password)) {
     res.json(user.leanScope());
   } else {
-    res.status(401);
-    throw new Error("The email or password is incorrect");
+    res.error(401, "The email or password is incorrect");
   }
 });
 

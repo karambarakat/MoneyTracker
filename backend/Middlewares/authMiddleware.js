@@ -20,17 +20,15 @@ module.exports = asyncHF(async (req, res, next) => {
         // console.log("\x1b[36m", decoded.id, "\x1b[0m", req.user.userName);
       }
 
-      if (!req.user) throw new Error();
+      if (!req.user) res.error(404, "user not found");
 
       next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized token failed");
+      res.error(401, "Not authorized token failed");
     }
   }
 
   if (!token) {
-    res.status(401);
-    throw new Error("Not authorized no token");
+    res.error(401, "Not authorized no token");
   }
 });

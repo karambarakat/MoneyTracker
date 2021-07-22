@@ -33,15 +33,11 @@ const AddCategory = asyncHF(async (req, res, next) => {
  * @desc    delete all logs for a given user
  * @route   DELETE   /api/category          */
 const deleteAllCateories = asyncHF(async (req, res, next) => {
-  try {
-    const firstCat = req.user.categories[0];
-    req.user.categories = [];
-    req.user.categories.push(firstCat); // keep only the first 'uncategorized' category
-    await req.user.save();
-    res.json({ msg: "successful removing" });
-  } catch {
-    throw new Error();
-  }
+  const firstCat = req.user.categories[0];
+  req.user.categories = [];
+  req.user.categories.push(firstCat); // keep only the first 'uncategorized' category
+  await req.user.save();
+  res.json({ msg: "successful removing" });
 });
 
 /**
@@ -56,8 +52,7 @@ const getCategory = async (req, res, next) => {
   const category = req.user.getCategory(id);
 
   if (!category) {
-    res.status(404);
-    res.json({ msg: "not found" });
+    res.error(404, "not found");
   }
   res.json(category);
 };
@@ -70,23 +65,15 @@ const EditCategory = asyncHF(async (req, res, next) => {
   const { title, color, icon } = req.body;
   const category = req.user.getCategory(id);
   if (!category) {
-    res.status(404);
-    res.json({ msg: "not found" });
+    res.error(404, "not found");
   }
 
   if (id === String(req.user.categories[0]._id)) {
-    res.status(401);
-    throw new Error(
+    res.error(
+      401,
       "nice try you are not allowed to edit or delete this category"
     );
   }
-
-  // todo: bug detected when there is a typo in here and I request this route
-  // it will give me 200Ok response msg:category_typohere is not defined
-  // suppose to give me 500 error
-  // if (category_typohere._id === req.user.categories[0]._id) {
-  //   console.log("got it");
-  // }
 
   const updated = category.update({ title, color, icon });
   await req.user.save();
@@ -102,13 +89,12 @@ const deleteCategory = asyncHF(async (req, res, next) => {
   const category = req.user.getCategory(id);
 
   if (!category) {
-    res.status(404);
-    res.json({ msg: "not found" });
+    res.error(404, "not found");
   }
 
   if (id === String(req.user.categories[0]._id)) {
-    res.status(401);
-    throw new Error(
+    res.error(
+      401,
       "nice try you are not allowed to edit or delete this category"
     );
   }
