@@ -1,0 +1,23 @@
+{
+  "name": "money-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "heroku-postbuild": "npm install --prefix reactapp && npm run build --prefix reactapp",
+    "start": "node server.js",
+    "dev_front": "cd reactapp && npm start",
+    "dev_back": "cd backend && nodemon server.js",
+    "dev": "concurrently \"cd backend && nodemon server.js\" \"cd reactapp && npm start\"",
+    "dev_node": "concurrently \"cd backend && node server.js\" \"cd reactapp && npm start\""
+  },
+  "author": "Karam Barakat",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.60"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "nodemon": "^2.0.12"
+  }
+}

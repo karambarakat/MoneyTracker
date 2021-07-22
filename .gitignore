@@ -1,0 +1,5 @@
+/.vscode
+/_ignore
+**/node_modules
+.env
+/Heruku
