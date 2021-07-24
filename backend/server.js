@@ -8,25 +8,19 @@ const cors = require("cors");
 connectionDB();
 const app = express();
 
+// init error handler
+app.use(require("./Middlewares/errorMiddlewares").init);
+
 //CORPS policy
 app.use(cors({ origin: "http://localhost:3000" }));
-app.use((req, res, next) => {
-  setTimeout(() => {
-    next();
-  }, 500);
-});
+app.use((req, res, next) => setTimeout(() => next(), 500));
 
 //Body parser
 app.use(express.json());
 
 //Getting the server starting
-if (process.env.ENV === "development") {
-  app.use(morgan("dev"));
-}
+if (process.env.ENV === "development") app.use(morgan("dev"));
 app.all("/", (req, res) => res.json({ msg: "api is working" }));
-
-// init error handler
-app.use(require("./Middlewares/errorMiddlewares").init);
 
 // Mount routers
 app.use("/api/user", require("./Routers/UserRouter"));

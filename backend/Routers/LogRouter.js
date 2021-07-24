@@ -23,9 +23,9 @@ const getAllLogs = asyncHF(async (req, res, next) => {
  * @route   POST   /api/log          */
 const AddLog = asyncHF(async (req, res, next) => {
   const { title, note, amount, category } = req.body;
+
   const i = await req.user.logs.push({ title, note, amount, category });
   await req.user.save();
-  console.log(`req.user.logs[i - 1].getJson()`, req.user.logs[i - 1].getJson());
   res.json(req.user.logs[i - 1].getJson());
 });
 
@@ -64,9 +64,7 @@ const EditLog = asyncHF(async (req, res, next) => {
   const { title, amount, note, category } = req.body;
   const log = req.user.getLog(id);
 
-  if (!log) {
-    res.error(404, "not found");
-  }
+  if (!log) res.error(404, "not found");
 
   const updated = log.update({ title, amount, note, category });
   await req.user.save();
@@ -89,14 +87,52 @@ const deleteLog = asyncHF(async (req, res, next) => {
   res.json({ msg: "successful removing" });
 });
 
+const validCat = (mode) =>
+  asyncHF(async (req, res, next) => {
+    const { id } = req.params;
+    const { category } = req.body;
+
+    // mimic the mongoose validation error
+    const throw400 = () => {
+      res.error(400, "category validation failed", {
+        errorsList: [
+          {
+            error: "category",
+            message: "this category doesn't exist",
+          },
+        ],
+      });
+    };
+
+    if (mode === "put") {
+      const log = req.user.getLog(id);
+      if (!log) res.error(404, "not found");
+      //if the categoyr it is not valid => throw 400 bad request
+      //if the log is not categorized and user try to update it they have to provide a correct cat
+      if (!log.category && !req.user.validCategory(category)) throw400();
+    }
+    // ifesle (mode === post)
+    else {
+      //if there in no category with the same id throw 400 bad request
+      if (!req.user.validCategory(category)) throw400();
+    }
+
+    next();
+  });
+
 // Road Map
 // @route     /api/log
 router
   .route("/")
   .all(protect)
   .get(getAllLogs)
-  .post(AddLog)
+  .post(validCat("post"), AddLog)
   .delete(deleteAllLogs);
-router.route("/:id").all(protect).get(getLog).put(EditLog).delete(deleteLog);
+router
+  .route("/:id")
+  .all(protect)
+  .get(getLog)
+  .put(validCat("put"), EditLog)
+  .delete(deleteLog);
 
 module.exports = router;

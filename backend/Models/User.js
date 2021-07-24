@@ -54,13 +54,19 @@ UserSchema.methods.matchPassword = function (enteredPassword) {
   return hashedEntered === this.password;
 };
 
-UserSchema.methods.leanScope = function () {
+UserSchema.methods.leanScope = function (scope) {
   return {
     _id: this._id,
     userName: this.userName,
     email: this.email,
     token: generateToken(this._id),
   };
+};
+
+UserSchema.methods.validCategory = function (catId) {
+  if (!catId) return false;
+  const ref = String(catId);
+  return this.categories.some((e) => String(e._id) === ref);
 };
 
 UserSchema.pre("save", async function (next) {

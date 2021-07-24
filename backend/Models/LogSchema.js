@@ -13,14 +13,6 @@ const LogSchema = mongoose.Schema(
     //todo: what if the category has benn deleted!!
     category: {
       type: mongoose.Types.ObjectId,
-      validate: {
-        validator: function () {
-          const ref = String(this.category);
-          return this.parent().categories.some((e) => e._id == ref);
-        },
-        message: "the category doesn't exist",
-      },
-      required: true,
     },
     note: {
       type: String,
@@ -41,8 +33,16 @@ LogSchema.methods.update = function ({ title, amount, note, category }) {
 
 LogSchema.methods.getJson = function () {
   const json = this.toJSON();
-  const ref = String(this.category._id);
-  json.category = this.parent().getCategory(ref) || ref;
+
+  //populate the category or just pass uncategorized category
+  try {
+    const ref = String(this.category._id);
+    json.category = this.parent().getCategory(ref) || ref;
+    if (!json.category) throw new error();
+  } catch {
+    json.category = { title: "uncategorized", color: "6074ff", icon: "Error" };
+  }
+
   return json;
 };
 

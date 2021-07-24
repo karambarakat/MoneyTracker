@@ -9,22 +9,20 @@ const User = mongoose.model("users");
  * @desc    Get all logs for given user
  * @route   GET   /api/category          */
 const getAllCategories = asyncHF(async (req, res, next) => {
-  categories = req.user.categories;
-  if (categories.length === 0) {
+  if (req.user.categories.length === 0) {
     res.status(204);
     res.json({ msg: "empty resource" });
   } else {
-    req.user.categories.shift(); // don't show first item 'uncategorized'
     res.json(req.user.categories);
   }
 });
 
 /**
- * @desc    All one new log
+ * @desc    one new log
  * @route   POST   /api/category          */
 const AddCategory = asyncHF(async (req, res, next) => {
   const { title, color, icon } = req.body;
-  const i = await req.user.categories.push({ title, color, icon });
+  const i = await req.user.categories.push({ title, color, icon }); //return the length of the new categories array
   await req.user.save();
   res.json(req.user.categories[i - 1]);
 });
@@ -33,9 +31,13 @@ const AddCategory = asyncHF(async (req, res, next) => {
  * @desc    delete all logs for a given user
  * @route   DELETE   /api/category          */
 const deleteAllCateories = asyncHF(async (req, res, next) => {
-  const firstCat = req.user.categories[0];
+  cleanAllLogs(
+    req.user.logs,
+    req.user.categories.map((cat) => String(cat._id))
+  );
+
   req.user.categories = [];
-  req.user.categories.push(firstCat); // keep only the first 'uncategorized' category
+
   await req.user.save();
   res.json({ msg: "successful removing" });
 });
@@ -47,7 +49,7 @@ const deleteAllCateories = asyncHF(async (req, res, next) => {
 /**
  * @desc    get one log
  * @route   GET   /api/category/:id       */
-const getCategory = async (req, res, next) => {
+const getCategory = asyncHF(async (req, res, next) => {
   const { id } = req.params;
   const category = req.user.getCategory(id);
 
@@ -55,7 +57,7 @@ const getCategory = async (req, res, next) => {
     res.error(404, "not found");
   }
   res.json(category);
-};
+});
 
 /**
  * @desc    update one given log
@@ -63,16 +65,10 @@ const getCategory = async (req, res, next) => {
 const EditCategory = asyncHF(async (req, res, next) => {
   const { id } = req.params;
   const { title, color, icon } = req.body;
+
   const category = req.user.getCategory(id);
   if (!category) {
     res.error(404, "not found");
-  }
-
-  if (id === String(req.user.categories[0]._id)) {
-    res.error(
-      401,
-      "nice try you are not allowed to edit or delete this category"
-    );
   }
 
   const updated = category.update({ title, color, icon });
@@ -92,25 +88,21 @@ const deleteCategory = asyncHF(async (req, res, next) => {
     res.error(404, "not found");
   }
 
-  if (id === String(req.user.categories[0]._id)) {
-    res.error(
-      401,
-      "nice try you are not allowed to edit or delete this category"
-    );
-  }
-
-  // change all log that have this cat as thier category
-  // change them to have the first category 'uncategorized' as their category
-  req.user.logs.forEach((e) => {
-    if (e.category._id === id) {
-      e.update({ category: String(req.user.categories[0]._id) });
-    }
-  });
+  cleanAllLogs(req.user.logs, [id]);
 
   category.remove();
   await req.user.save();
   res.json({ msg: "successful removing" });
 });
+
+const cleanAllLogs = (logs, catIds) => {
+  logs.forEach((log) => {
+    // if (String(log.category._id) === catIds) {
+    if (catIds.some((catId) => catId === String(log.category._id))) {
+      log.category = undefined;
+    }
+  });
+};
 
 // Road Map
 // @route     /api/category
@@ -119,12 +111,12 @@ router
   .all(protect)
   .get(getAllCategories)
   .post(AddCategory)
-  .delete(deleteAllCateories);
+  .delete(deleteAllCateories); //cleanAllLogs
 router
   .route("/:id")
   .all(protect)
   .get(getCategory)
   .put(EditCategory)
-  .delete(deleteCategory);
+  .delete(deleteCategory); //cleanAllLogs
 
 module.exports = router;

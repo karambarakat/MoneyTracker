@@ -20,22 +20,8 @@ const registerUser = asyncHF(async (req, res, next) => {
     userName,
     email,
     password,
-    categories: [
-      {
-        title: "uncategorized",
-        color: "6074ff",
-        icon: "Error",
-      },
-    ],
   });
-  // await userNew.save();
-  // await userNew.save();
-  // userNew.categories.push({
-  //   title: "uncategorized",
-  //   color: "6074ff",
-  //   icon: "Error",
-  // });
-  // await userNew.save();
+  await userNew.save();
 
   res.status(201).json(userNew.leanScope());
 });
