@@ -76,6 +76,10 @@ var CategorySchema = new mongoose.Schema({
     ],
     required: true,
   },
+  markedForDeletion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 CategorySchema.methods.update = function ({ title, color, icon }) {

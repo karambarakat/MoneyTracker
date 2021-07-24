@@ -17,6 +17,10 @@ const LogSchema = mongoose.Schema(
     note: {
       type: String,
     },
+    markedForDeletion: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

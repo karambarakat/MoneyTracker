@@ -9,12 +9,12 @@ const User = mongoose.model("users");
  * @desc    Get all logs for given user
  * @route   GET   /api/log          */
 const getAllLogs = asyncHF(async (req, res, next) => {
-  logs = req.user.logs;
-  if (logs.length === 0) {
+  const available = req.user.logs.filter((log) => !log.markedForDeletion);
+  if (available.length === 0) {
     res.status(204);
     res.json({ msg: "empty resource" });
   } else {
-    res.json(req.user.logs.map((e) => e.getJson()));
+    res.json(available.map((e) => e.getJson()));
   }
 });
 
@@ -33,9 +33,16 @@ const AddLog = asyncHF(async (req, res, next) => {
  * @desc    delete all logs for a given user
  * @route   DELETE   /api/log          */
 const deleteAllLogs = asyncHF(async (req, res, next) => {
-  req.user.logs = [];
+  req.user.logs.forEach((log) => (log.markedForDeletion = true));
   await req.user.save();
   res.json({ msg: "successful removing" });
+
+  setTimeout(() => {
+    deleteCategoryForUser(
+      req.user.logs.map((log) => String(log._id)),
+      String(req.user._id)
+    );
+  }, 7000);
 });
 
 /**
@@ -49,7 +56,7 @@ const getLog = async (req, res, next) => {
   const { id } = req.params;
   const log = req.user.getLog(id);
 
-  if (!log) {
+  if (!log || log.markedForDeletion) {
     res.error(404, "not found");
   } else {
     res.json(log.getJson());
@@ -82,9 +89,41 @@ const deleteLog = asyncHF(async (req, res, next) => {
     res.error(404, "not found");
   }
 
-  log.remove();
+  log.markedForDeletion = true;
   await req.user.save();
   res.json({ msg: "successful removing" });
+
+  setTimeout(() => {
+    deleteCategoryForUser([log], String(req.user._id));
+  }, 7000);
+});
+
+const deleteCategoryForUser = async (ids, userId) => {
+  const user = await User.findById(userId).select("-password");
+  ids.forEach((id) => {
+    const log = user.getLog(id);
+
+    if (log.markedForDeletion) {
+      log.remove();
+    }
+  });
+  await user.save();
+};
+
+/**
+ * @desc    delete one given log
+ * @route   DELETE   /api/category/:id?revert=true       */
+const revertDeletion = asyncHF(async (req, res, next) => {
+  const { revert } = req.query;
+  if (!revert) next();
+  else {
+    const { id } = req.params;
+    const log = req.user.getLog(id);
+    log.markedForDeletion = false;
+    await req.user.save();
+
+    res.json(log);
+  }
 });
 
 const validCat = (mode) =>
@@ -127,12 +166,12 @@ router
   .all(protect)
   .get(getAllLogs)
   .post(validCat("post"), AddLog)
-  .delete(deleteAllLogs);
+  .delete(deleteAllLogs); //setTimeout
 router
   .route("/:id")
   .all(protect)
   .get(getLog)
   .put(validCat("put"), EditLog)
-  .delete(deleteLog);
+  .delete(revertDeletion, deleteLog); //setTimeout
 
 module.exports = router;

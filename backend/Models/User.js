@@ -30,6 +30,12 @@ const UserSchema = new Schema(
     },
     logs: [LogSchema],
     categories: { type: [CategorySchema] },
+
+    // @desc not sure if I want to add this feature now
+    // markedForDeletion: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     isAdmin: Boolean,
   },
   {

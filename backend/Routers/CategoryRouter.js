@@ -9,11 +9,13 @@ const User = mongoose.model("users");
  * @desc    Get all logs for given user
  * @route   GET   /api/category          */
 const getAllCategories = asyncHF(async (req, res, next) => {
-  if (req.user.categories.length === 0) {
+  const available = req.user.categories.filter((cat) => !cat.markedForDeletion);
+
+  if (available.length === 0) {
     res.status(204);
     res.json({ msg: "empty resource" });
   } else {
-    res.json(req.user.categories);
+    res.json(available);
   }
 });
 
@@ -31,15 +33,16 @@ const AddCategory = asyncHF(async (req, res, next) => {
  * @desc    delete all logs for a given user
  * @route   DELETE   /api/category          */
 const deleteAllCateories = asyncHF(async (req, res, next) => {
-  cleanAllLogs(
-    req.user.logs,
-    req.user.categories.map((cat) => String(cat._id))
-  );
-
-  req.user.categories = [];
-
+  req.user.categories.forEach((cat) => (cat.markedForDeletion = true));
   await req.user.save();
   res.json({ msg: "successful removing" });
+
+  setTimeout(() => {
+    deleteCategoryForUser(
+      req.user.categories.map((cat) => String(cat._id)),
+      String(req.user._id)
+    );
+  }, 7000);
 });
 
 /**
@@ -53,9 +56,10 @@ const getCategory = asyncHF(async (req, res, next) => {
   const { id } = req.params;
   const category = req.user.getCategory(id);
 
-  if (!category) {
-    res.error(404, "not found");
-  }
+  if (!category) res.error(404, "not found");
+
+  if (category.markedForDeletion) res.error(404, "not found");
+
   res.json(category);
 });
 
@@ -76,7 +80,6 @@ const EditCategory = asyncHF(async (req, res, next) => {
   res.json(updated);
 });
 
-// todo: change all logs that have this category id to default
 /**
  * @desc    delete one given log
  * @route   DELETE   /api/category/:id       */
@@ -88,17 +91,46 @@ const deleteCategory = asyncHF(async (req, res, next) => {
     res.error(404, "not found");
   }
 
-  cleanAllLogs(req.user.logs, [id]);
-
-  category.remove();
+  category.markedForDeletion = true;
   await req.user.save();
   res.json({ msg: "successful removing" });
+
+  setTimeout(() => {
+    deleteCategoryForUser([id], String(req.user._id));
+  }, 7000);
 });
+
+/**
+ * @desc    delete one given log
+ * @route   DELETE   /api/category/:id?revert=true       */
+const revertDeletion = asyncHF(async (req, res, next) => {
+  const { revert } = req.query;
+  if (!revert) next();
+  else {
+    const { id } = req.params;
+    const category = req.user.getCategory(id);
+    category.markedForDeletion = false;
+    await req.user.save();
+
+    res.json(category);
+  }
+});
+
+const deleteCategoryForUser = async (ids, userId) => {
+  const user = await User.findById(userId).select("-password");
+  ids.forEach((id) => {
+    const category = user.getCategory(id);
+    if (category.markedForDeletion) {
+      category.remove();
+      cleanAllLogs(user.logs, [id]);
+    }
+  });
+  await user.save();
+};
 
 const cleanAllLogs = (logs, catIds) => {
   logs.forEach((log) => {
-    // if (String(log.category._id) === catIds) {
-    if (catIds.some((catId) => catId === String(log.category._id))) {
+    if (catIds.some((catId) => catId === String(log.category))) {
       log.category = undefined;
     }
   });
@@ -109,14 +141,14 @@ const cleanAllLogs = (logs, catIds) => {
 router
   .route("/")
   .all(protect)
-  .get(getAllCategories)
+  .get(getAllCategories) //filter()
   .post(AddCategory)
-  .delete(deleteAllCateories); //cleanAllLogs
+  .delete(deleteAllCateories); //cleanAllLogs() //delayDeletion()
 router
   .route("/:id")
   .all(protect)
-  .get(getCategory)
+  .get(getCategory) //filter()
   .put(EditCategory)
-  .delete(deleteCategory); //cleanAllLogs
+  .delete(revertDeletion, deleteCategory); //cleanAllLogs() //delayDeletion()
 
 module.exports = router;
