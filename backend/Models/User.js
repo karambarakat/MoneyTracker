@@ -43,15 +43,6 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.methods.getLog = function (id) {
-  const log = this.logs.find((e) => e._id == id);
-  return log;
-};
-
-UserSchema.methods.getCategory = function (id) {
-  return this.categories.find((e) => e._id == id);
-};
-
 UserSchema.methods.matchPassword = function (enteredPassword) {
   const salt = process.env.SALT;
   const hashedEntered = crypto
@@ -69,6 +60,15 @@ UserSchema.methods.leanScope = function (scope) {
   };
 };
 
+UserSchema.methods.getLog = function (id) {
+  const log = this.logs.find((e) => e._id == id);
+  return log;
+};
+
+UserSchema.methods.getCategory = function (id) {
+  return this.categories.find((e) => e._id == id);
+};
+
 UserSchema.methods.validCategory = function (catId) {
   if (!catId) return false;
   const ref = String(catId);
@@ -77,10 +77,12 @@ UserSchema.methods.validCategory = function (catId) {
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) next();
-  const salt = process.env.SALT;
-  this.password = crypto
-    .pbkdf2Sync(this.password, salt, 100, 64, "sha512")
-    .toString("hex");
+  else {
+    const salt = process.env.SALT;
+    this.password = crypto
+      .pbkdf2Sync(this.password, salt, 100, 64, "sha512")
+      .toString("hex");
+  }
 });
 
 module.exports = mongoose.model("users", UserSchema);
