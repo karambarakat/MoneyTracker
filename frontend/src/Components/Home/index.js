@@ -15,7 +15,7 @@ import Add from "@material-ui/icons/Add";
 const Home = () => {
   return (
     <>
-      <HttpHandler selector={(s) => s.logs} action={() => getLogs()}>
+      <HttpHandler selector={(s) => s.logs} action={getLogs()}>
         {(logs) => (
           <Container maxWidth="sm">
             <SummaryPaper logs={logs} />

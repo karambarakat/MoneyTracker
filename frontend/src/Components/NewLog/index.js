@@ -65,7 +65,7 @@ const NewLog = () => {
               <form onSubmit={handleSubmit}>
                 <TextField
                   error={touched.title && errors.title}
-                  helperText={errors.title}
+                  helperText={touched.title && errors.title}
                   className={classes.w50}
                   value={values.title}
                   onChange={handleChange}
@@ -76,7 +76,7 @@ const NewLog = () => {
                 />
                 <TextField
                   error={touched.amount && errors.amount}
-                  helperText={errors.amount}
+                  helperText={touched.amount && errors.amount}
                   className={classes.w50}
                   value={values.amount}
                   onChange={handleChange}
@@ -88,7 +88,7 @@ const NewLog = () => {
 
                 <CategoryListField
                   error={touched.category && errors.category}
-                  helperText={errors.category}
+                  helperText={touched.category && errors.category}
                   id="category"
                   value={values.category}
                   onChange={handleChange}
@@ -98,7 +98,7 @@ const NewLog = () => {
 
                 <TextField
                   error={touched.note && errors.note}
-                  helperText={errors.note}
+                  helperText={touched.note && errors.note}
                   className={classes.w50}
                   value={values.note}
                   onChange={handleChange}

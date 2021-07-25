@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -12,6 +12,8 @@ import {
 } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
 import {
   List,
   Divider,
@@ -26,9 +28,15 @@ import {
 } from "@material-ui/core";
 
 import Drawer from "@material-ui/core/Drawer";
+import { useSelector } from "react-redux";
 
 // header componant
 const Header = () => {
+  const httpRequests = useSelector((state) => state.httpRequests);
+  const someLoading = Object.values(httpRequests).some(
+    (e) => e.readyState === "request"
+  );
+
   const location = useLocation();
   const { url } = useRouteMatch();
   const classes = useStyle();
@@ -36,7 +44,7 @@ const Header = () => {
 
   return (
     <>
-      <div className={classes.fixedGap}></div>
+      <div style={{ height: "64px" }}></div>
       <Drawer open={drawer} onClose={toggleDrawer(false)}>
         <div className={classes.drawer}>
           <List>
@@ -179,6 +187,7 @@ const Header = () => {
             <Button color="inherit">Login</Button>
           </Link>
         </Toolbar>
+        {someLoading && <LinearProgress />}
       </AppBar>
     </>
   );

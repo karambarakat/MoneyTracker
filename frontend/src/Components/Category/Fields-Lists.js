@@ -17,7 +17,12 @@ import { List } from "@material-ui/core";
 
 const CategoryList = () => {
   return (
-    <HttpHandler selector={(s) => s.categories} action={() => getCategories()}>
+    <HttpHandler
+      errorVariant="onlyText?noPaper"
+      loadingVariant="spinner?noPaper"
+      selector={(s) => s.categories}
+      action={getCategories()}
+    >
       {(data) => (
         <CatBoxStatic>
           {data.map((item) => (
@@ -48,7 +53,12 @@ const CategoryListField = ({ error, helperText, name, value, onChange }) => {
   };
 
   return (
-    <HttpHandler selector={(s) => s.categories} action={() => getCategories()}>
+    <HttpHandler
+      errorVariant="onlyText?noPaper"
+      loadingVariant="spinner?noPaper"
+      selector={(s) => s.categories}
+      action={getCategories()}
+    >
       {(data) => (
         <CatBoxDynamic error={error} helperText={helperText}>
           {data.map((item) => (

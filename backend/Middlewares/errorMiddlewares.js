@@ -1,5 +1,6 @@
 const err404 = (req, res) => {
   res.status(404).json({
+    status: 404,
     msg: "Resource not found",
   });
 };
@@ -40,23 +41,19 @@ const mongooseError = (errMiddleware, req, res, next) => {
   try {
     if (errMiddleware.name === "ValidationError") {
       try {
-        // send all error as a list
-        const errors = errMiddleware.errors;
-        const errorsList = [];
-        for (const error in errors) {
-          if (Object.hasOwnProperty.call(errors, error)) {
-            const item = errors[error];
-            errorsList.push({ error: item.path, message: item.message });
-          }
-        }
+        const errors = {};
+        Object.keys(errMiddleware.errors)
+          .map((e) => [e.split(".").pop(), errMiddleware.errors[e]])
+          .forEach(([key, value]) => (errors[key] = value.message));
 
         //send bad request error
         res.status(400).json({
+          status: 400,
           msg:
             process.env.ENV === "development"
               ? errMiddleware.message
               : errMiddleware._message,
-          errorsList,
+          errors,
           productionMsg:
             process.env.ENV === "development" && errMiddleware._message,
           mongooseObj: process.env.ENV === "development" && errMiddleware,
@@ -64,6 +61,7 @@ const mongooseError = (errMiddleware, req, res, next) => {
       } catch (error) {
         console.error(error);
         res.status(500).json({
+          status: 500,
           msg: "unknown database error",
           MongooseObj: process.env.ENV === "development" && errMiddleware,
           syntaxObj: process.env.ENV === "development" && error,
@@ -81,11 +79,12 @@ const customErr = (err, req, res, next) => {
       res.status(err.status || 500).json(
         process.env.ENV === "development"
           ? {
+              status: err.status || 500,
               msg: err.msg || "some error occured.",
               stack: res.errStack(err.stack),
               ...err.body,
             }
-          : { msg: err.msg || "some error occured." }
+          : { status: err.status || 500, msg: err.msg || "some error occured." }
       );
     } else {
       next(err);
@@ -99,10 +98,11 @@ const err500 = (err, req, res, next) => {
   res.status(500).json(
     process.env.ENV === "development"
       ? {
+          status: 500,
           msg: err.message || "server error",
           stack: res.errStack && err.stack && res.errStack(err.stack),
         }
-      : { msg: "server error" }
+      : { status: 500, msg: "server error" }
   );
 };
 

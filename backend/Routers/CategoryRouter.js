@@ -117,15 +117,19 @@ const revertDeletion = asyncHF(async (req, res, next) => {
 });
 
 const deleteCategoryForUser = async (ids, userId) => {
-  const user = await User.findById(userId).select("-password");
-  ids.forEach((id) => {
-    const category = user.getCategory(id);
-    if (category.markedForDeletion) {
-      category.remove();
-      cleanAllLogs(user.logs, [id]);
-    }
-  });
-  await user.save();
+  try {
+    const user = await User.findById(userId).select("-password");
+    ids.forEach((id) => {
+      const category = user.getCategory(id);
+      if (category && category.markedForDeletion) {
+        category.remove();
+        cleanAllLogs(user.logs, [id]);
+      }
+    });
+    await user.save();
+  } catch (error) {
+    console.error("deletion delay error", error);
+  }
 };
 
 const cleanAllLogs = (logs, catIds) => {

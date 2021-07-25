@@ -1,5 +1,12 @@
+const isEmpty = (state) =>
+  !state ||
+  (Object.prototype.toString.call(state) === "[object Array]" &&
+    state.length === 0) ||
+  Object.keys(state).length === 0;
+
 export const logsReducer = function (state = [], action) {
   const _id = action.payload?._id;
+  state = state || [];
   switch (action.type) {
     case "log/add":
       return [...state, ...action.payload];
@@ -27,6 +34,11 @@ export const logsReducer = function (state = [], action) {
       return action.payload;
 
     default:
-      return state;
+      //if the state is empty (i.e. undefined, null, [], {}) return zero
+      if (isEmpty(state)) {
+        return "";
+      } else {
+        return state;
+      }
   }
 };

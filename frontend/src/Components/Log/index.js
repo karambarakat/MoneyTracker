@@ -39,8 +39,8 @@ const Log = () => {
 
   return (
     <HttpHandler
-      action={() => getLog(id)}
-      selector={(state) => state.logs.find((e) => e._id === id)}
+      action={getLog(id)}
+      selector={(state) => state.logs && state.logs.find((e) => e._id === id)}
     >
       {(log) => (
         <ContainerCustom>

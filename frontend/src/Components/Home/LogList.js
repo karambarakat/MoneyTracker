@@ -50,9 +50,10 @@ const LogList = ({ logs }) => {
   return (
     <>
       {/* todo: place the reverse in better position */}
-      {logsNested.reverse().map((logs) => (
-        <Paper className={classes.p_paper}>
-          <Typography key={"1"} variant="caption" className={classes.px_2}>
+      {/* todo: need better key prop */}
+      {logsNested.reverse().map((logs, index) => (
+        <Paper key={logs[0].createdAt} className={classes.p_paper}>
+          <Typography variant="caption" className={classes.px_2}>
             {logs[0].createdAt}
           </Typography>
           <Divider></Divider>

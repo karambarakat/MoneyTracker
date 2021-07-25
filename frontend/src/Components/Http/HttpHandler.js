@@ -1,83 +1,95 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
+import http from "../../redux/Actions/http";
 import { v4 as uuid } from "uuid";
-const getAction =
-  (action, httpId, handlerMetaData) => async (dispatch, state) => {
-    try {
-      dispatch({
-        type: "http/request",
-        httpId,
-        meta: handlerMetaData,
-      });
+import ErrorComponent from "./Error";
+import LoadingComponent from "./Loading";
 
-      const reduxAction = action();
+/**
+ * old action to handle http request
+ */
+// const getAction =
+//   (action, httpId, handlerMetaData) => async (dispatch, state) => {
+//     try {
+//       dispatch({
+//         type: "http/request",
+//         httpId,
+//         meta: handlerMetaData,
+//       });
 
-      await reduxAction(dispatch, state);
+//       await action(dispatch, state);
 
-      dispatch({
-        type: "http/seccess",
-        httpId,
-      });
-    } catch (error) {
-      console.log("error");
-      dispatch({
-        type: "http/error",
-        httpId,
-        error,
-      });
-    }
-  };
+//       dispatch({
+//         type: "http/seccess",
+//         httpId,
+//       });
+//     } catch (error) {
+//       console.log("error");
+//       dispatch({
+//         type: "http/error",
+//         httpId,
+//         error,
+//       });
+//     }
+//   };
 
 export const HttpHandler = ({
   action,
   selector,
+  falsySelector,
   children,
-  Loading = () => <h1>loading</h1>,
-  Empty = () => <h1>noting to be shown</h1>,
-  showIfEmpty = true, //if false need to pass 'Empty' page
-  Error = ({ readyState }) => (
-    <h1>
-      {readyState.error.code} | {readyState.error.message}
-    </h1>
-  ),
-  Generic,
+  Loading = LoadingComponent,
+  Error = ErrorComponent,
+  loadingVariant,
+  errorVariant,
+  //option booleans
+  // showComponentIfThereIsData = true,
+  // showComponentIfThereIsError = true,
 }) => {
   //initialize the component
-  const { path, params } = useRouteMatch();
-  const handlerMetaData = {
-    path,
-    params,
-  };
   const [httpId] = useState(uuid());
   const dispatch = useDispatch();
+
+  //fire request and action
   useEffect(() => {
-    dispatch(getAction(action, httpId, handlerMetaData));
+    const fetching = async () => {
+      await http(action, httpId);
+    };
+    fetching();
     return () => {
       dispatch({ type: "http/clean", httpId });
     };
   }, [dispatch]);
 
   //select all relavent data
-  const httpRequest = useSelector((state) => state.httpRequests[httpId]);
-  const childData = useSelector(selector);
-  const readyState = httpRequest && httpRequest.readyState;
-  const json = JSON.stringify(childData);
-  const childDataIsEmptyArray = json === "{}" || json === "[]";
+  const httpRequests = useSelector((state) => state.httpRequests);
+  const selectorData = useSelector(selector);
+  const readyState = httpRequests[httpId]?.readyState;
 
-  // if there is data in Redux show it anyway regardless of the http request
-  if (childData && !childDataIsEmptyArray) return children(childData);
+  //option booleans:
+  //add to fillfilled as OR STATMENT "||"
+  //const show = showComponentIfThereIsData && selectorData
+  //const show2 = showComponentIfThereIsError && readyState === "error"
 
-  if (readyState === "request") return <Loading />;
+  //fullfiled action
+  if (readyState === "success" || selectorData)
+    return selectorData ? children(selectorData) : falsySelector;
 
-  if (readyState === "success") {
-    if (showIfEmpty) return children(childData);
-    if (!childData || childDataIsEmptyArray) return <Empty />;
+  // loading data
+  if (readyState === "request") return <Loading variant={loadingVariant} />;
 
-    return children(childData);
-  }
+  //rejected action
+  if (readyState === "error")
+    return (
+      <Error
+        //todo: the error passed here is buggy
+        code={httpRequests[httpId].error.status}
+        variant={errorVariant}
+        error={httpRequests[httpId].error}
+      />
+    );
 
-  if (readyState === "error") return <Error />;
-
-  return <h1>oops | somthing went wrong</h1>;
+  //if reached here; there is bug in this component or in the action
+  //to prevent error
+  return <h1>some error occured</h1>;
 };

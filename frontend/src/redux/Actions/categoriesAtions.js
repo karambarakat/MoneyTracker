@@ -16,13 +16,10 @@ const auth_header = {
 };
 
 // todo: need better way to destruct the error response
-const throwError = (obj) => {
+const throwError = (body, status) => {
   const err = new Error();
-  err.obj = obj;
-  let errorsFormated = {};
-  obj.errorsList.map((e) => (errorsFormated[e.error] = e.message));
-  err.errors = errorsFormated;
-
+  err.body = body;
+  err.status = status;
   throw err;
 };
 
@@ -33,7 +30,7 @@ const deleteCategory = (id) => async (dispatch, state) => {
   };
   const res = await fetch(`${fetch_url}/category/${id}`, config);
   const resjson = await res.json();
-  if (!res.ok) throwError(resjson);
+  if (!res.ok) throwError(resjson, res.status);
 
   dispatch({
     type: "category/delete",
@@ -51,7 +48,7 @@ const addCategory = (data) => async (dispatch, state) => {
   };
   const res = await fetch(`${fetch_url}/category`, config);
   const resjson = await res.json();
-  if (!res.ok) throwError(resjson);
+  if (!res.ok) throwError(resjson, res.status);
 
   dispatch({
     type: "category/add",
@@ -69,7 +66,7 @@ const updateCategory = (data, id) => async (dispatch, state) => {
   };
   const res = await fetch(`${fetch_url}/category/${id}`, config);
   const resjson = await res.json();
-  if (!res.ok) throwError(resjson);
+  if (!res.ok) throwError(resjson, res.status);
 
   dispatch({
     type: "category/update",
@@ -82,8 +79,16 @@ const updateCategory = (data, id) => async (dispatch, state) => {
 const getCategories = () => async (dispatch, state) => {
   console.log("called");
   const res = await fetch(`${fetch_url}/category`, auth_header);
-  const resjson = await res.json();
-  if (!res.ok) throwError(resjson);
+
+  let resjson = [];
+  if (res.status === 204) {
+    resjson = [];
+  } else {
+    resjson = await res.json();
+  }
+
+  if (!res.ok) throwError(resjson, res.status);
+
   dispatch({
     type: "category/replace",
     payload: resjson,
@@ -93,7 +98,7 @@ const getCategories = () => async (dispatch, state) => {
 const getCategory = (id) => async (dispatch, state) => {
   const res = await fetch(`${fetch_url}/category/${id}`, auth_header);
   const resjson = await res.json();
-  if (!res.ok) throwError(resjson);
+  if (!res.ok) throwError(resjson, res.status);
 
   dispatch({
     type: "category/update",

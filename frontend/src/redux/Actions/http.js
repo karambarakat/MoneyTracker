@@ -1,22 +1,15 @@
 import store from "../reduxStore";
 import { v4 as uuid } from "uuid";
 
-console.log(`store`, store);
-
 const dispatchRegistory = (setHolder) => (actionObj) => {
   setHolder(actionObj);
   store.dispatch(actionObj);
 };
 
-const someAsyncFn = (thunkAction) =>
-  new Promise((resolve, reject) => {
-    const httpId = uuid();
+const someAsyncFn = (thunkAction, httpId) => {
+  return new Promise((resolve, reject) => {
     var holder = {};
     const setHolder = (val) => (holder = val);
-    store.dispatch({
-      type: "http/request",
-      httpId,
-    });
 
     thunkAction(dispatchRegistory(setHolder), store.getState)
       .then((data) => {
@@ -28,7 +21,7 @@ const someAsyncFn = (thunkAction) =>
         resolve(data);
       })
       .catch((error) => {
-        console.log("error");
+        console.log("error", error);
         store.dispatch({
           type: "http/error",
           httpId,
@@ -37,10 +30,17 @@ const someAsyncFn = (thunkAction) =>
         reject(error);
       });
   });
+};
 
-const exported = async (thunkAction) => {
+const exported = async (thunkAction, id) => {
+  const httpId = id || uuid();
+  store.dispatch({
+    type: "http/request",
+    httpId,
+  });
+
   try {
-    const done = await someAsyncFn(thunkAction);
+    const done = await someAsyncFn(thunkAction, httpId);
     return [done, null];
   } catch (error) {
     return [null, error];

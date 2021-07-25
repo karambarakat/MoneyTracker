@@ -94,20 +94,24 @@ const deleteLog = asyncHF(async (req, res, next) => {
   res.json({ msg: "successful removing" });
 
   setTimeout(() => {
-    deleteCategoryForUser([log], String(req.user._id));
+    deleteCategoryForUser([id], String(req.user._id));
   }, 7000);
 });
 
 const deleteCategoryForUser = async (ids, userId) => {
-  const user = await User.findById(userId).select("-password");
-  ids.forEach((id) => {
-    const log = user.getLog(id);
+  try {
+    const user = await User.findById(userId).select("-password");
+    ids.forEach((id) => {
+      const log = user && user.getLog(id);
 
-    if (log.markedForDeletion) {
-      log.remove();
-    }
-  });
-  await user.save();
+      if (log && log.markedForDeletion) {
+        log.remove();
+      }
+    });
+    await user.save();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /**
