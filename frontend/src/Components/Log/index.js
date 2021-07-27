@@ -67,7 +67,7 @@ const Log = () => {
                 category: values._category,
               };
               const [done, error] = await http(updateLog(json));
-              if (error) setErrors(error.errors);
+              if (error) setErrors(error.errors || {});
               if (done) {
                 toggleIsUpdate();
                 history.push(`/log/${id}`);

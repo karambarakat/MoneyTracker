@@ -17,7 +17,7 @@ export const AddCategory = () => {
       Heading="Add New Category"
       submitForm={async (values, { setSubmitting, setErrors }) => {
         const [done, error] = await http(addCategory(values));
-        if (error) setErrors(error.errors);
+        if (error) setErrors(error.errors || {});
         if (done) {
           history.push("/categories");
         }
@@ -40,7 +40,7 @@ export const UpdateCategory = () => {
       Heading={`Update "${category.title}"`}
       submitForm={async (values, { setSubmitting, setErrors }) => {
         const [done, error] = await http(updateCategory(values, id));
-        if (error) setErrors(error.errors);
+        if (error) setErrors(error.errors || {});
         if (done) {
           history.push("/categories");
         }

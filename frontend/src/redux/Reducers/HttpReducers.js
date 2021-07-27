@@ -2,7 +2,8 @@ export const httpReducer = (state = {}, action) => {
   const { httpId, meta, error, action: actionAssociated } = action;
 
   //if there is no object for this request create one
-  if (!state[httpId]) state[httpId] = {};
+  if (httpId && !state[httpId]) state[httpId] = {};
+
   switch (action.type) {
     //http ready status
     case "http/request":

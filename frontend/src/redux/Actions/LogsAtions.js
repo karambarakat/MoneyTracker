@@ -25,7 +25,7 @@ const throwError = (body, status) => {
   throw err;
 };
 
-export const deleteLog = (id) => async (dispatch, state) => {
+const deleteLog = (id) => async (dispatch, state) => {
   const config = {
     method: "DELETE",
     headers: auth,
@@ -43,7 +43,20 @@ export const deleteLog = (id) => async (dispatch, state) => {
   return resjson;
 };
 
-export const addLog = (data) => async (dispatch, state) => {
+const revertDeleteLog = (id) => async (dispatch, state) => {
+  const config = {
+    method: "DELETE",
+    headers: auth,
+  };
+  const res = await fetch(`${fetch_url}/log/${id}?revert=ture`, config);
+  const resjson = await res.json();
+
+  if (!res.ok) throwError(resjson, res.status);
+
+  return resjson;
+};
+
+const addLog = (data) => async (dispatch, state) => {
   const config = {
     method: "POST",
     headers: auth_accept,
@@ -62,7 +75,7 @@ export const addLog = (data) => async (dispatch, state) => {
   return resjson;
 };
 
-export const updateLog = (data) => async (dispatch, state) => {
+const updateLog = (data) => async (dispatch, state) => {
   const config = {
     method: "PUT",
     headers: auth_accept,
@@ -80,7 +93,7 @@ export const updateLog = (data) => async (dispatch, state) => {
   return resjson;
 };
 
-export const getLogs = () => async (dispatch, state) => {
+const getLogs = () => async (dispatch, state) => {
   const res = await fetch(`${fetch_url}/log`, auth_get);
   if (res.status === 204) throwError("No Content Available", 204);
   const resjson = await res.json();
@@ -94,7 +107,7 @@ export const getLogs = () => async (dispatch, state) => {
   //todo: do I have to return the resjson here?
 };
 
-export const getLog = (id) => async (dispatch, state) => {
+const getLog = (id) => async (dispatch, state) => {
   const res = await fetch(`${fetch_url}/log/${id}`, auth_get);
   const resjson = await res.json();
 
@@ -107,3 +120,5 @@ export const getLog = (id) => async (dispatch, state) => {
 
   //todo: do I have to return the resjson here?
 };
+
+export { getLog, getLogs, updateLog, addLog, deleteLog, revertDeleteLog };

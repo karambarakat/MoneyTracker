@@ -40,6 +40,19 @@ const deleteCategory = (id) => async (dispatch, state) => {
   return resjson;
 };
 
+const revertDeleteCategory = (id) => async (dispatch, state) => {
+  const config = {
+    method: "DELETE",
+    headers: auth,
+  };
+  const res = await fetch(`${fetch_url}/category/${id}?revert=ture`, config);
+  const resjson = await res.json();
+
+  if (!res.ok) throwError(resjson, res.status);
+
+  return resjson;
+};
+
 const addCategory = (data) => async (dispatch, state) => {
   const config = {
     method: "POST",
@@ -112,4 +125,5 @@ export {
   updateCategory,
   addCategory,
   deleteCategory,
+  revertDeleteCategory,
 };

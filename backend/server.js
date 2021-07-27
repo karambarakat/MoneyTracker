@@ -13,7 +13,7 @@ app.use(require("./Middlewares/errorMiddlewares").init);
 
 //CORPS policy
 app.use(cors({ origin: "http://localhost:3000" }));
-app.use((req, res, next) => setTimeout(() => next(), 3000));
+// app.use((req, res, next) => setTimeout(() => next(), 3000));
 
 //Body parser
 app.use(express.json());

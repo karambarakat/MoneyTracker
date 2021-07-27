@@ -20,6 +20,7 @@ import About from "./Components/dialoge/About";
 import LogIn from "./Components/dialoge/LogIn";
 import { AddCategory } from "./Components/Category/Add-Update";
 import { UpdateCategory } from "./Components/Category/Add-Update";
+import Snack from "./Components/Snack";
 
 // todo: make sure to not use makeStyle that mush (refactoring is required)
 // todo: have better modla handler without missing the code up
@@ -71,6 +72,7 @@ function App() {
         <MuiTheme>
           <BrowserRouter>
             <Header />
+            <Snack />
             <Switch>
               <Route exact path="/">
                 <Home />

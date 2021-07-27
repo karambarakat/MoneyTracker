@@ -6,8 +6,6 @@ const E204 = ({ ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       id="fd59ce54-f850-4dfc-bc34-dd7d379d600e"
       data-name="Layer 1"
-      width="1074.392"
-      height="584.231"
       viewBox="0 0 1074.392 584.231"
       class="injected-svg modal__media modal__mobile__media"
       data-src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/page_not_found_su7k.svg"

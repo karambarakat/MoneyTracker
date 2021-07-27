@@ -7,8 +7,6 @@ const E204 = ({ ...props }) => {
       xmlnsxlink="http://www.w3.org/1999/xlink"
       id="f9eb83fe-2109-496c-8de2-d29751931755"
       data-name="Layer 1"
-      width="1166.17"
-      height="805.09"
       viewBox="0 0 1166.17 805.09"
       class="injected-svg modal__media modal__mobile__media"
       data-src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/authentication_fsn5.svg"

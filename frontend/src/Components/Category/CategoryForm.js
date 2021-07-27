@@ -46,7 +46,7 @@ const CategoryForm = ({ category, Heading, submitForm, deletebtn, action }) => {
           <form onSubmit={handleSubmit}>
             <TextField
               error={touched.title && errors.title}
-              helperText={errors.title}
+              helperText={touched.icon && errors.title}
               className={classes.w50}
               value={values.title}
               onChange={handleChange}
@@ -58,14 +58,14 @@ const CategoryForm = ({ category, Heading, submitForm, deletebtn, action }) => {
             />
             <CategoryColorsField
               error={touched.color && errors.color}
-              helperText={errors.color}
+              helperText={touched.icon && errors.color}
               value={values.color}
               onChange={handleChange("color")}
             />
 
             <CategoryIconsField
               error={touched.icon && errors.icon}
-              helperText={errors.icon}
+              helperText={touched.icon && errors.icon}
               value={values.icon}
               onChange={handleChange("icon")}
               colorValue={values.color}
