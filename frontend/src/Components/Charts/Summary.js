@@ -5,13 +5,12 @@ import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
-const Summary = ({ categories, grandTotal }) => {
-  console.log(categories);
+const Summary = ({ nestedLogs }) => {
   return (
     <div>
       <Typography variant="caption">Expenses list</Typography>
       <List>
-        {categories.map((e) => {
+        {nestedLogs.map((e) => {
           return (
             <Link
               style={{
@@ -23,7 +22,7 @@ const Summary = ({ categories, grandTotal }) => {
               //   state: { background: location, path: "/entry/:id" },
               // }}
             >
-              <EntryItem firstTotal={categories[0].Total} data={e} />
+              <EntryItem logsObj={e} />
             </Link>
           );
         })}

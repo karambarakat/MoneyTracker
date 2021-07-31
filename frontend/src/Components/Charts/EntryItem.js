@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
 
-const EntryItem = ({ data, firstTotal }) => {
+const EntryItem = ({ logsObj }) => {
   const dispatch = useDispatch();
   return (
     <ListItem
@@ -23,8 +23,8 @@ const EntryItem = ({ data, firstTotal }) => {
     >
       <ListItemIcon style={{ minWidth: 0 }}>
         <CategoryIcon
-          iconName={data.Category.iconName}
-          color={data.Category.color}
+          iconName={logsObj.category.icon}
+          color={logsObj.category.color}
           on
         />
       </ListItemIcon>
@@ -38,25 +38,25 @@ const EntryItem = ({ data, firstTotal }) => {
             }}
           >
             <Typography variant="h5" noWrap>
-              {data.Title || data.Category.title || data.Notes}
+              {logsObj.category.title}
             </Typography>
             <Typography
               style={{ marginLeft: "0.5rem", marginRight: "auto" }}
               variant="caption"
               noWrap
             >
-              {data.Percentage}%
+              {(logsObj.percentageRTFirst * 100).toFixed(2)}%
             </Typography>
             <Typography variant="caption" noWrap>
-              {data.Total}
+              {logsObj.total}
             </Typography>
           </div>
         </ListItemText>
         <LinearProgress
           variant="determinate"
-          value={(data.Total / firstTotal) * 100}
+          value={(logsObj.percentageRTFirst * 100).toFixed(2)}
         />
-        {/* <LinearProgress variant="determinate" value={data.Total / firstTotal} /> */}
+        {/* <LinearProgress variant="determinate" value={logsObj.Total / firstTotal} /> */}
       </Box>
     </ListItem>
   );

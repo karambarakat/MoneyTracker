@@ -1,21 +1,18 @@
 import React from "react";
 
-const PieChart = ({ categories }) => {
-  let theGrandTotal = categories.reduce((t, e) => (t = t + e.Total), 0);
-  console.log(categories, theGrandTotal);
-  console.log(categories);
-
+const PieChart = ({ nestedLogs, grandTotal }) => {
   let th = 30;
   let r = 80;
   let midd = r - th;
-  let colorsFill = ["#e3e334", "#31ebde", "#21eb32", "#f2723f", "#b0b0b0"];
+  let colorsFill = nestedLogs.map((e) => e.category.color);
+  //["e3e334", "31ebde", "21eb32", "f2723f", "b0b0b0"];
 
   let preTotal = 0;
   return (
     <div style={{ width: `${2 * r}px`, margin: "1.1rem auto" }}>
       <svg width={2 * r} height={2 * r}>
-        {categories.map((e, i, list) => {
-          let prp = e.Total / theGrandTotal;
+        {nestedLogs.map((e, i, list) => {
+          let prp = e.total / grandTotal;
           let angle = 2 * prp * Math.PI;
           let angle360 = preTotal * 360;
           preTotal = preTotal + prp;
@@ -33,7 +30,7 @@ const PieChart = ({ categories }) => {
                 midd * co - midd
               }
           Z`}
-              fill={colorsFill[i]}
+              fill={`#${colorsFill[i]}`}
             ></path>
           );
         })}

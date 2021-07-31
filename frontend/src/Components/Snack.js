@@ -44,7 +44,7 @@ const Snack = () => {
         horizontal: "left",
       }}
       open={open}
-      autoHideDuration={60000}
+      autoHideDuration={5000}
       onClose={handleClose}
       message={lastNoti.message}
       action={

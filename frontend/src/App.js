@@ -105,8 +105,23 @@ function App() {
               <Route path="/export">
                 <Export />
               </Route>
+
+              <Route path="/rateUs">
+                <RateUs />
+              </Route>
+
+              <Route path="/setting">
+                <Setting />
+              </Route>
+
+              <Route path="/about">
+                <About />
+              </Route>
+
+              <Route path="/login">
+                <LogIn />
+              </Route>
             </Switch>
-            {/* <NotiStack /> */}
           </BrowserRouter>
         </MuiTheme>
       </Provider>

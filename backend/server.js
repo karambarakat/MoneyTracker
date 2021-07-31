@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const express = require("express");
 const connectionDB = require("./Config/connectMongo");
 const cors = require("cors");
+const path = require("path");
 
 //Initiate things
 connectionDB();
@@ -19,8 +20,26 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
 //Getting the server starting
-if (process.env.ENV === "development") app.use(morgan("dev"));
-app.all("/", (req, res) => res.json({ msg: "api is working" }));
+// app.use(express.static(path.join(__dirname, "/frontend/build")));
+// app.get("*", (req, res) =>
+//   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+// );
+app.use(morgan("dev"));
+app.get("/", (req, res) => {
+  res.send("API is running....");
+});
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+//   app.get("*", (req, res) =>
+//     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+//   );
+// } else {
+//   app.use(morgan("dev"));
+//   app.get("/", (req, res) => {
+//     res.send("API is running....");
+//   });
+// }
 
 // Mount routers
 app.use("/api/user", require("./Routers/UserRouter"));

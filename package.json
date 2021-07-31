@@ -4,12 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix reactapp",
     "start": "node server.js",
     "dev_front": "cd frontend && npm start",
     "dev_back": "cd backend && nodemon server.js",
     "dev": "concurrently \"cd backend && nodemon server.js\" \"cd frontend && npm start\"",
-    "dev_node": "concurrently \"cd backend && node server.js\" \"cd frontend && npm start\""
+    "dev_node": "concurrently \"cd backend && node server.js\" \"cd frontend && npm start\"",
+    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Karam Barakat",
   "license": "ISC",
