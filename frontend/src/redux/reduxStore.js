@@ -1,11 +1,14 @@
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
+//todo: naming: renaming of reducers
+import userReducer from "./Reducers/userReducer";
 import { logsReducer } from "./Reducers/logReducers";
 import { categoriesReducer } from "./Reducers/categoriesReducers";
 import { httpReducer } from "./Reducers/HttpReducers";
 import { notifications } from "./Reducers/notificationReducers";
 const reducers = combineReducers({
+  user: userReducer,
   logs: logsReducer,
   categories: categoriesReducer,
   httpRequests: httpReducer,

@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import React from "react";
+import React, { useEffect } from "react";
 // my components
 import { Provider } from "react-redux";
 import reduxStore from "./redux/reduxStore";
@@ -17,13 +17,15 @@ import Export from "./Components/Export/Export";
 import Setting from "./Components/dialoge/Setting";
 import RateUs from "./Components/dialoge/RateUs";
 import About from "./Components/dialoge/About";
-import LogIn from "./Components/dialoge/LogIn";
+import Login from "./Components/Loging/LogIn";
+import Profile from "./Components/Loging/Profile";
+import SignIn from "./Components/Loging/SignIn";
 import { AddCategory } from "./Components/Category/Add-Update";
 import { UpdateCategory } from "./Components/Category/Add-Update";
 import Snack from "./Components/Snack";
 
 // todo: make sure to not use makeStyle that mush (refactoring is required)
-// todo: have better modla handler without missing the code up
+// todo: have better modal handler without missing the code up like the commented code down
 //
 
 // function SpecialSwich({ children }) {
@@ -65,6 +67,32 @@ import Snack from "./Components/Snack";
 //   );
 // }
 
+export const LogInSwitch = ({ children }) => {
+  const location = useLocation();
+  console.log(`location`, location);
+  const dispatch = useDispatch();
+  const user = localStorage.getItem("user");
+  useEffect(() => {
+    if (
+      !user &&
+      !(location.pathname === "/" || location.pathname === "/login")
+    ) {
+      dispatch({
+        type: "notification/push",
+        payload: {
+          message:
+            "you can't access the app without a user, please log in or sign up",
+        },
+      });
+    }
+  }, [location]);
+  return (
+    <Switch location={user ? location : { pathname: "/login" }}>
+      {children}
+    </Switch>
+  );
+};
+
 function App() {
   return (
     <div className="Application">
@@ -73,12 +101,12 @@ function App() {
           <BrowserRouter>
             <Header />
             <Snack />
-            <Switch>
+            <LogInSwitch>
               <Route exact path="/">
                 <Home />
               </Route>
 
-              <Route exact path="/log/:id">
+              <Route path="/log/:id">
                 <Log />
               </Route>
 
@@ -102,6 +130,7 @@ function App() {
                 <Charts />
               </Route>
 
+              {/* mini pages */}
               <Route path="/export">
                 <Export />
               </Route>
@@ -118,10 +147,17 @@ function App() {
                 <About />
               </Route>
 
+              {/* users managment */}
               <Route path="/login">
-                <LogIn />
+                <Login />
               </Route>
-            </Switch>
+              <Route path="/signin">
+                <SignIn />
+              </Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+            </LogInSwitch>
           </BrowserRouter>
         </MuiTheme>
       </Provider>

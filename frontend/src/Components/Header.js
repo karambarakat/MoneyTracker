@@ -29,6 +29,7 @@ import {
 
 import Drawer from "@material-ui/core/Drawer";
 import { useSelector } from "react-redux";
+import UserHeader from "./UserHeader";
 
 // header componant
 const Header = () => {
@@ -147,7 +148,7 @@ const Header = () => {
               </ListItem>
             </Link>
 
-            <ListItem
+            {/* <ListItem
               button
               component="a"
               onClick={toggleDrawer(true)}
@@ -160,7 +161,7 @@ const Header = () => {
               <ListItemText>
                 Icons from Streamline Icons <OpenInNewIcon font={1} />
               </ListItemText>
-            </ListItem>
+            </ListItem> */}
           </List>
         </div>
       </Drawer>
@@ -174,18 +175,7 @@ const Header = () => {
               Home
             </Link>
           </Typography>
-          <Link
-            style={{
-              textDecoration: "initial",
-              color: "inherit",
-            }}
-            to={{
-              pathname: `/login`,
-              state: { background: location, path: "/login" },
-            }}
-          >
-            <Button color="inherit">Login</Button>
-          </Link>
+          <UserHeader />
         </Toolbar>
         {someLoading && <LinearProgress />}
       </AppBar>

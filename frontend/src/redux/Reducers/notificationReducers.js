@@ -1,7 +1,20 @@
 const initialState = [];
 
+/**
+ * 1.listen to action with payload of 'hhtp/seccess'
+ * 2.if action's type begins with "notification/":
+ *      'notification/push' : payload is Object that has /message/:String and action:/Object/ (with /text/:String, /fn/:Function and /args/:List) on it
+ */
 export const notifications = (state = initialState, action) => {
-  if (action.type === "http/seccess") {
+  if (/^notification\//.test(action.type)) {
+    switch (action.type) {
+      case "notification/push":
+        state.push(action.payload);
+        return [...state];
+      default:
+        return [...state];
+    }
+  } else if (action.type === "http/seccess") {
     switch (action.action.type) {
       case "category/add":
         state.push({

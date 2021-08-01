@@ -41,6 +41,7 @@ app.get("/", (req, res) => {
 //   });
 // }
 
+// todo: add 405 method not allowed response
 // Mount routers
 app.use("/api/user", require("./Routers/UserRouter"));
 app.use("/api/log", require("./Routers/LogRouter"));

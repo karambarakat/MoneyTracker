@@ -22,6 +22,12 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
+      validate: {
+        validator: function () {
+          return /^\S+@\S+\.\S+$/.test(this.email);
+        },
+        message: "not valid email",
+      },
       index: true,
     },
     password: {
