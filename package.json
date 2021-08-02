@@ -1,23 +1,23 @@
 {
   "name": "money-tracker",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Easy to use money wallet",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "cd backend && node server",
+    "build": "cd backend && npm i && cd .. && cd frontend && npm i && npm run build",
     "dev_front": "cd frontend && npm start",
     "dev_back": "cd backend && nodemon server.js",
-    "dev": "concurrently \"cd backend && nodemon server.js\" \"cd frontend && npm start\"",
-    "dev_node": "concurrently \"cd backend && node server.js\" \"cd frontend && npm start\"",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "concurrently \"npm run dev_front\" \"npm run dev_back\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karambarakat/MoneyTracker.git"
   },
   "author": "Karam Barakat",
-  "license": "ISC",
-  "dependencies": {
-    "@material-ui/lab": "^4.0.0-alpha.60"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karambarakat/MoneyTracker/issues"
   },
-  "devDependencies": {
-    "concurrently": "^6.2.0",
-    "nodemon": "^2.0.12"
-  }
+  "homepage": "https://github.com/karambarakat/MoneyTracker#readme"
 }

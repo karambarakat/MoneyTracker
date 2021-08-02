@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const User = require("../models/User");
+const User = require("../Models/User");
 const asyncHF = require("express-async-handler");
 const protect = require("../Middlewares/authMiddleware");
-const { reset } = require("nodemon");
 
 /**
  *   @desc    Register a new user

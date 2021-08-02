@@ -5,7 +5,7 @@ import ContainerCustom from "../ContainerCustom";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import { CategoryList } from "./Fields-Lists";
-import ShowCases from "./_Showcase";
+// import ShowCases from "./_Showcase";
 
 const Categories = () => {
   return (

@@ -17,6 +17,9 @@ import { Formik } from "formik";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import http from "../../redux/Actions/http";
 
+// bug solved temprorly : see note 001 in this file
+//!bug: when not modifing certain field (if they are not required) (ex: userName in SignIn component) the form will send empty string, instead it should not send anything
+//!bug: check all form pls
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -46,7 +49,12 @@ const SignIn = () => {
           return errors;
         }}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
-          const [done, error] = await http(signIn(values));
+          //note 001: solved temprorly: now if userName is falsy i don't assign a userName property to the body of the request (send)
+          const send = {};
+          values.userName && (send.userName = values.userName);
+          values.email && (send.email = values.email);
+          values.password && (send.password = values.password);
+          const [done, error] = await http(signIn(send));
           if (error && error.sign === "http error")
             setErrors(error.body.errors);
           if (done) history.push("/");

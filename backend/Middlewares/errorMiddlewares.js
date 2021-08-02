@@ -1,3 +1,4 @@
+//!bug: **standarise** this doesn't have body.errors.msg like other error responses
 const err404 = (req, res) => {
   res.status(404).json({
     status: 404,
@@ -21,9 +22,9 @@ const init = (req, res, next) => {
     }
     let err = new Error();
     err.sign = "custom";
-    err.status = status;
-    err.msg = msg;
-    err.body = body;
+    err.status = status || 500;
+    err.msg = msg || "some error occurred";
+    err.body = body || {};
     throw err;
   };
 
@@ -76,6 +77,7 @@ const mongooseError = (errMiddleware, req, res, next) => {
 const customErr = (err, req, res, next) => {
   try {
     if (err.sign === "custom") {
+      if (!err.body.errors) err.body.errors = { msg: err.msg };
       res.status(err.status || 500).json(
         process.env.ENV === "development"
           ? {
@@ -84,7 +86,11 @@ const customErr = (err, req, res, next) => {
               stack: res.errStack(err.stack),
               ...err.body,
             }
-          : { status: err.status || 500, msg: err.msg || "some error occured." }
+          : {
+              status: err.status || 500,
+              msg: err.msg || "some error occured.",
+              ...err.body,
+            }
       );
     } else {
       next(err);

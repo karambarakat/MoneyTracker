@@ -1,25 +1,18 @@
-import metaData from "./ServerMetaData";
-const { fetch_url, token } = metaData;
+const fetch_url = process.env.REACT_APP_SERVER_URL;
 
-const auth = {
-  authorization: `Bearer ${token}`,
-};
+const auth = () => ({
+  authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
+});
 
-const auth_accept = {
-  authorization: `Bearer ${token}`,
+const json = {
   "content-type": "application/json",
   Accept: "*/*",
-};
-
-const auth_get = {
-  headers: {
-    authorization: `Bearer ${token}`,
-  },
 };
 
 // todo: need better way to destruct the error response
 const throwError = (body, status) => {
   const err = new Error();
+  err.sign = "http error";
   err.body = body;
   err.status = status;
   throw err;
@@ -28,7 +21,7 @@ const throwError = (body, status) => {
 const deleteLog = (id) => async (dispatch, state) => {
   const config = {
     method: "DELETE",
-    headers: auth,
+    headers: { ...auth() },
   };
   const res = await fetch(`${fetch_url}/log/${id}`, config);
   const resjson = await res.json();
@@ -46,7 +39,7 @@ const deleteLog = (id) => async (dispatch, state) => {
 const revertDeleteLog = (id) => async (dispatch, state) => {
   const config = {
     method: "DELETE",
-    headers: auth,
+    headers: auth(),
   };
   const res = await fetch(`${fetch_url}/log/${id}?revert=ture`, config);
   const resjson = await res.json();
@@ -59,7 +52,7 @@ const revertDeleteLog = (id) => async (dispatch, state) => {
 const addLog = (data) => async (dispatch, state) => {
   const config = {
     method: "POST",
-    headers: auth_accept,
+    headers: { ...json, ...auth() },
     body: JSON.stringify(data),
   };
   const res = await fetch(`${fetch_url}/log`, config);
@@ -78,7 +71,7 @@ const addLog = (data) => async (dispatch, state) => {
 const updateLog = (data) => async (dispatch, state) => {
   const config = {
     method: "PUT",
-    headers: auth_accept,
+    headers: { ...json, ...auth() },
     body: JSON.stringify(data),
   };
   const res = await fetch(`${fetch_url}/log/${data._id}`, config);
@@ -94,7 +87,11 @@ const updateLog = (data) => async (dispatch, state) => {
 };
 
 const getLogs = () => async (dispatch, state) => {
-  const res = await fetch(`${fetch_url}/log`, auth_get);
+  const config = {
+    headers: { ...auth() },
+  };
+
+  const res = await fetch(`${fetch_url}/log`, config);
   if (res.status === 204) throwError("No Content Available", 204);
   const resjson = await res.json();
   if (!res.ok) throwError(resjson, res.status);
@@ -108,7 +105,11 @@ const getLogs = () => async (dispatch, state) => {
 };
 
 const getLog = (id) => async (dispatch, state) => {
-  const res = await fetch(`${fetch_url}/log/${id}`, auth_get);
+  const config = {
+    headers: { ...auth() },
+  };
+
+  const res = await fetch(`${fetch_url}/log/${id}`, config);
   const resjson = await res.json();
 
   if (!res.ok) throwError(resjson, res.status);

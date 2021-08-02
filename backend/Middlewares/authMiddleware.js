@@ -1,6 +1,6 @@
 const asyncHF = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../Models/User");
 
 module.exports = asyncHF(async (req, res, next) => {
   let token;

@@ -6,8 +6,8 @@ import Container from "@material-ui/core/Container";
 import PieChart from "./PieChart";
 import ShortSummary from "./ShortSummary";
 import Summary from "./Summary";
-import { useSelector } from "react-redux";
-import { ListNester, ListTruncation } from "../../Mixins/ListMinupCharts";
+// import { useSelector } from "react-redux";
+// import { ListNester, ListTruncation } from "../../Mixins/ListMinupCharts";
 import { HttpHandler } from "../Http/HttpHandler";
 import { getLogs } from "../../redux/Actions";
 

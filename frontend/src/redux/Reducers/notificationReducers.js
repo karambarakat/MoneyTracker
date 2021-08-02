@@ -88,9 +88,11 @@ export const notifications = (state = initialState, action) => {
 
   //todo: what if something has failed??
   if (action.type === "http/error") {
-    state.push({
-      message: `${action.error.status} | ${action.error.body.msg}`,
-    });
+    if (action.error.sign === "http error") {
+      state.push({
+        message: `${action.error.status} | ${action.error.body.msg}`,
+      });
+    }
     return [...state];
   }
 

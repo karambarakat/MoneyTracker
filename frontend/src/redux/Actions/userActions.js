@@ -1,17 +1,16 @@
-import metaData from "./ServerMetaData";
-const { fetch_url, token } = metaData;
+const fetch_url = process.env.REACT_APP_SERVER_URL;
 
-//auth headers
-const auth = {
-  authorization: `Bearer ${token}`,
-};
+const auth = () => ({
+  authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
+});
 
-//json headers
 const json = {
   "content-type": "application/json",
   Accept: "*/*",
 };
 
+//!bug: if the error is a result of bad CORS policy: this function will be called but with no body for example (only err.message)
+//not sure about this bug anymore
 const throwError = (body, status) => {
   const err = new Error();
   err.sign = "http error";
@@ -70,6 +69,19 @@ const logOut = () => async (dispatch, state) => {
   dispatch({
     type: "user/logout",
   });
+  dispatch({
+    type: "log/replace",
+    //empty stirng or empty array
+    payload: "",
+  });
+  dispatch({
+    type: "category/replace",
+    //empty stirng or empty array
+    payload: [],
+  });
+  dispatch({
+    type: "user/logout",
+  });
 
   localStorage.removeItem("user");
 };
@@ -77,7 +89,7 @@ const logOut = () => async (dispatch, state) => {
 const getProfile = () => async (dispatch, state) => {
   const config = {
     method: "GET",
-    headers: { ...auth, ...json },
+    headers: { ...auth(), ...json },
   };
   const res = await fetch(`${fetch_url}/user/profile`, config);
   const resjson = await res.json();
@@ -96,7 +108,7 @@ const getProfile = () => async (dispatch, state) => {
 const updateProfile = (data) => async (dispatch, state) => {
   const config = {
     method: "PUT",
-    headers: { ...auth, ...json },
+    headers: { ...auth(), ...json },
     body: JSON.stringify(data),
   };
   const res = await fetch(`${fetch_url}/user/profile`, config);

@@ -27,6 +27,8 @@ import { CategoryListField } from "../Category/Fields-Lists";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
+//!bug: when not modifing certain field (if they are not required) (ex: userName in SignIn component) the form will send empty string, instead it should not send anything
+//!bug: check all form pls
 const Profile = () => {
   const classes = useStyles();
   let { id } = useParams();

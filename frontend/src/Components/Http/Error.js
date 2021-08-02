@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Skeleton from "@material-ui/lab/Skeleton";
+// import Skeleton from "@material-ui/lab/Skeleton";
 import ContainerCustom from "../ContainerCustom";
 import E204 from "./svgs/E204";
 import E401 from "./svgs/E401";

@@ -1,23 +1,17 @@
-import metaData from "./ServerMetaData";
-const { fetch_url, token } = metaData;
+const fetch_url = process.env.REACT_APP_SERVER_URL;
 
-const auth = {
-  authorization: `Bearer ${token}`,
-};
-const auth_accept = {
-  authorization: `Bearer ${token}`,
+const auth = () => ({
+  authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
+});
+const json = {
   "content-type": "application/json",
   Accept: "*/*",
-};
-const auth_header = {
-  headers: {
-    authorization: `Bearer ${token}`,
-  },
 };
 
 // todo: need better way to destruct the error response
 const throwError = (body, status) => {
   const err = new Error();
+  err.sign = "http error";
   err.body = body;
   err.status = status;
   throw err;
@@ -26,7 +20,7 @@ const throwError = (body, status) => {
 const deleteCategory = (id) => async (dispatch, state) => {
   const config = {
     method: "DELETE",
-    headers: auth,
+    headers: { ...auth() },
   };
   const res = await fetch(`${fetch_url}/category/${id}`, config);
   const resjson = await res.json();
@@ -43,7 +37,7 @@ const deleteCategory = (id) => async (dispatch, state) => {
 const revertDeleteCategory = (id) => async (dispatch, state) => {
   const config = {
     method: "DELETE",
-    headers: auth,
+    headers: { ...auth() },
   };
   const res = await fetch(`${fetch_url}/category/${id}?revert=ture`, config);
   const resjson = await res.json();
@@ -56,7 +50,7 @@ const revertDeleteCategory = (id) => async (dispatch, state) => {
 const addCategory = (data) => async (dispatch, state) => {
   const config = {
     method: "POST",
-    headers: auth_accept,
+    headers: { ...auth(), ...json },
     body: JSON.stringify(data),
   };
   const res = await fetch(`${fetch_url}/category`, config);
@@ -74,7 +68,7 @@ const addCategory = (data) => async (dispatch, state) => {
 const updateCategory = (data, id) => async (dispatch, state) => {
   const config = {
     method: "PUT",
-    headers: auth_accept,
+    headers: { ...auth(), ...json },
     body: JSON.stringify(data),
   };
   const res = await fetch(`${fetch_url}/category/${id}`, config);
@@ -90,8 +84,11 @@ const updateCategory = (data, id) => async (dispatch, state) => {
 };
 
 const getCategories = () => async (dispatch, state) => {
-  console.log("called");
-  const res = await fetch(`${fetch_url}/category`, auth_header);
+  const config = {
+    headers: { ...auth() },
+  };
+
+  const res = await fetch(`${fetch_url}/category`, config);
 
   let resjson = [];
   if (res.status === 204) {
@@ -109,7 +106,11 @@ const getCategories = () => async (dispatch, state) => {
 };
 
 const getCategory = (id) => async (dispatch, state) => {
-  const res = await fetch(`${fetch_url}/category/${id}`, auth_header);
+  const config = {
+    headers: { ...auth() },
+  };
+
+  const res = await fetch(`${fetch_url}/category/${id}`, config);
   const resjson = await res.json();
   if (!res.ok) throwError(resjson, res.status);
 

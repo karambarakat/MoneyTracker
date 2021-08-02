@@ -9,8 +9,8 @@ import Home from "./Components/Home";
 import Log from "./Components/Log";
 import NewLog from "./Components/NewLog";
 import Header from "./Components/Header";
-import GalleryModal from "./Components/GalleryModal";
-import NotiStack from "./Components/NotiStack";
+// import GalleryModal from "./Components/GalleryModal";
+// import NotiStack from "./Components/NotiStack";
 import Categories from "./Components/Category";
 import Charts from "./Components/Charts/Charts";
 import Export from "./Components/Export/Export";
@@ -72,10 +72,16 @@ export const LogInSwitch = ({ children }) => {
   console.log(`location`, location);
   const dispatch = useDispatch();
   const user = localStorage.getItem("user");
+
+  //push notification when visiting not allowed page
   useEffect(() => {
     if (
       !user &&
-      !(location.pathname === "/" || location.pathname === "/login")
+      !(
+        location.pathname === "/" ||
+        location.pathname === "/login" ||
+        location.pathname === "/signin"
+      )
     ) {
       dispatch({
         type: "notification/push",
@@ -86,12 +92,18 @@ export const LogInSwitch = ({ children }) => {
       });
     }
   }, [location]);
-  return (
-    <Switch location={user ? location : { pathname: "/login" }}>
-      {children}
-    </Switch>
-  );
+
+  //if I am in /login or /signin don't redirect me
+  //else go to login
+  const pathname = /^\/(login|signin)/.test(location.pathname)
+    ? location.pathname
+    : "/login";
+
+  //if there is user data (and token) in the location storage (i.e. user is defined) don't redirect me, else redirect me to [pathname]
+  return <Switch location={user ? location : { pathname }}>{children}</Switch>;
 };
+
+//todo: the http handler is user friendly, espesitaly for new users
 
 function App() {
   return (

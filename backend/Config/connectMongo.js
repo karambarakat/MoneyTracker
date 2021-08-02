@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = async () => {
   try {
-    let mongoString = process.env.MONGO_STRING || "http://localhost:27017";
-    const switchToLocal = true;
-    mongoString = switchToLocal ? process.env.MONGO_lOCAL_STRING : mongoString;
+    mongoString = process.env.MONGO_LOCAL_STRING || process.env.MONGO_STRING;
 
     const conn = await mongoose.connect(mongoString, {
       useUnifiedTopology: true,
