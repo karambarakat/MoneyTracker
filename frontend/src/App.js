@@ -26,46 +26,6 @@ import Snack from "./Components/Snack";
 
 // todo: make sure to not use makeStyle that mush (refactoring is required)
 // todo: have better modal handler without missing the code up like the commented code down
-//
-
-// function SpecialSwich({ children }) {
-//   const location = useLocation();
-//   const dispatch = useDispatch();
-
-//   let background = location.state && location.state.background;
-//   let path = location.state && location.state.path;
-//   if (path) {
-//     dispatch({ type: "gallery/open" });
-//   }
-//   console.log(path, location, background);
-//   return (
-//     <>
-//       <Switch location={background || location}>{children}</Switch>
-
-//       {background && (
-//         <Route path={path}>
-//           <GalleryModal>
-//             {path === "/log/:id" ? (
-//               <Log />
-//             ) : path === "/export" ? (
-//               <Export />
-//             ) : path === "/setting" ? (
-//               <Setting />
-//             ) : path === "/rateUs" ? (
-//               <RateUs />
-//             ) : path === "/about" ? (
-//               <About />
-//             ) : path === "/login" ? (
-//               <LogIn />
-//             ) : (
-//               path === "/new-log" && <NewLog />
-//             )}
-//           </GalleryModal>
-//         </Route>
-//       )}
-//     </>
-//   );
-// }
 
 export const LogInSwitch = ({ children }) => {
   const location = useLocation();
