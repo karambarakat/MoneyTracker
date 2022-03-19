@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@utils/*": ["utils/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@controllers/*": ["controllers/*"],
+      "@models/*": ["models/*"],
+      "@error-handler/*": ["error-handler/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@config/*": ["config/*"]
+    },
+
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "strict": true
+  }
+}
