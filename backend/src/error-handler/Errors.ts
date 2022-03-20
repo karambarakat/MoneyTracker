@@ -1,6 +1,14 @@
 import { CustomErrorProps } from '@interfaces/HTTPError'
 import { ValidationError as yupError } from 'yup'
 
+type misTo = (field: string) => CustomErrorProps
+export const HttpErrorMissingFields: misTo = (field: string) => ({
+  status: 401,
+  name: 'HttpErrorMissingFields',
+  message: `${field} field(s) is/are missing`,
+  details: {},
+})
+
 export const EmailOrPasswordIncorrect: CustomErrorProps = {
   status: 401,
   name: 'EmailOrPasswordIncorrect',
@@ -12,6 +20,12 @@ export const UserAlreadyExist: CustomErrorProps = {
   status: 400,
   name: 'UserAlreadyExist',
   message: 'User already exist.',
+  details: {},
+}
+export const EmailIsUsed: CustomErrorProps = {
+  status: 400,
+  name: 'EmailIsUsed',
+  message: 'Email is used.',
   details: {},
 }
 

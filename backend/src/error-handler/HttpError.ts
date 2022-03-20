@@ -1,7 +1,7 @@
 import { CustomErrorProps } from '@interfaces/HTTPError'
 
 export default function HttpError(error: CustomErrorProps): void {
-  const CustomError = new Error()
+  const CustomError = new Error(error.message)
   //@ts-ignore
   CustomError.customError = error
 

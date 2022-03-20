@@ -13,6 +13,7 @@ import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt'
 import * as User from '@models/user/User'
 import { useJWT } from '@utils/registerStrategies'
 import auth from '@middlewares/auth'
+import { ObjectId } from 'mongodb'
 
 const app = express()
 
@@ -32,7 +33,14 @@ async function main() {
     '/exp',
     auth,
     _(async (req, res) => {
-      // console.log(req.user)
+      const clg = await db
+        .collection('users')
+        .updateOne(
+          { _id: new ObjectId('623797ebb25f8149a8ebc765') },
+          { $set: {} }
+        )
+      console.log(clg)
+
       res.json({ done: true, user: req.user })
     })
   )
