@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      "@lib/*": ["lib/*"],
       "@utils/*": ["utils/*"],
       "@middlewares/*": ["middlewares/*"],
       "@controllers/*": ["controllers/*"],

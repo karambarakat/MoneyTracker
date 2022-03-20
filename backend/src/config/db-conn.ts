@@ -15,6 +15,6 @@ async function main() {
     .catch((err) => log('database', 'failed', err))
 }
 
-export const db = client.db('MoneyApp')
+export const db = client.db('money-tracker')
 
 export default main

@@ -1,4 +1,12 @@
 import { CustomErrorProps } from '@interfaces/HTTPError'
+import { ValidationError as yupError } from 'yup'
+
+export const EmailOrPasswordIncorrect: CustomErrorProps = {
+  status: 401,
+  name: 'EmailOrPasswordIncorrect',
+  message: "the email or the password doen'n match our records",
+  details: {},
+}
 
 export const UserAlreadyExist: CustomErrorProps = {
   status: 400,
@@ -20,3 +28,13 @@ export const UnknownServerError: CustomErrorProps = {
   message: 'Unknown error occurred in the server.',
   details: {},
 }
+
+type fromYup = (error: yupError) => CustomErrorProps
+export const ValidationError: fromYup = (error: yupError) => ({
+  status: 400,
+  name: 'ValidationError',
+  message: error.errors[0] || 'some fields are not valid',
+  details: {
+    path: error.path,
+  },
+})
