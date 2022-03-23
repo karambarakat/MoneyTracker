@@ -2,7 +2,7 @@ import '@config/env'
 import conn, { db } from '@config/db-conn'
 import express from 'express'
 import morgan from 'morgan'
-import usersController from '@controllers/authController'
+import authController from '@controllers/authController'
 import HTTPErrorHandler from '@error-handler/HTTPErrorHandler'
 import apiIsWorking from '@middlewares/apiIsWorking'
 import e404 from '@middlewares/E404'
@@ -36,7 +36,7 @@ async function main() {
     })
   )
 
-  app.use('/api/v1/auth', usersController)
+  app.use('/api/v1/auth', authController)
 
   app.use('*', e404)
   app.use(eValidation)

@@ -22,4 +22,4 @@ const CategorySchema = new mongoose.Schema({
   icon: { type: String, required: true },
 })
 
-export default CategorySchema
+export default mongoose.model('category', CategorySchema)
