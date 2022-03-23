@@ -9,21 +9,24 @@ export default function HTTPErrorHandler(
   next: NextFunction
 ) {
   if (!err.customError) next(err)
-
-  res.status(err.customError.status).json({
-    status: err.customError.status,
-    message: err.customError.message,
-    name: err.customError.name,
-    details: {
-      ...devDetails(err),
-      ...err.customError.details,
-    },
-  })
+  else {
+    res.status(err.customError.status).json({
+      status: err.customError.status,
+      message: err.customError.message,
+      name: err.customError.name,
+      details: {
+        ...devDetails(err),
+        ...err.customError.details,
+      },
+    })
+  }
 }
 
 function devDetails(err: CustomError) {
   if (NODE_ENV() !== 'development') return null
   return {
+    message: err.message,
+    cause: err.cause,
     stack: err.stack,
   }
 }

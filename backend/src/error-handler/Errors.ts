@@ -1,5 +1,4 @@
 import { CustomErrorProps } from '@interfaces/HTTPError'
-import { ValidationError as yupError } from 'yup'
 
 type misTo = (field: string) => CustomErrorProps
 export const HttpErrorMissingFields: misTo = (field: string) => ({
@@ -43,12 +42,12 @@ export const UnknownServerError: CustomErrorProps = {
   details: {},
 }
 
-type fromYup = (error: yupError) => CustomErrorProps
-export const ValidationError: fromYup = (error: yupError) => ({
-  status: 400,
-  name: 'ValidationError',
-  message: error.errors[0] || 'some fields are not valid',
-  details: {
-    path: error.path,
-  },
-})
+// type fromYup = (error: yupError) => CustomErrorProps
+// export const ValidationError = (error:) => ({
+//   status: 400,
+//   name: 'ValidationError',
+//   message: error.errors[0] || 'some fields are not valid',
+//   details: {
+//     path: error.path,
+//   },
+// })

@@ -1,5 +1,6 @@
 import { UnknownServerError } from '@error-handler/Errors'
 import { CustomError } from '@interfaces/HTTPError'
+import NODE_ENV from '@utils/NODE_ENV'
 import { NextFunction, Request, Response } from 'express'
 
 export default function ServerError500(
@@ -11,7 +12,7 @@ export default function ServerError500(
   res.status(UnknownServerError.status).json({
     status: UnknownServerError.status,
     message: UnknownServerError.message,
-    name: UnknownServerError.name,
+    name: err.name,
     details: {
       ...devDetails(err),
     },
@@ -19,8 +20,10 @@ export default function ServerError500(
 }
 
 function devDetails(err: CustomError) {
-  if (process.env.NODE_ENV !== 'development') return null
+  if (NODE_ENV() !== 'development') return null
   return {
+    message: err.message,
+    cause: err.cause,
     stack: err.stack,
   }
 }

@@ -9,11 +9,8 @@ import e404 from '@middlewares/E404'
 import e500 from '@middlewares/e500'
 import _ from 'express-async-handler'
 import passport from 'passport'
-import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt'
-import * as User from '@models/user/User'
 import { useJWT } from '@utils/registerStrategies'
-import auth from '@middlewares/auth'
-import { ObjectId } from 'mongodb'
+import eValidation from '@middlewares/e400'
 
 const app = express()
 
@@ -31,23 +28,18 @@ async function main() {
 
   app.get(
     '/exp',
-    auth,
+    // auth,
     _(async (req, res) => {
-      const clg = await db
-        .collection('users')
-        .updateOne(
-          { _id: new ObjectId('623797ebb25f8149a8ebc765') },
-          { $set: {} }
-        )
-      console.log(clg)
-
-      res.json({ done: true, user: req.user })
+      const e = new Error('ValidationError')
+      e.name = 'ValidationError'
+      throw e
     })
   )
 
   app.use('/api/v1/auth', usersController)
 
   app.use('*', e404)
+  app.use(eValidation)
   app.use(HTTPErrorHandler)
   app.use(e500)
 
