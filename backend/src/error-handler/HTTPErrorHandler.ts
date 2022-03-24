@@ -1,5 +1,5 @@
 import { CustomError } from '@interfaces/HTTPError'
-import NODE_ENV from '@utils/NODE_ENV'
+
 import { NextFunction, Request, Response } from 'express'
 
 export default function HTTPErrorHandler(
@@ -23,7 +23,7 @@ export default function HTTPErrorHandler(
 }
 
 function devDetails(err: CustomError) {
-  if (NODE_ENV() !== 'development') return null
+  if (process.env.NODE_ENV !== 'development') return null
   return {
     message: err.message,
     cause: err.cause,

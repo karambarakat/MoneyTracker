@@ -10,6 +10,9 @@ export interface UserInterface {
   password: string
   createAt: string | Date
   updateAt: string | Date
+
+  matchPasswords: (password: string) => boolean
+  withToken: () => string
 }
 
 const UserSchema = new mongoose.Schema(
@@ -24,9 +27,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator: function (): boolean {
-          // @ts-ignore
-          return /^\S+@\S+\.\S+$/.test(this.email)
+        validator: function (email: string): boolean {
+          return /^\S+@\S+\.\S+$/.test(email)
         },
         message: 'not a valid email',
       },
@@ -43,18 +45,37 @@ const UserSchema = new mongoose.Schema(
 )
 
 UserSchema.methods.withToken = function () {
+  delete this._doc.password
+
   return {
-    ...this,
+    ...this._doc,
     token: generateToken(this._id),
   }
 }
 
+UserSchema.methods.matchPasswords = function (given: string) {
+  const salt = process.env.SALT as string
+  const hash = crypto.pbkdf2Sync(given, salt, 100, 64, 'sha512').toString('hex')
+  return hash === this.password
+}
+
 UserSchema.pre('save', async function (next) {
+  console.log(this)
   if (!this.isModified('password')) next()
   else {
     const salt = process.env.SALT as string
     this.password = crypto
       .pbkdf2Sync(this.password, salt, 100, 64, 'sha512')
+      .toString('hex')
+  }
+})
+
+UserSchema.pre('updateOne', async function (next) {
+  if (!this._update.password) next()
+  else {
+    const salt = process.env.SALT as string
+    this._update.password = crypto
+      .pbkdf2Sync(this._update.password, salt, 100, 64, 'sha512')
       .toString('hex')
   }
 })

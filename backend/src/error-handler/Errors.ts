@@ -11,7 +11,7 @@ export const HttpErrorMissingFields: misTo = (field: string) => ({
 export const EmailOrPasswordIncorrect: CustomErrorProps = {
   status: 401,
   name: 'EmailOrPasswordIncorrect',
-  message: "the email or the password doen'n match our records",
+  message: "the email or the password doesn't match our records",
   details: {},
 }
 
@@ -43,11 +43,11 @@ export const UnknownServerError: CustomErrorProps = {
 }
 
 // type fromYup = (error: yupError) => CustomErrorProps
-// export const ValidationError = (error:) => ({
-//   status: 400,
-//   name: 'ValidationError',
-//   message: error.errors[0] || 'some fields are not valid',
-//   details: {
-//     path: error.path,
-//   },
-// })
+export const ValidationError = (error: any) => ({
+  status: 400,
+  name: 'ValidationError',
+  message: error.message || 'some fields are not valid',
+  details: {
+    errors: error.errors,
+  },
+})

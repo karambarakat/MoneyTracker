@@ -7,6 +7,7 @@ import {
 import HttpError from '@error-handler/HttpError'
 import auth from '@middlewares/auth'
 import User, { UserInterface } from '@models/User'
+import onlyDefined from '@utils/onlyDefined'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 
@@ -23,7 +24,7 @@ async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
 
 /**
  *   @desc    get current registered user by their JWT
- *   @route   POST /api/v__/profile
+ *   @route   PUT /api/v__/profile
  *   @access  Private
  */
 async function updateCurrentUser(
@@ -31,18 +32,31 @@ async function updateCurrentUser(
   res: Response,
   next: NextFunction
 ) {
-  const authUser = req.user as UserInterface
-  const { userName, email, password } = req.body
+  const reqUser = req.user as UserInterface
 
-  if (!userName && !email && !password) HttpError(HttpErrorMissingFields('all'))
+  const newData = onlyDefined({
+    userName: req.body.userName,
+    email: req.body.email,
+    password: req.body.password,
+  })
 
-  const user = await User.findOne({ email })
+  if (!newData.userName && !newData.email && !newData.password)
+    HttpError(HttpErrorMissingFields('all'))
 
-  if (user && authUser.email !== email) HttpError(EmailIsUsed)
+  const sameEmail = await User.findOne({ email: newData.email })
+  if (
+    sameEmail &&
+    sameEmail._id.toString() !== reqUser?._id.toString() &&
+    sameEmail.email === newData.email
+  ) {
+    HttpError(EmailIsUsed)
+  }
 
-  await User.updateOne(authUser, { userName, email, password })
+  await User.updateOne(reqUser, newData, { runValidators: true })
 
-  res.json({ data: req.user })
+  const newUser = await User.findById(reqUser._id)
+
+  res.json({ data: newUser.withToken() })
 }
 
 router.route('/').get(auth, _(getCurrentUser)).put(auth, _(updateCurrentUser))

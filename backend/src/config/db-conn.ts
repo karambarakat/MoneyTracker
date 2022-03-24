@@ -1,20 +1,15 @@
 import log from '@utils/log'
-import { MongoClient } from 'mongodb'
+import mongoose from 'mongoose'
 
 var url = process.env.MONGO_STRING as string
-url = process.env.MONGO_STRING_USE_LOCAL ? 'mongodb://localhost:27017/' : url
-
-const client = new MongoClient(url)
 
 async function main() {
   log('database', 'connecting ...')
 
-  await client
-    .connect()
+  await mongoose
+    .connect(url)
     .then(() => log('database', 'connected'))
     .catch((err) => log('database', 'failed', err))
 }
-
-export const db = client.db('money-tracker')
 
 export default main

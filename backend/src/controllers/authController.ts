@@ -24,7 +24,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
 
   const newUser = await User.create({ userName, email, password })
 
-  res.json({ data: newUser.lean() })
+  res.json({ data: newUser.withToken() })
 }
 
 /**
@@ -38,7 +38,7 @@ async function local_login(req: Request, res: Response, next: NextFunction) {
   const user = await User.findOne({ email })
 
   if (user?.matchPasswords(password)) {
-    res.json({ data: user.lean() })
+    res.json({ data: user.withToken() })
   } else {
     HttpError(EmailOrPasswordIncorrect)
   }
