@@ -24,7 +24,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
 
   const newUser = await User.create({ userName, email, password })
 
-  res.json({ data: newUser.withToken() })
+  res.status(201).json({ data: newUser.withToken() })
 }
 
 /**

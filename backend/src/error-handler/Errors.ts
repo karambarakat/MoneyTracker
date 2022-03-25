@@ -2,7 +2,7 @@ import { CustomErrorProps } from '@interfaces/HTTPError'
 
 type misTo = (field: string) => CustomErrorProps
 export const HttpErrorMissingFields: misTo = (field: string) => ({
-  status: 401,
+  status: 400,
   name: 'HttpErrorMissingFields',
   message: `${field} field(s) is/are missing`,
   details: {},

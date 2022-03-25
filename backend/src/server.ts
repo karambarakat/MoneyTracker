@@ -1,0 +1,15 @@
+import log from '@utils/log'
+import app from './app'
+import db_conn from '@config/db-conn'
+/**
+ * this file is used in production/development
+ * in test `./app.ts` will be imported without listening on any port
+ */
+async function main() {
+  await db_conn()
+
+  const PORT = process.env.PORT || 8811
+  app.listen(PORT, () => log('app', `listening at port ${PORT}`))
+}
+
+main().catch((err) => console.error)

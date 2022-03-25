@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      // modify jest.config.js also
       "@lib/*": ["lib/*"],
       "@utils/*": ["utils/*"],
       "@middlewares/*": ["middlewares/*"],
@@ -11,7 +12,8 @@
       "@interfaces/*": ["interfaces/*"],
       "@config/*": ["config/*"]
     },
-
+    "outDir": "build",
+    "rootDir": "src/",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "target": "ESNext",
