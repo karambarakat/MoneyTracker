@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import { NextFunction, Request, Response } from 'express'
 import _ from 'express-async-handler'
 
-async function main() {
+async function connect() {
   log('database', 'connecting ...')
 
   var url = process.env.MONGO_STRING as string
@@ -18,10 +18,10 @@ export const express_conn = _(async function (
   res: Response,
   next: NextFunction
 ) {
-  await main()
+  await connect()
   next()
 })
 
 export const disconnect = mongoose.disconnect
 
-export default main
+export default connect

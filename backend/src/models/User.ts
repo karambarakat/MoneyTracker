@@ -8,8 +8,8 @@ export interface UserInterface {
   userName: string
   email: string
   password: string
-  createAt: string | Date
-  updateAt: string | Date
+  createdAt?: string | Date
+  updatedAt?: string | Date
 
   matchPasswords: (password: string) => boolean
   withToken: () => string
@@ -60,7 +60,6 @@ UserSchema.methods.matchPasswords = function (given: string) {
 }
 
 UserSchema.pre('save', async function (next) {
-  console.log(this)
   if (!this.isModified('password')) next()
   else {
     const salt = process.env.SALT as string

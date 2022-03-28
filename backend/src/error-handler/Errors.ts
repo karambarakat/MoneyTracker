@@ -1,12 +1,11 @@
 import { CustomErrorProps } from '@interfaces/HTTPError'
 
-type misTo = (field: string) => CustomErrorProps
-export const HttpErrorMissingFields: misTo = (field: string) => ({
+export const EmptyBody: CustomErrorProps = {
   status: 400,
   name: 'HttpErrorMissingFields',
-  message: `${field} field(s) is/are missing`,
+  message: `all fields are missing`,
   details: {},
-})
+}
 
 export const EmailOrPasswordIncorrect: CustomErrorProps = {
   status: 401,

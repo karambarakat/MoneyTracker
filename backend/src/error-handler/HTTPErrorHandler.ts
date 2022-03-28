@@ -11,12 +11,15 @@ export default function HTTPErrorHandler(
   if (!err.customError) next(err)
   else {
     res.status(err.customError.status).json({
-      status: err.customError.status,
-      message: err.customError.message,
-      name: err.customError.name,
-      details: {
-        ...devDetails(err),
-        ...err.customError.details,
+      data: null,
+      error: {
+        status: err.customError.status,
+        message: err.customError.message,
+        name: err.customError.name,
+        details: {
+          ...devDetails(err),
+          ...err.customError.details,
+        },
       },
     })
   }

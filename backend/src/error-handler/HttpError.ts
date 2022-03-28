@@ -7,3 +7,17 @@ export default function HttpError(error: CustomErrorProps): void {
 
   throw CustomError
 }
+
+export function HttpQuickError(status: number, message: string): void {
+  const CustomError = new Error(message)
+  const quickError: CustomErrorProps = {
+    status,
+    message,
+    name: 'RequestError',
+    details: {},
+  }
+  // @ts-ignore
+  CustomError.customError = quickError
+
+  throw CustomError
+}

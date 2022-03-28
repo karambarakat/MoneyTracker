@@ -1,7 +1,7 @@
 // import fetch from 'node-fetch'
 import { disconnect } from '@config/db-conn'
 import supertest from 'supertest'
-import app from '../../src/app'
+import app from 'app'
 
 describe('general test on the app', () => {
   test('api is working', async function () {

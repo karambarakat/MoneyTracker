@@ -12,7 +12,7 @@ export default function ServerError500(
   res.status(UnknownServerError.status).json({
     status: UnknownServerError.status,
     message: UnknownServerError.message,
-    name: err.name,
+    name: UnknownServerError.name,
     details: {
       ...devDetails(err),
     },
@@ -22,6 +22,7 @@ export default function ServerError500(
 function devDetails(err: CustomError) {
   if (process.env.NODE_ENV !== 'development') return null
   return {
+    name: err.name,
     message: err.message,
     cause: err.cause,
     stack: err.stack,

@@ -3,6 +3,8 @@ import express from 'express'
 import morgan from 'morgan'
 import authController from '@controllers/authController'
 import profileController from '@controllers/profileController'
+import logController from '@controllers/logController'
+import categoryController from '@controllers/categoryController'
 import HTTPErrorHandler from '@error-handler/HTTPErrorHandler'
 import apiIsWorking from '@middlewares/apiIsWorking'
 import e404 from '@middlewares/E404'
@@ -17,7 +19,6 @@ passport.use(useJWT)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
 app.use(morgan('dev'))
 
 /**
@@ -26,6 +27,8 @@ app.use(morgan('dev'))
 app.get('/', apiIsWorking)
 app.use('/api/v1/auth', authController)
 app.use('/api/v1/profile', profileController)
+app.use('/api/v1/log', logController)
+app.use('/api/v1/category', categoryController)
 
 /**
  * Errors/Handlers

@@ -1,13 +1,13 @@
 import {
   EmailIsUsed,
   EmailOrPasswordIncorrect,
-  HttpErrorMissingFields,
+  EmptyBody,
   UserAlreadyExist,
 } from '@error-handler/Errors'
 import HttpError from '@error-handler/HttpError'
 import auth from '@middlewares/auth'
 import User, { UserInterface } from '@models/User'
-import onlyDefined from '@utils/onlyDefined'
+
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 
@@ -34,14 +34,13 @@ async function updateCurrentUser(
 ) {
   const reqUser = req.user as UserInterface
 
-  const newData = onlyDefined({
+  const newData = {
     userName: req.body.userName,
     email: req.body.email,
     password: req.body.password,
-  })
+  }
 
-  if (!newData.userName && !newData.email && !newData.password)
-    HttpError(HttpErrorMissingFields('all'))
+  if (Object.keys(newData).length === 0) HttpError(EmptyBody)
 
   const sameEmail = await User.findOne({ email: newData.email })
   if (
