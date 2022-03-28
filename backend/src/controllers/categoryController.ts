@@ -1,5 +1,5 @@
-import { ResourceWasNotFound } from '@error-handler/Errors'
-import HttpError, { HttpQuickError } from '@error-handler/HttpError'
+import { ResourceWasNotFound } from '@error/Errors'
+import HttpError, { HttpQuickError } from '@error/HttpError'
 import auth from '@middlewares/auth'
 import Category, { CategoryInterface } from '@models/Category'
 import { UserInterface } from '@models/User'
@@ -59,6 +59,22 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
 }
 
 /**
+ *   @desc    get log by its id
+ *   @route   GET /api/v__/category/:id/logs
+ *   @access  Private
+ */
+async function findAllLogs(req: Request, res: Response, next: NextFunction) {
+  // @ts-ignore
+  const rc = req.category
+
+  const category = await Category.findOne({ _id: rc._id }).populate('logs')
+
+  res.json({
+    data: category,
+  })
+}
+
+/**
  *   @desc    update log by its id
  *   @route   PUT /api/v__/category/:id
  *   @access  Private
@@ -107,14 +123,15 @@ async function deleteFN(req: Request, res: Response, next: NextFunction) {
 router.route('/').get(auth, _(find)).post(auth, _(create))
 router
   .route('/:id')
-  .get(auth, _(findLog), _(findOne))
-  .put(auth, _(findLog), _(update))
-  .delete(auth, _(findLog), _(deleteFN))
+  .get(auth, _(findCategory), _(findOne))
+  .put(auth, _(findCategory), _(update))
+  .delete(auth, _(findCategory), _(deleteFN))
+router.route('/:id/logs').get(auth, _(findCategory), _(findAllLogs))
 
 /**
  * helper functions
  */
-async function findLog(req: Request, res: Response, next: NextFunction) {
+async function findCategory(req: Request, res: Response, next: NextFunction) {
   const categoryId = req.params.id
   const reqUser = req.user as UserInterface
 
@@ -122,7 +139,6 @@ async function findLog(req: Request, res: Response, next: NextFunction) {
     createdBy: new ObjectId(reqUser._id),
     _id: new ObjectId(categoryId),
   })
-
   if (foundCategory) {
     // @ts-ignore
     req.category = foundCategory

@@ -1,8 +1,5 @@
-import {
-  EmailOrPasswordIncorrect,
-  UserAlreadyExist,
-} from '@error-handler/Errors'
-import HttpError from '@error-handler/HttpError'
+import { EmailOrPasswordIncorrect, UserAlreadyExist } from '@error/Errors'
+import HttpError from '@error/HttpError'
 import auth from '@middlewares/auth'
 import User from '@models/User'
 import { NextFunction, Request, Response, Router } from 'express'

@@ -27,28 +27,7 @@ const CategorySchema = new mongoose.Schema({
     },
   },
   icon: { type: String },
-  logs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'log',
-    },
-  ],
   createdBy: { type: mongoose.Types.ObjectId },
-})
-
-CategorySchema.post('save', async function (doc, next) {
-  await doc.populate('logs')
-  next()
-})
-
-CategorySchema.post('find', async function (docs) {
-  for (let doc of docs) {
-    if (doc.logs) {
-      await doc.populate('logs')
-    } else {
-      doc.logs = null
-    }
-  }
 })
 
 export default mongoose.model('category', CategorySchema)

@@ -10,6 +10,7 @@ export default function HTTPErrorHandler(
 ) {
   if (!err.customError) next(err)
   else {
+    if (process.env.NODE_ENV !== 'test') console.error(err)
     res.status(err.customError.status).json({
       data: null,
       error: {
@@ -17,19 +18,9 @@ export default function HTTPErrorHandler(
         message: err.customError.message,
         name: err.customError.name,
         details: {
-          ...devDetails(err),
           ...err.customError.details,
         },
       },
     })
-  }
-}
-
-function devDetails(err: CustomError) {
-  if (process.env.NODE_ENV !== 'development') return null
-  return {
-    message: err.message,
-    cause: err.cause,
-    stack: err.stack,
   }
 }

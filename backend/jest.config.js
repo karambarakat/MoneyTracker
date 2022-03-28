@@ -18,7 +18,7 @@ module.exports = {
     '@middlewares/(.*)$': ['<rootDir>/src/middlewares/$1'],
     '@controllers/(.*)$': ['<rootDir>/src/controllers/$1'],
     '@models/(.*)$': ['<rootDir>/src/models/$1'],
-    '@error-handler/(.*)$': ['<rootDir>/src/error-handler/$1'],
+    '@error/(.*)$': ['<rootDir>/src/error-handler/$1'],
     '@interfaces/(.*)$': ['<rootDir>/src/interfaces/$1'],
     '@config/(.*)$': ['<rootDir>/src/config/$1'],
   },

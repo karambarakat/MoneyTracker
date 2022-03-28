@@ -1,14 +1,8 @@
-import {
-  EmailIsUsed,
-  EmailOrPasswordIncorrect,
-  EmptyBody,
-  ResourceWasNotFound,
-  UserAlreadyExist,
-} from '@error-handler/Errors'
-import HttpError, { HttpQuickError } from '@error-handler/HttpError'
+import { ResourceWasNotFound } from '@error/Errors'
+import HttpError, { HttpQuickError } from '@error/HttpError'
 import auth from '@middlewares/auth'
 import Log, { LogInterface } from '@models/Log'
-import User, { UserInterface } from '@models/User'
+import { UserInterface } from '@models/User'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
@@ -101,10 +95,10 @@ async function deleteFN(req: Request, res: Response, next: NextFunction) {
   // @ts-ignore
   const log = req.log
 
-  const deleted = await Log.findByIdAndDelete(log._id)
+  const deleted = await Log.deleteOne({ _id: log._id })
 
   if (!deleted) HttpQuickError(400, 'failed to delete')
-  else res.json({ data: deleted })
+  else res.json({ data: null })
 }
 
 router.route('/').get(auth, _(find)).post(auth, _(create))

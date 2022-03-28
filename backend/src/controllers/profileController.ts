@@ -3,8 +3,8 @@ import {
   EmailOrPasswordIncorrect,
   EmptyBody,
   UserAlreadyExist,
-} from '@error-handler/Errors'
-import HttpError from '@error-handler/HttpError'
+} from '@error/Errors'
+import HttpError from '@error/HttpError'
 import auth from '@middlewares/auth'
 import User, { UserInterface } from '@models/User'
 
@@ -40,7 +40,14 @@ async function updateCurrentUser(
     password: req.body.password,
   }
 
-  if (Object.keys(newData).length === 0) HttpError(EmptyBody)
+  if (
+    Object.keys(newData).filter(
+      (key) =>
+        //@ts-ignore
+        newData[key]
+    ).length === 0
+  )
+    HttpError(EmptyBody)
 
   const sameEmail = await User.findOne({ email: newData.email })
   if (

@@ -1,5 +1,5 @@
-import { UnknownServerError, ValidationError } from '@error-handler/Errors'
-import HttpError from '@error-handler/HttpError'
+import { UnknownServerError, ValidationError } from '@error/Errors'
+import HttpError from '@error/HttpError'
 import { CustomError } from '@interfaces/HTTPError'
 import { NextFunction, Request, Response } from 'express'
 

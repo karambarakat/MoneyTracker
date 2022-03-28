@@ -41,7 +41,6 @@ export const UnknownServerError: CustomErrorProps = {
   details: {},
 }
 
-// type fromYup = (error: yupError) => CustomErrorProps
 export const ValidationError = (error: any) => ({
   status: 400,
   name: 'ValidationError',

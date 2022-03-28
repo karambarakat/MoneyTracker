@@ -7,5 +7,6 @@ const colors: { [key: string]: string } = {
 type types = 'database' | 'environment' | 'app'
 
 export default function log(type: types, ...args: any[]) {
-  console.log(`${colors[type]}%s\x1b[0m`, `[${type}]`, '--', ...args)
+  if (process.env.NODE_ENV !== 'test')
+    console.log(`${colors[type]}%s\x1b[0m`, `[${type}]`, '--', ...args)
 }
