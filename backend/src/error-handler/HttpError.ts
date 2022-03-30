@@ -8,13 +8,18 @@ export default function HttpError(error: CustomErrorProps): void {
   throw CustomError
 }
 
-export function HttpQuickError(status: number, message: string): void {
+export function HttpQuickError(
+  status: number,
+  message: string,
+  name?: string,
+  details?: any
+): void {
   const CustomError = new Error(message)
   const quickError: CustomErrorProps = {
     status,
     message,
-    name: 'RequestError',
-    details: {},
+    name: name || 'RequestError',
+    details: details || {},
   }
   // @ts-ignore
   CustomError.customError = quickError

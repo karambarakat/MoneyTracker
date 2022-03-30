@@ -12,4 +12,4 @@ async function main() {
   app.listen(PORT, () => log('app', `listening at port ${PORT}`))
 }
 
-main().catch((err) => console.error)
+main().catch(console.error)

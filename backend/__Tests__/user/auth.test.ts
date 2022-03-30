@@ -1,6 +1,5 @@
 // import fetch from 'node-fetch'
 import connect, { disconnect } from '@config/db-conn'
-import log from '@utils/log'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from './../../src/app'
@@ -150,13 +149,12 @@ describe('USER', () => {
       .put('/api/v1/profile')
       .send({ password: 'password 123456' })
       .set('Authorization', `Bearer ${token}`)
+      .expect(200)
 
-    expect(res.status).toBe(200)
-    await supertest(app)
+    const res2 = await supertest(app)
       .post('/api/v1/auth/local/login')
       .send({ email: 'karam@gmail.com', password: 'password 123456' })
-
-    expect(res.status).toBe(200)
+      .expect(200)
   })
 
   test('PUT /profile : change others', async function () {

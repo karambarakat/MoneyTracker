@@ -47,7 +47,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
 /**
  *   @desc    get log by its id
  *   @route   GET /api/v__/log/:id
- *   @access  Private
+ *   @access  Private, ifLogExists
  */
 async function findOne(req: Request, res: Response, next: NextFunction) {
   res.json({
@@ -60,7 +60,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
 /**
  *   @desc    update log by its id
  *   @route   PUT /api/v__/log/:id
- *   @access  Private
+ *   @access  Private, ifLogExists
  */
 async function update(req: Request, res: Response, next: NextFunction) {
   // @ts-ignore
@@ -89,9 +89,9 @@ async function update(req: Request, res: Response, next: NextFunction) {
 /**
  *   @desc    delete log by its id
  *   @route   DELETE /api/v__/log/:id
- *   @access  Private
+ *   @access  Private, ifLogExists
  */
-async function deleteFN(req: Request, res: Response, next: NextFunction) {
+async function delete_(req: Request, res: Response, next: NextFunction) {
   // @ts-ignore
   const log = req.log
 
@@ -106,7 +106,7 @@ router
   .route('/:id')
   .get(auth, _(findLog), _(findOne))
   .put(auth, _(findLog), _(update))
-  .delete(auth, _(findLog), _(deleteFN))
+  .delete(auth, _(findLog), _(delete_))
 
 /**
  * helper functions

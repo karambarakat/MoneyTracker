@@ -1,7 +1,6 @@
 // import fetch from 'node-fetch'
 import { decode as b64Decoder } from 'js-base64'
 import connect, { disconnect } from '@config/db-conn'
-import log from '@utils/log'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from './../../src/app'
@@ -209,14 +208,6 @@ describe('LOG', () => {
     expect(res.body.data.category._id).toBe(user1Category1)
     expect(res.body.data.category.title).toBeDefined()
     expect(res.body.data.category.color).toBeDefined()
-
-    // ? to delete these comments: second thought?
-    // const res2 = await supertest(app)
-    //   .get('/api/v1/category/' + res.body.data.category._id)
-    //   .set({ Authorization: 'Bearer ' + user1Token })
-
-    // expect(res2.status).toBe(200)
-    // expect(res2.body.data.logs).toContain(res.body.data._id)
   })
 
   var createdLogs: string[]
@@ -309,27 +300,6 @@ describe('LOG', () => {
     // [1] => user1Category2
     // [2] => user1Category2
     expect(res3.body.data.category._id).toBe(user1Category2)
-
-    // ? to delete these comments: second thought?
-    // const catRes = await supertest(app)
-    //   .get('/api/v1/category')
-    //   .set({ Authorization: 'Bearer ' + user1Token })
-    //   .expect(200)
-
-    // const catResData: { _id: string; logs: string[] }[] = catRes.body.data
-
-    // // [0] => user1Category1
-    // expect(catResData.find((e) => e._id === user1Category1)?.logs).toContain(
-    //   createdLogs[0]
-    // )
-    // // [1] => user1Category2
-    // expect(catResData.find((e) => e._id === user1Category2)?.logs).toContain(
-    //   createdLogs[1]
-    // )
-    // // [2] => user1Category2
-    // expect(catResData.find((e) => e._id === user1Category2)?.logs).toContain(
-    //   createdLogs[2]
-    // )
   })
 
   test('delete', async function () {

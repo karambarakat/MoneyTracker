@@ -2,6 +2,7 @@ import { ResourceWasNotFound } from '@error/Errors'
 import HttpError, { HttpQuickError } from '@error/HttpError'
 import auth from '@middlewares/auth'
 import Category, { CategoryInterface } from '@models/Category'
+import Log from '@models/Log'
 import { UserInterface } from '@models/User'
 
 import { NextFunction, Request, Response, Router } from 'express'
@@ -48,7 +49,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
 /**
  *   @desc    get log by its id
  *   @route   GET /api/v__/category/:id
- *   @access  Private
+ *   @access  Private, ifCategoryExist
  */
 async function findOne(req: Request, res: Response, next: NextFunction) {
   res.json({
@@ -59,25 +60,28 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
 }
 
 /**
- *   @desc    get log by its id
+ *   @desc    get all logs that belong to specific category
  *   @route   GET /api/v__/category/:id/logs
- *   @access  Private
+ *   @access  Private, ifCategoryExist
  */
 async function findAllLogs(req: Request, res: Response, next: NextFunction) {
   // @ts-ignore
-  const rc = req.category
+  const reqCategory = req.category
 
-  const category = await Category.findOne({ _id: rc._id }).populate('logs')
+  const logs = await Log.find({
+    category: reqCategory._id,
+    createdBy: reqCategory.createdBy,
+  }).select('-category')
 
   res.json({
-    data: category,
+    data: { ...reqCategory._doc, logs },
   })
 }
 
 /**
  *   @desc    update log by its id
  *   @route   PUT /api/v__/category/:id
- *   @access  Private
+ *   @access  Private, ifCategoryExist
  */
 async function update(req: Request, res: Response, next: NextFunction) {
   // @ts-ignore
@@ -108,16 +112,16 @@ async function update(req: Request, res: Response, next: NextFunction) {
 /**
  *   @desc    delete log by its id
  *   @route   DELETE /api/v__/category/:id
- *   @access  Private
+ *   @access  Private, ifCategoryExist
  */
-async function deleteFN(req: Request, res: Response, next: NextFunction) {
+async function delete_(req: Request, res: Response, next: NextFunction) {
   // @ts-ignore
   const category = req.category
 
-  const deleted = await Category.findByIdAndDelete(category._id)
+  const deleted = await Category.deleteOne({ _id: category._id })
 
   if (!deleted) HttpQuickError(400, 'failed to delete')
-  else res.json({ data: deleted })
+  else res.json({ data: null })
 }
 
 router.route('/').get(auth, _(find)).post(auth, _(create))
@@ -125,7 +129,7 @@ router
   .route('/:id')
   .get(auth, _(findCategory), _(findOne))
   .put(auth, _(findCategory), _(update))
-  .delete(auth, _(findCategory), _(deleteFN))
+  .delete(auth, _(findCategory), _(delete_))
 router.route('/:id/logs').get(auth, _(findCategory), _(findAllLogs))
 
 /**

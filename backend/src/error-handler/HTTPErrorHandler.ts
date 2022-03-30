@@ -10,7 +10,7 @@ export default function HTTPErrorHandler(
 ) {
   if (!err.customError) next(err)
   else {
-    if (process.env.NODE_ENV !== 'test') console.error(err)
+    // if (process.env.NODE_ENV !== 'test') console.error(err)
     res.status(err.customError.status).json({
       data: null,
       error: {

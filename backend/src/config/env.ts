@@ -3,25 +3,34 @@ import dotenv from 'dotenv'
 import path from 'path'
 try {
   var envError: undefined | Error
+  var envPath: string
   switch (process.env.NODE_ENV) {
     case 'production':
-      envError = dotenv.config({ path: path.join('.env.prod') }).error
+      envPath = path.join(__dirname, '..', '..', '.env.prod')
+      envError = dotenv.config({ path: envPath }).error
       break
+
     case 'development':
-      envError = dotenv.config({ path: path.join('.env.dev') }).error
+      envPath = path.join(__dirname, '..', '..', '.env.dev')
+      envError = dotenv.config({ path: envPath }).error
       break
+
     case 'test':
-      envError = dotenv.config({ path: path.join('.env.test') }).error
+      envPath = path.join(__dirname, '..', '..', '.env.test')
+      envError = dotenv.config({ path: envPath }).error
       break
   }
-  const allError = dotenv.config({ path: path.join('.env') }).error
+
+  envPath = path.join(__dirname, '..', '..', '.env')
+  const allError = dotenv.config({ path: envPath }).error
 
   if (allError) throw allError
   if (envError) throw envError
 
   log('environment', `loaded for env:${process.env.NODE_ENV}`)
-} catch {
+} catch (e) {
   log('environment', 'loading failed')
+  console.error(e)
   process.exit(1)
 }
 
