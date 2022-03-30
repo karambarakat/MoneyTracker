@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      // modify jest.config.js also
+      "@lib/*": ["lib/*"],
+      "@utils/*": ["utils/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@controllers/*": ["controllers/*"],
+      "@models/*": ["models/*"],
+      "@error/*": ["error-handler/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@config/*": ["config/*"]
+    },
+    "outDir": "build",
+    "rootDir": "src/",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "strict": true
+  }
+}

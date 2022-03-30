@@ -1,0 +1,7 @@
+.env
+.env.prod
+.env.dev
+.env.test
+
+build
+__Tests__/**/*.test.js
