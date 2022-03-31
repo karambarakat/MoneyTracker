@@ -1,10 +1,16 @@
 import Brand from '@components/Brand'
 import ToggleColorScheme from '@components/ToggleColorScheme'
 import {
+  ChartPie2,
   ChevronLeft,
   ChevronRight,
+  InfoCircle,
+  LayoutGrid,
   MoonStars,
+  Settings,
+  Star,
   Sun,
+  TableExport,
   User,
 } from 'tabler-icons-react'
 
@@ -21,15 +27,18 @@ import {
   Navbar,
   ScrollArea,
   Text,
+  ThemeIcon,
   Title,
   UnstyledButton,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core'
-import Container_C from '@components/Mantine/Container'
+import MyContainer from '@components/Mantine/Container'
 import { useMediaQuery } from '@mantine/hooks'
 import { PropsWithChildren, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
+import MyButton from '@components/Mantine/Button'
+import Separator from '@components/Seperator'
 
 function Main_Layout_Component() {
   const theme = useMantineTheme()
@@ -49,10 +58,10 @@ function Main_Layout_Component() {
       fixed
       navbar={<Navbar_Custom opened={true} />}
     >
-      <Container_C>
+      <MyContainer>
         <Content_Header />
         <Outlet />
-      </Container_C>
+      </MyContainer>
     </AppShell>
   )
 }
@@ -97,13 +106,17 @@ function Navbar_Custom({ opened }: { opened: boolean }) {
       hidden={opened}
       width={{ sm: 300, md: 350, lg: 400 }}
     >
-      <Navbar.Section mt='xs'>
+      <Navbar.Section my='xs'>
         <BrandNavbar />
       </Navbar.Section>
 
+      <Separator />
+
       <Navbar.Section grow component={ScrollArea} mx='-xs' px='xs'>
-        {/* scrollable content here */}
+        <ContentNavbar />
       </Navbar.Section>
+
+      <Separator />
 
       <Navbar.Section>
         <UserNavbar />
@@ -120,12 +133,6 @@ function BrandNavbar() {
       sx={(theme) => ({
         paddingLeft: theme.spacing.xs,
         paddingRight: theme.spacing.xs,
-        paddingBottom: theme.spacing.lg,
-        borderBottom: `1px solid ${
-          theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2]
-        }`,
       })}
     >
       <Group position='apart'>
@@ -143,42 +150,101 @@ function BrandNavbar() {
   )
 }
 
+const data0 = [
+  {
+    icon: <ChartPie2 size={16} />,
+    color: 'blue',
+    label: 'Charts',
+    link: '/charts',
+  },
+]
+
+const data = [
+  {
+    icon: <LayoutGrid size={16} />,
+    color: 'teal',
+    label: 'Categories',
+    link: '/categories',
+  },
+  {
+    icon: <TableExport size={16} />,
+    color: 'violet',
+    label: 'Export',
+    link: '/export',
+  },
+  {
+    icon: <Settings size={16} />,
+    color: 'grape',
+    label: 'Setting',
+    link: '/setting',
+  },
+  {
+    icon: <Star size={16} />,
+    color: 'yellow',
+    label: 'Rate Us',
+    link: '/rate-us',
+  },
+  {
+    icon: <InfoCircle size={16} />,
+    color: 'blue',
+    label: 'About',
+    link: '/about',
+  },
+]
+
+function ContentNavbar() {
+  return (
+    <>
+      {data0.map((element) => {
+        return (
+          <Link key={element.link} to={element.link}>
+            <MyButton>
+              <Group>
+                <ThemeIcon color={element.color} variant='light'>
+                  {element.icon}
+                </ThemeIcon>
+                <Text size='sm'>{element.label}</Text>
+              </Group>
+            </MyButton>
+          </Link>
+        )
+      })}
+      <Separator />
+      {data.map((element) => {
+        return (
+          <Link key={element.link} to={element.link}>
+            <MyButton>
+              <Group>
+                <ThemeIcon color={element.color} variant='light'>
+                  {element.icon}
+                </ThemeIcon>
+                <Text size='sm'>{element.label}</Text>
+              </Group>
+            </MyButton>
+          </Link>
+        )
+      })}
+    </>
+  )
+}
+
 function UserNavbar() {
   const theme = useMantineTheme()
 
   return (
-    <Box
-      sx={{
-        paddingTop: theme.spacing.sm,
-        borderTop: `1px solid ${
-          theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2]
-        }`,
-      }}
-    >
-      <UnstyledButton
-        sx={{
-          display: 'block',
-          width: '100%',
-          padding: theme.spacing.xs,
-          borderRadius: theme.radius.md,
-          color:
-            theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-
-          '&:hover': {
-            backgroundColor:
-              theme.colorScheme === 'dark'
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0],
-          },
-        }}
-      >
+    <Box>
+      <MyButton>
         <Group>
-          <Avatar
-            src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
-            radius='xl'
-          />
+          {false ? (
+            <Avatar
+              src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
+              radius='xl'
+            />
+          ) : (
+            <Avatar radius={'xl'} color='primary'>
+              <User />
+            </Avatar>
+          )}
           <Box sx={{ flex: 1 }}>
             <Text size='sm' weight={500}>
               Amy Horsefighter
@@ -194,7 +260,7 @@ function UserNavbar() {
             <ChevronLeft size={18} />
           )}
         </Group>
-      </UnstyledButton>
+      </MyButton>
     </Box>
   )
 }

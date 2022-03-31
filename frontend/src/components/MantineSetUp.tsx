@@ -53,6 +53,10 @@ function MantineSetUp({ children }: Props) {
               textDecoration: 'none',
               color: 'inherit',
             },
+            '::selection': {
+              backgroundColor: theme.colors['theme-orange'][6],
+              color: theme.colors.gray[0],
+            },
           })}
         />
         {children}
