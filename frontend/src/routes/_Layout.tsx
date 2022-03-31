@@ -131,9 +131,10 @@ function BrandNavbar() {
       <Group position='apart'>
         <Brand />
         <ActionIcon
-          variant='default'
+          variant='outline'
           onClick={() => toggleColorScheme()}
           size={30}
+          color={colorScheme === 'dark' ? 'yellow' : 'blue'}
         >
           {colorScheme === 'dark' ? <Sun size={16} /> : <MoonStars size={16} />}
         </ActionIcon>
