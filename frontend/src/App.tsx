@@ -1,7 +1,7 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Global, MantineProvider, Text } from '@mantine/core'
 import MainLayout from '@routes/_Layout'
+import MantineSetUp from '@components/MantineSetUp'
 
 const Index = lazy(() => import('@routes/index'))
 const About = lazy(() => import('@routes/about'))
@@ -9,8 +9,7 @@ const E404 = lazy(() => import('@routes/_E404'))
 
 function App() {
   return (
-    <MantineProvider>
-      <MantineGlobal />
+    <MantineSetUp>
       <BrowserRouter>
         <Suspense fallback={'loading ...'}>
           <Routes>
@@ -22,21 +21,7 @@ function App() {
           </Routes>
         </Suspense>
       </BrowserRouter>
-    </MantineProvider>
-  )
-}
-
-function MantineGlobal() {
-  return (
-    <Global
-      styles={(theme) => ({
-        '*, *::before, *::after': {
-          boxSizing: 'border-box',
-          margin: 0,
-          padding: 0,
-        },
-      })}
-    />
+    </MantineSetUp>
   )
 }
 
