@@ -21,19 +21,21 @@ function MantineSetUp({ children }: Props) {
         primaryColor: 'theme-orange',
         colors: {
           'theme-orange': [
+            // '#ffffff',
+            '#fff6e6',
             '#ffedcc',
             '#ffe4b3',
             '#ffdb99',
-            '#ffd280', //996300
-            '#ffc966', //b37300
-            '#ffc04d', //cc8400
-            '#ffb733', //e69500
-            '#ffae1a', //ffa500
-            '#ffa500', //ffae1a
-            '#e69500', //ffb733
-            // '#cc8400', //ffc04d
-            // '#b37300', //ffc966
-            // '#996300', //ffd280
+            '#ffd280',
+            '#ffc966',
+            '#ffc04d',
+            '#ffb733',
+            '#ffae1a',
+            '#ffa500', // main
+            // '#e69500',
+            // '#cc8400',
+            // '#b37300',
+            // '#996300',
           ],
         },
       }}
@@ -54,8 +56,8 @@ function MantineSetUp({ children }: Props) {
               color: 'inherit',
             },
             '::selection': {
-              backgroundColor: theme.colors['theme-orange'][6],
-              color: theme.colors.gray[0],
+              backgroundColor: theme.colors['theme-orange'][4],
+              color: theme.colors.gray[9],
             },
           })}
         />

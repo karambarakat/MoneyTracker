@@ -1,0 +1,174 @@
+$transition: var(--transition, 700ms ease-in-out);
+
+/*
+  setting css for the root element
+  <element class='root_xxxxxx' :this>
+    <element/>
+    <element/>
+  </element>
+  the `root` mixin is the animation is made up of these classes
+    1. .anim_xxxxxx-PHASE: given by CSSTransitionGroup where PHASE is `enter`, `enter-done` etc
+    2. .root_xxxxxx: assigned to the root element
+    3. .withHeight: to count for strange bug that calculate both height of the children to zero
+*/
+@mixin root($phase) {
+  .anim:global(-#{$phase}) {
+    &.root:global(.withHeight) {
+      @content;
+    }
+  }
+}
+
+.root {
+  overflow: hidden;
+  position: relative;
+  transition: height $transition;
+  height: auto;
+}
+
+@include root(enter) {
+  height: var(--height);
+}
+
+@include root(enter-active) {
+  height: var(--height2);
+  transition: height $transition;
+}
+
+@include root(enter-done) {
+  height: auto;
+}
+
+@include root(exit) {
+  height: var(--height2);
+}
+@include root(exit-active) {
+  height: var(--height);
+  transition: height $transition;
+}
+@include root(exit-done) {
+  height: auto;
+}
+
+/*
+  setting general css for the children
+  <element class='root_xxxxxx'>
+    <element :this/>
+    <element :this/>
+  </element>
+  the used classes are
+    1. .root_xxxxxx: assigned to the root element
+    2. .lvl1, .lvl2: used when CSSTransition has not provided any classes (at the very beginning)
+    3. .lvl1: when nextStage=false
+    4. .lvl2: when nextStage=true
+    5. .noHeight: to count for strange bug that calculate both height of the children to zero
+*/
+.root > * {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.root:global(.lvl2) > :first-child {
+  transform: translateX(-100%);
+}
+.root:global(.lvl1) > :last-child {
+  transform: translateX(100%);
+}
+.root:global(.lvl1.noHeight) > :first-child,
+.root:global(.lvl2.noHeight) > :last-child {
+  position: initial;
+}
+
+/*
+  setting css for the first child
+  <element class='root_xxxxxx'>
+    <element :this/>
+    <element/>
+  </element>
+  the `root` mixin is the animation is made up of these classes
+    1. .anim_xxxxxx-PHASE: given by CSSTransitionGroup where PHASE is `enter`, `enter-done` etc
+    2. .root_xxxxxx: assigned to the root element
+*/
+@mixin first($phase) {
+  .anim:global(-#{$phase}) {
+    &.root {
+      & > :first-child {
+        @content;
+      }
+    }
+  }
+}
+
+@include first(enter) {
+  transform: translateX(0%);
+}
+
+@include first(enter-active) {
+  transform: translateX(-100%);
+  transition: transform $transition;
+}
+
+@include first(enter-done) {
+  transform: translateX(-100%);
+}
+
+@include first(exit) {
+  transform: translateX(-100%);
+}
+
+@include first(exit-active) {
+  transform: translateX(0%);
+  transition: transform $transition;
+}
+
+@include first(exit-done) {
+  transform: translateX(0%);
+  position: initial;
+}
+
+/*
+  setting css for the second child
+  <element class='root_xxxxxx'>
+    <element/>
+    <element :this/>
+  </element>
+  the `root` mixin is the animation is made up of these classes
+    1. .anim_xxxxxx-PHASE: given by CSSTransitionGroup where PHASE is `enter`, `enter-done` etc
+    2. .root_xxxxxx: assigned to the root element
+*/
+@mixin second($phase) {
+  .anim:global(-#{$phase}) {
+    &.root {
+      & > :last-child {
+        @content;
+      }
+    }
+  }
+}
+
+@include second(enter) {
+  transform: translateX(100%);
+}
+
+@include second(enter-active) {
+  transform: translateX(0%);
+  transition: transform $transition;
+}
+
+@include second(enter-done) {
+  transform: translateX(0%);
+  position: initial;
+}
+
+@include second(exit) {
+  transform: translateX(0%);
+}
+
+@include second(exit-active) {
+  transform: translateX(100%);
+  transition: transform $transition;
+}
+
+@include second(exit-done) {
+  transform: translateX(100%);
+}

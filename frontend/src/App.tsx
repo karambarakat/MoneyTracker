@@ -1,7 +1,9 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import MainLayout from '@routes/_Layout'
 import MantineSetUp from '@components/MantineSetUp'
+import { Text } from '@mantine/core'
+import Authenticate from '@routes/_Auth'
 
 const Index = lazy(() => import('@routes/index'))
 const About = lazy(() => import('@routes/about'))
@@ -13,15 +15,26 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={'loading ...'}>
           <Routes>
-            <Route path='/' element={<MainLayout />}>
-              <Route index element={<Index />} />
-              <Route path='about' element={<About />} />
+            <Route element={<Authenticate />}>
+              <Route path='/' element={<MainLayout />}>
+                <Route index element={<Index />} />
+                <Route path='about' element={<About />} />
+              </Route>
             </Route>
             <Route path={'*'} element={<E404 />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
     </MantineSetUp>
+  )
+}
+
+function Test() {
+  return (
+    <>
+      <Text>hello</Text>
+      <Outlet />
+    </>
   )
 }
 
