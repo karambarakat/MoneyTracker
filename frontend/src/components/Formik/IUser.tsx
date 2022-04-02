@@ -1,7 +1,10 @@
-import { Checkbox as MCheckbox, InputWrapper } from '@mantine/core'
+import { Input, InputWrapper } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 
 interface Props {
+  /**
+   * name provided at `initialValues` in Formik provider
+   */
   formikName: string
   placeholder?: string
   label?: string
@@ -9,7 +12,7 @@ interface Props {
   required?: boolean
 }
 
-function MyCheckbox({
+function MyUserInput({
   formikName,
   required,
   placeholder,
@@ -23,12 +26,11 @@ function MyCheckbox({
           <InputWrapper
             required={required}
             size='sm'
-            // label={label || 'User Name'}
+            label={label || 'User Name'}
             description={description}
             error={meta.touched && meta.error}
           >
-            <MCheckbox
-              label={label}
+            <Input
               size='sm'
               placeholder={placeholder || 'chose you user name'}
               {...field}
@@ -40,4 +42,4 @@ function MyCheckbox({
   )
 }
 
-export default MyCheckbox
+export default MyUserInput

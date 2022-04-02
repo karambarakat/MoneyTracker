@@ -1,8 +1,10 @@
-import { Input, InputWrapper } from '@mantine/core'
+import { Checkbox as MCheckbox, InputWrapper } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
-import { string } from 'yup'
 
 interface Props {
+  /**
+   * name provided at `initialValues` in Formik provider
+   */
   formikName: string
   placeholder?: string
   label?: string
@@ -10,7 +12,7 @@ interface Props {
   required?: boolean
 }
 
-function MyEmailInput({
+function MyCheckbox({
   formikName,
   required,
   placeholder,
@@ -18,28 +20,20 @@ function MyEmailInput({
   description,
 }: Props) {
   return (
-    <Field
-      validate={(email: any) => {
-        if (email) {
-          if (!string().email().isValidSync(email)) {
-            return 'invalid email'
-          }
-        }
-      }}
-      name={formikName}
-    >
+    <Field name={formikName}>
       {({ field, meta }: FieldProps) => {
         return (
           <InputWrapper
             required={required}
             size='sm'
-            label={label || 'Email'}
+            // label={label || 'User Name'}
             description={description}
             error={meta.touched && meta.error}
           >
-            <Input
+            <MCheckbox
+              label={label}
               size='sm'
-              placeholder={placeholder || 'Enter Your email'}
+              placeholder={placeholder || 'chose you user name'}
               {...field}
             />
           </InputWrapper>
@@ -49,4 +43,4 @@ function MyEmailInput({
   )
 }
 
-export default MyEmailInput
+export default MyCheckbox

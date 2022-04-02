@@ -6,6 +6,9 @@ import { Field, FieldProps } from 'formik'
 import { string } from 'yup'
 
 interface Props {
+  /**
+   * name provided at `initialValues` in Formik provider
+   */
   formikName: string
   placeholder?: string
   label?: string

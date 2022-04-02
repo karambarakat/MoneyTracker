@@ -9,26 +9,20 @@ import {
   ObjectSchema as yupObj,
   string as yupStr,
 } from 'yup'
-import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
+import AlertStatus from '@components/Formik/AlertStatus'
 
 interface Values {
-  userName: string
   email: string
   password: string
-  repeatPassword: string
-  checked: boolean
 }
 
-function RegisterEmail() {
+function LoginEmail() {
   return (
     <Formik
       initialValues={{
-        userName: '',
         email: '',
         password: '',
-        repeatPassword: '',
-        checked: false,
       }}
       onSubmit={(
         values: Values,
@@ -47,36 +41,20 @@ function RegisterEmail() {
         new yupObj({
           email: yupStr().required(),
           password: yupStr().required(),
-          repeatPassword: yupStr().required(),
-          checked: yupBool().isTrue(),
         })
       }
-      validate={(values) => {
-        const errors: any = {}
-        if (values.password !== values.repeatPassword) {
-          errors.repeatPassword = "passwords don't match"
-        }
-        return errors
-      }}
     >
       <Form>
         <Stack>
           <AlertStatus />
-          <MyUserInput formikName='userName' />
           <MyEmailInput required formikName='email' />
           <MyPasswordInput required formikName='password' />
-          <MyPasswordInput required formikName='repeatPassword' />
 
-          <MyCheckbox
-            formikName='checked'
-            label='agree to the terms and conditions'
-          />
-
-          <SubmitButton>Sign Up</SubmitButton>
+          <SubmitButton>Log In</SubmitButton>
         </Stack>
       </Form>
     </Formik>
   )
 }
 
-export default RegisterEmail
+export default LoginEmail

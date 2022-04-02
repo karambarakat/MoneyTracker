@@ -1,4 +1,5 @@
 import NextStage from '@components/CSSTransition/NextStage'
+import LoginEmail from '@components/Forms/LoginEmail'
 import RegisterEmail from '@components/Forms/RegisterEmail'
 import {
   ActionIcon,
@@ -14,6 +15,7 @@ import {
 import { useToggle } from '@mantine/hooks'
 import useInterval from '@myHooks/useInterval'
 import { Dispatch, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import { ArrowBackUp, BrandGoogle, Mail, WifiOff } from 'tabler-icons-react'
 
@@ -35,19 +37,25 @@ const data = [
 
 function Authenticate() {
   const [opened, setOpened] = useState(true)
+  const user = useSelector((s: any) => s.user)
+
+  console.log(user)
 
   const [stage, setStage] = useState<'.' | './email'>('.')
 
   return (
     <>
-      <Modal
-        styles={{ modal: { overflow: 'hidden' } }}
-        withCloseButton={false}
-        centered
-        opened={opened}
-        onClose={() => setOpened(false)}
-      >
-        <Box sx={{ margin: '0 -20px' }}>
+      {!user.provider && (
+        <Modal
+          //@ts-ignore
+          padding={'20px 0'}
+          closeOnClickOutside={false}
+          styles={{ modal: { overflow: 'hidden' } }}
+          withCloseButton={false}
+          centered
+          opened={!user.provider}
+          onClose={() => setOpened(false)}
+        >
           <NextStage nextStage={stage === './email'}>
             <Box style={{ margin: '0 20px' }}>
               <Title order={2} align='center' mb={28}>
@@ -99,12 +107,35 @@ function Authenticate() {
                 </ActionIcon>
                 <Title order={2}>Using Email</Title>
               </Group>
-              <RegisterEmail />
+              <Email />
             </Box>
           </NextStage>
-        </Box>
-      </Modal>
+        </Modal>
+      )}
       <Outlet />
+    </>
+  )
+}
+
+function Email() {
+  const [login, setLogin] = useState(true)
+  return (
+    <>
+      <NextStage gap='20px' nextStage={!login}>
+        <LoginEmail />
+        <RegisterEmail />
+      </NextStage>
+      <Text pt={20} align='center'>
+        {login ? "You don't have an account, " : 'You have an account, '}
+        <Text
+          component='span'
+          color={'blue'}
+          sx={{ cursor: 'pointer' }}
+          onClick={() => setLogin((o) => !o)}
+        >
+          {login ? 'sign up' : 'login'}
+        </Text>
+      </Text>
     </>
   )
 }

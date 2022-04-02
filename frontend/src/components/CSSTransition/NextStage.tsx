@@ -13,6 +13,10 @@ import { CSSTransition, TransitionStatus } from 'react-transition-group'
 import CssVars from '@components/CssVars'
 
 interface Props {
+  /**
+   * css value to separate the two component
+   */
+  gap?: string
   nextStage: boolean
   children: [ReactNode, ReactNode]
   /**
@@ -21,7 +25,12 @@ interface Props {
   duration?: number
 }
 
-function NextStage({ children, nextStage, duration = 750 }: Props) {
+function NextStage({
+  children,
+  nextStage,
+  duration = 750,
+  gap = '0px',
+}: Props) {
   const [height, setHeight] = useState(0)
   const [height2, setHeight2] = useState(0)
   const [internal, setInternal] = useState(nextStage)
@@ -40,6 +49,7 @@ function NextStage({ children, nextStage, duration = 750 }: Props) {
   return (
     <CssVars
       obj={{
+        gap,
         transition: duration + 'ms ease-in-out',
         height: height + 'px',
         height2: height2 + 'px',
