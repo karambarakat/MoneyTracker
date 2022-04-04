@@ -10,6 +10,12 @@ export default function MongooseValidationError(
   next: NextFunction
 ) {
   if (err.name === 'ValidationError') {
+    //@ts-ignore
+    err.errors = Object.keys(err.errors).reduce((acc, key) => {
+      //@ts-ignore
+      acc[key] = err.errors[key].message
+      return acc
+    }, {})
     HttpError(ValidationError(err))
   } else {
     next(err)

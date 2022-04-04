@@ -1,4 +1,6 @@
+import passport from 'passport'
 import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import User from '@models/User'
 import { jwt_payload } from '@interfaces/jwt'
 
@@ -16,3 +18,52 @@ export const useJWT = new jwtStrategy(
     }
   }
 )
+
+export const useGoogle = new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID as string,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND as string,
+  },
+  async function (accessToken, refreshToken, profile, done) {
+    console.log(profile)
+    try {
+      if (!profile.emails?.[0]?.value) throw new Error()
+
+      const existUser = await User.findOne({
+        provider: 'google',
+        providerInfo: { id: profile.id },
+      })
+      if (!existUser) {
+        const newUser = await User.create({
+          userName: profile.displayName,
+          email: profile.emails?.[0]?.value,
+          provider: 'google',
+          providerProfile: { accessToken, refreshToken, ...profile },
+          //td: make better schema
+          password: null,
+        })
+        done(null, newUser)
+      } else {
+        done(null, existUser)
+      }
+    } catch (error) {
+      //@ts-ignore
+      done(error, undefined)
+    }
+  }
+)
+
+passport.serializeUser((user, done) => {
+  console.log(user)
+  //@ts-ignore
+  done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+  async function main() {
+    const user = await User.findById(id)
+    done(null, user)
+  }
+  main().catch((e) => done(e, false))
+})

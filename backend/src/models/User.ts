@@ -33,10 +33,19 @@ const UserSchema = new mongoose.Schema(
         message: 'not a valid email',
       },
       index: true,
+      unique: true,
+    },
+    provider: {
+      type: String,
+      required: true,
+      enum: ['local', 'google'],
+    },
+    googleProfile: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
     },
     password: {
       type: String,
-      required: true,
     },
   },
   {
@@ -44,6 +53,34 @@ const UserSchema = new mongoose.Schema(
   }
 )
 
+/**
+ * validation: require password if the provider is local
+ */
+UserSchema.pre('save', async function (next) {
+  if (this.provider !== 'local') next()
+  else {
+    if (!this.password) {
+      const error = new Error(
+        'user validation failed: password is required field'
+      )
+      error.name = 'ValidationError'
+      // @ts-ignore
+      error.errors = {
+        password: {
+          name: 'validatorError',
+          message: 'password is required field',
+        },
+      }
+      next(error)
+    } else {
+      next()
+    }
+  }
+})
+
+/**
+ * methods attached to any instance of User, used to generate token, match password
+ */
 UserSchema.methods.withToken = function () {
   delete this._doc.password
 
@@ -59,6 +96,9 @@ UserSchema.methods.matchPasswords = function (given: string) {
   return hash === this.password
 }
 
+/**
+ * hashing of the password before saving to the database
+ */
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) next()
   else {

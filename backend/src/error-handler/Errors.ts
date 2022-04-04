@@ -49,3 +49,10 @@ export const ValidationError = (error: any) => ({
     errors: error.errors,
   },
 })
+
+export const BadJsonPayload = {
+  status: 400,
+  name: 'JsonSyntaxError',
+  message: "can't parse the json payload",
+  details: {},
+}
