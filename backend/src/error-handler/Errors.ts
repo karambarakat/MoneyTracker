@@ -56,3 +56,10 @@ export const BadJsonPayload = {
   message: "can't parse the json payload",
   details: {},
 }
+
+export const UnAuthorized = (info: any) => ({
+  status: 401,
+  name: 'UnAuthorized',
+  message: 'authentication failed',
+  details: info,
+})
