@@ -1,6 +1,7 @@
 import NextStage from '@components/CSSTransition/NextStage'
 import LoginEmail from '@components/Forms/LoginEmail'
 import RegisterEmail from '@components/Forms/RegisterEmail'
+import { UserState } from '@interfaces/states'
 import {
   ActionIcon,
   Box,
@@ -12,7 +13,11 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core'
-import { useToggle } from '@mantine/hooks'
+import {
+  useLocalStorage,
+  useLocalStorageValue,
+  useToggle,
+} from '@mantine/hooks'
 import useInterval from '@myHooks/useInterval'
 import { Dispatch, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -37,15 +42,21 @@ const data = [
 
 function Authenticate() {
   const [opened, setOpened] = useState(true)
-  const user = useSelector((s: any) => s.user)
-
-  console.log(user)
+  /**
+   * select the user state from redux,
+   * I can use `useLocalStorage` instead of useSelector because I use `redux-localstorage-simple` middleware in redux
+   * useLocalStorage is better because it will be updated if other tabs changed the state
+   */
+  // const user = useSelector((s: any) => s.user)
+  const [user] = useLocalStorage<UserState | undefined>({
+    key: 'VITE_REDUX__user',
+  })
 
   const [stage, setStage] = useState<'.' | './email'>('.')
 
   return (
     <>
-      {!user.provider && (
+      {!user?.provider && (
         <Modal
           //@ts-ignore
           padding={'20px 0'}
@@ -53,7 +64,7 @@ function Authenticate() {
           styles={{ modal: { overflow: 'hidden' } }}
           withCloseButton={false}
           centered
-          opened={!user.provider}
+          opened={!user?.provider}
           onClose={() => setOpened(false)}
         >
           <NextStage nextStage={stage === './email'}>
@@ -62,7 +73,18 @@ function Authenticate() {
                 Set Up An Account Before Continuing
               </Title>
               <Stack>
-                <Button color='blue' variant='filled' style={{ height: 48 }}>
+                <Button
+                  color='blue'
+                  variant='filled'
+                  style={{ height: 48 }}
+                  onClick={() => {
+                    window.open(
+                      'http://localhost:8811/api/v1/auth/google',
+                      '_blank',
+                      'popup=yes,width=550,height:650'
+                    )
+                  }}
+                >
                   <Group>
                     <BrandGoogle />
                     <Text>Use Google</Text>
@@ -80,6 +102,10 @@ function Authenticate() {
                   </Group>
                 </Button>
                 <Button
+                  onClick={() =>
+                    //todo:
+                    alert('this feature is not available right now')
+                  }
                   color='primaryColor'
                   variant='filled'
                   style={{ height: 48 }}

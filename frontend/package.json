@@ -20,6 +20,7 @@
     "react-router-dom": "^6.2.2",
     "react-transition-group": "^4.4.2",
     "redux": "^4.1.2",
+    "redux-localstorage-simple": "^2.4.1",
     "tabler-icons-react": "^1.43.0",
     "vite-tsconfig-paths": "^3.4.1",
     "yup": "^0.32.11"

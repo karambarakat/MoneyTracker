@@ -11,11 +11,13 @@ import {
 } from 'yup'
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
+import user_login from '@redux/api/user_login'
+import user_signup, { UserSignUpArgs } from '@redux/api/user_signup'
 
-interface Values {
-  userName: string
-  email: string
-  password: string
+interface Values extends UserSignUpArgs {
+  // userName: string // from UserSignUpArgs
+  // email: string // from UserSignUpArgs
+  // password: string // from UserSignUpArgs
   repeatPassword: string
   checked: boolean
 }
@@ -34,13 +36,13 @@ function RegisterEmail() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        async function submit() {
-          const data = await fetch('http://google.com')
-          console.log(data)
-        }
-        submit()
+        user_signup(values)
           .then(() => {})
-          .catch((e) => setStatus({ error: e.message }))
+          .catch((e) => {
+            console.error(e)
+            e.errors && setErrors(e.errors)
+            setStatus({ error: e.message })
+          })
           .finally(() => setSubmitting(false))
       }}
       validationSchema={
@@ -62,6 +64,7 @@ function RegisterEmail() {
       <Form>
         <Stack>
           <AlertStatus />
+
           <MyUserInput formikName='userName' />
           <MyEmailInput required formikName='email' />
           <MyPasswordInput required formikName='password' />

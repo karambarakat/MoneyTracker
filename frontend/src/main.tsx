@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
@@ -8,6 +8,7 @@ import MantineSetUp from '@components/MantineSetUp'
 import Authenticate from '@routes/_Auth'
 import { Provider as Redux } from 'react-redux'
 import { store } from '@redux/index'
+import GoogleCallback from '@components/GoogleCallback'
 
 const Index = lazy(() => import('@routes/index'))
 const About = lazy(() => import('@routes/about'))
@@ -19,13 +20,17 @@ function App() {
       <Redux store={store}>
         <BrowserRouter>
           <Suspense fallback={'loading ...'}>
-            <Routes location={'/about'}>
+            <Routes>
               <Route element={<Authenticate />}>
                 <Route path='/' element={<MainLayout />}>
                   <Route index element={<Index />} />
                   <Route path='about' element={<About />} />
                 </Route>
               </Route>
+              <Route
+                path='/auth/google/callback'
+                element={<GoogleCallback />}
+              />
               <Route path={'*'} element={<E404 />} />
             </Routes>
           </Suspense>

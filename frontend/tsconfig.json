@@ -11,6 +11,7 @@
       "@myHooks/*": ["src/hooks/*"]
     },
     "target": "ESNext",
+    "types": ["vite/client"],
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,

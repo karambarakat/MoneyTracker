@@ -11,13 +11,13 @@ import {
 } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
+import { useDispatch } from 'react-redux'
+import user_login, { UserLoginArgs } from '@redux/api/user_login'
 
-interface Values {
-  email: string
-  password: string
-}
+interface Values extends UserLoginArgs {}
 
 function LoginEmail() {
+  const dispatch = useDispatch()
   return (
     <Formik
       initialValues={{
@@ -28,13 +28,13 @@ function LoginEmail() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        async function submit() {
-          const data = await fetch('http://google.com')
-          console.log(data)
-        }
-        submit()
+        user_login(values)
           .then(() => {})
-          .catch((e) => setStatus({ error: e.message }))
+          .catch((e) => {
+            console.error(e)
+            e.errors && setErrors(e.errors)
+            setStatus({ error: e.message })
+          })
           .finally(() => setSubmitting(false))
       }}
       validationSchema={
@@ -47,6 +47,7 @@ function LoginEmail() {
       <Form>
         <Stack>
           <AlertStatus />
+
           <MyEmailInput required formikName='email' />
           <MyPasswordInput required formikName='password' />
 

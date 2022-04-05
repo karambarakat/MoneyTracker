@@ -1,15 +1,11 @@
-import { FETCH_USER, REGISTER_USER } from '@redux/actions/userTypes'
-
-interface UserState {
-  provider: 'google' | 'email' | 'offline' | undefined
-  profile:
-    | {
-        userName: string
-        email: string
-      }
-    | undefined
-  token: string | undefined
-}
+import { UserState } from '@interfaces/states'
+import {
+  USER_LOGIN,
+  USER_LOGOUT,
+  USER_REGISTER,
+  USER_REPLACE,
+  USER_WITH_GOOGLE,
+} from '@redux/actions/user'
 
 const initialState: UserState = {
   provider: undefined,
@@ -22,18 +18,20 @@ export default function (
   action: any
 ): UserState {
   switch (action.type) {
-    case 'FETCH_USER':
+    case USER_REPLACE:
       return {
-        ...state,
+        provider: action.data.provider,
+        profile: action.data,
+        token: action.data.token,
       }
-    case 'REGISTER_USER':
+    case USER_WITH_GOOGLE:
       return {
-        ...state,
+        provider: 'google',
+        profile: action.profile,
+        token: action.token,
       }
-    case 'LOGOUT':
-      return {
-        ...state,
-      }
+    case USER_LOGOUT:
+      return { provider: undefined, profile: undefined, token: undefined }
     default:
       return state
   }
