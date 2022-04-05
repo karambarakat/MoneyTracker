@@ -8,11 +8,19 @@ export interface UserInterface {
   userName: string
   email: string
   password: string
+  googleProfile: any
   createdAt?: string | Date
   updatedAt?: string | Date
-
   matchPasswords: (password: string) => boolean
-  withToken: () => string
+  withToken: () => {
+    _id: string
+    userName: string
+    email: string
+    googleProfile: any
+    createdAt?: string | Date
+    updatedAt?: string | Date
+    token: string
+  }
 }
 
 const UserSchema = new mongoose.Schema(

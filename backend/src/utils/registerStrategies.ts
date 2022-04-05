@@ -26,7 +26,6 @@ export const useGoogle = new GoogleStrategy(
     callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND as string,
   },
   async function (accessToken, refreshToken, profile, done) {
-    console.log(profile)
     try {
       if (!profile.emails?.[0]?.value) throw new Error()
 
@@ -39,9 +38,7 @@ export const useGoogle = new GoogleStrategy(
           userName: profile.displayName,
           email: profile.emails?.[0]?.value,
           provider: 'google',
-          providerProfile: { accessToken, refreshToken, ...profile },
-          //td: make better schema
-          password: null,
+          googleProfile: { accessToken, refreshToken, ...profile._json },
         })
         done(null, newUser)
       } else {
@@ -55,7 +52,6 @@ export const useGoogle = new GoogleStrategy(
 )
 
 passport.serializeUser((user, done) => {
-  console.log(user)
   //@ts-ignore
   done(null, user.id)
 })
