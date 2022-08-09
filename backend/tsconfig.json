@@ -8,7 +8,8 @@
       "@middlewares/*": ["middlewares/*"],
       "@controllers/*": ["controllers/*"],
       "@models/*": ["models/*"],
-      "@error/*": ["error-handler/*"],
+      "@httpErrors/*": ["httpErrors/*"],
+      "@httpErrors": ["httpErrors/index"],
       "@interfaces/*": ["interfaces/*"],
       "@config/*": ["config/*"]
     },

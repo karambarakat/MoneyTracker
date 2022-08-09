@@ -3,8 +3,9 @@ import {
   EmailOrPasswordIncorrect,
   EmptyBody,
   UserAlreadyExist,
-} from '@error/Errors'
-import HttpError from '@error/HttpError'
+} from '@httpErrors/errTypes'
+import { throwHttpError } from '@httpErrors'
+
 import auth from '@middlewares/auth'
 import User, { UserInterface } from '@models/User'
 
@@ -47,7 +48,7 @@ async function updateCurrentUser(
         newData[key]
     ).length === 0
   )
-    HttpError(EmptyBody)
+    throwHttpError(EmptyBody)
 
   const sameEmail = await User.findOne({ email: newData.email })
   if (
@@ -55,7 +56,7 @@ async function updateCurrentUser(
     sameEmail._id.toString() !== reqUser?._id.toString() &&
     sameEmail.email === newData.email
   ) {
-    HttpError(EmailIsUsed)
+    throwHttpError(EmailIsUsed)
   }
 
   await User.updateOne(reqUser, newData, { runValidators: true })

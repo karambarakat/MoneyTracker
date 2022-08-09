@@ -1,5 +1,6 @@
-import { ResourceWasNotFound } from '@error/Errors'
-import HttpError, { HttpQuickError } from '@error/HttpError'
+import { ResourceWasNotFound } from '@httpErrors/errTypes'
+import { throwHttpError, throwQuickHttpError } from '@httpErrors'
+
 import auth from '@middlewares/auth'
 import Category, { CategoryInterface } from '@models/Category'
 import Log from '@models/Log'
@@ -120,7 +121,7 @@ async function delete_(req: Request, res: Response, next: NextFunction) {
 
   const deleted = await Category.deleteOne({ _id: category._id })
 
-  if (!deleted) HttpQuickError(400, 'failed to delete')
+  if (!deleted) throwQuickHttpError(400, 'failed to delete')
   else res.json({ data: null })
 }
 
@@ -148,7 +149,7 @@ async function findCategory(req: Request, res: Response, next: NextFunction) {
     req.category = foundCategory
     next()
   } else {
-    HttpError(ResourceWasNotFound)
+    throwHttpError(ResourceWasNotFound)
   }
 }
 

@@ -1,5 +1,6 @@
-import { ResourceWasNotFound } from '@error/Errors'
-import HttpError, { HttpQuickError } from '@error/HttpError'
+import { ResourceWasNotFound } from '@httpErrors/errTypes'
+import { throwHttpError, throwQuickHttpError } from '@httpErrors'
+
 import auth from '@middlewares/auth'
 import Log, { LogInterface } from '@models/Log'
 import { UserInterface } from '@models/User'
@@ -97,7 +98,7 @@ async function delete_(req: Request, res: Response, next: NextFunction) {
 
   const deleted = await Log.deleteOne({ _id: log._id })
 
-  if (!deleted) HttpQuickError(400, 'failed to delete')
+  if (!deleted) throwQuickHttpError(400, 'failed to delete')
   else res.json({ data: null })
 }
 
@@ -125,7 +126,7 @@ async function findLog(req: Request, res: Response, next: NextFunction) {
     req.log = foundLog
     next()
   } else {
-    HttpError(ResourceWasNotFound)
+    throwHttpError(ResourceWasNotFound)
   }
 }
 

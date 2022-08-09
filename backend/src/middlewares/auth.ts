@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { Router } from 'express'
-import HttpError from '@error/HttpError'
-import { UnAuthorized } from '@error/Errors'
+import { throwHttpError } from '@httpErrors'
+import { UnAuthorized } from '@httpErrors/errTypes'
 
 const auth = Router()
 
@@ -10,9 +10,9 @@ auth.all('*', function (req, res, next) {
     //auth success
     //invalid token {null, false, JsonWebTokenError}
     if (err) {
-      HttpError(UnAuthorized(info))
+      throwHttpError(UnAuthorized(info))
     } else if (!user) {
-      HttpError(UnAuthorized(info))
+      throwHttpError(UnAuthorized(info))
     } else {
       req.user = user
       return next()

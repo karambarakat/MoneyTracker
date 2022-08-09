@@ -1,5 +1,5 @@
-import { PrivateRoute } from "@error/HttpErrors";
-import { returnHttpError } from "@error/throwHttpError";
+import { PrivateRoute } from '@httpErrors/errTypes'
+import { returnHttpError } from '@httpErrors'
 
 const PrivateRouteError = returnHttpError(PrivateRoute)
 
