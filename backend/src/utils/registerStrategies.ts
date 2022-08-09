@@ -2,7 +2,7 @@ import passport from 'passport'
 import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import User from '@models/User'
-import { jwt_payload } from '@interfaces/jwt'
+import { jwt_payload } from 'types/jwt'
 
 export const useJWT = new jwtStrategy(
   {

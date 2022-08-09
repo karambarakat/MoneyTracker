@@ -1,3 +1,3 @@
 export interface jwt_payload {
-  oid: string
+  sub: string
 }

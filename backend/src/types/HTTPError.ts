@@ -1,4 +1,4 @@
-export interface CustomErrorProps {
+export interface CustomHttpErrorProps {
   status: number
   name: string
   message: string
@@ -6,5 +6,5 @@ export interface CustomErrorProps {
 }
 
 export interface CustomError extends Error {
-  customError: CustomErrorProps
+  __details: CustomHttpErrorProps
 }

@@ -1,18 +1,5 @@
-import { ObjectId } from 'mongodb'
 import mongoose from 'mongoose'
 import Category from './Category'
-
-export interface LogInterface {
-  _id?: string
-  title: string
-  amount: string
-  createdBy?: ObjectId | string
-  category?: object
-  note?: string
-
-  createdAt?: string | Date
-  updatedAt?: string | Date
-}
 
 const LogSchema = new mongoose.Schema(
   {

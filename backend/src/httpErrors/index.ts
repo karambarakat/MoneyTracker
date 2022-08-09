@@ -1,5 +1,5 @@
-import { CustomError } from '@interfaces/HTTPError'
-import { CustomHttpErrorProps } from '@interfaces/HTTPError'
+import { CustomError } from 'types/HTTPError'
+import { CustomHttpErrorProps } from 'types/HTTPError'
 
 import { NextFunction, Request, Response } from 'express'
 

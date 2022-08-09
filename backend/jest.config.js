@@ -20,7 +20,6 @@ module.exports = {
     '@models/(.*)$': ['<rootDir>/src/models/$1'],
     '@httpErrors/(.*)$': ['<rootDir>/src/httpErrors/$1'],
     '@httpErrors': ['<rootDir>/src/httpErrors/index'],
-    '@interfaces/(.*)$': ['<rootDir>/src/interfaces/$1'],
     '@config/(.*)$': ['<rootDir>/src/config/$1'],
   },
 }

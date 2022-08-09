@@ -2,12 +2,19 @@ import { ResourceWasNotFound } from '@httpErrors/errTypes'
 import { throwHttpError, throwQuickHttpError } from '@httpErrors'
 
 import auth from '@middlewares/auth'
-import Log, { LogInterface } from '@models/Log'
-import { UserInterface } from '@models/User'
+import Log from '@models/Log'
+import UserInterface from 'types/models/UserInterface'
+import LogInterface from 'types/models/LogInterface'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
+
+declare global {
+  namespace Express {
+    interface User extends UserInterface {}
+  }
+}
 
 const router = Router()
 

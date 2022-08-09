@@ -2,15 +2,7 @@ This the backend of my [MoneyWalletApp](#). this app is written with TypeScript.
 
 # TypeScript
 
-This project is written by TypeScript
-
-## @types directory
-
-Extends the decelerations of native node_models/@types. check out ./tsconfig.json (compilerOptions.typeRoots)
-
-## src/types directory
-
-All the types used throughout the application.
+This project is written by TypeScript, some ExpressJS properties has been overridden, every http request and response body is guided by TypeScript interfaces, a documentation has been build with the help of TypeScript
 
 # Debugging
 

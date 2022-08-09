@@ -7,7 +7,8 @@ import {
 import { throwHttpError } from '@httpErrors'
 
 import auth from '@middlewares/auth'
-import User, { UserInterface } from '@models/User'
+import User from '@models/User'
+import UserInterface from 'types/models/UserInterface'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'

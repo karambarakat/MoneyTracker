@@ -1,4 +1,4 @@
-import { CustomHttpErrorProps } from '@interfaces/HTTPError'
+import { CustomHttpErrorProps } from 'types/HTTPError'
 import { mongooseValidationError, myValidationError } from 'types/mongoose'
 
 export const EmptyBody: CustomHttpErrorProps = {

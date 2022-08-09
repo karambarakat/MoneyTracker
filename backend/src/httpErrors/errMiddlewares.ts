@@ -5,7 +5,7 @@ import {
   BadJsonPayload,
 } from '@httpErrors/errTypes'
 import { throwHttpError } from '.'
-import { CustomError } from '@interfaces/HTTPError'
+import { CustomError } from 'types/HTTPError'
 import { mongooseValidationError, myValidationError } from 'types/mongoose'
 import prepareValidationError from '@utils/prepareValidationError'
 import { NextFunction, Request, Response } from 'express'

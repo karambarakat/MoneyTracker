@@ -2,9 +2,11 @@ import { ResourceWasNotFound } from '@httpErrors/errTypes'
 import { throwHttpError, throwQuickHttpError } from '@httpErrors'
 
 import auth from '@middlewares/auth'
-import Category, { CategoryInterface } from '@models/Category'
+import Category from '@models/Category'
+import CategoryInterface from 'types/models/CategoryInterface'
+
 import Log from '@models/Log'
-import { UserInterface } from '@models/User'
+import UserInterface from 'types/models/UserInterface'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
