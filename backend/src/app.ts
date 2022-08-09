@@ -1,60 +1,61 @@
-import '@config/env'
+import "@config/env"
 
 // libraries
-import express from 'express'
-import morgan from 'morgan'
-import cors from 'cors'
+import express from "express"
+import morgan from "morgan"
+import cors from "cors"
 
 // controllers
-import authController from '@controllers/authController'
-import profileController from '@controllers/profileController'
-import logController from '@controllers/logController'
-import categoryController from '@controllers/categoryController'
+import authController from "@controllers/authController"
+import profileController from "@controllers/profileController"
+import logController from "@controllers/logController"
+import categoryController from "@controllers/categoryController"
 
-import HTTPErrorHandler from '@error/HTTPErrorHandler'
+import HTTPErrorHandler from "@error/HTTPErrorHandler"
 
 // middlewares
-import apiIsWorking from '@middlewares/apiIsWorking'
-import e404 from '@middlewares/E404'
-import e500 from '@middlewares/e500'
-import e400Mongoose from '@middlewares/e400'
-import handleJsonError from '@middlewares/eJson'
+import apiIsWorking, { serverIsWroking } from "@middlewares/apiIsWorking"
+import e404 from "@middlewares/E404"
+import e500 from "@middlewares/e500"
+import e400Mongoose from "@middlewares/e400"
+import handleJsonError from "@middlewares/eJson"
 
 //passport
-import passport from 'passport'
-import { useGoogle, useJWT } from '@utils/registerStrategies'
+import passport from "passport"
+import { useGoogle, useJWT } from "@utils/registerStrategies"
 
 const app = express()
-const main = express.Router()
 
 passport.use(useJWT)
 passport.use(useGoogle)
 
-main.use(cors({ origin: 'http://localhost:3000' }))
-main.use(express.json())
-main.use(handleJsonError)
-main.use(express.urlencoded({ extended: true }))
-main.use(morgan('dev'))
+app.use(cors({ origin: "http://localhost:3000" }))
+app.use(express.json())
+app.use(handleJsonError)
+app.use(express.urlencoded({ extended: true }))
+app.use(morgan("dev"))
+
+const api = express.Router()
 
 /**
  * Controllers
  */
-main.get('/', apiIsWorking)
-main.use('/v1/auth', authController)
-main.use('/v1/profile', profileController)
-main.use('/v1/log', logController)
-main.use('/v1/category', categoryController)
+api.get("/", apiIsWorking)
+api.use("/v1/auth", authController)
+api.use("/v1/profile", profileController)
+api.use("/v1/log", logController)
+api.use("/v1/category", categoryController)
+
+api.use("*", e404)
+
+app.use("/api", api)
 
 /**
  * Errors/Handlers
  */
-main.use('*', e404)
-main.use(e400Mongoose)
-main.use(HTTPErrorHandler)
-main.use(e500)
-
-export const router = main
-
-app.use('/api', main)
+app.use("*", serverIsWroking)
+app.use(e400Mongoose)
+app.use(HTTPErrorHandler)
+app.use(e500)
 
 export default app

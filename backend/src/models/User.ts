@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
-import crypto from 'crypto'
-import { v4 as uuidv4 } from 'uuid'
-import { generateToken } from '@utils/tokens'
+import mongoose from "mongoose"
+import crypto from "crypto"
+import { v4 as uuidv4 } from "uuid"
+import { generateToken } from "@utils/tokens"
 
 export interface UserInterface {
   _id: string
@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
     userName: {
       type: String,
       default: function () {
-        return 'user-' + uuidv4().split('-')[0]
+        return "user-" + uuidv4().split("-")[0]
       },
     },
     email: {
@@ -38,15 +38,22 @@ const UserSchema = new mongoose.Schema(
         validator: function (email: string): boolean {
           return /^\S+@\S+\.\S+$/.test(email)
         },
-        message: 'not a valid email',
+        message: "not a valid email",
       },
       index: true,
       unique: true,
     },
-    provider: {
-      type: String,
+    providers: {
+      type: Array,
       required: true,
-      enum: ['local', 'google'],
+      validate: {
+        validator: function (providers: string[]): boolean {
+          return !providers.some(
+            (provider) => provider !== "google" && provider !== "local"
+          )
+        },
+        message: "either google or local",
+      },
     },
     googleProfile: {
       type: mongoose.Schema.Types.Mixed,
@@ -54,6 +61,7 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      default: () => "",
     },
   },
   {
@@ -63,27 +71,25 @@ const UserSchema = new mongoose.Schema(
 
 /**
  * validation: require password if the provider is local
+ * @tested : AUTH_EMAIL > "/auth/local/register : no password"
  */
-UserSchema.pre('save', async function (next) {
-  if (this.provider !== 'local') next()
-  else {
+UserSchema.pre("save", async function (next) {
+  if (this.providers.some((provider: string) => provider === "local")) {
     if (!this.password) {
       const error = new Error(
-        'user validation failed: password is required field'
+        "user validation failed: password is required field"
       )
-      error.name = 'ValidationError'
+      error.name = "ValidationError"
       // @ts-ignore
       error.errors = {
         password: {
-          name: 'validatorError',
-          message: 'password is required field',
+          name: "validatorError",
+          message: "password is required field",
         },
       }
       next(error)
-    } else {
-      next()
-    }
-  }
+    } else next()
+  } else next()
 })
 
 /**
@@ -100,31 +106,31 @@ UserSchema.methods.withToken = function () {
 
 UserSchema.methods.matchPasswords = function (given: string) {
   const salt = process.env.SALT as string
-  const hash = crypto.pbkdf2Sync(given, salt, 100, 64, 'sha512').toString('hex')
+  const hash = crypto.pbkdf2Sync(given, salt, 100, 64, "sha512").toString("hex")
   return hash === this.password
 }
 
 /**
  * hashing of the password before saving to the database
  */
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) next()
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) next()
   else {
     const salt = process.env.SALT as string
     this.password = crypto
-      .pbkdf2Sync(this.password, salt, 100, 64, 'sha512')
-      .toString('hex')
+      .pbkdf2Sync(this.password, salt, 100, 64, "sha512")
+      .toString("hex")
   }
 })
 
-UserSchema.pre('updateOne', async function (next) {
+UserSchema.pre("updateOne", async function (next) {
   if (!this._update.password) next()
   else {
     const salt = process.env.SALT as string
     this._update.password = crypto
-      .pbkdf2Sync(this._update.password, salt, 100, 64, 'sha512')
-      .toString('hex')
+      .pbkdf2Sync(this._update.password, salt, 100, 64, "sha512")
+      .toString("hex")
   }
 })
 
-export default mongoose.model('user', UserSchema)
+export default mongoose.model("user", UserSchema)
