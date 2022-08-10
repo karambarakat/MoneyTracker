@@ -2,8 +2,9 @@ import mongoose from 'mongoose'
 import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 import { generateToken } from '@utils/tokens'
+import IUser from 'types/models/UserModel'
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema<IUser>(
   {
     userName: {
       type: String,
@@ -23,6 +24,7 @@ const UserSchema = new mongoose.Schema(
       index: true,
       unique: true,
     },
+    // @ts-ignore
     providers: {
       type: Array,
       required: true,
@@ -35,13 +37,14 @@ const UserSchema = new mongoose.Schema(
         message: 'either google or local',
       },
     },
-    googleProfile: {
+    googleInfo: {
       type: mongoose.Schema.Types.Mixed,
-      default: {},
     },
     password: {
       type: String,
-      default: () => '',
+    },
+    picture: {
+      type: String,
     },
   },
   {

@@ -3,10 +3,10 @@ import { throwHttpError, throwQuickHttpError } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import Category from '@models/Category'
-import CategoryInterface from 'types/models/CategoryInterface'
+import CategoryInterface from 'types/models/CategoryModel'
 
 import Log from '@models/Log'
-import UserInterface from 'types/models/UserInterface'
+import UserInterface from 'types/models/UserModel'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'

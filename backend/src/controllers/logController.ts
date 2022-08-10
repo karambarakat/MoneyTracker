@@ -3,8 +3,8 @@ import { throwHttpError, throwQuickHttpError } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import Log from '@models/Log'
-import UserInterface from 'types/models/UserInterface'
-import LogInterface from 'types/models/LogInterface'
+import UserInterface from 'types/models/UserModel'
+import LogInterface from 'types/models/LogModel'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'

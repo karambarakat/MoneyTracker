@@ -2,6 +2,7 @@ import { CustomError } from 'types/HTTPError'
 import { CustomHttpErrorProps } from 'types/HTTPError'
 
 import { NextFunction, Request, Response } from 'express'
+import { FieldsRequired } from './errTypes'
 
 export function HTTPErrorHandler(
   err: CustomError,
@@ -9,7 +10,6 @@ export function HTTPErrorHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.log(err)
   if (!err.__details) next(err)
   else {
     // if (process.env.NODE_ENV !== 'test') console.error(err)
@@ -24,6 +24,14 @@ export function HTTPErrorHandler(
         },
       },
     })
+  }
+}
+
+export function requiredFields(object: { [key: string]: any }) {
+  if (Object.values(object).some((e) => !e)) {
+    throwHttpError(
+      FieldsRequired(Object.keys(object).filter((key) => !object[key]))
+    )
   }
 }
 

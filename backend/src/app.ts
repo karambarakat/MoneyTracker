@@ -6,7 +6,8 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 // controllers
-import authController from '@controllers/authController'
+import localAuthController from '@controllers/auth.email.controller'
+import googleAuthController from '@controllers/auth.google.controller'
 import profileController from '@controllers/profileController'
 import logController from '@controllers/logController'
 import categoryController from '@controllers/categoryController'
@@ -22,10 +23,13 @@ import {
 
 //passport
 import passport from 'passport'
-import { useGoogle, useJWT } from '@utils/registerStrategies'
+import { useJWT } from '@passport/local'
+import { useGoogle } from '@passport/google'
+import PassportSerialization from '@passport/serialize'
 
 const app = express()
 
+PassportSerialization()
 passport.use(useJWT)
 passport.use(useGoogle)
 
@@ -35,14 +39,14 @@ app.use(e400_json)
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-const api = express.Router()
-
 /**
  * Controllers
  */
+const api = express.Router()
 api.get('/', apiIsWorking)
-api.use('/v1/auth', authController)
-api.use('/v1/profile', profileController)
+api.use('/v1/auth/local', localAuthController)
+api.use('/v1/auth/google', googleAuthController)
+// api.use('/v1/profile', profileController)
 api.use('/v1/log', logController)
 api.use('/v1/category', categoryController)
 
@@ -53,7 +57,6 @@ app.use('/api', api)
 /**
  * Errors/Handlers
  */
-app.use('*', serverIsWroking)
 app.use(e400_mongoose)
 app.use(HTTPErrorHandler)
 app.use(e500)

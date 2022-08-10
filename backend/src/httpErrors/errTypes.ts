@@ -8,6 +8,23 @@ export const EmptyBody: CustomHttpErrorProps = {
   details: {},
 }
 
+export const FieldsRequired: (keys: string[]) => CustomHttpErrorProps = (
+  keys: string[]
+) => ({
+  status: 400,
+  name: 'SomeFieldsRequired',
+  message: `these fields are required: ${keys.join(', ')}`,
+  details: {
+    errors: keys.reduce(
+      (accumulative: { [key: string]: string }, currentKey: string) => {
+        accumulative[currentKey] = `\`${currentKey}\` is required`
+        return accumulative
+      },
+      {}
+    ),
+  },
+})
+
 export const EmailOrPasswordIncorrect: CustomHttpErrorProps = {
   status: 401,
   name: 'EmailOrPasswordIncorrect',

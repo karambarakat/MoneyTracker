@@ -1,11 +1,12 @@
 import { ObjectId } from 'mongodb'
 
-export default interface CategoryInterface {
+export default interface ILogModel {
   _id?: string
   title: string
-  color: string
-  icon: string
+  amount: string
   createdBy?: ObjectId | string
+  category?: object
+  note?: string
 
   createdAt?: string | Date
   updatedAt?: string | Date
