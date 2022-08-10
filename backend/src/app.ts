@@ -1,4 +1,5 @@
 import '@config/env'
+import { Document } from 'mongoose'
 
 // libraries
 import express from 'express'
@@ -26,6 +27,13 @@ import passport from 'passport'
 import { useJWT } from '@passport/local'
 import { useGoogle } from '@passport/google'
 import PassportSerialization from '@passport/serialize'
+import IUser from 'types/models/UserModel'
+
+declare global {
+  namespace Express {
+    interface User extends Document<unknown, any, IUser> {}
+  }
+}
 
 const app = express()
 
@@ -46,7 +54,7 @@ const api = express.Router()
 api.get('/', apiIsWorking)
 api.use('/v1/auth/local', localAuthController)
 api.use('/v1/auth/google', googleAuthController)
-// api.use('/v1/profile', profileController)
+api.use('/v1/profile', profileController)
 api.use('/v1/log', logController)
 api.use('/v1/category', categoryController)
 

@@ -43,7 +43,7 @@ export function throwHttpError(error: CustomHttpErrorProps): void {
   throw CustomError
 }
 
-export function returnHttpError(error: CustomHttpErrorProps): Error {
+export function httpError(error: CustomHttpErrorProps): Error {
   const CustomError = new Error(error.message)
   //@ts-ignore
   CustomError.__details = error

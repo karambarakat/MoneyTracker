@@ -45,6 +45,7 @@ const useGoogle = new GoogleStrategy(
         userName: profile.displayName,
         email,
         providers: ['google'],
+        picture: profile._json.picture,
         googleInfo: {
           accessToken,
           refreshToken,

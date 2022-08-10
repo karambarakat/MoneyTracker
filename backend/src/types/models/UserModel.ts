@@ -13,6 +13,7 @@ export default interface IUser {
   userName: string
   email: string
   password: string
+  picture: string | undefined
   googleInfo: undefined | IUser_google
   createdAt: string | Date
   updatedAt: string | Date

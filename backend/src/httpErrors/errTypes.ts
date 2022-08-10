@@ -32,6 +32,13 @@ export const EmailOrPasswordIncorrect: CustomHttpErrorProps = {
   details: {},
 }
 
+export const PasswordIncorrect: CustomHttpErrorProps = {
+  status: 401,
+  name: 'PasswordIncorrect',
+  message: "the password doesn't match our records",
+  details: {},
+}
+
 export const UserAlreadyExist: CustomHttpErrorProps = {
   status: 400,
   name: 'UserAlreadyExist',
@@ -118,7 +125,7 @@ export const PassportNoUser: CustomHttpErrorProps = {
 export const PrivateRoute: CustomHttpErrorProps = {
   status: 500,
   name: 'ServerError',
-  message: 'authentication error',
+  message: 'authentication error, private route',
   details: {},
 }
 

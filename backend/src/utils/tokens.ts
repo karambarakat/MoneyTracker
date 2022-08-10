@@ -6,8 +6,8 @@ export function generateTokenToBody(body: any): string {
   })
 }
 
-export function generateToken(id: string): string {
-  return jwt.sign({ sub: id }, process.env.JWT_SECRET as string, {
+export function generateToken(id: string, email: string): string {
+  return jwt.sign({ _id: id, email }, process.env.JWT_SECRET as string, {
     expiresIn: '2d',
   })
 }

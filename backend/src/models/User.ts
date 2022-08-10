@@ -83,7 +83,7 @@ UserSchema.methods.withToken = function () {
 
   return {
     ...this._doc,
-    token: generateToken(this._id),
+    token: generateToken(this._id, this.email),
   }
 }
 

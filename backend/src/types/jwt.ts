@@ -1,3 +1,4 @@
 export interface jwt_payload {
-  sub: string
+  _id: string
+  email: string
 }

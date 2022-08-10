@@ -8,7 +8,7 @@ const useJWT = new jwtStrategy(
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   },
   function (payload: jwt_payload, done) {
-    User.findById(payload.sub)
+    User.findById(payload._id)
       .then((user) => done(null, user || false))
       .catch((error) => done(error, false))
   }
