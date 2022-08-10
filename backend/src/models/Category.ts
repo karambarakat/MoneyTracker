@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+import ICategory from 'types/models/CategoryModel'
 
-const CategorySchema = new mongoose.Schema({
+const CategorySchema = new mongoose.Schema<ICategory>({
   title: {
     type: String,
     required: true,
@@ -17,5 +18,9 @@ const CategorySchema = new mongoose.Schema({
   icon: { type: String },
   createdBy: { type: mongoose.Types.ObjectId },
 })
+
+CategorySchema.methods.doc = function () {
+  return this._doc
+}
 
 export default mongoose.model('category', CategorySchema)

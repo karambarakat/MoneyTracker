@@ -84,7 +84,7 @@ LogSchema.pre('findOneAndUpdate', async function (next) {
  * auto populate
  */
 LogSchema.post('save', async function (doc, next) {
-  await doc.populate('category', '-logs -createdBy')
+  await doc.populate('category', '-logs -createdBy -__v')
   next()
 })
 
@@ -93,7 +93,7 @@ LogSchema.post('find', async function (docs, next) {
 
   for (let doc of docs) {
     if (doc.category) {
-      await doc.populate('category', '-logs -createdBy')
+      await doc.populate('category', '-logs -createdBy -__v')
     } else {
       doc.category = undefined
     }
@@ -105,7 +105,7 @@ LogSchema.post('findOne', async function (doc, next) {
   if (!doc) next()
 
   if (doc.category) {
-    await doc.populate('category', '-logs -createdBy')
+    await doc.populate('category', '-logs -createdBy -__v')
   } else {
     doc.category = undefined
   }

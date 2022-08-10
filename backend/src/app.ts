@@ -29,12 +29,14 @@ import { useGoogle } from '@passport/google'
 import PassportSerialization from '@passport/serialize'
 import IUser, { UserMongoose } from 'types/models/UserModel'
 import ILog, { LogMongoose } from 'types/models/LogModel'
+import { CategoryMongoose } from 'types/models/CategoryModel'
 
 declare global {
   namespace Express {
     interface User extends UserMongoose {}
     interface Request {
       log?: LogMongoose
+      category?: CategoryMongoose
     }
   }
 }

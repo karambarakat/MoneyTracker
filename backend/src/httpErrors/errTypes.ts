@@ -135,6 +135,13 @@ export const NoLog: CustomHttpErrorProps = {
   message: "log wasn't found",
   details: {},
 }
+
+export const NoCategory: CustomHttpErrorProps = {
+  status: 500,
+  name: 'ServerError',
+  message: "category wasn't found",
+  details: {},
+}
 export const FailedToDelete: CustomHttpErrorProps = {
   status: 500,
   name: 'ServerError',

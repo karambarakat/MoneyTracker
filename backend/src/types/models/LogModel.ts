@@ -10,7 +10,7 @@ export default interface ILog {
   category?: string | null
   note?: string
 
-  doc: () => {}
+  doc: () => LogDoc
 
   createdAt: string | Date
   updatedAt: string | Date
@@ -22,12 +22,18 @@ export type LogMongoose = ILog &
   }
 
 export interface LogDoc {
+  _id: string
+
   title: string
   amount: number
   createdBy: string
-  category?: {}
+  category?: {
+    _id: string
+    title: string
+    color: string
+  }
   note?: string
-  _id: string
+
   createdAt: string
   updateAt: string
   __v: number
