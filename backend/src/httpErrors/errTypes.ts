@@ -129,6 +129,19 @@ export const PrivateRoute: CustomHttpErrorProps = {
   details: {},
 }
 
+export const NoLog: CustomHttpErrorProps = {
+  status: 500,
+  name: 'ServerError',
+  message: "log wasn't found",
+  details: {},
+}
+export const FailedToDelete: CustomHttpErrorProps = {
+  status: 500,
+  name: 'ServerError',
+  message: 'failed to delete',
+  details: {},
+}
+
 export const UnAuthorized = (info: any) => ({
   status: 401,
   name: 'UnAuthorized',

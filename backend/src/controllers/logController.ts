@@ -1,5 +1,15 @@
-import { ResourceWasNotFound } from '@httpErrors/errTypes'
-import { throwHttpError, throwQuickHttpError } from '@httpErrors'
+import {
+  FailedToDelete,
+  NoLog,
+  PrivateRoute,
+  ResourceWasNotFound,
+} from '@httpErrors/errTypes'
+import {
+  httpError,
+  requiredFields,
+  throwHttpError,
+  throwQuickHttpError,
+} from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import Log from '@models/Log'
@@ -9,132 +19,126 @@ import LogInterface from 'types/models/LogModel'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
-
-declare global {
-  namespace Express {
-    interface User extends UserInterface {}
-  }
-}
+import { log_create, log_update } from 'types/routes/log'
 
 const router = Router()
 
 /**
- *   @desc    get all logs
- *   @route   GET /api/v__/log
- *   @access  Private
+ *   @desc      get all logs
+ *   @route     GET /api/v__/log
+ *   @response  LogDoc[]
+ *   @access    Private
  */
 async function find(req: Request, res: Response, next: NextFunction) {
-  const reqUser = req.user as UserInterface
+  if (!req.user) throw httpError(PrivateRoute)
 
-  const logs = await Log.find({ createdBy: new ObjectId(reqUser._id) })
+  const logs = await Log.find({ createdBy: new ObjectId(req.user._id) })
 
-  res.json({ data: logs })
+  res.json({ data: logs.map((e) => e.doc()) })
 }
 
 /**
- *   @desc    add one log
- *   @route   POST /api/v__/log
- *   @access  Private
+ *   @desc      add one log
+ *   @route     POST /api/v__/log
+ *   @body      log_create
+ *   @response  LogDoc
+ *   @access    Private
  */
 async function create(req: Request, res: Response, next: NextFunction) {
-  const reqUser = req.user as UserInterface
+  if (!req.user) throw httpError(PrivateRoute)
+  req.user._id
 
-  const newData: LogInterface = {
-    title: req.body.title,
-    amount: req.body.amount,
-    category: req.body.category,
-    note: req.body.note,
-    createdBy: reqUser._id,
-  }
+  const { title, amount, category, note } = req.body as log_create
 
-  const log = await Log.create(newData)
+  requiredFields({ title, amount })
 
-  res.status(201).json({ data: log })
-}
-
-/**
- *   @desc    get log by its id
- *   @route   GET /api/v__/log/:id
- *   @access  Private, ifLogExists
- */
-async function findOne(req: Request, res: Response, next: NextFunction) {
-  res.json({
-    data:
-      // @ts-ignore
-      req.log,
+  const log = await Log.create({
+    title,
+    amount,
+    category,
+    note,
+    createdBy: req.user._id,
   })
+  res.status(201).json({ data: log.doc() })
 }
-
-/**
- *   @desc    update log by its id
- *   @route   PUT /api/v__/log/:id
- *   @access  Private, ifLogExists
- */
-async function update(req: Request, res: Response, next: NextFunction) {
-  // @ts-ignore
-  const log = req.log
-
-  const newData: LogInterface = {
-    title: req.body.title,
-    amount: req.body.amount,
-    category: req.body.category,
-    note: req.body.note,
-  }
-
-  await Log.findOneAndUpdate(
-    { createdBy: new ObjectId(log.createdBy), _id: new ObjectId(log._id) },
-    newData,
-    { runValidators: true }
-  )
-
-  const updatedLog = await Log.findOne({
-    createdBy: new ObjectId(log.createdBy),
-    _id: new ObjectId(log._id),
-  })
-
-  res.json({ data: updatedLog })
-}
-/**
- *   @desc    delete log by its id
- *   @route   DELETE /api/v__/log/:id
- *   @access  Private, ifLogExists
- */
-async function delete_(req: Request, res: Response, next: NextFunction) {
-  // @ts-ignore
-  const log = req.log
-
-  const deleted = await Log.deleteOne({ _id: log._id })
-
-  if (!deleted) throwQuickHttpError(400, 'failed to delete')
-  else res.json({ data: null })
-}
-
-router.route('/').get(auth, _(find)).post(auth, _(create))
-router
-  .route('/:id')
-  .get(auth, _(findLog), _(findOne))
-  .put(auth, _(findLog), _(update))
-  .delete(auth, _(findLog), _(delete_))
 
 /**
  * helper functions
  */
 async function findLog(req: Request, res: Response, next: NextFunction) {
-  const logId = req.params.id
-  const reqUser = req.user as UserInterface
+  if (!req.user) throw httpError(PrivateRoute)
 
   const foundLog = await Log.findOne({
-    createdBy: new ObjectId(reqUser._id),
-    _id: new ObjectId(logId),
+    createdBy: new ObjectId(req.user._id),
+    _id: new ObjectId(req.params.id),
   })
 
   if (foundLog) {
-    // @ts-ignore
     req.log = foundLog
     next()
   } else {
     throwHttpError(ResourceWasNotFound)
   }
 }
+
+/**
+ *   @desc      get log by its id
+ *   @route     GET /api/v__/log/:id
+ *   @param     id of the log
+ *   @response  LogDoc
+ *   @access    Private, ifLogExists
+ */
+async function findOne(req: Request, res: Response, next: NextFunction) {
+  if (!req.log) throw httpError(NoLog)
+
+  res.json({
+    data: req.log.doc(),
+  })
+}
+
+/**
+ *   @desc      update log by its id
+ *   @route     PUT /api/v__/log/:id
+ *   @param     id of the log
+ *   @body      log_update
+ *   @response  LogDoc
+ *   @access    Private, ifLogExists
+ */
+async function update(req: Request, res: Response, next: NextFunction) {
+  if (!req.log) throw httpError(NoLog)
+
+  const { title, amount, category, note } = req.body as log_update
+
+  req.log.title = title || req.log.title
+  req.log.amount = amount || req.log.amount
+  req.log.category = category || req.log.category
+  req.log.note = note || req.log.note
+
+  await req.log.save()
+
+  res.json({ data: req.log.doc() })
+}
+
+/**
+ *   @desc      delete log by its id
+ *   @route     DELETE /api/v__/log/:id
+ *   @param     id of the log
+ *   @response  null
+ *   @access    Private, ifLogExists
+ */
+async function delete_(req: Request, res: Response, next: NextFunction) {
+  if (!req.log) throw httpError(NoLog)
+
+  const deleted = await Log.deleteOne({ _id: req.log._id })
+
+  if (!deleted) throw httpError(FailedToDelete)
+  else res.json({ data: null })
+}
+
+router.route('/').get(auth, _(find))
+router.route('/').post(auth, _(create))
+router.route('/:id').get(auth, _(findLog), _(findOne))
+router.route('/:id').put(auth, _(findLog), _(update))
+router.route('/:id').delete(auth, _(findLog), _(delete_))
 
 export default router

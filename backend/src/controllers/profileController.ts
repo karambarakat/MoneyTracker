@@ -60,7 +60,7 @@ async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
  *   @desc      get current registered user by their JWT
  *   @route     PUT /api/v__/profile
  *   @body      profile_update
- *   @response  IProfile
+ *   @response  ProfileDoc
  *   @access    Private
  */
 async function updateCurrentUser(
@@ -84,7 +84,7 @@ async function updateCurrentUser(
  *   @desc    receive old and new password and change the password in the database
  *   @route   POST /api/v__/auth/local/change_password
  *   @body      updatePassword_local or updatePassword_nolocal
- *   @response  IProfile
+ *   @response  ProfileDoc
  *   @access  Private
  */
 async function updatePassword(req: Request, res: Response, next: NextFunction) {

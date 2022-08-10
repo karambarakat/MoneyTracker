@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
+import ILog from 'types/models/LogModel'
 import Category from './Category'
 
-const LogSchema = new mongoose.Schema(
+const LogSchema = new mongoose.Schema<ILog>(
   {
     title: {
       type: String,
@@ -49,6 +50,7 @@ LogSchema.pre('save', async function (next) {
     next()
   }
 })
+
 LogSchema.pre('findOneAndUpdate', async function (next) {
   // @ts-ignore
   const toUpdateTo = this._update.category
@@ -93,7 +95,7 @@ LogSchema.post('find', async function (docs, next) {
     if (doc.category) {
       await doc.populate('category', '-logs -createdBy')
     } else {
-      doc.category = null
+      doc.category = undefined
     }
   }
 
@@ -105,10 +107,14 @@ LogSchema.post('findOne', async function (doc, next) {
   if (doc.category) {
     await doc.populate('category', '-logs -createdBy')
   } else {
-    doc.category = null
+    doc.category = undefined
   }
 
   next()
 })
+
+LogSchema.methods.doc = function () {
+  return this._doc
+}
 
 export default mongoose.model('log', LogSchema)

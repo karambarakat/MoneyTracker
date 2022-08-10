@@ -13,7 +13,7 @@ const local = Router()
  *   @desc      Register a new user
  *   @route     POST /api/v__/auth/local/register
  *   @body      auth_local_register
- *   @response  IProfile
+ *   @response  ProfileDoc
  *   @access    Public
  */
 async function local_register(req: Request, res: Response, next: NextFunction) {
@@ -38,7 +38,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
  *   @desc      Login existing user using email and password
  *   @route     POST /api/v__/auth/local/login
  *   @body      auth_local_login
- *   @response  IProfile
+ *   @response  ProfileDoc
  *   @access    Public
  */
 async function local_login(req: Request, res: Response, next: NextFunction) {

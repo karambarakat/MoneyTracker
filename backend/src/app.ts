@@ -27,15 +27,26 @@ import passport from 'passport'
 import { useJWT } from '@passport/local'
 import { useGoogle } from '@passport/google'
 import PassportSerialization from '@passport/serialize'
-import IUser from 'types/models/UserModel'
+import IUser, { UserMongoose } from 'types/models/UserModel'
+import ILog, { LogMongoose } from 'types/models/LogModel'
 
 declare global {
   namespace Express {
-    interface User extends Document<unknown, any, IUser> {}
+    interface User extends UserMongoose {}
+    interface Request {
+      log?: LogMongoose
+    }
   }
 }
 
 const app = express()
+
+app.set('json replacer', function (key: string, value: null) {
+  if (typeof value === 'undefined') {
+    return null
+  }
+  return value
+})
 
 PassportSerialization()
 passport.use(useJWT)

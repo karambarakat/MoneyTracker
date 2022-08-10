@@ -1,5 +1,5 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "entryPoints" : ["./src/app.ts", "src/controllers/authController.ts"],
+    "entryPoints" : ["./src/app.ts"],
     "theme": "default"
 }
