@@ -1,6 +1,7 @@
-import { USER_REGISTER } from '@redux/actions/user'
+import { USER_LOGIN } from '@redux/actions/user'
+import { UserActionTypes } from '@redux/types'
 import { Dispatch } from 'redux'
-import throwHttpError from 'src/utils/throwHttpError'
+import HttpError from 'src/utils/HttpError'
 import { loadEnv } from 'vite'
 import { store } from '..'
 
@@ -22,10 +23,10 @@ export default async function user_signup(values: UserSignUpArgs) {
 
   const { error, data } = await res.json()
 
-  error && throwHttpError(error)
+  if (error) throw HttpError(error)
 
-  store.dispatch({
-    type: USER_REGISTER,
-    data,
+  store.dispatch<UserActionTypes>({
+    type: USER_LOGIN,
+    profile: data,
   })
 }

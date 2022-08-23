@@ -11,11 +11,10 @@ $transition: var(--transition, 700ms ease-in-out);
   the `root` mixin is the animation is made up of these classes
     1. .anim_xxxxxx-PHASE: given by CSSTransitionGroup where PHASE is `enter`, `enter-done` etc
     2. .root_xxxxxx: assigned to the root element
-    3. .withHeight: to count for strange bug that calculate both height of the children to zero
 */
 @mixin root($phase) {
   .anim:global(-#{$phase}) {
-    &.root:global(.withHeight) {
+    &.root {
       @content;
     }
   }
@@ -62,25 +61,17 @@ $transition: var(--transition, 700ms ease-in-out);
   </CSSTransition>
   the used classes are
     1. .root_xxxxxx: assigned to the root element
-    2. .lvl1, .lvl2: used when CSSTransition has not provided any classes (at the very beginning)
-    3. .lvl1: when nextStage=false
-    4. .lvl2: when nextStage=true
-    5. .noHeight: to count for strange bug that calculate both height of the children to zero
 */
 .root > * {
-  position: absolute;
   top: 0;
   width: 100%;
 }
-.root:global(.lvl2) > :first-child {
-  transform: translateX(-100%);
+.root > :first-child {
+  position: relative;
 }
-.root:global(.lvl1) > :last-child {
+.root > :last-child {
+  position: absolute;
   transform: translateX(100%);
-}
-.root:global(.lvl1.noHeight) > :first-child,
-.root:global(.lvl2.noHeight) > :last-child {
-  position: initial;
 }
 
 /*
@@ -116,6 +107,7 @@ $transition: var(--transition, 700ms ease-in-out);
 
 @include first(enter-done) {
   transform: translateX(-100%);
+  position: absolute;
 }
 
 @include first(exit) {

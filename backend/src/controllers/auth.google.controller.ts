@@ -11,9 +11,9 @@ const google = Router()
  *      4. google will 302 you to `process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND`
  *      5. receive GET http://localhost:8811/api/v__/auth/google/callback
  *          5.1. `receiveCallback` grap user info from 'googleapis.com'
- *              5.1.1. call the verifyCallback
+ *              5.1.1. call the verifyCallback (the logic is in the passport strategy)
  *          5.2. `redirectCallback`
- *          5.3. `googleErrorHandler`
+ *          5.3. if any error `googleErrorHandler`
  */
 
 /**
@@ -57,18 +57,27 @@ callbackRouter.use(
 )
 
 // step 2
+/**
+let queryString = {
+  "_id": "62f441f966b72b4ee6cdea28",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmYzODNiMTM2ZGY1NmMyODc4ODFmZWEiLCJlbWFpbCI6ImthcmFtLmJhcmFrYXQuOTlAZ21haWwuY29tIiwiaWF0IjoxNjYwMTI3MzU0LCJleHAiOjE2NjAzMDAxNTR9.BYGDcGlU6sUmK8ibZd8lImJdbCcOzZbSGxwA1ZrQKcA",
+  "userName": "Karam Barakat"
+}
+*/
 callbackRouter.use('/', (req: Request, res: Response) => {
   const profile = req.user?.withToken()
 
+  if (!profile) throw Error()
+
   const url = process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND as string
-  const toQuery =
-    '?user=' +
-    JSON.stringify({
-      _id: profile?._id,
-      token: profile?.token,
-      userName: profile?.userName,
-    })
-  res.redirect(url + toQuery)
+
+  const toQuery = new URLSearchParams({
+    _id: profile._id,
+    token: profile.token,
+    userName: profile.userName,
+  }).toString()
+
+  res.redirect(url + '?' + toQuery)
 })
 
 // step 3

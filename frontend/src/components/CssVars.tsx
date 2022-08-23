@@ -6,15 +6,10 @@ interface Props {
 }
 
 function CssVars({ obj, children }: Props) {
-  const styles = Object.keys(obj)
-    .map((key) => ({
-      key: '--' + key,
-      val: obj[key],
-    }))
-    .reduce((acc: any, obj) => {
-      acc[obj.key] = obj.val
-      return acc
-    }, {})
+  const styles = Object.keys(obj).reduce((acc: any, key) => {
+    acc['--' + key] = obj[key]
+    return acc
+  }, {})
 
   return <div style={styles}>{children}</div>
 }

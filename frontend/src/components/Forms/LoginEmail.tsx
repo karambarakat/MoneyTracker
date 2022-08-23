@@ -1,14 +1,8 @@
 import MyEmailInput from '@components/Formik/IEmail'
 import MyPasswordInput from '@components/Formik/IPassword'
-import MyUserInput from '@components/Formik/IUser'
-import MyCheckbox from '@components/Formik/ICheckbox'
-import { Accordion, Alert, Button, Input, Space, Stack } from '@mantine/core'
-import { Field, Form, Formik, FormikHelpers } from 'formik'
-import {
-  boolean as yupBool,
-  ObjectSchema as yupObj,
-  string as yupStr,
-} from 'yup'
+import { Stack } from '@mantine/core'
+import { Form, Formik, FormikHelpers } from 'formik'
+import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import { useDispatch } from 'react-redux'
@@ -48,8 +42,8 @@ function LoginEmail() {
         <Stack>
           <AlertStatus />
 
-          <MyEmailInput required formikName='email' />
-          <MyPasswordInput required formikName='password' />
+          <MyEmailInput required formikName="email" />
+          <MyPasswordInput required formikName="password" />
 
           <SubmitButton>Log In</SubmitButton>
         </Stack>

@@ -1,9 +1,9 @@
-import { MetaState, UserState } from "@interfaces/states";
-import { META_SET_TITLE } from "@redux/actions/meta";
+import { MetaState, UserState } from '@redux/types'
+import { META_SET_TITLE } from '@redux/actions/meta'
 
 const initialState: MetaState = {
-  title: "Home",
-};
+  title: 'Home',
+}
 
 export default function (
   state: MetaState = initialState,
@@ -14,8 +14,8 @@ export default function (
       return {
         ...state,
         title: action.title,
-      };
+      }
     default:
-      return state;
+      return state
   }
 }

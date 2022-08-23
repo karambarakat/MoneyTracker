@@ -5,9 +5,9 @@ interface Error {
   details: { errors?: { [key: string]: string } }
 }
 
-export default function throwHttpError(data: Error) {
+export default function HttpError(data: any) {
   const e = new Error(data.message as string)
   //@ts-ignore
   e.errors = data.details?.errors
-  throw e
+  return e
 }

@@ -1,7 +1,7 @@
 import { UnstyledButton } from '@mantine/core'
 import { PropsWithChildren } from 'react'
 
-function MyButton({ children }: PropsWithChildren<any>) {
+function MyButton({ children, ...props }: PropsWithChildren<any>) {
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -19,6 +19,7 @@ function MyButton({ children }: PropsWithChildren<any>) {
               : theme.colors.gray[1],
         },
       })}
+      {...props}
     >
       {children}
     </UnstyledButton>

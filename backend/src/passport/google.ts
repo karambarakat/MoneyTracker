@@ -53,6 +53,7 @@ const useGoogle = new GoogleStrategy(
         },
       })
       done(null, newUser)
+      return
     }
 
     if (existUser && !existUser.providers.includes('google')) {
@@ -65,10 +66,12 @@ const useGoogle = new GoogleStrategy(
       await existUser.save()
 
       done(null, existUser)
+      return
     }
 
     if (existUser && existUser.providers.includes('google')) {
       done(null, existUser)
+      return
     }
   }
 )

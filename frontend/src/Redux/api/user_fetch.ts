@@ -1,19 +1,9 @@
-import { USER_LOGIN, USER_REPLACE, USER_UPDATE } from '@redux/actions/user'
-import { Dispatch } from 'redux'
-import throwHttpError from 'src/utils/throwHttpError'
-import { loadEnv } from 'vite'
+import { ProfileDoc, RestAPI, UserActionTypes } from '@redux/types'
+import { USER_LOGIN } from '@redux/actions/user'
+import HttpError from 'src/utils/HttpError'
 import { store } from '../index'
 
-export type UserUpdateArgs = {
-  userName: string | undefined
-  email: string | undefined
-  password: string | undefined
-}
-
-export default async function user_fetch(
-  values: UserUpdateArgs,
-  token: string
-) {
+export default async function user_fetch(token: string) {
   const res = await fetch(import.meta.env.VITE_BACKEND_API + '/profile', {
     method: 'GET',
     headers: {
@@ -21,12 +11,12 @@ export default async function user_fetch(
       Authorization: 'Bearer ' + token,
     },
   })
-  const { data, error } = await res.json()
+  const { data, error } = (await res.json()) as RestAPI<ProfileDoc>
 
-  error && throwHttpError(error)
+  if (error) throw HttpError(error)
 
-  store.dispatch({
-    type: USER_REPLACE,
-    data,
+  store.dispatch<UserActionTypes>({
+    type: USER_LOGIN,
+    profile: data,
   })
 }

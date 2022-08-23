@@ -5,7 +5,9 @@ import {
   CSSProperties,
   ReactNode,
   RefObject,
+  useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -31,19 +33,49 @@ function NextStage({
   duration = 750,
   gap = '0px',
 }: Props) {
-  const [height, setHeight] = useState(0)
-  const [height2, setHeight2] = useState(0)
+  const ref_1 = useRef<HTMLDivElement>(null)
+  const ref_2 = useRef<HTMLDivElement>(null)
   const [internal, setInternal] = useState(nextStage)
-  const zeroHeight: () => boolean = () => height === 0 && height2 === 0
+  const [heights, setHeights] = useState([0, 0])
 
-  const root = useRef<HTMLElement>(null)
+  const observer = useMemo(
+    () =>
+      typeof window !== 'undefined'
+        ? new ResizeObserver((entries) => {
+            if (
+              entries.length === 2
+              // &&
+              // entries[0].contentRect.height !== 0 &&
+              // entries[1].contentRect.height !== 0
+            ) {
+              setHeights(entries.map((v) => Math.round(v.contentRect.height)))
+              observer?.disconnect()
+            }
+          })
+        : null,
+    []
+  )
 
   useEffect(() => {
-    //@ts-ignore
-    setHeight(root.current?.children[0].offsetHeight || 0)
-    //@ts-ignore
-    setHeight2(root.current?.children[1].offsetHeight || 0)
-    setInternal(nextStage)
+    ref_1.current && observer?.observe(ref_1.current)
+    ref_2.current && observer?.observe(ref_2.current)
+    return () => {
+      observer?.disconnect()
+    }
+  }, [])
+
+  const frameID = useRef(0)
+  useEffect(() => {
+    setHeights([ref_1, ref_2].map((e) => e.current?.offsetHeight || 0))
+    frameID.current && cancelAnimationFrame(frameID.current)
+    frameID.current = requestAnimationFrame(() => {
+      setHeights([ref_1, ref_2].map((e) => e.current?.offsetHeight || 0))
+      setInternal(nextStage)
+    })
+
+    return () => {
+      frameID.current && cancelAnimationFrame(frameID.current)
+    }
   }, [nextStage])
 
   return (
@@ -51,21 +83,19 @@ function NextStage({
       obj={{
         gap,
         transition: duration + 'ms ease-in-out',
-        height: height + 'px',
-        height2: height2 + 'px',
+        height: heights[0] + 'px',
+        height2: heights[1] + 'px',
       }}
     >
-      <CSSTransition classNames={s.anim} timeout={duration} in={internal}>
-        <div
-          className={_(
-            s.root,
-            zeroHeight() ? 'noHeight' : 'withHeight',
-            internal ? 'lvl2' : 'lvl1'
-          )}
-          ref={root as RefObject<HTMLDivElement>}
-        >
-          <div>{children[0]}</div>
-          <div>{children[1]}</div>
+      <CSSTransition
+        appear={true}
+        classNames={s.anim}
+        timeout={duration}
+        in={internal}
+      >
+        <div className={_(s.root)}>
+          <div ref={ref_1}>{children[0]}</div>
+          <div ref={ref_2}>{children[1]}</div>
         </div>
       </CSSTransition>
     </CssVars>

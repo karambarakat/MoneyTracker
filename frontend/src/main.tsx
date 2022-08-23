@@ -2,13 +2,14 @@ import React, { PropsWithChildren, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import MainLayout from '@routes/_Layout'
 import MantineSetUp from '@components/MantineSetUp'
 import Authenticate from '@routes/_Auth'
 import { Provider as Redux } from 'react-redux'
 import { store } from '@redux/index'
-import GoogleCallback from '@components/GoogleCallback'
+import GoogleCallback from '@routes/auth/google/callback'
+import MyRoutes from '@components/ReactRouter/RoutesWithModal'
 
 const Index = lazy(() => import('@routes/index'))
 const About = lazy(() => import('@routes/about'))
@@ -20,19 +21,25 @@ function App() {
       <Redux store={store}>
         <BrowserRouter>
           <Suspense fallback={'loading ...'}>
-            <Routes>
+            <MyRoutes>
               <Route element={<Authenticate />}>
-                <Route path='/' element={<MainLayout />}>
-                  <Route index element={<Index />} />
-                  <Route path='about' element={<About />} />
+                {/* PROTECTED ROUTES --- ONLY USERS WITH VALID TOKEN CAN VIEW THE CONTENT */}
+                <Route element={<MyRoutes.Modal />}>
+                  <Route path="about" element={<About />} />
                 </Route>
+                <Route path="/" element={<MainLayout />}>
+                  <Route index element={<Index />} />
+                </Route>
+                {/* PROTECTED ROUTES --- ONLY USERS WITH VALID TOKEN CAN VIEW THE CONTENT */}
               </Route>
+              {/* UNPROTECTED ROUTES */}
               <Route
-                path='/auth/google/callback'
+                path="/auth/google/callback"
                 element={<GoogleCallback />}
               />
               <Route path={'*'} element={<E404 />} />
-            </Routes>
+              {/* UNPROTECTED ROUTES */}
+            </MyRoutes>
           </Suspense>
         </BrowserRouter>
       </Redux>

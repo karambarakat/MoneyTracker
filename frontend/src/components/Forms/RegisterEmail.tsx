@@ -11,7 +11,6 @@ import {
 } from 'yup'
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
-import user_login from '@redux/api/user_login'
 import user_signup, { UserSignUpArgs } from '@redux/api/user_signup'
 
 interface Values extends UserSignUpArgs {
@@ -65,14 +64,14 @@ function RegisterEmail() {
         <Stack>
           <AlertStatus />
 
-          <MyUserInput formikName='userName' />
-          <MyEmailInput required formikName='email' />
-          <MyPasswordInput required formikName='password' />
-          <MyPasswordInput required formikName='repeatPassword' />
+          <MyUserInput formikName="userName" />
+          <MyEmailInput required formikName="email" />
+          <MyPasswordInput required formikName="password" />
+          <MyPasswordInput required formikName="repeatPassword" />
 
           <MyCheckbox
-            formikName='checked'
-            label='agree to the terms and conditions'
+            formikName="checked"
+            label="agree to the terms and conditions"
           />
 
           <SubmitButton>Sign Up</SubmitButton>

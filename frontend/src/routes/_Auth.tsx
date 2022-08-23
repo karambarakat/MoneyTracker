@@ -1,7 +1,7 @@
 import NextStage from '@components/CSSTransition/NextStage'
 import LoginEmail from '@components/Forms/LoginEmail'
 import RegisterEmail from '@components/Forms/RegisterEmail'
-import { UserState } from '@interfaces/states'
+import { RootState, UserState } from '@redux/types'
 import {
   ActionIcon,
   Box,
@@ -10,19 +10,13 @@ import {
   Modal,
   Stack,
   Text,
-  ThemeIcon,
   Title,
 } from '@mantine/core'
-import {
-  useLocalStorage,
-  useLocalStorageValue,
-  useToggle,
-} from '@mantine/hooks'
-import useInterval from '@myHooks/useInterval'
-import { Dispatch, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useLocalStorage } from '@mantine/hooks'
+import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { ArrowBackUp, BrandGoogle, Mail, WifiOff } from 'tabler-icons-react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const data = [
   {
@@ -45,18 +39,18 @@ function Authenticate() {
   /**
    * select the user state from redux,
    * I can use `useLocalStorage` instead of useSelector because I use `redux-localstorage-simple` middleware in redux
-   * useLocalStorage is better because it will be updated if other tabs changed the state
+   * useLocalStorage will be updated if other tabs changed the local storage state
    */
   // const user = useSelector((s: any) => s.user)
-  const [user] = useLocalStorage<UserState | undefined>({
-    key: 'VITE_REDUX__user',
-  })
+
+  const user = useSelector<RootState, UserState>((s) => s.user)
 
   const [stage, setStage] = useState<'.' | './email'>('.')
+  const dispatch = useDispatch()
 
   return (
     <>
-      {!user?.provider && (
+      {!user?.loggedIn && (
         <Modal
           //@ts-ignore
           padding={'20px 0'}
@@ -64,20 +58,22 @@ function Authenticate() {
           styles={{ modal: { overflow: 'hidden' } }}
           withCloseButton={false}
           centered
-          opened={!user?.provider}
+          opened={!user?.loggedIn}
           onClose={() => setOpened(false)}
         >
           <NextStage nextStage={stage === './email'}>
             <Box style={{ margin: '0 20px' }}>
-              <Title order={2} align='center' mb={28}>
+              <Title order={2} align="center" mb={28}>
                 Set Up An Account Before Continuing
               </Title>
               <Stack>
                 <Button
-                  color='blue'
-                  variant='filled'
+                  color="blue"
+                  variant="filled"
                   style={{ height: 48 }}
                   onClick={() => {
+                    // @ts-ignore
+                    window._dispatchReact = dispatch
                     window.open(
                       'http://localhost:8811/api/v1/auth/google',
                       '_blank',
@@ -92,8 +88,8 @@ function Authenticate() {
                 </Button>
                 <Button
                   onClick={() => setStage('./email')}
-                  color='red'
-                  variant='filled'
+                  color="red"
+                  variant="filled"
                   style={{ height: 48 }}
                 >
                   <Group>
@@ -106,8 +102,8 @@ function Authenticate() {
                     //todo:
                     alert('this feature is not available right now')
                   }
-                  color='primaryColor'
-                  variant='filled'
+                  color="primaryColor"
+                  variant="filled"
                   style={{ height: 48 }}
                 >
                   <Group>
@@ -121,13 +117,13 @@ function Authenticate() {
               <Group
                 sx={{ marginBottom: '20px', cursor: 'pointer' }}
                 onClick={() => setStage('.')}
-                align='center'
+                align="center"
               >
                 <ActionIcon
-                  variant='light'
-                  color='primaryColor'
-                  size='xl'
-                  radius='xl'
+                  variant="light"
+                  color="primaryColor"
+                  size="xl"
+                  radius="xl"
                 >
                   <ArrowBackUp />
                 </ActionIcon>
@@ -147,14 +143,14 @@ function Email() {
   const [login, setLogin] = useState(true)
   return (
     <>
-      <NextStage gap='20px' nextStage={!login}>
+      <NextStage gap="20px" nextStage={!login}>
         <LoginEmail />
         <RegisterEmail />
       </NextStage>
-      <Text pt={20} align='center'>
+      <Text pt={20} align="center">
         {login ? "You don't have an account, " : 'You have an account, '}
         <Text
-          component='span'
+          component="span"
           color={'blue'}
           sx={{ cursor: 'pointer' }}
           onClick={() => setLogin((o) => !o)}

@@ -8,6 +8,7 @@ import {
   LayoutGrid,
   MoonStars,
   Settings,
+  Logout,
   Star,
   Sun,
   TableExport,
@@ -40,8 +41,12 @@ import { PropsWithChildren, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import MyButton from '@components/Mantine/Button'
 import Separator from '@components/Seperator'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState, UserActionTypes, UserState } from '@redux/types'
+import { store } from '@redux/index'
+import { USER_LOGOUT } from '@redux/actions/user'
 
-function Main_Layout_Component() {
+export default function Main_Layout_Component() {
   const theme = useMantineTheme()
 
   return (
@@ -54,8 +59,8 @@ function Main_Layout_Component() {
               : theme.colors.gray[0],
         },
       }}
-      navbarOffsetBreakpoint='sm'
-      asideOffsetBreakpoint='sm'
+      navbarOffsetBreakpoint="sm"
+      asideOffsetBreakpoint="sm"
       fixed
       navbar={<Navbar_Custom opened={true} />}
     >
@@ -70,7 +75,7 @@ function Main_Layout_Component() {
 function Content_Header() {
   const [opened, setOpened] = useState(false)
   return (
-    <Group position='apart'>
+    <Group position="apart">
       <Text color={'theme-orange'}>
         <Title color={'theme-orange'} sx={{ margin: '0rem 0rem 1rem' }}>
           Home
@@ -102,18 +107,18 @@ function Content_Header() {
 function Navbar_Custom({ opened }: { opened: boolean }) {
   return (
     <Navbar
-      p='md'
-      hiddenBreakpoint='sm'
+      p="md"
+      hiddenBreakpoint="sm"
       hidden={opened}
       width={{ sm: 300, md: 350, lg: 400 }}
     >
-      <Navbar.Section my='xs'>
+      <Navbar.Section my="xs">
         <BrandNavbar />
       </Navbar.Section>
 
       <Separator />
 
-      <Navbar.Section grow component={ScrollArea} mx='-xs' px='xs'>
+      <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
         <ContentNavbar />
       </Navbar.Section>
 
@@ -136,10 +141,10 @@ function BrandNavbar() {
         paddingRight: theme.spacing.xs,
       })}
     >
-      <Group position='apart'>
+      <Group position="apart">
         <Brand />
         <ActionIcon
-          variant='outline'
+          variant="outline"
           onClick={() => toggleColorScheme()}
           size={30}
           color={colorScheme === 'dark' ? 'yellow' : 'blue'}
@@ -201,10 +206,10 @@ function ContentNavbar() {
           <Link key={element.link} to={element.link}>
             <MyButton>
               <Group>
-                <ThemeIcon color={element.color} variant='light'>
+                <ThemeIcon color={element.color} variant="light">
                   {element.icon}
                 </ThemeIcon>
-                <Text size='sm'>{element.label}</Text>
+                <Text size="sm">{element.label}</Text>
               </Group>
             </MyButton>
           </Link>
@@ -216,10 +221,10 @@ function ContentNavbar() {
           <Link key={element.link} to={element.link}>
             <MyButton>
               <Group>
-                <ThemeIcon color={element.color} variant='light'>
+                <ThemeIcon color={element.color} variant="light">
                   {element.icon}
                 </ThemeIcon>
-                <Text size='sm'>{element.label}</Text>
+                <Text size="sm">{element.label}</Text>
               </Group>
             </MyButton>
           </Link>
@@ -232,47 +237,71 @@ function ContentNavbar() {
 function UserNavbar() {
   const theme = useMantineTheme()
   const [opened, handlers] = useDisclosure(false)
+  const user = useSelector<RootState, UserState>((s) => s.user)
+  const dispatch = useDispatch()
 
   return (
     <Menu
       styles={{ root: { width: '100%' } }}
       control={
-        <MyButton>
-          <Group onClick={handlers.open}>
-            {false ? (
-              <Avatar
-                src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
-                radius='xl'
-              />
-            ) : (
-              <Avatar radius={'xl'} color='primary'>
-                <User />
-              </Avatar>
-            )}
-            <Box sx={{ flex: 1 }}>
-              <Text size='sm' weight={500}>
-                Amy Horsefighter
-              </Text>
-              <Text color='dimmed' size='xs'>
-                ahorsefighter@gmail.com
-              </Text>
-            </Box>
-
-            {theme.dir === 'ltr' ? (
-              <ChevronRight size={18} />
-            ) : (
-              <ChevronLeft size={18} />
-            )}
-          </Group>
-        </MyButton>
+        <div>
+          <MyButton onClick={handlers.toggle}>
+            <Group sx={{ flexWrap: 'nowrap' }}>
+              {user.profile ? (
+                <Avatar src={user.profile.picture} radius="xl" />
+              ) : (
+                <Avatar radius={'xl'} color="primary">
+                  <User />
+                </Avatar>
+              )}
+              <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
+                <Text
+                  sx={{
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                  }}
+                  size="sm"
+                  weight={500}
+                >
+                  {user.profile?.userName}
+                </Text>
+                <Text
+                  sx={{
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                  }}
+                  color="dimmed"
+                  size="xs"
+                >
+                  {user.profile?.email}
+                </Text>
+              </Box>
+              <Box sx={{ display: 'flex' }}>
+                {theme.dir === 'ltr' ? (
+                  <ChevronRight size={18} />
+                ) : (
+                  <ChevronLeft size={18} />
+                )}
+              </Box>
+            </Group>
+          </MyButton>
+        </div>
       }
-      opened={true}
+      opened={opened}
       onClose={handlers.close}
     >
       <Menu.Label>User</Menu.Label>
-      <Menu.Item icon={<Settings size={14} />}>Settings</Menu.Item>
+      <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
+      <Menu.Item
+        icon={<Logout size={14} />}
+        onClick={() => {
+          store.dispatch<UserActionTypes>({ type: USER_LOGOUT })
+        }}
+      >
+        Log Out
+      </Menu.Item>
     </Menu>
   )
 }
-
-export default Main_Layout_Component

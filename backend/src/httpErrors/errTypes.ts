@@ -43,7 +43,9 @@ export const UserAlreadyExist: CustomHttpErrorProps = {
   status: 400,
   name: 'UserAlreadyExist',
   message: 'User already exist.',
-  details: {},
+  details: {
+    errors: { email: 'this email is used' },
+  },
 }
 
 export const EmailIsUsed: CustomHttpErrorProps = {

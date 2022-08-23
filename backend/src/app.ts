@@ -30,6 +30,7 @@ import PassportSerialization from '@passport/serialize'
 import IUser, { UserMongoose } from 'types/models/UserModel'
 import ILog, { LogMongoose } from 'types/models/LogModel'
 import { CategoryMongoose } from 'types/models/CategoryModel'
+import JSONReplacer from '@utils/JSONReplacer'
 
 declare global {
   namespace Express {
@@ -43,12 +44,7 @@ declare global {
 
 const app = express()
 
-app.set('json replacer', function (key: string, value: null) {
-  if (typeof value === 'undefined') {
-    return null
-  }
-  return value
-})
+app.set('json replacer', JSONReplacer)
 
 PassportSerialization()
 passport.use(useJWT)
