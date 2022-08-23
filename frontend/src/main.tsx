@@ -2,14 +2,20 @@ import React, { PropsWithChildren, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom'
 import MainLayout from '@routes/_Layout'
 import MantineSetUp from '@components/MantineSetUp'
 import Authenticate from '@routes/_Auth'
 import { Provider as Redux } from 'react-redux'
 import { store } from '@redux/index'
 import GoogleCallback from '@routes/auth/google/callback'
-import MyRoutes from '@components/ReactRouter/RoutesWithModal'
+import { Routes as ModalRoutes } from '@components/modalRouter'
 
 const Index = lazy(() => import('@routes/index'))
 const About = lazy(() => import('@routes/about'))
@@ -21,12 +27,10 @@ function App() {
       <Redux store={store}>
         <BrowserRouter>
           <Suspense fallback={'loading ...'}>
-            <MyRoutes>
+            <ModalRoutes>
               <Route element={<Authenticate />}>
                 {/* PROTECTED ROUTES --- ONLY USERS WITH VALID TOKEN CAN VIEW THE CONTENT */}
-                <Route element={<MyRoutes.Modal />}>
-                  <Route path="about" element={<About />} />
-                </Route>
+                <Route path="about" element={<About />} />
                 <Route path="/" element={<MainLayout />}>
                   <Route index element={<Index />} />
                 </Route>
@@ -39,16 +43,12 @@ function App() {
               />
               <Route path={'*'} element={<E404 />} />
               {/* UNPROTECTED ROUTES */}
-            </MyRoutes>
+            </ModalRoutes>
           </Suspense>
         </BrowserRouter>
       </Redux>
     </MantineSetUp>
   )
-}
-
-function ProtectedRoutes({ children }: PropsWithChildren<any>) {
-  return <Routes location={'/about'}>{children}</Routes>
 }
 
 ReactDOM.render(

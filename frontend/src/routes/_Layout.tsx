@@ -38,13 +38,14 @@ import {
 import MyContainer from '@components/Mantine/Container'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { PropsWithChildren, useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import MyButton from '@components/Mantine/Button'
 import Separator from '@components/Seperator'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, UserActionTypes, UserState } from '@redux/types'
 import { store } from '@redux/index'
 import { USER_LOGOUT } from '@redux/actions/user'
+import { Link } from '@components/modalRouter'
 
 export default function Main_Layout_Component() {
   const theme = useMantineTheme()
@@ -177,24 +178,28 @@ const data = [
     color: 'violet',
     label: 'Export',
     link: '/export',
+    asModal: true,
   },
   {
     icon: <Settings size={16} />,
     color: 'grape',
     label: 'Setting',
     link: '/setting',
+    asModal: true,
   },
   {
     icon: <Star size={16} />,
     color: 'yellow',
     label: 'Rate Us',
     link: '/rate-us',
+    asModal: true,
   },
   {
     icon: <InfoCircle size={16} />,
     color: 'blue',
     label: 'About',
     link: '/about',
+    asModal: true,
   },
 ]
 
@@ -218,7 +223,11 @@ function ContentNavbar() {
       <Separator />
       {data.map((element) => {
         return (
-          <Link key={element.link} to={element.link}>
+          <Link
+            key={element.link}
+            to={element.link}
+            as_modal={element.asModal || false}
+          >
             <MyButton>
               <Group>
                 <ThemeIcon color={element.color} variant="light">
