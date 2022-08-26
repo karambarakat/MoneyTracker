@@ -7,11 +7,15 @@ import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import { useDispatch } from 'react-redux'
 import user_login, { UserLoginArgs } from '@redux/api/user_login'
+import { useCallback } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useRoutes } from '@components/ReactRouter'
 
 interface Values extends UserLoginArgs {}
 
 function LoginEmail() {
-  const dispatch = useDispatch()
+  const { goBack } = useRoutes()
+
   return (
     <Formik
       initialValues={{
@@ -29,7 +33,10 @@ function LoginEmail() {
             e.errors && setErrors(e.errors)
             setStatus({ error: e.message })
           })
-          .finally(() => setSubmitting(false))
+          .finally(() => {
+            setSubmitting(false)
+            goBack()
+          })
       }}
       validationSchema={
         new yupObj({

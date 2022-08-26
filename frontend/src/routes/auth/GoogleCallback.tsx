@@ -25,6 +25,7 @@ function GoogleCallback() {
           type: USER_LOGIN,
           profile: data,
         })
+        window.opener._modal()
         window.close()
       })
   }, [])

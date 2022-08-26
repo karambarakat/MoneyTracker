@@ -12,6 +12,9 @@ import {
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
 import user_signup, { UserSignUpArgs } from '@redux/api/user_signup'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useCallback } from 'react'
+import { useRoutes } from '@components/ReactRouter'
 
 interface Values extends UserSignUpArgs {
   // userName: string // from UserSignUpArgs
@@ -22,6 +25,7 @@ interface Values extends UserSignUpArgs {
 }
 
 function RegisterEmail() {
+  const { goBack } = useRoutes()
   return (
     <Formik
       initialValues={{
@@ -42,7 +46,10 @@ function RegisterEmail() {
             e.errors && setErrors(e.errors)
             setStatus({ error: e.message })
           })
-          .finally(() => setSubmitting(false))
+          .finally(() => {
+            setSubmitting(false)
+            goBack()
+          })
       }}
       validationSchema={
         new yupObj({

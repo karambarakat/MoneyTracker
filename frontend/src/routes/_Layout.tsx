@@ -45,7 +45,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState, UserActionTypes, UserState } from '@redux/types'
 import { store } from '@redux/index'
 import { USER_LOGOUT } from '@redux/actions/user'
-import { Link } from '@components/modalRouter'
+import { Link } from '@components/ReactRouter'
+import { UserController } from '@components/UserController'
 
 export default function Main_Layout_Component() {
   const theme = useMantineTheme()
@@ -126,7 +127,7 @@ function Navbar_Custom({ opened }: { opened: boolean }) {
       <Separator />
 
       <Navbar.Section>
-        <UserNavbar />
+        <UserController />
       </Navbar.Section>
     </Navbar>
   )
@@ -240,77 +241,5 @@ function ContentNavbar() {
         )
       })}
     </>
-  )
-}
-
-function UserNavbar() {
-  const theme = useMantineTheme()
-  const [opened, handlers] = useDisclosure(false)
-  const user = useSelector<RootState, UserState>((s) => s.user)
-  const dispatch = useDispatch()
-
-  return (
-    <Menu
-      styles={{ root: { width: '100%' } }}
-      control={
-        <div>
-          <MyButton onClick={handlers.toggle}>
-            <Group sx={{ flexWrap: 'nowrap' }}>
-              {user.profile ? (
-                <Avatar src={user.profile.picture} radius="xl" />
-              ) : (
-                <Avatar radius={'xl'} color="primary">
-                  <User />
-                </Avatar>
-              )}
-              <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
-                <Text
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                  }}
-                  size="sm"
-                  weight={500}
-                >
-                  {user.profile?.userName}
-                </Text>
-                <Text
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                  }}
-                  color="dimmed"
-                  size="xs"
-                >
-                  {user.profile?.email}
-                </Text>
-              </Box>
-              <Box sx={{ display: 'flex' }}>
-                {theme.dir === 'ltr' ? (
-                  <ChevronRight size={18} />
-                ) : (
-                  <ChevronLeft size={18} />
-                )}
-              </Box>
-            </Group>
-          </MyButton>
-        </div>
-      }
-      opened={opened}
-      onClose={handlers.close}
-    >
-      <Menu.Label>User</Menu.Label>
-      <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
-      <Menu.Item
-        icon={<Logout size={14} />}
-        onClick={() => {
-          store.dispatch<UserActionTypes>({ type: USER_LOGOUT })
-        }}
-      >
-        Log Out
-      </Menu.Item>
-    </Menu>
   )
 }
