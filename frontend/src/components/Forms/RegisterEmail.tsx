@@ -25,7 +25,7 @@ interface Values extends UserSignUpArgs {
 }
 
 function RegisterEmail() {
-  const { goBack } = useRoutes()
+  const { exit: goBack } = useRoutes()
   return (
     <Formik
       initialValues={{
@@ -40,7 +40,9 @@ function RegisterEmail() {
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
         user_signup(values)
-          .then(() => {})
+          .then(() => {
+            goBack()
+          })
           .catch((e) => {
             console.error(e)
             e.errors && setErrors(e.errors)
@@ -48,7 +50,6 @@ function RegisterEmail() {
           })
           .finally(() => {
             setSubmitting(false)
-            goBack()
           })
       }}
       validationSchema={

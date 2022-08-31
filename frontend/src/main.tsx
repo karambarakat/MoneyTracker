@@ -17,6 +17,12 @@ import { store } from '@redux/index'
 import GoogleCallback from '@routes/auth/GoogleCallback'
 import { Routes as ModalRoutes } from '@components/ReactRouter'
 import Auth from '@routes/auth/Auth'
+import Profile, { ProfileIndex } from '@routes/profile/profile'
+import ProfileUpdate from '@routes/profile/profileUpdate'
+import {
+  Profile_ChangePassword,
+  Profile_SetPassword,
+} from '@routes/profile/profilePassword'
 
 const Index = lazy(() => import('@routes/index'))
 const About = lazy(() => import('@routes/about'))
@@ -31,6 +37,16 @@ function App() {
             <ModalRoutes>
               {/* PROTECTED ROUTES --- ONLY USERS WITH VALID TOKEN CAN VIEW THE CONTENT */}
               <Route path="about" element={<About />} />
+              <Route path="profile" element={<Profile />}>
+                <Route index element={<ProfileIndex />} />
+                <Route path="update" element={<ProfileUpdate />} />
+                <Route path="setPassword" element={<Profile_SetPassword />} />
+                <Route
+                  path="changePassword"
+                  element={<Profile_ChangePassword />}
+                />
+                {/* <Route index element= {<ProfilechangePassword /> } /> */}
+              </Route>
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Index />} />
               </Route>

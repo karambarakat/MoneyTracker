@@ -38,7 +38,7 @@ const data = [
 export default function () {
   const [stage, setStage] = useState<'.' | './email'>('.')
   const dispatch = useDispatch()
-  const { close } = useRoutes()
+  const { exit } = useRoutes()
 
   return (
     <>
@@ -56,7 +56,7 @@ export default function () {
                 // @ts-ignore
                 window._dispatchReact = dispatch
                 // @ts-ignore
-                window._modal = close
+                window._modal = exit
                 window.open(
                   'http://localhost:8811/api/v1/auth/google',
                   '_blank',

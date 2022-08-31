@@ -91,7 +91,9 @@ export function UserController() {
       onClose={handlers.close}
     >
       <Menu.Label>User</Menu.Label>
-      <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
+      <Link to={'/profile'} as_modal>
+        <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
+      </Link>
       <Menu.Item
         icon={<Logout size={14} />}
         onClick={() => {

@@ -12,22 +12,15 @@ import {
 // import type { Location } from 'react-router-dom'
 
 /**
- * todo: maybe the only thing I have to have in the context is goBack && from
- * I'm thinking of making this context universal for navigating whether it is modal or protected route
+ * exit method will go back to the normal routes
+ * for Modal navigation this will close the modal
+ * for protected route this will go to the last page visited before entering to the auth
  */
 interface Context {
-  readonly close: () => void
-  readonly open: () => void
-  readonly toggle: () => void
-  readonly goBack: () => void
-  backgroundLocation: undefined | Location
+  readonly exit: () => void
 }
 const context = createContext<Context>({
-  close: () => {},
-  open: () => {},
-  toggle: () => {},
-  goBack: () => {},
-  backgroundLocation: undefined,
+  exit: () => {},
 })
 
 export const useRoutes = () => useContext(context)
@@ -46,18 +39,16 @@ export function Routes({ children }: PropsWithChildren<any>) {
   })
   const navigate = useNavigate()
   useEffect(() => {
-    location.state?.backgroundLocation && fns.open()
-  }, [location.state?.backgroundLocation])
+    location.state?.from && fns.open()
+  }, [location.state?.from])
 
   return (
     <context.Provider
       value={{
-        backgroundLocation: location.state?.backgroundLocation,
-        ...fns,
-        goBack: fns['close'],
+        exit: fns['close'],
       }}
     >
-      <NativeRoutes location={location.state?.backgroundLocation || location}>
+      <NativeRoutes location={location.state?.from || location}>
         {children}
       </NativeRoutes>
 
@@ -80,12 +71,16 @@ export function Link({
   ...props
 }: LinkProps & { as_modal?: boolean }) {
   const location = useLocation()
+  location.state?.from
   return (
     <NativeLink
       state={{
         ...(props.state || {}),
-        backgroundLocation: as_modal ? location : undefined,
-        from: as_modal ? location : undefined,
+        from: location.state?.from
+          ? location.state.from
+          : as_modal
+          ? location
+          : undefined,
       }}
       {...props}
     >

@@ -10,8 +10,7 @@ declare module 'history' {
     pathname: string
     search: string
     state: {
-      backgroundLocation?: Location
-      from: Location
+      from?: Location
     } | null
   }
 }

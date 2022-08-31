@@ -1,34 +1,32 @@
-import MyEmailInput from '@components/Formik/IEmail'
-import MyPasswordInput from '@components/Formik/IPassword'
 import { Stack } from '@mantine/core'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
-import { useDispatch } from 'react-redux'
-import user_login, { UserLoginArgs } from '@redux/api/user_login'
-import { useCallback } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useRoutes } from '@components/ReactRouter'
+import { useNavigate } from 'react-router-dom'
+import profile_update, { ProfileUpdateArgs } from '@redux/api/profile_update'
+import MyUserInput from '@components/Formik/IUser'
 
-interface Values extends UserLoginArgs {}
+interface Values extends ProfileUpdateArgs {}
 
-function LoginEmail() {
-  const { exit: goBack } = useRoutes()
+function ProfileUpdate() {
+  const nav = useNavigate()
 
   return (
     <Formik
       initialValues={{
-        email: '',
-        password: '',
+        userName: '',
+        // picture: '',
       }}
+      v
       onSubmit={(
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        user_login(values)
+        console.log('anything')
+        profile_update(values)
           .then(() => {
-            goBack()
+            nav(-1)
           })
           .catch((e) => {
             console.error(e)
@@ -41,8 +39,8 @@ function LoginEmail() {
       }}
       validationSchema={
         new yupObj({
-          email: yupStr().required(),
-          password: yupStr().required(),
+          userName: yupStr(),
+          // picture: yupStr().required(),
         })
       }
     >
@@ -50,14 +48,15 @@ function LoginEmail() {
         <Stack>
           <AlertStatus />
 
-          <MyEmailInput required formikName="email" />
-          <MyPasswordInput required formikName="password" />
+          <MyUserInput formikName="userName" />
+          {/* todo: make input to upload picture */}
+          {/* <MyPasswordInput required formikName="password" /> */}
 
-          <SubmitButton>Log In</SubmitButton>
+          <SubmitButton>Update Profile</SubmitButton>
         </Stack>
       </Form>
     </Formik>
   )
 }
 
-export default LoginEmail
+export default ProfileUpdate
