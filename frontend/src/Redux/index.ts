@@ -1,6 +1,14 @@
-import { createStore, applyMiddleware, compose, Middleware } from 'redux'
-import rootReducer from './reducers'
+import {
+  createStore,
+  applyMiddleware,
+  compose,
+  Middleware,
+  combineReducers,
+} from 'redux'
 import { save, load } from 'redux-localstorage-simple'
+import logReducer from './reducers/logReducer'
+import metaReducer from './reducers/metaReducer'
+import userReducer from './reducers/userReducer'
 
 const initialState = {
   ...load({ namespace: 'VITE_REDUX_', states: ['user'] }),
@@ -9,6 +17,12 @@ const initialState = {
 const middleware: Middleware[] = [
   save({ namespace: 'VITE_REDUX_', states: ['user'] }),
 ]
+
+const rootReducer = combineReducers({
+  user: userReducer,
+  logs: logReducer,
+  meta: metaReducer,
+})
 
 export const store = createStore(
   rootReducer,

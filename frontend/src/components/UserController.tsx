@@ -9,8 +9,8 @@ import {
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { store } from '@redux/index'
-import { USER_LOGOUT } from '@redux/actions/user'
-import { RootState, UserActionTypes, UserState } from '@redux/types'
+
+import { MyDispatch, RootState, UserState } from '@redux/types'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   ChevronLeft,
@@ -97,7 +97,7 @@ export function UserController() {
       <Menu.Item
         icon={<Logout size={14} />}
         onClick={() => {
-          store.dispatch<UserActionTypes>({ type: USER_LOGOUT })
+          store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })
         }}
       >
         Log Out

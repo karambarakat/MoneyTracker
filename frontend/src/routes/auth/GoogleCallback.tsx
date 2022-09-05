@@ -1,7 +1,8 @@
 import { ProfileDoc } from '@redux/types'
 import { Text } from '@mantine/core'
-import { USER_LOGIN } from '@redux/actions/user'
-import { UserActionTypes } from '@redux/types'
+
+import { UserActionTypes } from '@redux/reducers/userReducer'
+
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -22,7 +23,7 @@ function GoogleCallback() {
       .then((res) => res.json() as Promise<{ data: ProfileDoc }>)
       .then(({ data }) => {
         window.opener._dispatchReact({
-          type: USER_LOGIN,
+          type: 'USER_LOGIN',
           profile: data,
         })
         window.opener._modal()

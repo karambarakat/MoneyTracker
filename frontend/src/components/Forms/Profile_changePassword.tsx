@@ -27,7 +27,6 @@ function Profile_changePassword() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        console.log('anything')
         profile_password(values)
           .then(() => {
             nav(-1)
@@ -52,8 +51,12 @@ function Profile_changePassword() {
         <Stack>
           <AlertStatus />
 
-          <MyPasswordInput formikName="oldPassword" />
-          <MyPasswordInput formikName="newPassword" />
+          <MyPasswordInput
+            formikName="oldPassword"
+            placeholder="Enter Old Password"
+            label="Old Password"
+          />
+          <MyPasswordInput formikName="newPassword" label="New Password" />
 
           <SubmitButton>Change Password</SubmitButton>
         </Stack>

@@ -6,7 +6,7 @@ import {
   PrivateRoute,
   UserAlreadyExist,
 } from '@httpErrors/errTypes'
-import { httpError, requiredFields, throwHttpError } from '@httpErrors'
+import { httpError, requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import User from '@models/User'

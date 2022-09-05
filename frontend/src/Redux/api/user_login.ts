@@ -1,7 +1,8 @@
-import { USER_LOGIN } from '@redux/actions/user'
-import { UserActionTypes } from '@redux/types'
+import { UserActionTypes } from '@redux/reducers/userReducer'
+import { MyDispatch, ProfileDoc } from '@redux/types'
+
 import { Dispatch } from 'redux'
-import HttpError from 'src/utils/HttpError'
+import HttpError, { httpErrorHandler } from 'src/utils/HttpError'
 import { loadEnv } from 'vite'
 import { store } from '../index'
 
@@ -19,12 +20,10 @@ export default async function user_login(values: UserLoginArgs) {
       body: JSON.stringify(values),
     }
   )
-  const { data, error } = await res.json()
+  const data: ProfileDoc = await res.json().then(httpErrorHandler)
 
-  if (error) throw HttpError(error)
-
-  store.dispatch<UserActionTypes>({
-    type: USER_LOGIN,
+  store.dispatch<MyDispatch>({
+    type: 'USER_LOGIN',
     profile: data,
   })
 }

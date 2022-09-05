@@ -18,13 +18,14 @@ import GoogleCallback from '@routes/auth/GoogleCallback'
 import { Routes as ModalRoutes } from '@components/ReactRouter'
 import Auth from '@routes/auth/Auth'
 import Profile, { ProfileIndex } from '@routes/profile/profile'
-import ProfileUpdate from '@routes/profile/profileUpdate'
-import {
-  Profile_ChangePassword,
-  Profile_SetPassword,
-} from '@routes/profile/profilePassword'
+import ProfileUpdate from '@components/Forms/Profile_update'
+import Profile_SetPassword from '@components/Forms/Profile_SetPassword'
+import Profile_ChangePassword from '@components/Forms/Profile_changePassword'
 
 const Index = lazy(() => import('@routes/index'))
+const Categories = lazy(() => import('@routes/categories'))
+const Charts = lazy(() => import('@routes/Charts'))
+const AddLog = lazy(() => import('@components/Forms/Log_add'))
 const About = lazy(() => import('@routes/about'))
 const E404 = lazy(() => import('@routes/_E404'))
 
@@ -35,8 +36,15 @@ function App() {
         <BrowserRouter>
           <Suspense fallback={<>waiting</>}>
             <ModalRoutes>
-              {/* PROTECTED ROUTES --- ONLY USERS WITH VALID TOKEN CAN VIEW THE CONTENT */}
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<Index />} />
+                <Route path="charts" element={<Charts />} />
+                <Route path="categories" element={<Categories />} />
+              </Route>
+
               <Route path="about" element={<About />} />
+              <Route path="addLog" element={<AddLog />} />
+
               <Route path="profile" element={<Profile />}>
                 <Route index element={<ProfileIndex />} />
                 <Route path="update" element={<ProfileUpdate />} />
@@ -45,17 +53,14 @@ function App() {
                   path="changePassword"
                   element={<Profile_ChangePassword />}
                 />
-                {/* <Route index element= {<ProfilechangePassword /> } /> */}
               </Route>
-              <Route path="/" element={<MainLayout />}>
-                <Route index element={<Index />} />
-              </Route>
-              {/* PROTECTED ROUTES --- ONLY USERS WITH VALID TOKEN CAN VIEW THE CONTENT */}
+
               <Route path="/auth" element={<Auth />} />
               <Route
                 path="/auth/google/callback"
                 element={<GoogleCallback />}
               />
+
               <Route path={'*'} element={<E404 />} />
             </ModalRoutes>
           </Suspense>

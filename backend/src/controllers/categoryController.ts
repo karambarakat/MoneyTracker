@@ -4,12 +4,7 @@ import {
   PrivateRoute,
   ResourceWasNotFound,
 } from '@httpErrors/errTypes'
-import {
-  httpError,
-  requiredFields,
-  throwHttpError,
-  throwQuickHttpError,
-} from '@httpErrors'
+import { httpError, requiredFields, throwQuickHttpError } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 
@@ -77,7 +72,7 @@ async function findCategory(req: Request, res: Response, next: NextFunction) {
     req.category = found
     next()
   } else {
-    throwHttpError(ResourceWasNotFound)
+    throw httpError(ResourceWasNotFound)
   }
 }
 

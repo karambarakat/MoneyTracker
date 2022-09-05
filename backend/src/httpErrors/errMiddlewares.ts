@@ -4,10 +4,8 @@ import {
   ValidationError,
   BadJsonPayload,
 } from '@httpErrors/errTypes'
-import { throwHttpError } from '.'
-import { CustomError } from 'types/HTTPError'
-import { mongooseValidationError, myValidationError } from 'types/mongoose'
-import prepareValidationError from '@utils/prepareValidationError'
+import { httpError } from '.'
+import type { HttpError } from '@httpErrors'
 import { NextFunction, Request, Response } from 'express'
 
 export function e400_JsonError(
@@ -20,14 +18,35 @@ export function e400_JsonError(
     err.name === 'SyntaxError' &&
     err.message.startsWith('Unexpected string in JSON at position')
   ) {
-    throwHttpError(BadJsonPayload)
+    throw httpError(BadJsonPayload)
   } else {
     next(err)
   }
 }
 
 export function e404_ResourceNotFound() {
-  throwHttpError(ResourceWasNotFound)
+  throw httpError(ResourceWasNotFound)
+}
+
+interface mongoosePathValidationError extends Error {
+  properties: any
+  kind: string
+  path: string
+  value: any
+  reason: any
+}
+
+interface mongooseValidationError extends Error {
+  errors: {
+    [key: string]: mongoosePathValidationError
+  }
+  _message: string
+}
+
+export interface myValidationError extends Error {
+  errors: {
+    [key: string]: string
+  }
 }
 
 export function e400_MongooseValidation(
@@ -37,22 +56,24 @@ export function e400_MongooseValidation(
   next: NextFunction
 ) {
   if (err.name === 'ValidationError' && err.errors) {
-    //@ts-ignore
-    const myErr = prepareValidationError(
-      err._message,
-      Object.keys(err.errors).reduce((acc: { [key: string]: string }, key) => {
+    const validationError = new Error(err._message) as myValidationError
+
+    validationError.errors = Object.keys(err.errors).reduce(
+      (acc: { [key: string]: string }, key) => {
         acc[key] = err.errors[key].message
         return acc
-      }, {})
+      },
+      {}
     )
-    throwHttpError(ValidationError(myErr))
+
+    throw httpError(ValidationError(validationError))
   } else {
     next(err)
   }
 }
 
 export function e500_ServerError(
-  err: CustomError,
+  err: HttpError,
   req: Request,
   res: Response,
   next: NextFunction

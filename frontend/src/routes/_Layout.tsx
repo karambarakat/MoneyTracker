@@ -44,7 +44,7 @@ import Separator from '@components/Seperator'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, UserActionTypes, UserState } from '@redux/types'
 import { store } from '@redux/index'
-import { USER_LOGOUT } from '@redux/actions/user'
+
 import { Link } from '@components/ReactRouter'
 import { UserController } from '@components/UserController'
 

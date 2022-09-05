@@ -1,6 +1,6 @@
 import NextStage from '@components/CSSTransition/NextStage'
-import LoginEmail from '@components/Forms/LoginEmail'
-import RegisterEmail from '@components/Forms/RegisterEmail'
+import LoginEmail from '@components/Forms/Email_login'
+import RegisterEmail from '@components/Forms/Email_register'
 import { RootState, UserState } from '@redux/types'
 import {
   ActionIcon,

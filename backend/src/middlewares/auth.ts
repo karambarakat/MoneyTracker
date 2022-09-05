@@ -1,18 +1,17 @@
 import passport from 'passport'
 import { Router } from 'express'
-import { throwHttpError } from '@httpErrors'
+import { httpError } from '@httpErrors'
 import { UnAuthorized } from '@httpErrors/errTypes'
 
 const auth = Router()
 
 auth.all('*', function (req, res, next) {
   passport.authenticate('jwt', { session: false }, function (err, user, info) {
-    //auth success
     //invalid token {null, false, JsonWebTokenError}
     if (err) {
-      throwHttpError(UnAuthorized(info))
+      throw httpError(UnAuthorized(info))
     } else if (!user) {
-      throwHttpError(UnAuthorized(info))
+      throw httpError(UnAuthorized(info))
     } else {
       req.user = user
       return next()

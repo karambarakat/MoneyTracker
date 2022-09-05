@@ -13,7 +13,7 @@ import MyPasswordInput from '@components/Formik/IPassword'
 
 interface Values extends ProfilePasswordArgs {}
 
-function Profile_changePassword() {
+function Profile_setPassword() {
   const nav = useNavigate()
 
   return (
@@ -60,4 +60,4 @@ function Profile_changePassword() {
   )
 }
 
-export default Profile_changePassword
+export default Profile_setPassword

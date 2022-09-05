@@ -1,11 +1,19 @@
-import { CustomError } from 'types/HTTPError'
-import { CustomHttpErrorProps } from 'types/HTTPError'
-
 import { NextFunction, Request, Response } from 'express'
 import { FieldsRequired } from './errTypes'
 
+export interface HttpErrorProps {
+  status: number
+  name: string
+  message: string
+  details: object
+}
+
+export interface HttpError extends Error {
+  __details: HttpErrorProps
+}
+
 export function HTTPErrorHandler(
-  err: CustomError,
+  err: HttpError,
   req: Request,
   res: Response,
   next: NextFunction
@@ -28,24 +36,23 @@ export function HTTPErrorHandler(
 }
 
 export function requiredFields(object: { [key: string]: any }) {
-  if (Object.values(object).some((e) => !e)) {
-    throwHttpError(
-      FieldsRequired(Object.keys(object).filter((key) => !object[key]))
+  if (
+    Object.values(object).some((e) => e === null || typeof e === 'undefined')
+  ) {
+    throw httpError(
+      FieldsRequired(
+        Object.keys(object).filter((key) => {
+          const value = !object[key]
+          if (value === null || typeof value === 'undefined') return true
+        })
+      )
     )
   }
 }
 
-export function throwHttpError(error: CustomHttpErrorProps): void {
-  const CustomError = new Error(error.message)
-  //@ts-ignore
-  CustomError.__details = error
-
-  throw CustomError
-}
-
-export function httpError(error: CustomHttpErrorProps): Error {
-  const CustomError = new Error(error.message)
-  //@ts-ignore
+//@ts-ignore
+export function httpError(error: HttpErrorProps): Error {
+  const CustomError = new Error(error.message) as HttpError
   CustomError.__details = error
 
   return CustomError
@@ -58,7 +65,7 @@ export function throwQuickHttpError(
   details?: any
 ): void {
   const CustomError = new Error(message)
-  const quickError: CustomHttpErrorProps = {
+  const quickError: HttpErrorProps = {
     status,
     message,
     name: name || 'RequestError',

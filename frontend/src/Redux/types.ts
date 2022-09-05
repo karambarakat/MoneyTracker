@@ -1,5 +1,5 @@
-import { USER_LOGIN, USER_LOGOUT } from './actions/user'
-import rootReducer from './reducers'
+import { LogsActionTypes } from './reducers/logReducer'
+import { UserActionTypes } from './reducers/userReducer'
 
 /**
  * states
@@ -10,6 +10,8 @@ export interface UserState {
   profile?: ProfileDoc
 }
 
+export type LogsState = LogDoc[]
+
 export interface MetaState {
   title: string
 }
@@ -17,19 +19,10 @@ export interface MetaState {
 export interface RootState {
   user: UserState
   meta: MetaState
+  logs: LogsState
 }
 
-/**
- * actions
- */
-export type UserActionTypes =
-  | {
-      type: typeof USER_LOGIN
-      profile: ProfileDoc
-    }
-  | {
-      type: typeof USER_LOGOUT
-    }
+export type MyDispatch = UserActionTypes | LogsActionTypes
 
 /**
  * api docs
@@ -77,12 +70,21 @@ export interface ProfileDoc {
   token: string
 }
 
-export type RestAPI<doc> =
+export type APIResponse =
   | {
-      error: 'error'
+      error: {
+        status: number
+        message: string
+        name: string
+        details: any
+      }
       data: undefined
     }
   | {
       error: null
-      data: doc
+      data: any
     }
+
+export type APIResource<doc> = {
+  data: doc
+}

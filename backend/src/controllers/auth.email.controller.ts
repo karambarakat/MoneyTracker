@@ -1,4 +1,4 @@
-import { requiredFields, throwHttpError } from '@httpErrors'
+import { httpError, requiredFields } from '@httpErrors'
 import {
   EmailOrPasswordIncorrect,
   UserAlreadyExist,
@@ -23,7 +23,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
 
   const userExist = await User.findOne({ email })
 
-  if (userExist) throwHttpError(UserAlreadyExist)
+  if (userExist) throw httpError(UserAlreadyExist)
 
   const newUser = await User.create({
     userName,
@@ -54,7 +54,7 @@ async function local_login(req: Request, res: Response, next: NextFunction) {
   ) {
     res.json({ data: user.withToken() })
   } else {
-    throwHttpError(EmailOrPasswordIncorrect)
+    throw httpError(EmailOrPasswordIncorrect)
   }
 }
 

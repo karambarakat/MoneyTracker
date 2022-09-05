@@ -1,14 +1,14 @@
-import { CustomHttpErrorProps } from 'types/HTTPError'
-import { mongooseValidationError, myValidationError } from 'types/mongoose'
+import type { HttpErrorProps } from '.'
+import { myValidationError } from './errMiddlewares'
 
-export const EmptyBody: CustomHttpErrorProps = {
+export const EmptyBody: HttpErrorProps = {
   status: 400,
   name: 'HttpErrorMissingFields',
   message: `all fields are missing`,
   details: {},
 }
 
-export const FieldsRequired: (keys: string[]) => CustomHttpErrorProps = (
+export const FieldsRequired: (keys: string[]) => HttpErrorProps = (
   keys: string[]
 ) => ({
   status: 400,
@@ -25,21 +25,21 @@ export const FieldsRequired: (keys: string[]) => CustomHttpErrorProps = (
   },
 })
 
-export const EmailOrPasswordIncorrect: CustomHttpErrorProps = {
+export const EmailOrPasswordIncorrect: HttpErrorProps = {
   status: 401,
   name: 'EmailOrPasswordIncorrect',
   message: "the email or the password doesn't match our records",
   details: {},
 }
 
-export const PasswordIncorrect: CustomHttpErrorProps = {
+export const PasswordIncorrect: HttpErrorProps = {
   status: 401,
   name: 'PasswordIncorrect',
   message: "the password doesn't match our records",
   details: {},
 }
 
-export const UserAlreadyExist: CustomHttpErrorProps = {
+export const UserAlreadyExist: HttpErrorProps = {
   status: 400,
   name: 'UserAlreadyExist',
   message: 'User already exist.',
@@ -48,30 +48,30 @@ export const UserAlreadyExist: CustomHttpErrorProps = {
   },
 }
 
-export const EmailIsUsed: CustomHttpErrorProps = {
+export const EmailIsUsed: HttpErrorProps = {
   status: 400,
   name: 'EmailIsUsed',
   message: 'Email is used.',
   details: {},
 }
 
-export const ResourceWasNotFound: CustomHttpErrorProps = {
+export const ResourceWasNotFound: HttpErrorProps = {
   status: 404,
   name: 'ResourceWasNotFound',
   message: "couldn't find the target",
   details: {},
 }
 
-export const UnknownServerError: CustomHttpErrorProps = {
+export const UnknownServerError: HttpErrorProps = {
   status: 500,
   name: 'UnknownServerError',
   message: 'Unknown error occurred in the server.',
   details: {},
 }
 
-export const ValidationError: (
-  error: myValidationError
-) => CustomHttpErrorProps = (error) => ({
+export const ValidationError: (error: myValidationError) => HttpErrorProps = (
+  error
+) => ({
   status: 400,
   name: 'ValidationError',
   message: error.message || 'some fields are not valid',
@@ -82,7 +82,7 @@ export const ValidationError: (
 
 export const QuickValidationError: (fields: {
   [key: string]: string
-}) => CustomHttpErrorProps = (fields) => ({
+}) => HttpErrorProps = (fields) => ({
   status: 400,
   name: 'ValidationError',
   message: 'some fields are not valid',
@@ -91,60 +91,41 @@ export const QuickValidationError: (fields: {
   },
 })
 
-export const ServerError: (message: string) => CustomHttpErrorProps = (
-  message
-) => ({
+export const ServerError: (message: string) => HttpErrorProps = (message) => ({
   status: 500,
   name: 'UnknownServerError',
   message: message || 'some fields are not valid',
   details: {},
 })
 
-export const BadJsonPayload: CustomHttpErrorProps = {
+export const BadJsonPayload: HttpErrorProps = {
   status: 400,
   name: 'JsonSyntaxError',
   message: "can't parse the json payload",
   details: {},
 }
 
-export const PassportUnAuthorized: (
-  name: string | undefined,
-  info: any
-) => CustomHttpErrorProps = (name, info) => ({
-  status: 401,
-  name: 'UnAuthorized',
-  message: name || 'authentication failed',
-  details: info,
-})
-
-export const PassportNoUser: CustomHttpErrorProps = {
-  status: 401,
-  name: 'UnAuthorized',
-  message: 'user was not found',
-  details: {},
-}
-
-export const PrivateRoute: CustomHttpErrorProps = {
+export const PrivateRoute: HttpErrorProps = {
   status: 500,
   name: 'ServerError',
   message: 'authentication error, private route',
   details: {},
 }
 
-export const NoLog: CustomHttpErrorProps = {
+export const NoLog: HttpErrorProps = {
   status: 500,
   name: 'ServerError',
   message: "log wasn't found",
   details: {},
 }
 
-export const NoCategory: CustomHttpErrorProps = {
+export const NoCategory: HttpErrorProps = {
   status: 500,
   name: 'ServerError',
   message: "category wasn't found",
   details: {},
 }
-export const FailedToDelete: CustomHttpErrorProps = {
+export const FailedToDelete: HttpErrorProps = {
   status: 500,
   name: 'ServerError',
   message: 'failed to delete',

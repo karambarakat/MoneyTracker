@@ -10,8 +10,8 @@ import {
   Stack,
 } from '@mantine/core'
 import { store } from '@redux/index'
-import { USER_LOGOUT } from '@redux/actions/user'
-import { RootState, UserActionTypes, UserState } from '@redux/types'
+
+import { MyDispatch, RootState, UserState } from '@redux/types'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 
@@ -82,7 +82,7 @@ export function ProfileIndex() {
         sx={{ width: '100%' }}
         color="red"
         onClick={() => {
-          store.dispatch<UserActionTypes>({ type: USER_LOGOUT })
+          store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })
           exit()
         }}
       >
