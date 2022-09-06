@@ -49,7 +49,7 @@ export default function () {
           </Title>
           <Stack>
             <Button
-              color="blue"
+              color="indigo"
               variant="filled"
               style={{ height: 48 }}
               onClick={() => {

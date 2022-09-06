@@ -1,4 +1,4 @@
-import { Input, InputWrapper } from '@mantine/core'
+import { Input } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 import { string } from 'yup'
 
@@ -33,19 +33,19 @@ function MyEmailInput({
     >
       {({ field, meta }: FieldProps) => {
         return (
-          <InputWrapper
+          <Input.Wrapper
             required={required}
-            size='sm'
+            size="sm"
             label={label || 'Email'}
             description={description}
             error={meta.touched && meta.error}
           >
             <Input
-              size='sm'
+              size="sm"
               placeholder={placeholder || 'Enter Your email'}
               {...field}
             />
-          </InputWrapper>
+          </Input.Wrapper>
         )
       }}
     </Field>

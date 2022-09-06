@@ -1,5 +1,4 @@
 import { Link, useRoutes } from '@components/ReactRouter'
-import Separator from '@components/Seperator'
 import {
   Box,
   Avatar,
@@ -8,6 +7,7 @@ import {
   useMantineTheme,
   Button,
   Stack,
+  Divider,
 } from '@mantine/core'
 import { store } from '@redux/index'
 
@@ -52,7 +52,7 @@ function Profile() {
           </Text>
         </Box>
       </Group>
-      <Separator />
+      <Divider my={24} />
       <Outlet />
     </>
   )
@@ -65,21 +65,29 @@ export function ProfileIndex() {
   return (
     <Stack>
       <Link to={'/profile/update'}>
-        <Button sx={{ width: '100%' }}>Update the Profile</Button>
+        <Button style={{ width: '100%' }} size="md" variant="filled">
+          Update the Profile
+        </Button>
       </Link>
       {!user.profile?.providers.includes('local') && (
         <Link to={'/profile/setPassword'}>
-          <Button sx={{ width: '100%' }}>Set Password</Button>
+          <Button style={{ width: '100%' }} size="md" variant="filled">
+            Set Password
+          </Button>
         </Link>
       )}
       {user.profile?.providers.includes('local') && (
         <Link to={'/profile/changePassword'}>
-          <Button sx={{ width: '100%' }}>Change Password</Button>
+          <Button style={{ width: '100%' }} size="md" variant="filled">
+            Change Password
+          </Button>
         </Link>
       )}
 
       <Button
-        sx={{ width: '100%' }}
+        style={{ width: '100%' }}
+        size="md"
+        variant="filled"
         color="red"
         onClick={() => {
           store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })

@@ -46,8 +46,13 @@ export function UserController() {
 
   return (
     <Menu
+      transition={'pop'}
+      position="bottom-start"
       styles={{ root: { width: '100%' } }}
-      control={
+      opened={opened}
+      onClose={handlers.close}
+    >
+      <Menu.Target>
         <div onClick={handlers.toggle}>
           <MyButton>
             <Group sx={{ flexWrap: 'nowrap' }}>
@@ -86,22 +91,21 @@ export function UserController() {
             </Group>
           </MyButton>
         </div>
-      }
-      opened={opened}
-      onClose={handlers.close}
-    >
-      <Menu.Label>User</Menu.Label>
-      <Link to={'/profile'} as_modal>
-        <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
-      </Link>
-      <Menu.Item
-        icon={<Logout size={14} />}
-        onClick={() => {
-          store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })
-        }}
-      >
-        Log Out
-      </Menu.Item>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Label>User</Menu.Label>
+        <Link to={'/profile'} as_modal>
+          <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
+        </Link>
+        <Menu.Item
+          icon={<Logout size={14} />}
+          onClick={() => {
+            store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })
+          }}
+        >
+          Log Out
+        </Menu.Item>
+      </Menu.Dropdown>
     </Menu>
   )
 }

@@ -14,3 +14,5 @@ declare module 'history' {
     } | null
   }
 }
+
+declare type ColorScheme = 'l' | 'i'

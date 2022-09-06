@@ -1,4 +1,4 @@
-import { Checkbox as MCheckbox, InputWrapper } from '@mantine/core'
+import { Checkbox as MCheckbox, Input } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 
 interface Props {
@@ -23,20 +23,20 @@ function MyCheckbox({
     <Field name={formikName}>
       {({ field, meta }: FieldProps) => {
         return (
-          <InputWrapper
+          <Input.Wrapper
             required={required}
-            size='sm'
+            size="sm"
             // label={label || 'User Name'}
             description={description}
             error={meta.touched && meta.error}
           >
             <MCheckbox
               label={label}
-              size='sm'
+              size="sm"
               placeholder={placeholder || 'chose you user name'}
               {...field}
             />
-          </InputWrapper>
+          </Input.Wrapper>
         )
       }}
     </Field>

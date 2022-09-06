@@ -5,65 +5,69 @@ import {
   MantineProvider,
 } from '@mantine/core'
 import { useToggle } from '@mantine/hooks'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useState } from 'react'
 
 interface Props extends PropsWithChildren<any> {}
 function MantineSetUp({ children }: Props) {
-  const [colorScheme, toggleColorScheme] = useToggle<ColorScheme>('light', [
-    'light',
-    'dark',
-  ])
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('light')
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'))
   return (
-    <MantineProvider
-      withGlobalStyles
-      theme={{
-        colorScheme: colorScheme,
-        primaryColor: 'theme-orange',
-        colors: {
-          'theme-orange': [
-            // '#ffffff',
-            '#fff6e6',
-            '#ffedcc',
-            '#ffe4b3',
-            '#ffdb99',
-            '#ffd280',
-            '#ffc966',
-            '#ffc04d',
-            '#ffb733',
-            '#ffae1a',
-            '#ffa500', // main
-            // '#e69500',
-            // '#cc8400',
-            // '#b37300',
-            // '#996300',
-          ],
-        },
-      }}
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
     >
-      <ColorSchemeProvider
-        toggleColorScheme={toggleColorScheme}
-        colorScheme={colorScheme}
+      <MantineProvider
+        withGlobalStyles
+        theme={{
+          colorScheme: colorScheme,
+          primaryColor: 'theme-orange',
+          colors: {
+            'theme-orange': [
+              // '#ffffff',
+              '#fdf5e7', //'#fff6e6',
+              '#fcecce', //'#ffedcc',
+              '#fbe2b6', //'#ffe4b3',
+              '#fad99d', //'#ffdb99',
+              '#f9d085', //'#ffd280',
+              '#f7c66d', //'#ffc966',
+              '#f6bd55', //'#ffc04d',
+              '#f5b43c', //'#ffb733',
+              '#f4aa24', //'#ffae1a',
+              '#f2a10c', //'#ffa500', // main
+              // '#e69500',
+              // '#cc8400',
+              // '#b37300',
+              // '#996300',
+            ],
+          },
+        }}
       >
-        <Global
-          styles={(theme) => ({
-            '*, *::before, *::after': {
-              boxSizing: 'border-box',
-              margin: 0,
-              padding: 0,
-            },
-            a: {
-              textDecoration: 'none',
-              color: 'inherit',
-            },
-            '::selection': {
-              backgroundColor: theme.colors['theme-orange'][4],
-              color: theme.colors.gray[9],
-            },
-          })}
-        />
-        {children}
-      </ColorSchemeProvider>
-    </MantineProvider>
+        <ColorSchemeProvider
+          toggleColorScheme={toggleColorScheme}
+          colorScheme={colorScheme}
+        >
+          <Global
+            styles={(theme) => ({
+              '*, *::before, *::after': {
+                boxSizing: 'border-box',
+                margin: 0,
+                padding: 0,
+              },
+              a: {
+                textDecoration: 'none',
+                color: 'inherit',
+              },
+              '::selection': {
+                backgroundColor: theme.colors['theme-orange'][4],
+                color: theme.colors.gray[9],
+              },
+            })}
+          />
+          {children}
+        </ColorSchemeProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
   )
 }
 

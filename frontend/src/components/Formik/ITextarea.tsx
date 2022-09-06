@@ -1,6 +1,5 @@
 import {
   Input,
-  InputWrapper,
   NumberInput,
   NumberInputProps,
   Textarea,
@@ -30,7 +29,7 @@ function MyTextarea({
     <Field name={formikName}>
       {({ field, meta }: FieldProps) => {
         return (
-          <InputWrapper
+          <Input.Wrapper
             required={required}
             size="sm"
             label={label || 'Notes'}
@@ -44,7 +43,7 @@ function MyTextarea({
               placeholder={placeholder || 'Enter More Details'}
               {...field}
             />
-          </InputWrapper>
+          </Input.Wrapper>
         )
       }}
     </Field>

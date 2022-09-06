@@ -1,4 +1,4 @@
-import { Input, InputWrapper } from '@mantine/core'
+import { Input } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 
 interface Props {
@@ -23,19 +23,19 @@ function MyUserInput({
     <Field name={formikName}>
       {({ field, meta }: FieldProps) => {
         return (
-          <InputWrapper
+          <Input.Wrapper
             required={required}
-            size='sm'
+            size="sm"
             label={label || 'User Name'}
             description={description}
             error={meta.touched && meta.error}
           >
             <Input
-              size='sm'
+              size="sm"
               placeholder={placeholder || 'chose you user name'}
               {...field}
             />
-          </InputWrapper>
+          </Input.Wrapper>
         )
       }}
     </Field>

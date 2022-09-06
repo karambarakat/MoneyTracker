@@ -1,7 +1,4 @@
-import {
-  InputWrapper,
-  PasswordInput as MantinePasswordInput,
-} from '@mantine/core'
+import { Input, PasswordInput as MantinePasswordInput } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 import { string } from 'yup'
 
@@ -27,19 +24,19 @@ function MyPasswordInput({
     <Field name={formikName}>
       {({ field, meta }: FieldProps) => {
         return (
-          <InputWrapper
+          <Input.Wrapper
             required={required}
-            size='sm'
+            size="sm"
             label={label || 'Password'}
             description={description}
             error={meta.touched && meta.error}
           >
             <MantinePasswordInput
-              size='sm'
+              size="sm"
               placeholder={placeholder || 'Enter Password'}
               {...field}
             />
-          </InputWrapper>
+          </Input.Wrapper>
         )
       }}
     </Field>

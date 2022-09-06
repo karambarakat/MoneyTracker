@@ -1,10 +1,4 @@
-import {
-  Input,
-  InputWrapper,
-  NumberInput,
-  NumberInputProps,
-  TextInput,
-} from '@mantine/core'
+import { Input, NumberInput, NumberInputProps, TextInput } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 
 interface Props {
@@ -29,7 +23,7 @@ function MyAmountInput({
     <Field name={formikName}>
       {({ field, meta }: FieldProps) => {
         return (
-          <InputWrapper
+          <Input.Wrapper
             required={required}
             size="sm"
             label={label || 'Amount'}
@@ -49,7 +43,7 @@ function MyAmountInput({
               placeholder={placeholder || 'Enter The Money Amount'}
               {...field}
             />
-          </InputWrapper>
+          </Input.Wrapper>
         )
       }}
     </Field>

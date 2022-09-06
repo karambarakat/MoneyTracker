@@ -1,52 +1,40 @@
 import Brand from '@components/Brand'
-import ToggleColorScheme from '@components/ToggleColorScheme'
 import {
   ChartPie2,
-  ChevronLeft,
-  ChevronRight,
   InfoCircle,
   LayoutGrid,
   MoonStars,
   Settings,
-  Logout,
   Star,
   Sun,
   TableExport,
-  User,
 } from 'tabler-icons-react'
 
 import {
   ActionIcon,
   AppShell,
-  Avatar,
   Box,
   Burger,
+  Divider,
   Drawer,
   Group,
-  Header,
   MediaQuery,
-  Menu,
   Navbar,
   ScrollArea,
   Text,
   ThemeIcon,
   Title,
-  UnstyledButton,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core'
 import MyContainer from '@components/Mantine/Container'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { PropsWithChildren, useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import MyButton from '@components/Mantine/Button'
-import Separator from '@components/Seperator'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState, UserActionTypes, UserState } from '@redux/types'
-import { store } from '@redux/index'
 
 import { Link } from '@components/ReactRouter'
 import { UserController } from '@components/UserController'
+import ToggleColorScheme from '@components/ToggleColorScheme'
 
 export default function Main_Layout_Component() {
   const theme = useMantineTheme()
@@ -118,13 +106,13 @@ function Navbar_Custom({ opened }: { opened: boolean }) {
         <BrandNavbar />
       </Navbar.Section>
 
-      <Separator />
+      <Divider my={10} />
 
       <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
         <ContentNavbar />
       </Navbar.Section>
 
-      <Separator />
+      <Divider my={10} />
 
       <Navbar.Section>
         <UserController />
@@ -145,14 +133,7 @@ function BrandNavbar() {
     >
       <Group position="apart">
         <Brand />
-        <ActionIcon
-          variant="outline"
-          onClick={() => toggleColorScheme()}
-          size={30}
-          color={colorScheme === 'dark' ? 'yellow' : 'blue'}
-        >
-          {colorScheme === 'dark' ? <Sun size={16} /> : <MoonStars size={16} />}
-        </ActionIcon>
+        <ToggleColorScheme />
       </Group>
     </Box>
   )
@@ -221,7 +202,7 @@ function ContentNavbar() {
           </Link>
         )
       })}
-      <Separator />
+      <Divider my={10} />
       {data.map((element) => {
         return (
           <Link
