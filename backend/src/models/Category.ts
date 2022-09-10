@@ -8,12 +8,12 @@ const CategorySchema = new mongoose.Schema<ICategory>({
   },
   color: {
     type: String,
-    validate: {
-      validator: function (v: string) {
-        return typeof v === 'string' && /^#[\dabcdef]{6}$/.test(v)
-      },
-      message: (props: any) => `${props.value} is not hex color`,
-    },
+    // validate: {
+    //   validator: function (v: string) {
+    //     return typeof v === 'string' && /^#[\dabcdef]{6}$/.test(v)
+    //   },
+    //   message: (props: any) => `${props.value} is not hex color`,
+    // },
   },
   icon: { type: String },
   createdBy: { type: mongoose.Types.ObjectId },

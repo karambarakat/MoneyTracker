@@ -26,6 +26,7 @@ const Index = lazy(() => import('@routes/index'))
 const Categories = lazy(() => import('@routes/categories'))
 const Charts = lazy(() => import('@routes/Charts'))
 const AddLog = lazy(() => import('@components/Forms/Log_add'))
+const AddCategory = lazy(() => import('@components/Forms/Add_category'))
 const About = lazy(() => import('@routes/about'))
 const E404 = lazy(() => import('@routes/_E404'))
 
@@ -44,6 +45,7 @@ function App() {
 
               <Route path="about" element={<About />} />
               <Route path="addLog" element={<AddLog />} />
+              <Route path="addCategory" element={<AddCategory />} />
 
               <Route path="profile" element={<Profile />}>
                 <Route index element={<ProfileIndex />} />

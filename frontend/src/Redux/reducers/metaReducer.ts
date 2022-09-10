@@ -7,14 +7,14 @@ const initialState: MetaState = {
 /**
  * actions
  */
-export type LogsActionTypes = {
+export type MetaActionTypes = {
   type: 'META_SET_TITLE'
   title: string
 }
 
 export default function metaReducer(
   state: MetaState = initialState,
-  action: LogsActionTypes
+  action: MetaActionTypes
 ): MetaState {
   switch (action.type) {
     case 'META_SET_TITLE':

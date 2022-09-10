@@ -6,6 +6,7 @@ import {
   combineReducers,
 } from 'redux'
 import { save, load } from 'redux-localstorage-simple'
+import categoryReducer from './reducers/categoryReducer'
 import logReducer from './reducers/logReducer'
 import metaReducer from './reducers/metaReducer'
 import userReducer from './reducers/userReducer'
@@ -21,6 +22,7 @@ const middleware: Middleware[] = [
 const rootReducer = combineReducers({
   user: userReducer,
   logs: logReducer,
+  categories: categoryReducer,
   meta: metaReducer,
 })
 

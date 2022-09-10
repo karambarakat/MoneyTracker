@@ -14,6 +14,7 @@ import { ObjectId } from 'mongodb'
 import { category_create, category_update } from 'types/routes/category'
 import Category from '@models/Category'
 import Log from '@models/Log'
+import of from '@utils/omitFalsy'
 
 const router = Router()
 
@@ -44,7 +45,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw httpError(PrivateRoute)
   req.user._id
 
-  const { title, color, icon } = req.body as category_create
+  const { title, color, icon } = of(req.body) as category_create
 
   requiredFields({ title })
 
@@ -123,7 +124,7 @@ async function findAllLogs(req: Request, res: Response, next: NextFunction) {
 async function update(req: Request, res: Response, next: NextFunction) {
   if (!req.category) throw httpError(NoCategory)
 
-  const { title, color, icon } = req.body as category_update
+  const { title, color, icon } = of(req.body) as category_update
 
   req.category.title = title || req.category.title
   req.category.color = color || req.category.color

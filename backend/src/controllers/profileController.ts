@@ -20,6 +20,7 @@ import {
   updatePassword_local,
   updatePassword_nolocal,
 } from 'types/routes/profile'
+import of from '@utils/omitFalsy'
 
 const router = Router()
 
@@ -36,7 +37,7 @@ async function emailProvidersStatus(
   res: Response,
   next: NextFunction
 ) {
-  const { email } = req.body as email_status
+  const { email } = of(req.body) as email_status
 
   requiredFields({ email })
 
@@ -70,7 +71,7 @@ async function updateCurrentUser(
 ) {
   if (!req.user) throw httpError(PrivateRoute)
 
-  const { userName, picture } = req.body as profile_update
+  const { userName, picture } = of(req.body) as profile_update
 
   req.user.userName = userName || req.user.userName
   req.user.picture = picture || req.user.picture
@@ -91,7 +92,7 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw httpError(PrivateRoute)
 
   if (req.user.providers.includes('local')) {
-    const { newPassword, oldPassword } = req.body as updatePassword_local
+    const { newPassword, oldPassword } = of(req.body) as updatePassword_local
     requiredFields({ newPassword, oldPassword })
 
     if (!req.user.matchPasswords(oldPassword))
@@ -100,7 +101,7 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
     req.user.password = newPassword
     await req.user.save()
   } else {
-    const { newPassword } = req.body as updatePassword_nolocal
+    const { newPassword } = of(req.body) as updatePassword_nolocal
     requiredFields({ newPassword })
 
     req.user.password = newPassword

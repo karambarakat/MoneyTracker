@@ -42,8 +42,11 @@ export function requiredFields(object: { [key: string]: any }) {
     throw httpError(
       FieldsRequired(
         Object.keys(object).filter((key) => {
-          const value = !object[key]
-          if (value === null || typeof value === 'undefined') return true
+          const value = object[key]
+          if (value === '' || value === null || typeof value === 'undefined')
+            return false
+
+          return true
         })
       )
     )

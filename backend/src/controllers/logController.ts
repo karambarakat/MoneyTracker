@@ -15,6 +15,7 @@ import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
 import { log_create, log_update } from 'types/routes/log'
+import of from '@utils/omitFalsy'
 
 const router = Router()
 
@@ -43,7 +44,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw httpError(PrivateRoute)
   req.user._id
 
-  const { title, amount, category, note } = req.body as log_create
+  const { title, amount, category, note } = of(req.body) as log_create
 
   requiredFields({ title, amount })
 
@@ -102,7 +103,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
 async function update(req: Request, res: Response, next: NextFunction) {
   if (!req.log) throw httpError(NoLog)
 
-  const { title, amount, category, note } = req.body as log_update
+  const { title, amount, category, note } = of(req.body) as log_update
 
   req.log.title = title || req.log.title
   req.log.amount = amount || req.log.amount

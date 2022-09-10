@@ -1,4 +1,6 @@
+import { CategoriesActionTypes } from './reducers/categoryReducer'
 import { LogsActionTypes } from './reducers/logReducer'
+import { MetaActionTypes } from './reducers/metaReducer'
 import { UserActionTypes } from './reducers/userReducer'
 
 /**
@@ -12,6 +14,7 @@ export interface UserState {
 
 export type LogsState = LogDoc[]
 
+export type CategoriesState = CategoryDoc[]
 export interface MetaState {
   title: string
 }
@@ -20,9 +23,14 @@ export interface RootState {
   user: UserState
   meta: MetaState
   logs: LogsState
+  categories: CategoriesState
 }
 
-export type MyDispatch = UserActionTypes | LogsActionTypes
+export type MyDispatch =
+  | UserActionTypes
+  | LogsActionTypes
+  | CategoriesActionTypes
+  | MetaActionTypes
 
 /**
  * api docs

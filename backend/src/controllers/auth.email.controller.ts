@@ -4,6 +4,7 @@ import {
   UserAlreadyExist,
 } from '@httpErrors/errTypes'
 import User from '@models/User'
+import of from '@utils/omitFalsy'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { auth_local_login, auth_local_register } from 'types/routes/auth_local'
@@ -17,7 +18,7 @@ const local = Router()
  *   @access    Public
  */
 async function local_register(req: Request, res: Response, next: NextFunction) {
-  const { userName, email, password } = req.body as auth_local_register
+  const { userName, email, password } = of(req.body) as auth_local_register
 
   requiredFields({ email, password })
 
@@ -42,7 +43,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
  *   @access    Public
  */
 async function local_login(req: Request, res: Response, next: NextFunction) {
-  const { email, password } = req.body as auth_local_login
+  const { email, password } = of(req.body) as auth_local_login
 
   requiredFields({ email, password })
 

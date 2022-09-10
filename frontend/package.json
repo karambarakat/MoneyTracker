@@ -22,7 +22,7 @@
     "react-transition-group": "^4.4.2",
     "redux": "^4.1.2",
     "redux-localstorage-simple": "^2.4.1",
-    "tabler-icons-react": "^1.43.0",
+    "tabler-icons-react": "^1.54.0",
     "usehooks-ts": "^2.6.0",
     "vite-tsconfig-paths": "^3.4.1",
     "yup": "^0.32.11"
