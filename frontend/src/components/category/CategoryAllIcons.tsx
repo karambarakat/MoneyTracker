@@ -1,6 +1,8 @@
 export { Adjustments } from 'tabler-icons-react'
 export { Plus } from 'tabler-icons-react'
 export { Category2 } from 'tabler-icons-react'
+export { Blur } from 'tabler-icons-react'
+export { Circle } from 'tabler-icons-react'
 
 /**
  * got this list from https://tabler-icons-react.vercel.app/
@@ -20,7 +22,7 @@ const callback = (mutationList, observer) => {
 
 const observer = new MutationObserver(callback);
 
-observer.observe($0, config);
+observer.observe(targetNode, config);
 ```
  * */
 export { World } from 'tabler-icons-react'

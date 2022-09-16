@@ -27,6 +27,7 @@ function LogAccordion({ log }: { log: LogDoc }) {
           <Text color={'gray'} variant="text">
             last updated: {moment(log.updateAt).format('lll')}
           </Text>
+
           <Stack justify={'end'} style={{ flexDirection: 'row' }}>
             <Button variant="light" color={'red'}>
               Delete

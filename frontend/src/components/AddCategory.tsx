@@ -1,5 +1,4 @@
 import { Box, Text, ThemeIcon } from '@mantine/core'
-import React from 'react'
 import { Plus } from 'tabler-icons-react'
 import { Link } from './ReactRouter'
 

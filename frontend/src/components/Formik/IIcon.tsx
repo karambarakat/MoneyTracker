@@ -1,8 +1,9 @@
 import { ActionIcon, Box, Input, ScrollArea } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
-import * as AllIcons from '../CategoryAllTabler'
-import type * as AllIconsTypes from '../CategoryAllTabler'
+import * as AllIcons from '@components/category/CategoryAllIcons'
+
 import { IconProps } from 'tabler-icons-react'
+import CategoryIcon from '@components/category/CategoryIcon'
 
 interface Props {
   /**
@@ -47,23 +48,25 @@ function MyIconInput({ formikName, required, label, description }: Props) {
                     alignItems: 'center',
                   }}
                 >
-                  {Object.keys(AllIcons).map((icon) => {
-                    // @ts-ignore
-                    const Icon: React.FC<IconProps> = AllIcons[icon]
-
+                  {CategoryIcon.collection.allIcons.map(({ key }) => {
                     return (
-                      <ActionIcon
-                        size={38}
-                        variant={field.value === icon ? 'filled' : 'subtle'}
+                      <div
                         onClick={() => {
-                          formikProps.setFieldValue(formikName, icon)
+                          formikProps.setFieldValue(formikName, key)
                         }}
-                        radius="xl"
-                        //
-                        color={formikProps.values?.color || 'dark'}
                       >
-                        <Icon style={{ margin: '8px' }} />
-                      </ActionIcon>
+                        <CategoryIcon.Hoverable>
+                          <CategoryIcon
+                            on={field.value === key}
+                            size={38}
+                            variant={field.value === key ? 'filled' : 'subtle'}
+                            cat={{
+                              icon: key,
+                              color: formikProps.values.color || 'gray',
+                            }}
+                          />
+                        </CategoryIcon.Hoverable>
+                      </div>
                     )
                   })}
                 </Box>

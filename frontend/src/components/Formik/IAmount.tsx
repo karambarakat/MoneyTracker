@@ -1,4 +1,4 @@
-import { Input, NumberInput, NumberInputProps, TextInput } from '@mantine/core'
+import { Input } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
 
 interface Props {

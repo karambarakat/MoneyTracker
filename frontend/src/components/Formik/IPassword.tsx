@@ -1,6 +1,5 @@
 import { Input, PasswordInput as MantinePasswordInput } from '@mantine/core'
 import { Field, FieldProps } from 'formik'
-import { string } from 'yup'
 
 interface Props {
   /**

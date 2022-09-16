@@ -1,4 +1,5 @@
-import CategoryAllColors from '@components/CategoryAllColors'
+import CategoryAllColors from '@components/category/CategoryAllColors'
+import CategoryIcon from '@components/category/CategoryIcon'
 import { ActionIcon, Box, Input } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { Blur, Circle } from 'tabler-icons-react'
@@ -42,19 +43,25 @@ function MyColorInput({ formikName, required, label, description }: Props) {
                   alignItems: 'center',
                 }}
               >
-                {CategoryAllColors.map((icon) => {
+                {CategoryIcon.collection.allColors.map((color) => {
                   return (
-                    <ActionIcon
-                      size={38}
-                      variant={field.value === icon ? 'light' : 'subtle'}
+                    <div
                       onClick={() => {
-                        formikProps.setFieldValue(formikName, icon)
+                        formikProps.setFieldValue(formikName, color)
                       }}
-                      radius="xl"
-                      color={icon}
                     >
-                      {field.value !== icon ? <Circle /> : <Blur />}
-                    </ActionIcon>
+                      <CategoryIcon.Hoverable>
+                        <CategoryIcon
+                          on={false}
+                          size={38}
+                          variant={field.value === color ? 'light' : 'subtle'}
+                          cat={{
+                            color,
+                            icon: field.value !== color ? 'Circle' : 'Blur',
+                          }}
+                        />
+                      </CategoryIcon.Hoverable>
+                    </div>
                   )
                 })}
               </Box>

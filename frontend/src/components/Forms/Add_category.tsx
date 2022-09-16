@@ -1,15 +1,13 @@
-import { ColorInput, Group, Stack } from '@mantine/core'
+import { Group, Stack } from '@mantine/core'
 import { Form, Formik, FormikHelpers } from 'formik'
-import { ObjectSchema as yupObj, string as yupStr, number as yupNum } from 'yup'
+import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import { useRoutes } from '@components/ReactRouter'
 import MySimpleInput from '@components/Formik/ISimple'
-import MyAmountInput from '@components/Formik/IAmount'
-import MyTextarea from '@components/Formik/ITextarea'
 import category_create, { CreateCategoryArgs } from '@redux/api/category_create'
 import MyColorInput from '@components/Formik/IColor'
-import MyIconInput from '@components/Formik/IIconInput'
+import MyIconInput from '@components/Formik/IIcon'
 
 interface Values extends CreateCategoryArgs {}
 

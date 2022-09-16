@@ -8,6 +8,7 @@ import log_create, { CreateLogArgs } from '@redux/api/log_create'
 import MySimpleInput from '@components/Formik/ISimple'
 import MyAmountInput from '@components/Formik/IAmount'
 import MyTextarea from '@components/Formik/ITextarea'
+import MyCategoryInput from '@components/Formik/ICategory'
 
 interface Values extends CreateLogArgs {}
 
@@ -60,6 +61,8 @@ function AddLog() {
           />
 
           <MyAmountInput required formikName="amount" />
+
+          <MyCategoryInput label="Category" formikName="category" />
 
           <MyTextarea formikName="note" />
 

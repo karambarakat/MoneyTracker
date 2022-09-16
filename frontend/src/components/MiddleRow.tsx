@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core'
+import { Box, Stack } from '@mantine/core'
 import { useResizeObserver } from '@mantine/hooks'
 import React, {
   createContext,
@@ -27,7 +27,8 @@ const context = createContext<Dispatch<SetStateAction<Partial<IContext>>>>(
 function MiddleRow({
   children: callUseEffects,
   index,
-}: PropsWithChildren<{ index: number }>) {
+  minWidth = '96px',
+}: PropsWithChildren<{ index: number; minWidth?: string }>) {
   const [ref, rect] = useResizeObserver()
   const [cols, setCols] = React.useState(0)
   React.useEffect(() => {
@@ -38,36 +39,44 @@ function MiddleRow({
   const _c = useRef<IContext>(initialValues)
   const [children, setContext] = React.useState<IContext>(initialValues)
 
-  const otherHalf = React.useMemo(() => {
-    return children.elems.slice(Math.ceil(index / cols) * cols)
-  }, [children.elems, cols, index])
+  const newIndex = Math.ceil((index + 1) / cols) * cols
 
   return (
     <context.Provider
       value={(arg) => setContext((_c.current = { ..._c.current, ...arg }))}
     >
-      <div ref={ref}>
+      <Box
+        sx={{
+          // gap: '24px',
+          display: 'grid',
+          gridTemplateColumns: `repeat(auto-fill, minmax(${minWidth}, 1fr))`,
+          rowGap: '24px',
+          justifyItems: 'center',
+          '> *': {
+            order: 1,
+          },
+          '> .cutInHalf, > .cutInHalf ~ *': {
+            order: 3,
+          },
+        }}
+        ref={ref}
+      >
+        <div
+          style={{
+            order: 2,
+            gridColumn: `1 / span ${cols}`,
+            justifySelf: 'stretch',
+          }}
+        >
+          {children.middle}
+        </div>
+        {children.elems.map((elem, index) => (
+          <div key={index} className={index === newIndex ? 'cutInHalf' : ''}>
+            {elem}
+          </div>
+        ))}
         {callUseEffects}
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))',
-            justifyItems: 'center',
-          }}
-        >
-          {children.elems.slice(0, Math.ceil(index / cols) * cols)}
-        </Box>
-        {children.middle}
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))',
-            justifyItems: 'center',
-          }}
-        >
-          {otherHalf}
-        </Box>
-      </div>
+      </Box>
     </context.Provider>
   )
 }

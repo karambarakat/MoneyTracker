@@ -5,7 +5,6 @@ function ToggleColorScheme() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   // @ts-ignore
   const dark = colorScheme === 'i'
-  console.log(dark)
   return (
     <ActionIcon
       variant="outline"

@@ -2,8 +2,8 @@ import MyEmailInput from '@components/Formik/IEmail'
 import MyPasswordInput from '@components/Formik/IPassword'
 import MyUserInput from '@components/Formik/IUser'
 import MyCheckbox from '@components/Formik/ICheckbox'
-import { Accordion, Alert, Button, Input, Space, Stack } from '@mantine/core'
-import { Field, Form, Formik, FormikHelpers } from 'formik'
+import { Stack } from '@mantine/core'
+import { Form, Formik, FormikHelpers } from 'formik'
 import {
   boolean as yupBool,
   ObjectSchema as yupObj,
@@ -12,8 +12,6 @@ import {
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
 import user_signup, { UserSignUpArgs } from '@redux/api/user_signup'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useCallback } from 'react'
 import { useRoutes } from '@components/ReactRouter'
 
 interface Values extends UserSignUpArgs {
