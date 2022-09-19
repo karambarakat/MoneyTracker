@@ -4,20 +4,22 @@ import { X } from 'tabler-icons-react'
 
 function Dismissible({
   children,
-  refresh,
+  opened,
   onclose,
-}: React.PropsWithChildren<{ refresh?: any; onclose?: () => void }>) {
-  const [opened, setOpened] = React.useState(false)
+}: React.PropsWithChildren<{
+  opened: boolean
+  onclose?: () => void
+}>) {
   const firstTile = React.useRef(true)
 
-  React.useEffect(() => {
-    if (typeof refresh === 'undefined') return
-    !firstTile.current && setOpened(true)
-  }, [refresh])
+  // React.useEffect(() => {
+  //   if (typeof refresh === 'undefined') return
+  //   !firstTile.current && setOpened(true)
+  // }, [refresh])
 
-  React.useEffect(() => {
-    firstTile.current = false
-  })
+  // React.useEffect(() => {
+  //   firstTile.current = false
+  // })
 
   return !opened ? null : (
     <Box
@@ -32,7 +34,6 @@ function Dismissible({
           <X
             color="gray"
             onClick={() => {
-              setOpened(false)
               onclose && onclose()
             }}
           />

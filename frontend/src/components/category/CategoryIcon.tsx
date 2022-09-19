@@ -7,6 +7,7 @@ import {
   MantineNumberSize,
   Text,
   ThemeIcon,
+  ThemeIconProps,
   ThemeIconVariant,
 } from '@mantine/core'
 import { IconProps } from 'tabler-icons-react'
@@ -18,41 +19,21 @@ import { useSelector } from 'react-redux'
 import category_find from '@redux/api/category_find'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@components/category/CategoryAllIcons'
-import { boolean } from 'yup'
 
-function Icon({ icon }: { icon?: string }) {
+function _Icon({ icon }: { icon?: string }) {
   const IconName = icon && icon in allTablerIcon ? icon : 'Category2'
   // @ts-ignore
   const IconComponent = allTablerIcon[IconName]
   return <IconComponent />
 }
 
-interface NativeIconProps {
-  /** Predefined width and height or number for width and height in px */
-  size?: MantineNumberSize
-  /** Predefined border-radius from theme.radius or number for border-radius in px */
-  radius?: MantineNumberSize
-  /** Icon color from theme */
-  color?: MantineColor
-  /** Controls appearance */
-  variant?: ThemeIconVariant | 'subtle'
-  /** Controls gradient settings in gradient variant only */
-  gradient?: MantineGradient
-}
-
-interface CategoryIconInterface extends NativeIconProps {
-  on?: boolean
-  cat: Partial<CategoryDoc>
-}
-
 const useHov = createStyles<
   'Parent' | 'Child',
   { color?: string; on?: boolean } | null
->((th, _p, getRef) => {
-  const i = _p?.on ? 7 : 1
+>((th, props, getRef) => {
+  const i = props?.on ? 7 : 1
   const bg =
-    (_p?.color && th.colors?.[_p.color] && th.colors[_p.color][i]) ||
-    th.colors.gray[i]
+    (props?.color && th.colors?.[props.color]?.[i]) || th.colors.gray[i]
 
   return {
     Parent: {
@@ -68,32 +49,48 @@ const useHov = createStyles<
   }
 })
 
-/**
- * Outers
- */
+interface CatInterface {
+  title?: string
+  color?: string
+  icon?: string
+}
+
+type _ThemeIconProps = Pick<
+  ThemeIconProps,
+  'size' | 'radius' | 'color' | 'gradient'
+> & { variant?: ThemeIconProps['variant'] | 'subtle' }
+
+interface CategoryIconInterface extends Omit<_ThemeIconProps, 'children'> {
+  on?: boolean
+  cat?: Omit<CatInterface, 'title'>
+}
 
 function CategoryIcon({
-  cat,
+  cat = { icon: undefined, color: undefined },
   on,
   ...props
-}: CategoryIconInterface & { on: boolean }) {
-  const color = (
-    cat.color && allColors.some((c) => c === cat.color) ? cat.color : 'gray'
-  ) as string
+}: CategoryIconInterface) {
+  const color = React.useMemo(
+    () =>
+      cat?.color && allColors.some((c) => c === cat.color)
+        ? cat?.color
+        : 'gray',
+    [cat?.color]
+  )
 
   const styles = useHov({ color, on })
+
   return (
-    // @ts-ignore
     <ThemeIcon
       radius={'xl'}
       size={48}
       color={color}
       // @ts-ignore
       variant={on ? 'filled' : 'light'}
-      className={styles.classes.Child}
       {...props}
+      className={styles.classes.Child}
     >
-      <Icon icon={cat.icon} />
+      <_Icon icon={cat?.icon} />
     </ThemeIcon>
   )
 }
@@ -114,7 +111,7 @@ CategoryIcon.Hoverable = function ({
 CategoryIcon.WithTitle = function ({
   children,
   title,
-}: PropsWithChildren<Pick<CategoryDoc, 'title'>>) {
+}: PropsWithChildren<Pick<CatInterface, 'title'>>) {
   return (
     <Box
       sx={{
@@ -125,10 +122,16 @@ CategoryIcon.WithTitle = function ({
       }}
     >
       {children}
-      <Text sx={{ wordBreak: 'break-word', textAlign: 'center' }}>{title}</Text>
+      <Text sx={{ wordBreak: 'break-word', textAlign: 'center' }}>
+        {title || 'Not Categorized'}
+      </Text>
     </Box>
   )
 }
+
+/**
+ *  collections
+ */
 
 const collectionAllCategories = () => {
   const cats = useSelector<RootState, CategoriesState>((s) => s.categories)

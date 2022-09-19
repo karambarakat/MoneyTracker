@@ -46,6 +46,7 @@ function MyColorInput({ formikName, required, label, description }: Props) {
                 {CategoryIcon.collection.allColors.map((color) => {
                   return (
                     <div
+                      key={color}
                       onClick={() => {
                         formikProps.setFieldValue(formikName, color)
                       }}

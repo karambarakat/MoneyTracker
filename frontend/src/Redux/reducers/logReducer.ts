@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { LogDoc, LogsState } from './../types'
 const initialState: LogsState = []
 
@@ -28,9 +29,13 @@ export default function logReducer(
 ): LogsState {
   switch (action.type) {
     case 'LOG_ADD_ALL':
-      return action.logs
+      return action.logs.sort(
+        (prev, next) =>
+          new Date(next.createdAt).getTime() -
+          new Date(prev.createdAt).getTime()
+      )
     case 'LOG_ADD_ONE':
-      return [...state, action.log]
+      return [action.log, ...state]
     case 'LOG_UPDATE_ONE':
       return state.map((log) => {
         if (log._id === action.log._id) return action.log

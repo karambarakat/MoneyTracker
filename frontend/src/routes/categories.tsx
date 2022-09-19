@@ -19,18 +19,20 @@ import {
   LogsState,
   RootState,
 } from '@redux/types'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Category, Plus, X } from 'tabler-icons-react'
-import { useHover } from '@mantine/hooks'
+import { useDisclosure, useHover } from '@mantine/hooks'
 import MiddleRow from '@components/MiddleRow'
 import AddCategory from '@components/AddCategory'
 import Dismissible from '@components/Dissmasible'
+import { Link } from '@components/ReactRouter'
+import category_delete from '@redux/api/category_delete'
 
 function Categories_Page_Component() {
   const cats = CategoryIcon.collection.useAllCats()
 
-  const [catId, setSelectedCat] = React.useState('')
+  const [catId, __] = React.useState('')
   const [cIndex, c] = React.useMemo(() => {
     if (cats.length === 0) return [0, undefined]
 
@@ -42,13 +44,23 @@ function Categories_Page_Component() {
     return [catIndex, cats[catIndex]]
   }, [catId])
 
+  const [opened, handles] = useDisclosure(false, {
+    onClose: () => {
+      __('')
+    },
+  })
+  const setSelected = (id: string) => {
+    handles.open()
+    __(id)
+  }
+
   return (
     <Paper shadow={'xs'} p={32}>
       <MiddleRow index={cIndex}>
         <MiddleRow.Elems>
           {[
             ...cats.map((cat) => (
-              <div onClick={() => setSelectedCat(cat._id)}>
+              <div onClick={() => setSelected(cat._id)}>
                 <CategoryIcon.Hoverable key={cat._id}>
                   <CategoryIcon.WithTitle title={cat.title}>
                     <CategoryIcon
@@ -65,11 +77,8 @@ function Categories_Page_Component() {
         </MiddleRow.Elems>
 
         <MiddleRow.Middle>
-          <Dismissible
-            onclose={() => setSelectedCat('')}
-            refresh={catId || undefined}
-          >
-            <CatDetails cat={c} />
+          <Dismissible opened={opened} onclose={() => handles.close()}>
+            <CatDetails context={() => handles.close()} cat={c} />
           </Dismissible>
         </MiddleRow.Middle>
       </MiddleRow>
@@ -77,17 +86,19 @@ function Categories_Page_Component() {
   )
 }
 
-function CatDetails({ cat }: { cat?: CategoryDoc }) {
+function CatDetails({
+  cat,
+  context,
+}: {
+  context: () => void
+  cat?: CategoryDoc
+}) {
   const logs_ = useSelector<RootState, LogsState>((s) => s.logs)
-  const logs = React.useMemo(
-    () =>
-      !cat
-        ? []
-        : logs_.filter((e) => {
-            return e._id === cat._id
-          }),
-    [logs_]
-  )
+  const total = React.useMemo(() => {
+    return logs_
+      .filter((log) => log.category?._id === cat?._id)
+      .reduce((a, b) => a + b.amount, 0)
+  }, [logs_, cat])
 
   return !cat ? null : (
     <Stack sx={(th) => ({ backgroundColor: th.colors?.gray[0] || 'gray' })}>
@@ -105,13 +116,22 @@ function CatDetails({ cat }: { cat?: CategoryDoc }) {
           </Text>
         </Stack>
       </Stack>
-      <Text>{logs_.reduce((prev, curr) => prev + curr.amount, 0)}</Text>
+      <Text>total: {total}</Text>
 
       <Stack justify={'end'} sx={{ flexDirection: 'row' }}>
-        <Button variant="light" color={'red'}>
+        <Button
+          variant="light"
+          color={'red'}
+          onClick={() => {
+            category_delete(cat._id)
+            context()
+          }}
+        >
           Delete
         </Button>
-        <Button>Edit</Button>
+        <Link to={'/editCategory/' + cat._id} as_modal>
+          <Button>Edit</Button>
+        </Link>
       </Stack>
     </Stack>
   )

@@ -56,6 +56,7 @@ export interface LogDoc {
     _id: string
     title: string
     color: string
+    icon: string
   }
   note?: string
 

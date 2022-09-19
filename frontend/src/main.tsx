@@ -24,9 +24,12 @@ import Profile_ChangePassword from '@components/Forms/Profile_changePassword'
 
 const Index = lazy(() => import('@routes/index'))
 const Categories = lazy(() => import('@routes/categories'))
+// @ts-ignore
 const Charts = lazy(() => import('@routes/Charts'))
 const AddLog = lazy(() => import('@components/Forms/Log_add'))
-const AddCategory = lazy(() => import('@components/Forms/Add_category'))
+const EditLog = lazy(() => import('@components/Forms/Log_edit'))
+const AddCategory = lazy(() => import('@components/Forms/Category_add'))
+const EditCategory = lazy(() => import('@components/Forms/Category_edit'))
 const About = lazy(() => import('@routes/about'))
 const E404 = lazy(() => import('@routes/_E404'))
 
@@ -45,7 +48,9 @@ function App() {
 
               <Route path="about" element={<About />} />
               <Route path="addLog" element={<AddLog />} />
+              <Route path="editLog/:id" element={<EditLog />} />
               <Route path="addCategory" element={<AddCategory />} />
+              <Route path="editCategory/:id" element={<EditCategory />} />
 
               <Route path="profile" element={<Profile />}>
                 <Route index element={<ProfileIndex />} />

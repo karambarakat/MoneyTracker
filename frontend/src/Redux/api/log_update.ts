@@ -7,7 +7,10 @@ import { store } from '../index'
 
 export type UpdateLogArgs = [
   LogDoc['_id'],
-  Omit<LogDoc, 'createdBy' | '__v' | '_id' | 'createdAt' | 'updateAt'>
+  Omit<
+    LogDoc,
+    'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updateAt'
+  > & { category?: string }
 ]
 
 // not used yet

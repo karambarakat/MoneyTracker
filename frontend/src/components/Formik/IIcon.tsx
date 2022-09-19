@@ -51,6 +51,7 @@ function MyIconInput({ formikName, required, label, description }: Props) {
                   {CategoryIcon.collection.allIcons.map(({ key }) => {
                     return (
                       <div
+                        key={key}
                         onClick={() => {
                           formikProps.setFieldValue(formikName, key)
                         }}

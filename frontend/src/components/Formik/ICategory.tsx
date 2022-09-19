@@ -51,6 +51,7 @@ function MyCategoryInput({ formikName, required, label, description }: Props) {
                 >
                   {cats.map((cat) => (
                     <div
+                      key={cat._id}
                       onClick={() => {
                         formikProps.setFieldValue(formikName, cat._id)
                       }}

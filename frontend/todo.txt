@@ -1,0 +1,18 @@
+Chart page
+
+export page
+setting page + rate us + about
+
+offline users
+
+empty logs and empty categories
+
+animation on deleting entries
+
+commands + stack notification + undo commands
+
+progressive app
+
+move to react native??
+
+refactor redux api and actions

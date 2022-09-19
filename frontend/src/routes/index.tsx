@@ -1,18 +1,6 @@
 import AddLogButton from '@components/AddLogButton'
-import {
-  Accordion,
-  Button,
-  Card,
-  Divider,
-  Group,
-  Spoiler,
-  Stack,
-  Text,
-  useMantineColorScheme,
-  useMantineTheme,
-} from '@mantine/core'
+import { Accordion, Card, Divider, Stack } from '@mantine/core'
 import log_find from '@redux/api/log_find'
-import { Link } from 'react-router-dom'
 import { useEffect, useRef, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { LogsState, RootState } from '@redux/types'
@@ -28,18 +16,20 @@ function Index_Page_Component() {
   }, [])
 
   // separate logs by their days
-  const keys = useRef<string[]>([])
   const logs_ = useMemo(() => {
-    const s = segregate(logs, (log) =>
-      moment(log.createdAt).format('l')
-    ).reverse()
-    keys.current = s.map((s) => {
-      if (!s[0]) return ''
-      const m = moment(s[0].createdAt)
-      return m.calendar().replace(/ at.*/, '') + m.format(', MMM Do, YYYY')
+    const s = segregate(logs, (log) => moment(log.createdAt).format('l'))
+
+    return s.map((subList) => {
+      if (!subList[0]) return { key: '', subList }
+      const m = moment(subList[0].createdAt)
+
+      return {
+        key: m.calendar().replace(/ at.*/, '') + m.format(', MMM Do, YYYY'),
+        subList,
+      }
     })
-    return s
   }, [logs])
+  // console.log(logs_.map((e) => e.subList.length + ' ' + e.key).join('\n'))
 
   // one Accordion
   const [value, setValue] = useState<string>('')
@@ -47,8 +37,8 @@ function Index_Page_Component() {
   return (
     <Stack spacing={'lg'}>
       {logs_.map((logs__, i) => (
-        <div key={keys.current[i]}>
-          <Divider my="xs" label={keys.current[i]} labelPosition="center" />
+        <div key={logs__.key}>
+          <Divider my="xs" label={logs__.key} labelPosition="center" />
           <Card shadow={'xs'}>
             <Accordion
               chevron={''}
@@ -63,8 +53,8 @@ function Index_Page_Component() {
               value={value}
               onChange={(str) => setValue(str || '')}
             >
-              {logs__.map((log) => (
-                <LogAccordion log={log} />
+              {logs__.subList.map((log) => (
+                <LogAccordion key={log._id} log={log} />
               ))}
             </Accordion>
           </Card>

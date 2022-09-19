@@ -8,8 +8,13 @@
  * @returns arr[]
  */
 
-export default function segregate<T, D = any>(arr: T[], cb: (element: T) => D) {
+export default function segregate<T, D = any>(
+  arr: T[],
+  cb: (element: T) => D,
+  sort?: boolean | (() => number)
+) {
   if (arr.length === 0) return []
+
   var current = cb(arr[0])
   return arr.reduce<T[][]>(
     (acc, log) => {

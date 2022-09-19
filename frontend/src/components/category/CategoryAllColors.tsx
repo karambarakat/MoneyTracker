@@ -4,7 +4,7 @@ import { MantineColor } from '@mantine/styles'
 // because MantineColor has `| string & {}` portion
 // but that color will not work in practice
 const CategoryAllColors: MantineColor[] = [
-  'dark',
+  // 'dark',
   'gray',
   'red',
   'pink',
