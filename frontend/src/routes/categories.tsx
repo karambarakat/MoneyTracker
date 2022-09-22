@@ -28,6 +28,7 @@ import AddCategory from '@components/AddCategory'
 import Dismissible from '@components/Dissmasible'
 import { Link } from '@components/ReactRouter'
 import category_delete from '@redux/api/category_delete'
+import MyPaper from '@components/MyPaper'
 
 function Categories_Page_Component() {
   const cats = CategoryIcon.collection.useAllCats()
@@ -55,12 +56,12 @@ function Categories_Page_Component() {
   }
 
   return (
-    <Paper shadow={'xs'} p={32}>
+    <MyPaper>
       <MiddleRow index={cIndex}>
         <MiddleRow.Elems>
           {[
             ...cats.map((cat) => (
-              <div onClick={() => setSelected(cat._id)}>
+              <div key={cat._id} onClick={() => setSelected(cat._id)}>
                 <CategoryIcon.Hoverable key={cat._id}>
                   <CategoryIcon.WithTitle title={cat.title}>
                     <CategoryIcon
@@ -82,7 +83,7 @@ function Categories_Page_Component() {
           </Dismissible>
         </MiddleRow.Middle>
       </MiddleRow>
-    </Paper>
+    </MyPaper>
   )
 }
 
@@ -116,7 +117,7 @@ function CatDetails({
           </Text>
         </Stack>
       </Stack>
-      <Text>total: {total}</Text>
+      <Text>Total: {total}$</Text>
 
       <Stack justify={'end'} sx={{ flexDirection: 'row' }}>
         <Button

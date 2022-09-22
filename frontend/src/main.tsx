@@ -1,17 +1,10 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
-import {
-  BrowserRouter,
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import MainLayout from '@routes/_Layout'
 import MantineSetUp from '@components/MantineSetUp'
-import Authenticate from '@routes/_Auth'
 import { Provider as Redux } from 'react-redux'
 import { store } from '@redux/index'
 import GoogleCallback from '@routes/auth/GoogleCallback'
@@ -24,8 +17,7 @@ import Profile_ChangePassword from '@components/Forms/Profile_changePassword'
 
 const Index = lazy(() => import('@routes/index'))
 const Categories = lazy(() => import('@routes/categories'))
-// @ts-ignore
-const Charts = lazy(() => import('@routes/Charts'))
+const Charts = lazy(() => import('@routes/charts'))
 const AddLog = lazy(() => import('@components/Forms/Log_add'))
 const EditLog = lazy(() => import('@components/Forms/Log_edit'))
 const AddCategory = lazy(() => import('@components/Forms/Category_add'))

@@ -8,11 +8,7 @@
  * @returns arr[]
  */
 
-export default function segregate<T, D = any>(
-  arr: T[],
-  cb: (element: T) => D,
-  sort?: boolean | (() => number)
-) {
+export default function segregate<T, D = any>(arr: T[], cb: (element: T) => D) {
   if (arr.length === 0) return []
 
   var current = cb(arr[0])

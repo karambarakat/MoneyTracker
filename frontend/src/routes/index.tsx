@@ -7,6 +7,7 @@ import { LogsState, RootState } from '@redux/types'
 import moment from 'moment'
 import segregate from 'src/utils/segregate'
 import LogAccordion from '@components/LogAccordion'
+import MyPaper from '@components/MyPaper'
 
 //
 function Index_Page_Component() {
@@ -39,7 +40,7 @@ function Index_Page_Component() {
       {logs_.map((logs__, i) => (
         <div key={logs__.key}>
           <Divider my="xs" label={logs__.key} labelPosition="center" />
-          <Card shadow={'xs'}>
+          <MyPaper>
             <Accordion
               chevron={''}
               // @ts-ignore
@@ -57,7 +58,7 @@ function Index_Page_Component() {
                 <LogAccordion key={log._id} log={log} />
               ))}
             </Accordion>
-          </Card>
+          </MyPaper>
         </div>
       ))}
 
