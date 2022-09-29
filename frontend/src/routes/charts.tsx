@@ -1,9 +1,10 @@
 import CategoryIcon from '@components/category/CategoryIcon'
 import PieChart from '@components/d3/PieChart'
 import MyPaper from '@components/MyPaper'
-import { Progress, Stack, Text } from '@mantine/core'
+import { Box, List, Progress, Stack, Text, ThemeIcon } from '@mantine/core'
 import log_find from '@redux/api/log_find'
 import { LogsState, RootState } from '@redux/types'
+import { schemeSpectral } from 'd3'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import segregate from 'src/utils/segregate'
@@ -31,7 +32,7 @@ function Charts_Page_Component() {
     return lists
   }, [logs])
 
-  const clipped = React.useMemo(() => {
+  const pieData = React.useMemo(() => {
     // @todo: not tested
     const end = 5
     const clipped_ = [...cats]
@@ -47,22 +48,55 @@ function Charts_Page_Component() {
     }
 
     return {
-      list: clipped_.slice(0, end),
-      // max: clipped_.reduce((a, b) => (a.total > b.total ? a : b)).total,
+      list: clipped_.slice(0, end).map((e, i, l) => {
+        const I: number = i % 5
+        return {
+          color: ['#e25a3e', '#eac271', '#d88436', '#435023', '#dadbd3'][I],
+          label: e.title,
+          value: e.total,
+        }
+      }),
+      max: clipped_.reduce((a, b) => (a.total > b.total ? a : b), { total: 0 })
+        .total,
       end,
     }
   }, [cats])
 
-  // const meta = React.useMemo(() => {
-  //   return {
-  //     max: logs.reduce((a, b) => (a.total > b.total ? a : b)).total,
-  //   }
-  // }, [logs])
-
   return (
     <Stack sx={{ gap: 18 }}>
       <MyPaper>
-        <PieChart data={clipped.list.map((e) => ({ label: e.title }))} />
+        <Box
+          sx={{
+            display: 'grid',
+            gap: '2rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+          }}
+        >
+          <Box sx={{ minWidth: '230px', justifySelf: 'center' }}>
+            <PieChart data={pieData.list} />
+          </Box>
+          <Box sx={{ display: 'flex', gap: 12, flexDirection: 'column' }}>
+            <Text pb={4}>Top Categories:</Text>
+
+            {pieData.list.map((e, i) => {
+              return (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                  }}
+                >
+                  <ThemeIcon color={e.color} size={28}>
+                    {i + 1}
+                  </ThemeIcon>
+                  <span style={{ flex: 1 }}>{e.label}</span>
+                  <span>{e.value}</span>
+                </Box>
+              )
+            })}
+          </Box>
+        </Box>
       </MyPaper>
       {cats.map((log) => {
         return (

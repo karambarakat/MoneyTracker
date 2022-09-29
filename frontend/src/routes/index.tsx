@@ -18,14 +18,22 @@ function Index_Page_Component() {
 
   // separate logs by their days
   const logs_ = useMemo(() => {
-    const s = segregate(logs, (log) => moment(log.createdAt).format('l'))
+    const s = segregate(
+      logs.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ),
+      (log) => moment(log.createdAt).format('l')
+    )
 
     return s.map((subList) => {
       if (!subList[0]) return { key: '', subList }
       const m = moment(subList[0].createdAt)
+      const c = m.calendar()
+      const f1s = !Number.parseInt(c) ? c : m.format('dddd')
 
       return {
-        key: m.calendar().replace(/ at.*/, '') + m.format(', MMM Do, YYYY'),
+        key: f1s + m.format(', MMM Do, YYYY'),
         subList,
       }
     })

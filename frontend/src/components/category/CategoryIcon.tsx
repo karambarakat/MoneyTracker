@@ -9,8 +9,9 @@ import {
   ThemeIcon,
   ThemeIconProps,
   ThemeIconVariant,
+  useMantineTheme,
 } from '@mantine/core'
-import { IconProps } from 'tabler-icons-react'
+import { IconProps, User } from 'tabler-icons-react'
 import * as allTablerIcon from './CategoryAllIcons'
 import allColors from './CategoryAllColors'
 import { CategoriesState, CategoryDoc, RootState } from '@redux/types'
@@ -20,11 +21,11 @@ import category_find from '@redux/api/category_find'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@components/category/CategoryAllIcons'
 
-function _Icon({ icon }: { icon?: string }) {
+function _Icon({ icon, props = {} }: { icon?: string; props?: IconProps }) {
   const IconName = icon && icon in allTablerIcon ? icon : 'Category2'
   // @ts-ignore
   const IconComponent = allTablerIcon[IconName]
-  return <IconComponent />
+  return <IconComponent {...props} />
 }
 
 const useHov = createStyles<
@@ -61,6 +62,8 @@ type _ThemeIconProps = Pick<
 > & { variant?: ThemeIconProps['variant'] | 'subtle' }
 
 interface CategoryIconInterface extends Omit<_ThemeIconProps, 'children'> {
+  hideIcon?: boolean
+  size?: number
   on?: boolean
   cat?: Omit<CatInterface, 'title'>
 }
@@ -68,6 +71,8 @@ interface CategoryIconInterface extends Omit<_ThemeIconProps, 'children'> {
 function CategoryIcon({
   cat = { icon: undefined, color: undefined },
   on,
+  hideIcon,
+  size: size_ = 48,
   ...props
 }: CategoryIconInterface) {
   const color = React.useMemo(
@@ -83,14 +88,14 @@ function CategoryIcon({
   return (
     <ThemeIcon
       radius={'xl'}
-      size={48}
+      size={size_}
       color={color}
       // @ts-ignore
       variant={on ? 'filled' : 'light'}
       {...props}
       className={styles.classes.Child}
     >
-      <_Icon icon={cat?.icon} />
+      {!hideIcon && <_Icon props={{ size: size_ / 2 }} icon={cat?.icon} />}
     </ThemeIcon>
   )
 }
@@ -143,6 +148,16 @@ const collectionAllCategories = () => {
 
 const collectionAllColors = CategoryAllColors
 
+const collectionHexColor = () => {
+  const theme = useMantineTheme()
+  return (color: string) => {
+    const key = Object.keys(theme.colors).some((c) => c === color)
+      ? color
+      : 'gray'
+    return theme.colors[key]
+  }
+}
+
 const collectionAllIcons = () => {
   return Object.keys(AllIcons).map((key) => {
     // @ts-ignore
@@ -153,6 +168,7 @@ const collectionAllIcons = () => {
 
 CategoryIcon.collection = {
   useAllCats: collectionAllCategories,
+  useHexColors: collectionHexColor,
   allColors: collectionAllColors,
   allIcons: collectionAllIcons(),
 }
