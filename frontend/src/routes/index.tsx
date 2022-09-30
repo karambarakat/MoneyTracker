@@ -8,6 +8,8 @@ import moment from 'moment'
 import segregate from 'src/utils/segregate'
 import LogAccordion from '@components/LogAccordion'
 import MyPaper from '@components/MyPaper'
+import { setTitle } from '@components/ReactRoute/index'
+import { title } from '@components/ReactRoute/Page'
 
 //
 function Index_Page_Component() {
@@ -15,6 +17,8 @@ function Index_Page_Component() {
   useEffect(() => {
     log_find()
   }, [])
+
+  setTitle('Home')
 
   // separate logs by their days
   const logs_ = useMemo(() => {
@@ -33,7 +37,7 @@ function Index_Page_Component() {
       const f1s = !Number.parseInt(c) ? c : m.format('dddd')
 
       return {
-        key: f1s + m.format(', MMM Do, YYYY'),
+        key: f1s.replace(/ (at \d).*/, '') + m.format(', MMM Do, YYYY'),
         subList,
       }
     })

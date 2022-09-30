@@ -3,6 +3,8 @@ import PieChart from '@components/d3/PieChart'
 import MyPaper from '@components/MyPaper'
 import { Box, List, Progress, Stack, Text, ThemeIcon } from '@mantine/core'
 import log_find from '@redux/api/log_find'
+import { setTitle } from '@components/ReactRoute/index'
+
 import { LogsState, RootState } from '@redux/types'
 import { schemeSpectral } from 'd3'
 import React from 'react'
@@ -10,6 +12,8 @@ import { useSelector } from 'react-redux'
 import segregate from 'src/utils/segregate'
 
 function Charts_Page_Component() {
+  setTitle('Charts')
+
   const logs = useSelector<RootState, LogsState>((s) => s.logs)
   React.useEffect(() => {
     log_find()
@@ -88,7 +92,9 @@ function Charts_Page_Component() {
                   }}
                 >
                   <ThemeIcon color={e.color} size={28}>
-                    {i + 1}
+                    <Box component="span" sx={{ userSelect: 'none' }}>
+                      {i + 1}
+                    </Box>
                   </ThemeIcon>
                   <span style={{ flex: 1 }}>{e.label}</span>
                   <span>{e.value}</span>

@@ -6,7 +6,7 @@ import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import user_login, { UserLoginArgs } from '@redux/api/user_login'
-import { useRoutes } from '@components/ReactRouter'
+import { useRoutes } from '@components/ReactRoute/index'
 
 interface Values extends UserLoginArgs {}
 

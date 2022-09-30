@@ -17,7 +17,7 @@ import { useLocalStorage } from '@mantine/hooks'
 import { useState } from 'react'
 import { ArrowBackUp, BrandGoogle, Mail, WifiOff } from 'tabler-icons-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRoutes } from '@components/ReactRouter'
+import { useRoutes } from '@components/ReactRoute/index'
 
 const data = [
   {

@@ -13,7 +13,7 @@ import { LogDoc } from '@redux/types'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import CategoryIcon from './category/CategoryIcon'
-import { Link } from './ReactRouter'
+import { Link } from './ReactRoute'
 
 function LogAccordion({ log }: { log: LogDoc }) {
   const nav = useNavigate()

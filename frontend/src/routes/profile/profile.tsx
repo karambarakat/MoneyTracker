@@ -1,4 +1,5 @@
-import { Link, useRoutes } from '@components/ReactRouter'
+import { Link, useRoutes } from '@components/ReactRoute/index'
+
 import {
   Box,
   Avatar,

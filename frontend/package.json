@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mantine/core": "^5.2.5",
+    "@mantine/dates": "^5.4.2",
     "@mantine/hooks": "^5.2.5",
     "classnames": "^2.3.1",
     "d3": "^7.6.1",

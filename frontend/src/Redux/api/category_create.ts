@@ -5,7 +5,7 @@ import { store } from '../index'
 export type CreateCategoryArgs = Omit<CategoryDoc, 'createdBy' | '__v' | '_id'>
 
 // not used yet
-export default async function category_create(category: CreateCategoryArgs) {
+async function category_create(category: CreateCategoryArgs) {
   const ls = JSON.parse(localStorage.getItem('VITE_REDUX__user') || '{}')
 
   if (!ls.profile?.token) throw HttpError({ message: 'Authentication failed' })
@@ -26,3 +26,5 @@ export default async function category_create(category: CreateCategoryArgs) {
     category: data,
   })
 }
+
+export default category_create

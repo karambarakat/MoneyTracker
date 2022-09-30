@@ -1,18 +1,28 @@
-Chart page
+// very important / bugs -----------------------------------------------
+- [x] Chart page
+ 
+- [x] export page
+- [ ] setting page + rate us + about
+ 
+- [ ] offline users
+ 
+// rest -----------------------------------------------------------------
+- [ ] empty logs and empty categories
+ 
+- [ ] refactor redux api and actions
 
-export page
-setting page + rate us + about
+// unnecessary but very cool --------------------------------------------
+- [ ] figure out a way to display pages like export or addLog without a modal
 
-offline users
+- [ ] on the home page add component to create logs without opening a whole new modal
 
-empty logs and empty categories
+- [ ] commands + stack notification + undo commands
 
-animation on deleting entries
+- [ ] animation on deleting entries
+ 
 
-commands + stack notification + undo commands
-
-progressive app
-
-move to react native??
-
-refactor redux api and actions
+// unnecessary ----------------------------------------------------------
+- [ ] progressive app
+ 
+- [ ] move to react native??
+ 

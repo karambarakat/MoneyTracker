@@ -26,11 +26,15 @@ import { useDisclosure, useHover } from '@mantine/hooks'
 import MiddleRow from '@components/MiddleRow'
 import AddCategory from '@components/AddCategory'
 import Dismissible from '@components/Dissmasible'
-import { Link } from '@components/ReactRouter'
+import { Link } from '@components/ReactRoute/index'
+
 import category_delete from '@redux/api/category_delete'
 import MyPaper from '@components/MyPaper'
+import { setTitle } from '@components/ReactRoute/index'
 
 function Categories_Page_Component() {
+  setTitle('Categories')
+
   const cats = CategoryIcon.collection.useAllCats()
 
   const [catId, __] = React.useState('')

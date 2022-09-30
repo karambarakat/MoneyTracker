@@ -15,6 +15,7 @@ export interface UserState {
 export type LogsState = LogDoc[]
 
 export type CategoriesState = CategoryDoc[]
+
 export interface MetaState {
   title: string
 }

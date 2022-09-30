@@ -32,9 +32,12 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import MyButton from '@components/Mantine/Button'
 
-import { Link } from '@components/ReactRouter'
+import { getTitle, Link } from '@components/ReactRoute/index'
+
 import { UserController } from '@components/UserController'
 import ToggleColorScheme from '@components/ToggleColorScheme'
+import { useSelector } from 'react-redux'
+import { MetaState, RootState } from '@redux/types'
 
 export default function Main_Layout_Component() {
   const theme = useMantineTheme()
@@ -64,11 +67,12 @@ export default function Main_Layout_Component() {
 
 function Content_Header() {
   const [opened, setOpened] = useState(false)
+  const title = getTitle()
   return (
     <Group position="apart">
       <Text color={'theme-orange'}>
         <Title color={'theme-orange'} sx={{ margin: '0rem 0rem 1rem' }}>
-          Home
+          {title}
         </Title>
       </Text>
       <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>

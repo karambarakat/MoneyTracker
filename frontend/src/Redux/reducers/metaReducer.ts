@@ -7,10 +7,14 @@ const initialState: MetaState = {
 /**
  * actions
  */
-export type MetaActionTypes = {
-  type: 'META_SET_TITLE'
-  title: string
-}
+export type MetaActionTypes =
+  | {
+      type: 'META_SET_TITLE'
+      title: string
+    }
+  | {
+      type: 'META_PING'
+    }
 
 export default function metaReducer(
   state: MetaState = initialState,
@@ -22,6 +26,9 @@ export default function metaReducer(
         ...state,
         title: action.title,
       }
+    case 'META_PING':
+      console.log('META PING')
+      return state
     default:
       return state
   }

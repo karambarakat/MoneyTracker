@@ -12,7 +12,7 @@ import {
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
 import user_signup, { UserSignUpArgs } from '@redux/api/user_signup'
-import { useRoutes } from '@components/ReactRouter'
+import { useRoutes } from '@components/ReactRoute/index'
 
 interface Values extends UserSignUpArgs {
   // userName: string // from UserSignUpArgs

@@ -1,6 +1,6 @@
 import { Box, Text, ThemeIcon } from '@mantine/core'
 import { Plus } from 'tabler-icons-react'
-import { Link } from './ReactRouter'
+import { Link } from './ReactRoute'
 
 function AddCategory() {
   return (

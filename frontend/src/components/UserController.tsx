@@ -21,7 +21,7 @@ import {
   User,
 } from 'tabler-icons-react'
 import MyButton from './Mantine/Button'
-import { Link } from './ReactRouter'
+import { Link } from './ReactRoute'
 
 export function UserController() {
   const theme = useMantineTheme()
