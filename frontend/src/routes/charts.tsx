@@ -10,6 +10,7 @@ import { schemeSpectral } from 'd3'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import segregate from 'src/utils/segregate'
+import Amount from '@components/amount'
 
 function Charts_Page_Component() {
   setTitle('Charts')
@@ -97,7 +98,7 @@ function Charts_Page_Component() {
                     </Box>
                   </ThemeIcon>
                   <span style={{ flex: 1 }}>{e.label}</span>
-                  <span>{e.value}</span>
+                  <Amount a={e.value} />
                 </Box>
               )
             })}
@@ -112,7 +113,7 @@ function Charts_Page_Component() {
               <div style={{ flex: 1 }}>
                 <Stack sx={{ flexFlow: 'row' }} mb={8}>
                   <Text sx={{ flex: 1 }}>{log.title}</Text>
-                  <Text>{log.total}</Text>
+                  <Amount a={log.total} />
                 </Stack>
                 <Progress
                   size={'sm'}

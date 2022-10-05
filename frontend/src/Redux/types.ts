@@ -18,6 +18,8 @@ export type CategoriesState = CategoryDoc[]
 
 export interface MetaState {
   title: string
+  currency: string
+  rating: number
 }
 
 export interface RootState {
@@ -27,11 +29,12 @@ export interface RootState {
   categories: CategoriesState
 }
 
-export type MyDispatch =
+export type MyDispatch = { type: string } & (
   | UserActionTypes
   | LogsActionTypes
   | CategoriesActionTypes
   | MetaActionTypes
+)
 
 /**
  * api docs

@@ -31,6 +31,7 @@ import { Link } from '@components/ReactRoute/index'
 import category_delete from '@redux/api/category_delete'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
+import Amount from '@components/amount'
 
 function Categories_Page_Component() {
   setTitle('Categories')
@@ -121,7 +122,9 @@ function CatDetails({
           </Text>
         </Stack>
       </Stack>
-      <Text>Total: {total}$</Text>
+      <Text>
+        Total: <Amount a={total} />
+      </Text>
 
       <Stack justify={'end'} sx={{ flexDirection: 'row' }}>
         <Button

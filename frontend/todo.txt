@@ -2,7 +2,7 @@
 - [x] Chart page
  
 - [x] export page
-- [ ] setting page + rate us + about
+- [x] setting page + rate us + about
  
 - [ ] offline users
  

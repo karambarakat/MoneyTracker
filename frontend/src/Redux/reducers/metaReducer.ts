@@ -2,6 +2,8 @@ import { MetaState, UserState } from '@redux/types'
 
 const initialState: MetaState = {
   title: 'Home',
+  currency: '$/d',
+  rating: 5,
 }
 
 /**
@@ -13,7 +15,12 @@ export type MetaActionTypes =
       title: string
     }
   | {
-      type: 'META_PING'
+      type: 'META_CURRENCY'
+      currency: string
+    }
+  | {
+      type: 'META_RATING'
+      rating: number
     }
 
 export default function metaReducer(
@@ -26,9 +33,16 @@ export default function metaReducer(
         ...state,
         title: action.title,
       }
-    case 'META_PING':
-      console.log('META PING')
-      return state
+    case 'META_CURRENCY':
+      return {
+        ...state,
+        currency: action.currency,
+      }
+    case 'META_RATING':
+      return {
+        ...state,
+        rating: action.rating,
+      }
     default:
       return state
   }

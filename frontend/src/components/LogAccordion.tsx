@@ -12,6 +12,7 @@ import { store } from '@redux/index'
 import { LogDoc } from '@redux/types'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
+import Amount from './amount'
 import CategoryIcon from './category/CategoryIcon'
 import { Link } from './ReactRoute'
 
@@ -23,7 +24,7 @@ function LogAccordion({ log }: { log: LogDoc }) {
         <Group style={{ justifyContent: 'space-between' }}>
           <CategoryIcon cat={log.category} />
           <Box sx={{ flex: 1 }}>{log.title}</Box>
-          <div>${log.amount}</div>
+          <Amount a={log.amount} />
         </Group>
       </Accordion.Control>
       <Accordion.Panel>

@@ -30,7 +30,7 @@ const Setting = lazy(() => import('@routes/setting'))
 const RateUs = lazy(() => import('@routes/rateUs'))
 const E404 = lazy(() => import('@routes/_E404'))
 
-const pages = { '/': '', '/charts': '', '/categories': '' }
+// const pages = { '/': '', '/charts': '', '/categories': '' }
 
 function App() {
   return (
