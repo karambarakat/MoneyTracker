@@ -1,4 +1,5 @@
 import { Link, useRoutes } from '@components/ReactRoute/index'
+import TextEllipsis from '@components/TextEllipsis'
 
 import {
   Box,
@@ -28,28 +29,11 @@ function Profile() {
       <Group sx={{ flexWrap: 'nowrap', alignItems: 'start' }}>
         <Avatar size={'xl'} src={user.profile.picture} radius="sm" />
         <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
-          <Text
-            sx={{
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-            }}
-            size="xl"
-            weight={500}
-          >
-            {user.profile.userName}
+          <Text size="xl" weight={500}>
+            <TextEllipsis>{user.profile.userName}</TextEllipsis>
           </Text>
-          <Text
-            sx={{
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-            }}
-            color="dimmed"
-            weight={200}
-            size="lg"
-          >
-            {user.profile.email}
+          <Text color="dimmed" weight={200} size="lg">
+            <TextEllipsis>{user.profile.email}</TextEllipsis>
           </Text>
         </Box>
       </Group>

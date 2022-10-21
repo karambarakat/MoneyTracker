@@ -1,4 +1,11 @@
 $transition: var(--transition, 700ms ease-in-out);
+@mixin transition($properties...){
+  $val: nth($list: $properties, $n: 1) + ' '  + $transition;
+  @for $i from 1 to length($properties) {
+    $val: $val + ', ' + nth($list: $properties, $n: $i + 1) + ' ' + $transition;
+  }
+  transition: $val;
+} 
 
 /*
   setting css for the root element
@@ -23,7 +30,7 @@ $transition: var(--transition, 700ms ease-in-out);
 .root {
   overflow: hidden;
   position: relative;
-  transition: height $transition;
+  @include transition(height);
   height: auto;
 }
 
@@ -33,7 +40,7 @@ $transition: var(--transition, 700ms ease-in-out);
 
 @include root(enter-active) {
   height: var(--height2);
-  transition: height $transition;
+  @include transition(height);
 }
 
 @include root(enter-done) {
@@ -45,7 +52,7 @@ $transition: var(--transition, 700ms ease-in-out);
 }
 @include root(exit-active) {
   height: var(--height);
-  transition: height $transition;
+  @include transition(height);
 }
 @include root(exit-done) {
   height: auto;

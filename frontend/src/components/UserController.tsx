@@ -22,6 +22,7 @@ import {
 } from 'tabler-icons-react'
 import MyButton from './Mantine/Button'
 import { Link } from './ReactRoute'
+import TextEllipsis from './TextEllipsis'
 
 export function UserController() {
   const theme = useMantineTheme()
@@ -58,27 +59,11 @@ export function UserController() {
             <Group sx={{ flexWrap: 'nowrap' }}>
               <Avatar src={user.profile.picture} radius="xl" />
               <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
-                <Text
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                  }}
-                  size="sm"
-                  weight={500}
-                >
-                  {user.profile.userName}
+                <Text size="sm" weight={500}>
+                  <TextEllipsis>{user.profile.userName}</TextEllipsis>
                 </Text>
-                <Text
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                  }}
-                  color="dimmed"
-                  size="xs"
-                >
-                  {user.profile.email}
+                <Text color="dimmed" size="xs">
+                  <TextEllipsis>{user.profile.email}</TextEllipsis>
                 </Text>
               </Box>
               <Box sx={{ display: 'flex' }}>

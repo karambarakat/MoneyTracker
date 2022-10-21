@@ -10,7 +10,7 @@ import { schemeSpectral } from 'd3'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import segregate from 'src/utils/segregate'
-import Amount from '@components/amount'
+import Amount from '@components/Amount'
 
 function Charts_Page_Component() {
   setTitle('Charts')

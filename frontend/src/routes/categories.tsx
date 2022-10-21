@@ -31,7 +31,7 @@ import { Link } from '@components/ReactRoute/index'
 import category_delete from '@redux/api/category_delete'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
-import Amount from '@components/amount'
+import Amount from '@components/Amount'
 
 function Categories_Page_Component() {
   setTitle('Categories')

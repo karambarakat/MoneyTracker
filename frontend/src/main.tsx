@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, useNavigate } from 'react-router-dom'
 import MainLayout from '@routes/_Layout'
 import MantineSetUp from '@components/MantineSetUp'
-import { Provider as Redux } from 'react-redux'
+import { Provider as Redux, useDispatch } from 'react-redux'
 import { store } from '@redux/index'
 import GoogleCallback from '@routes/auth/GoogleCallback'
 import { Routes as ModalRoutes } from '@components/ReactRoute/index'
@@ -17,20 +17,24 @@ import Profile_SetPassword from '@components/Forms/Profile_SetPassword'
 import Profile_ChangePassword from '@components/Forms/Profile_changePassword'
 import { Page } from '@components/ReactRoute/index'
 
-const Index = lazy(() => import('@routes/index'))
-const Categories = lazy(() => import('@routes/categories'))
-const Charts = lazy(() => import('@routes/charts'))
+import command from './actions/index'
+import Notification from '@components/Notifications'
+
+// command('ping')
+
 const AddLog = lazy(() => import('@components/Forms/Log_add'))
 const EditLog = lazy(() => import('@components/Forms/Log_edit'))
 const AddCategory = lazy(() => import('@components/Forms/Category_add'))
 const EditCategory = lazy(() => import('@components/Forms/Category_edit'))
+
+const Index = lazy(() => import('@routes/index'))
+const Categories = lazy(() => import('@routes/categories'))
+const Charts = lazy(() => import('@routes/charts'))
 const About = lazy(() => import('@routes/about'))
 const Export = lazy(() => import('@routes/export'))
 const Setting = lazy(() => import('@routes/setting'))
 const RateUs = lazy(() => import('@routes/rateUs'))
 const E404 = lazy(() => import('@routes/_E404'))
-
-// const pages = { '/': '', '/charts': '', '/categories': '' }
 
 function App() {
   return (
@@ -74,6 +78,7 @@ function App() {
                 <Route path={'*'} element={<E404 />} />
               </Route>
             </ModalRoutes>
+            <Notification />
           </Suspense>
         </BrowserRouter>
       </Redux>

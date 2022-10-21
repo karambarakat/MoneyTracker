@@ -65,7 +65,7 @@ export interface LogDoc {
   note?: string
 
   createdAt: string
-  updateAt: string
+  updatedAt: string
   __v: number
 }
 

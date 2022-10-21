@@ -12,7 +12,7 @@ import { store } from '@redux/index'
 import { LogDoc } from '@redux/types'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import Amount from './amount'
+import Amount from './Amount'
 import CategoryIcon from './category/CategoryIcon'
 import { Link } from './ReactRoute'
 
@@ -58,7 +58,7 @@ function LogAccordion({ log }: { log: LogDoc }) {
           )}
 
           <Text color={'gray'} variant="text">
-            last updated: {moment(log.updateAt || log.createdAt).format('lll')}
+            last updated: {moment(log.updatedAt || log.createdAt).format('lll')}
           </Text>
 
           <Stack justify={'end'} style={{ flexDirection: 'row' }}>

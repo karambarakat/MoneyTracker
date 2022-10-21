@@ -1,17 +1,16 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
+import useCSSVars from 'src/utils/useCSSVars'
 
 interface Props {
-  obj: any
-  children: ReactNode
+  obj: Record<any, string>
+  children?: ReactNode
+  style?: React.CSSProperties
 }
 
-function CssVars({ obj, children }: Props) {
-  const styles = Object.keys(obj).reduce((acc: any, key) => {
-    acc['--' + key] = obj[key]
-    return acc
-  }, {})
+function CssVars({ obj, style, children }: Props) {
+  const vars = useCSSVars(obj)
 
-  return <div style={styles}>{children}</div>
+  return <div style={{ ...style, ...vars }}>{children}</div>
 }
 
 export default CssVars

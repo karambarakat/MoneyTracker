@@ -1,21 +1,21 @@
-import { Avatar, Box, Group, Menu, Text, useMantineTheme } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import user_logout from "@redux/hooks/user_logout";
-import rootReducer, { RootState } from "@redux/reducers";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ChevronLeft, ChevronRight, Logout, User } from "tabler-icons-react";
-import MyButton from "./Mantine/Button";
+import { Avatar, Box, Group, Menu, Text, useMantineTheme } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import user_logout from '@redux/hooks/user_logout'
+import rootReducer, { RootState } from '@redux/reducers'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ChevronLeft, ChevronRight, Logout, User } from 'tabler-icons-react'
+import MyButton from './Mantine/Button'
 
 function UserInfo() {
-  const theme = useMantineTheme();
-  const [opened, handlers] = useDisclosure(false);
+  const theme = useMantineTheme()
+  const [opened, handlers] = useDisclosure(false)
 
-  const user = useSelector((s: RootState) => s.user);
-  const logout = user_logout();
+  const user = useSelector((s: RootState) => s.user)
+  const logout = user_logout()
   return (
     <Menu
-      styles={{ root: { width: "100%" } }}
+      styles={{ root: { width: '100%' } }}
       opened={opened}
       control={
         <div onClick={handlers.toggle}>
@@ -27,17 +27,17 @@ function UserInfo() {
                   radius="xl"
                 />
               ) : (
-                <Avatar radius={"xl"} color="primary">
+                <Avatar radius={'xl'} color="primary">
                   <User />
                 </Avatar>
               )}
               <Box
                 sx={{
                   flex: 1,
-                  overflow: "hidden",
-                  "> *": {
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
+                  overflow: 'hidden',
+                  '> *': {
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
                   },
                 }}
               >
@@ -50,7 +50,7 @@ function UserInfo() {
               </Box>
 
               <Box sx={{ flexShrink: 0 }}>
-                {theme.dir === "ltr" ? (
+                {theme.dir === 'ltr' ? (
                   <ChevronRight size={18} />
                 ) : (
                   <ChevronLeft size={18} />
@@ -66,13 +66,13 @@ function UserInfo() {
       <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
       <Menu.Item
         onClick={logout}
-        color={"red"}
+        color={'red'}
         icon={<Logout color="red" size={14} />}
       >
         Logout
       </Menu.Item>
     </Menu>
-  );
+  )
 }
 
-export default UserInfo;
+export default UserInfo
