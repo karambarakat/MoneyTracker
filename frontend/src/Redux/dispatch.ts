@@ -9,7 +9,10 @@ export type ReduxFns = {
 }
 export type HelpersFns<R> = {
   pushNoti: (noti: notification) => void
-  online: (callBack: Promise<Response>) => Promise<R>
+  offline: () => void
+  online: (
+    callBack: (helpers: { token: () => string }) => Promise<Response>
+  ) => Promise<R>
 }
 
 export type actionModule<

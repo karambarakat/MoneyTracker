@@ -19,24 +19,18 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   { token },
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
-  var _token = token
-  if (!token) {
-    const ls = JSON.parse(localStorage.getItem('VITE_REDUX__user') || '{}')
-    if (!ls.profile?.token) throw new Error('no token is available')
-    _token = ls.profile.token
-  }
-
-  const profile = await online(
+  const profile = await online((helpers) =>
     fetch(import.meta.env.VITE_BACKEND_API + '/profile', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + _token,
+        Authorization: 'Bearer ' + token || helpers.token(),
       },
     })
   )
+
   dispatch({
     type: 'USER_ADD_PROFILE',
     pl: { profile },

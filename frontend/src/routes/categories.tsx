@@ -13,12 +13,7 @@ import {
   useMantineTheme,
 } from '@mantine/core'
 import dispatch from '@redux/dispatch'
-import {
-  CategoriesState,
-  CategoryDoc,
-  LogsState,
-  RootState,
-} from '@redux/types'
+import { CategoriesState, LogsState, RootState } from '@redux/types'
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Category, Plus, X } from 'tabler-icons-react'
@@ -30,11 +25,13 @@ import { Link } from '@components/ReactRoute/index'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
 import Amount from '@components/Amount'
+import { CatDoc } from 'src/types/category'
+import EmptyCats from '@components/alternates/EmptyCats'
 
 function Categories_Page_Component() {
   setTitle('Categories')
 
-  const cats = CategoryIcon.collection.useAllCats()
+  const [cats, { empty }] = CategoryIcon.collection.useAllCats()
 
   const [catId, __] = React.useState('')
   const [cIndex, c] = React.useMemo(() => {
@@ -58,7 +55,9 @@ function Categories_Page_Component() {
     __(id)
   }
 
-  return (
+  return empty ? (
+    <EmptyCats />
+  ) : (
     <MyPaper>
       <MiddleRow index={cIndex}>
         <MiddleRow.Elems>
@@ -90,13 +89,7 @@ function Categories_Page_Component() {
   )
 }
 
-function CatDetails({
-  cat,
-  context,
-}: {
-  context: () => void
-  cat?: CategoryDoc
-}) {
+function CatDetails({ cat, context }: { context: () => void; cat?: CatDoc }) {
   const logs_ = useSelector<RootState, LogsState>((s) => s.logs)
   const total = React.useMemo(() => {
     return logs_

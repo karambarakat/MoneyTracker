@@ -20,17 +20,15 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   { id },
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
-  const ls = JSON.parse(localStorage.getItem('VITE_REDUX__user') || '{}')
+  offline()
 
-  if (!ls.profile?.token) throw new Error('no token is available')
-
-  await online(
+  await online((helpers) =>
     fetch(import.meta.env.VITE_BACKEND_API + '/log/' + id, {
       method: 'DELETE',
       headers: {
-        Authorization: 'Bearer ' + ls.profile.token,
+        Authorization: 'Bearer ' + helpers.token(),
       },
     })
   )

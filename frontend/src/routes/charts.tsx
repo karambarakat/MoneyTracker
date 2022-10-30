@@ -9,16 +9,18 @@ import { LogsState, RootState } from '@redux/types'
 import { schemeSpectral } from 'd3'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import AddSvg from '@public/undraw_charts.svg'
+
 import segregate from 'src/utils/segregate'
 import Amount from '@components/Amount'
+import getLogs from '@redux/actions/getData/getLogs'
+import EmptyCharts from '@components/alternates/EmptyCharts'
 
 function Charts_Page_Component() {
   setTitle('Charts')
 
-  const logs = useSelector<RootState, LogsState>((s) => s.logs)
-  React.useEffect(() => {
-    dispatch('log:find', {})
-  }, [])
+  const [logs, { empty }] = getLogs()
+
   const cats = React.useMemo(() => {
     var lists = segregate(
       logs.sort((a, b) =>
@@ -67,7 +69,9 @@ function Charts_Page_Component() {
     }
   }, [cats])
 
-  return (
+  return empty ? (
+    <EmptyCharts />
+  ) : (
     <Stack sx={{ gap: 18 }}>
       <MyPaper>
         <Box

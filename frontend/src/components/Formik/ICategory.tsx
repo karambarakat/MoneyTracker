@@ -1,6 +1,8 @@
 import { Box, Input, ScrollArea } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
 import CategoryIcon from '@components/category/CategoryIcon'
+import EmptyCats from '@components/alternates/EmptyCats'
+import AddSvg from '@public/undraw_add.svg'
 
 interface Props {
   /**
@@ -13,7 +15,7 @@ interface Props {
 }
 
 function MyCategoryInput({ formikName, required, label, description }: Props) {
-  const cats = CategoryIcon.collection.useAllCats()
+  const [cats, { empty }] = CategoryIcon.collection.useAllCats()
   const formikProps = useFormikContext<{ color?: string }>()
   return (
     <Field name={formikName}>
@@ -31,38 +33,52 @@ function MyCategoryInput({ formikName, required, label, description }: Props) {
               component="div"
               size="sm"
             >
-              <ScrollArea
-                offsetScrollbars
-                style={{ maxHeight: '200px', overflowX: 'hidden' }}
-              >
-                <Box
-                  py={12}
-                  sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(46px, 1fr))',
-                    gap: '12px',
-                    justifyItems: 'center',
-                    alignItems: 'center',
+              {empty ? (
+                <img
+                  src={AddSvg}
+                  style={{
+                    padding: '10%',
+                    maxHeight: '100%',
+                    maxWidth: '100%',
+                    display: 'block',
+                    margin: 'auto',
                   }}
+                />
+              ) : (
+                <ScrollArea
+                  offsetScrollbars
+                  style={{ maxHeight: '200px', overflowX: 'hidden' }}
                 >
-                  {cats.map((cat) => (
-                    <div
-                      key={cat._id}
-                      onClick={() => {
-                        formikProps.setFieldValue(formikName, cat._id)
-                      }}
-                    >
-                      <CategoryIcon.Hoverable>
-                        <CategoryIcon
-                          size={38}
-                          on={field.value === cat._id}
-                          cat={cat}
-                        />
-                      </CategoryIcon.Hoverable>
-                    </div>
-                  ))}
-                </Box>
-              </ScrollArea>
+                  <Box
+                    py={12}
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns:
+                        'repeat(auto-fill, minmax(46px, 1fr))',
+                      gap: '12px',
+                      justifyItems: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {cats.map((cat) => (
+                      <div
+                        key={cat._id}
+                        onClick={() => {
+                          formikProps.setFieldValue(formikName, cat._id)
+                        }}
+                      >
+                        <CategoryIcon.Hoverable>
+                          <CategoryIcon
+                            size={38}
+                            on={field.value === cat._id}
+                            cat={cat}
+                          />
+                        </CategoryIcon.Hoverable>
+                      </div>
+                    ))}
+                  </Box>
+                </ScrollArea>
+              )}
             </Input>
           </Input.Wrapper>
         )

@@ -14,7 +14,7 @@ export type args = {
 const action: actionModule<args,  UserDoc> = async function (
  values,
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
     const res = await fetch(
       import.meta.env.VITE_BACKEND_API + '/profile/status',

@@ -14,7 +14,7 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   _,
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
   dispatch({ type: 'USER_GO_ONLINE' })
 

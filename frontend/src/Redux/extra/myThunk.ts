@@ -11,6 +11,7 @@ type typeFn = dispatchFunction
 const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
   if (typeof action === 'function') {
     const notis: notification[] = []
+    var offline = false
 
     const n___ = await action(
       { dispatch: store.dispatch, state: store.getState },
@@ -19,8 +20,12 @@ const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
           notis.push(noti)
           return noti
         },
-        online: async (callback) => {
-          if ((store.getState() as RootState).user.onlineState === false) {
+        offline: () => (offline = true),
+        online: async (fetch) => {
+          if (
+            offline &&
+            (store.getState() as RootState).user.onlineState === false
+          ) {
             try {
               return addOffileData()
             } catch (error) {
@@ -36,7 +41,32 @@ const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
             }
           }
 
-          const result = await (await callback).json()
+          const token = () => {
+            const token = JSON.parse(
+              localStorage.getItem('VITE_REDUX__user') || '{}'
+            )?.profile?.token
+
+            if (!token) {
+              // offline &&
+              //   pushNotification({
+              //     message:
+              //       "you can't preform this action offline; this feature is not available yet",
+              //     reactions: [
+              //       {
+              //         display: 'log in',
+              //         dispatch: _d((d) =>
+              //           d('app:navigate', { to: '/auth', asModal: true })
+              //         ),
+              //       },
+              //     ],
+              //   })
+              throw new Error("you can't preform this action offline")
+            }
+
+            return token
+          }
+
+          const result = await (await fetch({ token })).json()
 
           const httpError = new HttpError(result?.error)
           if (httpError.isHttpError) {

@@ -20,6 +20,8 @@ import { useSelector } from 'react-redux'
 import dispatch from '@redux/dispatch'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@components/category/CategoryAllIcons'
+import getLogs from '@redux/actions/getData/getLogs'
+import getCats from '@redux/actions/getData/getCats'
 
 function _Icon({ icon, props = {} }: { icon?: string; props?: IconProps }) {
   const IconName = icon && icon in allTablerIcon ? icon : 'Category2'
@@ -138,13 +140,7 @@ CategoryIcon.WithTitle = function ({
  *  collections
  */
 
-const collectionAllCategories = () => {
-  const cats = useSelector<RootState, CategoriesState>((s) => s.categories)
-  React.useEffect(() => {
-    dispatch('category:find', {})
-  }, [])
-  return cats
-}
+const collectionAllCategories = getCats
 
 const collectionAllColors = CategoryAllColors
 

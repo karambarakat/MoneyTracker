@@ -57,7 +57,7 @@ export function NavigateController() {
 const action: actionModule<ActionType> = async function (
   { asModal, ...nav },
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
   if (event.listenerCount('nav') === 0) {
     console.error("can't connect to the app")

@@ -21,18 +21,14 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   values,
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
-  const ls = JSON.parse(localStorage.getItem('VITE_REDUX__user') || '{}')
-
-  if (!ls.profile?.token) throw new Error('no token is available')
-
-  const profile = await online(
+  const profile = await online((helpers) =>
     fetch(import.meta.env.VITE_BACKEND_API + '/profile/password', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + ls.profile.token,
+        Authorization: 'Bearer ' + helpers.token(),
       },
       body: JSON.stringify(values),
     })

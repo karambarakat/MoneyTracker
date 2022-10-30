@@ -17,17 +17,15 @@ export type ActionType = {
 const action: actionModule<ActionType, LogDoc[]> = async function (
   _,
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
-  const ls = JSON.parse(localStorage.getItem('VITE_REDUX__user') || '{}')
+  offline()
 
-  if (!ls.profile?.token) throw new Error('no token is available')
-
-  const logs = await online(
+  const logs = await online((helpers) =>
     fetch(import.meta.env.VITE_BACKEND_API + '/log', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + ls.profile.token,
+        Authorization: 'Bearer ' + helpers.token(),
       },
     })
   )

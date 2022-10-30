@@ -14,9 +14,9 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   values,
   { dispatch, state },
-  { pushNoti, online }
+  { pushNoti, online, offline }
 ) {
-  const profile = await online(
+  const profile = await online((helpers) =>
     fetch(import.meta.env.VITE_BACKEND_API + '/auth/local/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
