@@ -7,6 +7,7 @@ import type { ActionType as logUPD } from './log/update.action'
 
 import type { ActionType as catCRT } from './category/create.action'
 import type { ActionType as catDLT } from './category/delete.action'
+import type { ActionType as catUDL } from './category/undoDelete.action'
 import type { ActionType as catFDA } from './category/find.action'
 import type { ActionType as catFDO } from './category/findOne.action'
 import type { ActionType as catUPD } from './category/update.action'
@@ -32,6 +33,7 @@ export type actions =
   | logFDO
   | catCRT
   | catDLT
+  | catUDL
   | catFDA
   | catFDO
   | catUPD

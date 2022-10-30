@@ -34,9 +34,10 @@ function Notifications$() {
                 onClose={() => dismissNotification(noti.id)}
               >
                 <TextEllipsis>{noti.message}</TextEllipsis>
-                {noti.reactions?.map((react, index) => (
-                  <Reaction key={index} react={react} />
-                ))}
+                {noti.reactions?.map(
+                  (react, index) =>
+                    react && <Reaction key={index} react={react} />
+                )}
               </Notification>
             </Box>
           )

@@ -1,4 +1,4 @@
-import { LogDoc } from 'src/types/log'
+import { apiLogCreate, LogDoc } from 'src/types/log'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -10,10 +10,7 @@ export type ActionType = {
   return: LogDoc
 
   payload: {
-    doc: Omit<
-      LogDoc,
-      'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
-    > & { category?: string }
+    doc: apiLogCreate
   }
 }
 

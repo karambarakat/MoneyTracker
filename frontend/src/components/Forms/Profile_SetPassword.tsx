@@ -6,6 +6,7 @@ import AlertStatus from '@components/Formik/AlertStatus'
 import { useNavigate } from 'react-router-dom'
 import dispatch from '@redux/dispatch'
 import MyPasswordInput from '@components/Formik/IPassword'
+import HttpError from 'src/utils/HttpError'
 
 type args = {
   oldPassword: string

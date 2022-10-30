@@ -34,7 +34,18 @@ const action: actionModule<ActionType> = async function (
     })
   )
 
-  // await res.json().then(httpErrorHandler)
+  const cat = state().categories.find((c) => c._id === id)
+
+  pushNoti({
+    message: `category '${cat?.title}' was deleted`,
+    reactions: cat && [
+      {
+        display: 'restore',
+        dispatch: __d((d) => d('cat:undoDelete', { id: cat._id })),
+        style: { color: 'red' },
+      },
+    ],
+  })
 
   dispatch({
     type: 'CATEGORY_DELETE_ONE',
@@ -42,16 +53,6 @@ const action: actionModule<ActionType> = async function (
   })
 
   return id
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: doc + ' was deleted',
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

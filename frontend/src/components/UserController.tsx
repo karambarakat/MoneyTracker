@@ -1,22 +1,12 @@
-import {
-  Avatar,
-  Box,
-  Group,
-  Menu,
-  Text,
-  ThemeIcon,
-  useMantineTheme,
-} from '@mantine/core'
+import { Avatar, Box, Group, Menu, Text, useMantineTheme } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { store } from '@redux/index'
 
-import { Actions, RootState, UserState } from '@redux/types'
-import { useDispatch, useSelector } from 'react-redux'
+import { RootState, UserState } from '@redux/types'
+import { useSelector } from 'react-redux'
 import dispatch from '@redux/dispatch'
 import {
   ChevronLeft,
   ChevronRight,
-  Login,
   Logout,
   PlugConnected,
   User,
@@ -29,7 +19,6 @@ export function UserController() {
   const theme = useMantineTheme()
   const [opened, handlers] = useDisclosure(false)
   const user = useSelector<RootState, UserState>((s) => s.user)
-  const dispatch = useDispatch()
 
   if (!user.onlineState || !user.profile) {
     return (

@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { Actions } from '@redux/types'
-import { UserDoc } from 'src/types/user'
+import { apiProfileUpdate, UserDoc } from 'src/types/user'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -11,10 +11,7 @@ export type ActionType = {
   type: typeof type
   return: UserDoc
 
-  payload: {
-    userName: string
-    // picture: string
-  }
+  payload: apiProfileUpdate
 }
 
 const action: actionModule<ActionType> = async function (

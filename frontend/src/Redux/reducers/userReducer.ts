@@ -35,7 +35,7 @@ function userReducer(
         onlineState: true,
       }
     case 'USER_LOGOUT':
-      action.fns.clearData()
+      action.fn.clearData()
       return { profile: undefined, onlineState: false }
     case 'USER_GO_OFFLINE':
       return { profile: state.profile, onlineState: false }

@@ -1,3 +1,4 @@
+import { CatDoc } from 'src/types/category'
 import { CategoriesState, InnerAction, Actions } from './../types'
 const initialState: CategoriesState = []
 
@@ -7,15 +8,15 @@ const initialState: CategoriesState = []
 export type CategoriesActionTypes =
   | {
       type: 'CATEGORY_ADD_ALL'
-      pl: { categories: CategoryDoc[] }
+      pl: { categories: CatDoc[] }
     }
   | {
       type: 'CATEGORY_ADD_ONE'
-      pl: { category: CategoryDoc }
+      pl: { category: CatDoc }
     }
   | {
       type: 'CATEGORY_UPDATE_ONE'
-      pl: { category: CategoryDoc }
+      pl: { category: CatDoc }
     }
   | {
       type: 'CATEGORY_DELETE_ONE'

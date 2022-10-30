@@ -43,7 +43,7 @@ export type Actions = { type: string /**, pl: *SOMETHING* */ } & (
 
 // this only used inside reducers
 export type InnerAction = Actions & {
-  fns: ActionClearAll // & OtherAction
+  fn: ActionClearAll // & OtherAction
 }
 
 /**

@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { Actions } from '@redux/types'
-import { CatDoc } from 'src/types/category'
+import { apiCatCreate, CatDoc } from 'src/types/category'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -12,7 +12,7 @@ export type ActionType = {
   return: CatDoc
 
   payload: {
-    doc: Omit<CatDoc, 'createdBy' | '__v' | '_id'> & { category?: string }
+    doc: apiCatCreate
   }
 }
 
@@ -38,7 +38,22 @@ const action: actionModule<ActionType> = async function (
 
   pushNoti({
     message: category.title + ' was added',
-    reactions: [],
+    reactions: [
+      {
+        display: 'delete',
+        dispatch: __d((d) => d('category:delete', { id: category._id })),
+        style: { color: 'red' },
+      },
+      {
+        display: 'edit',
+        dispatch: __d((d) =>
+          d('app:navigate', {
+            to: '/editCategory/' + category._id,
+            asModal: true,
+          })
+        ),
+      },
+    ],
   })
 
   dispatch({
@@ -47,16 +62,6 @@ const action: actionModule<ActionType> = async function (
   })
 
   return category
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: doc.title + ' was added',
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

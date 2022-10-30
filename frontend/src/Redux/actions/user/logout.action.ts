@@ -1,8 +1,6 @@
-import { store } from '@redux/index'
-import { Actions } from '@redux/types'
-import { httpErrorHandler } from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import _dispatch from '../../dispatch'
 
 const type = 'user:logout'
 
@@ -18,16 +16,21 @@ const action: actionModule<ActionType> = async function (
   { dispatch, state },
   { pushNoti, online }
 ) {
+  pushNoti({
+    message: `logged out`,
+    reactions: [
+      {
+        display: 'login',
+        dispatch: __d((d) => d('app:navigate', { to: '/auth', asModal: true })),
+      },
+    ],
+  })
+
   dispatch({
     type: 'USER_LOGOUT',
   })
-  // },
-  // pushNotification: function () {
-  //   return {
-  //     message: 'Logged Out',
-  //     reactions: [],
-  //   }
-  // },
+
+  _dispatch('app:navigate', { to: '/' })
 }
 
 action.type = type

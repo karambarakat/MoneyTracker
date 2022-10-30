@@ -13,6 +13,7 @@ import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
 import dispatch from '@redux/dispatch'
 import { useRoutes } from '@components/ReactRoute/index'
+import HttpError from 'src/utils/HttpError'
 
 type args = {
   userName: string

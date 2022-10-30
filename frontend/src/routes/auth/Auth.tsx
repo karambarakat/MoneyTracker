@@ -21,6 +21,7 @@ import { setTitle, useRoutes as useGoBack } from '@components/ReactRoute/index'
 import { OpenerFunctions } from 'src/utils/googleSigninTypes'
 import dispatch from '@redux/dispatch'
 import { store } from '@redux/index'
+import { pushNotification } from '@myHooks/notifications'
 
 const data = [
   {
@@ -61,6 +62,9 @@ export default function () {
                 ).__$openerFunctionsContext = {
                   action: dispatch,
                   modal: goBack,
+                  callback: (params) => {
+                    pushNotification({ message: `welcome ${params.userName}` })
+                  },
                 }
 
                 window.open(

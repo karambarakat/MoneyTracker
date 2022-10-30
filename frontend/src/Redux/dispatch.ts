@@ -69,7 +69,6 @@ you can invoke this action by:
 dispatch('action:fire', 100) // returns Promise<'100'>
 
 **/
-// @ts-ignore // todo there is an error here but noting is broken >>>> Type '"return"' cannot be used to index type 'Omit<actions & { type: S; }, "type">'
 const dispatch = async function <
   S extends actions['type'],
   P extends actions['payload'] = Extract<actions, { type: S }>['payload'],

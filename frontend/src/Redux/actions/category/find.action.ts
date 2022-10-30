@@ -38,10 +38,6 @@ const action: actionModule<ActionType, CatDoc[]> = async function (
   })
 
   return categories
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
 }
 
 action.type = type

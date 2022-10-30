@@ -43,16 +43,6 @@ const action: actionModule<ActionType> = async function (
   })
 
   return profile
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: 'Welcome ' + doc.userName,
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { Actions } from '@redux/types'
-import { CatDoc } from 'src/types/category'
+import { apiCatUpdate, CatDoc } from 'src/types/category'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -13,7 +13,7 @@ export type ActionType = {
 
   payload: {
     id: CatDoc['_id']
-    doc: Omit<CatDoc, 'createdBy' | '__v' | '_id'> & { category?: string }
+    doc: apiCatUpdate
   }
 }
 
@@ -37,22 +37,33 @@ const action: actionModule<ActionType> = async function (
     })
   )
 
+  const oldDoc = state().categories.find((c) => c._id === id)
+
+  pushNoti({
+    message: 'category was updated',
+    reactions: [
+      oldDoc && {
+        display: 'undo',
+        dispatch: __d((d) =>
+          d('category:update', {
+            doc: {
+              color: oldDoc.color,
+              icon: oldDoc.icon,
+              title: oldDoc.title,
+            },
+            id,
+          })
+        ),
+      },
+    ],
+  })
+
   dispatch({
     type: 'CATEGORY_UPDATE_ONE',
     pl: { category },
   })
 
   return category
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: doc.title + ' was added',
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

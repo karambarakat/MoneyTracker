@@ -1,11 +1,12 @@
-import { actionFunction } from 'src/actions'
+import { dispatchFunction } from '@redux/dispatch'
 import { apiGoogleCallbackParams } from 'src/types/user'
 
 export interface CallbackParams extends apiGoogleCallbackParams {}
 
 export type OpenerFunctions = {
   __$openerFunctionsContext: {
-    action: actionFunction
+    callback: (params: CallbackParams) => void
+    action: dispatchFunction
     modal: () => void
   }
 }

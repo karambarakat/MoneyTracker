@@ -1,7 +1,4 @@
-import { store } from '@redux/index'
-import { Actions } from '@redux/types'
-import { UserDoc } from 'src/types/user'
-import { httpErrorHandler } from 'src/utils/HttpError'
+import { apiUserSignup, UserDoc } from 'src/types/user'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -11,11 +8,7 @@ export type ActionType = {
   type: typeof type
   return: UserDoc
 
-  payload: {
-    userName: string
-    email: string
-    password: string
-  }
+  payload: apiUserSignup
 }
 
 const action: actionModule<ActionType> = async function (
@@ -30,21 +23,15 @@ const action: actionModule<ActionType> = async function (
       body: JSON.stringify(values),
     })
   )
+
+  pushNoti({ message: `user \`${profile.userName}\` was created` })
+
   dispatch({
     type: 'USER_LOGIN',
     pl: { profile },
   })
+
   return profile
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: 'Account Created, Welcome ' + doc.userName,
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

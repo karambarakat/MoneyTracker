@@ -1,8 +1,4 @@
-import { store } from '@redux/index'
-import { Actions } from '@redux/types'
-import { UserDoc } from 'src/types/user'
-
-import { httpErrorHandler } from 'src/utils/HttpError'
+import { apiUserLogin, UserDoc } from 'src/types/user'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -12,10 +8,7 @@ export type ActionType = {
   type: typeof type
   return: UserDoc
 
-  payload: {
-    email: string
-    password: string
-  }
+  payload: apiUserLogin
 }
 
 const action: actionModule<ActionType> = async function (
@@ -30,19 +23,15 @@ const action: actionModule<ActionType> = async function (
       body: JSON.stringify(values),
     })
   )
+
+  pushNoti({ message: `welcome ${profile.userName}` })
+
   dispatch({
     type: 'USER_LOGIN',
     pl: { profile },
   })
 
   return profile
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: 'Welcome ' + doc.userName,
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

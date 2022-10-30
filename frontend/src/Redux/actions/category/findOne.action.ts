@@ -40,16 +40,6 @@ const action: actionModule<ActionType> = async function (
   })
 
   return category
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: doc.title + ' was added',
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core'
+import { pushNotification } from '@myHooks/notifications'
 import { useEffect } from 'react'
 import { CallbackParams, OpenerFunctions } from 'src/utils/googleSigninTypes'
 
@@ -9,10 +10,13 @@ function GoogleCallback() {
 
   useEffect(() => {
     const {
-      __$openerFunctionsContext: { action, modal },
+      __$openerFunctionsContext: { action, modal, callback },
     } = window.opener as OpenerFunctions
 
+    pushNotification({ message: `welcome ${params.userName}` })
+
     action('profile:fetch', { token: params.token }).then(() => {
+      callback(params)
       modal()
       window.close()
     })

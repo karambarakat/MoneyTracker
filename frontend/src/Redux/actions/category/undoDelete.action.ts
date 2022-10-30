@@ -5,11 +5,11 @@ import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
-const type = 'log:findOne'
+const type = 'cat:undoDelete'
 
 export type ActionType = {
   type: typeof type
-  return: LogDoc
+  return: void
 
   payload: {
     id: LogDoc['_id']
@@ -21,25 +21,10 @@ const action: actionModule<ActionType> = async function (
   { dispatch, state },
   { pushNoti, online }
 ) {
-  const ls = JSON.parse(localStorage.getItem('VITE_REDUX__user') || '{}')
-
-  if (!ls.profile?.token) throw new Error('no token is available')
-
-  const log = await online(
-    fetch(import.meta.env.VITE_BACKEND_API + '/log/' + id, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + ls.profile.token,
-      },
-    })
-  )
-
-  dispatch({
-    type: 'LOG_UPDATE_ONE',
-    pl: { log },
+  pushNoti({
+    message: 'this feature is not available for now.',
+    display: 'failure',
   })
-
-  return log
 }
 
 action.type = type

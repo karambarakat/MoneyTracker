@@ -1,6 +1,10 @@
 import { store } from '@redux/index'
 import { Actions } from '@redux/types'
-import { UserDoc } from 'src/types/user'
+import {
+  apiProfileUpdate_local,
+  apiProfileUpdate_nolocal,
+  UserDoc,
+} from 'src/types/user'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -11,10 +15,7 @@ export type ActionType = {
   type: typeof type
   return: UserDoc
 
-  payload: {
-    oldPassword: string
-    newPassword: string
-  }
+  payload: apiProfileUpdate_nolocal | apiProfileUpdate_local
 }
 
 const action: actionModule<ActionType> = async function (
@@ -42,16 +43,6 @@ const action: actionModule<ActionType> = async function (
   })
 
   return profile
-  // },
-  // offline: async function (argg) {
-  //   throw new Error('offline')
-  // },
-  // pushNotification: function (doc) {
-  //   return {
-  //     message: 'Welcome ' + doc.userName,
-  //     reactions: [],
-  //   }
-  // },
 }
 
 action.type = type

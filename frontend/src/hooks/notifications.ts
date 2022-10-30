@@ -18,7 +18,7 @@ export interface ReactionI {
 export interface notification {
   message: string
   display?: 'success' | 'failure'
-  reactions?: ReactionI[]
+  reactions?: (ReactionI | undefined)[]
 }
 
 // @ts-ignore

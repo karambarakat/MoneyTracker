@@ -1,6 +1,4 @@
 // import { UserDoc } from '@redux/types'
-import { httpErrorHandler } from 'src/utils/HttpError'
-import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
 const type = 'user:status'
@@ -10,9 +8,8 @@ const type = 'user:status'
 export type args = {
   type: typeof type; return: UserDoc;
    
-  payload: {
-  email: string
-}}
+  payload: apiUserStatus
+}
  
 const action: actionModule<args,  UserDoc> = async function (
  values,

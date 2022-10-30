@@ -1,7 +1,4 @@
-import { store } from '@redux/index'
-import { Actions } from '@redux/types'
-import { LogDoc } from 'src/types/log'
-import HttpError from 'src/utils/HttpError'
+import { apiLogUpdate, LogDoc } from 'src/types/log'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -13,10 +10,7 @@ export type ActionType = {
 
   payload: {
     id: LogDoc['_id']
-    doc: Omit<
-      LogDoc,
-      'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
-    > & { category?: string }
+    doc: apiLogUpdate
   }
 }
 
@@ -40,12 +34,24 @@ const action: actionModule<ActionType> = async function (
     })
   )
 
+  const oldDoc = state().logs.find((l) => l._id === id)
+
   pushNoti({
     message: 'log was updated',
     reactions: [
-      {
+      oldDoc && {
         display: 'undo',
-        dispatch: __d((d) => d('log:update', { doc, id })),
+        dispatch: __d((d) =>
+          d('log:update', {
+            doc: {
+              amount: oldDoc.amount,
+              category: oldDoc.category?._id,
+              note: oldDoc.note,
+              title: oldDoc.title,
+            },
+            id,
+          })
+        ),
       },
     ],
   })
