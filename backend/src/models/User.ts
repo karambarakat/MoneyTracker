@@ -2,20 +2,9 @@ import mongoose from 'mongoose'
 import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 import { generateToken } from '@utils/tokens'
+import IUser from 'types/models/UserModel'
 
-export interface UserInterface {
-  _id: string
-  userName: string
-  email: string
-  password: string
-  createdAt?: string | Date
-  updatedAt?: string | Date
-
-  matchPasswords: (password: string) => boolean
-  withToken: () => string
-}
-
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema<IUser>(
   {
     userName: {
       type: String,
@@ -33,10 +22,29 @@ const UserSchema = new mongoose.Schema(
         message: 'not a valid email',
       },
       index: true,
+      unique: true,
+    },
+    // @ts-ignore
+    providers: {
+      type: Array,
+      required: true,
+      validate: {
+        validator: function (providers: string[]): boolean {
+          return !providers.some(
+            (provider) => provider !== 'google' && provider !== 'local'
+          )
+        },
+        message: 'either google or local',
+      },
+    },
+    googleInfo: {
+      type: mongoose.Schema.Types.Mixed,
     },
     password: {
       type: String,
-      required: true,
+    },
+    picture: {
+      type: String,
     },
   },
   {
@@ -44,12 +52,39 @@ const UserSchema = new mongoose.Schema(
   }
 )
 
-UserSchema.methods.withToken = function () {
+/**
+ * validation: require password if the provider is local
+ * @tested : AUTH_EMAIL > "/auth/local/register : no password"
+ */
+UserSchema.pre('save', async function (next) {
+  if (this.providers.some((provider: string) => provider === 'local')) {
+    if (!this.password) {
+      const error = new Error(
+        'user validation failed: password is required field'
+      )
+      error.name = 'ValidationError'
+      // @ts-ignore
+      error.errors = {
+        password: {
+          name: 'validatorError',
+          message: 'password is required field',
+        },
+      }
+      next(error)
+    } else next()
+  } else next()
+})
+
+/**
+ * methods attached to any instance of User, used to generate token, match password
+ */
+UserSchema.methods.doc = function () {
   delete this._doc.password
+  delete this._doc.googleInfo
 
   return {
     ...this._doc,
-    token: generateToken(this._id),
+    token: generateToken(this._id, this.email),
   }
 }
 
@@ -59,6 +94,9 @@ UserSchema.methods.matchPasswords = function (given: string) {
   return hash === this.password
 }
 
+/**
+ * hashing of the password before saving to the database
+ */
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) next()
   else {

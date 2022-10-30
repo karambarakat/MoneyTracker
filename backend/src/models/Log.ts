@@ -1,20 +1,8 @@
-import { ObjectId } from 'mongodb'
 import mongoose from 'mongoose'
+import ILog from 'types/models/LogModel'
 import Category from './Category'
 
-export interface LogInterface {
-  _id?: string
-  title: string
-  amount: string
-  createdBy?: ObjectId | string
-  category?: object
-  note?: string
-
-  createdAt?: string | Date
-  updatedAt?: string | Date
-}
-
-const LogSchema = new mongoose.Schema(
+const LogSchema = new mongoose.Schema<ILog>(
   {
     title: {
       type: String,
@@ -62,6 +50,7 @@ LogSchema.pre('save', async function (next) {
     next()
   }
 })
+
 LogSchema.pre('findOneAndUpdate', async function (next) {
   // @ts-ignore
   const toUpdateTo = this._update.category
@@ -95,7 +84,7 @@ LogSchema.pre('findOneAndUpdate', async function (next) {
  * auto populate
  */
 LogSchema.post('save', async function (doc, next) {
-  await doc.populate('category', '-logs -createdBy')
+  await doc.populate('category', '-logs -createdBy -__v')
   next()
 })
 
@@ -104,9 +93,9 @@ LogSchema.post('find', async function (docs, next) {
 
   for (let doc of docs) {
     if (doc.category) {
-      await doc.populate('category', '-logs -createdBy')
+      await doc.populate('category', '-logs -createdBy -__v')
     } else {
-      doc.category = null
+      doc.category = undefined
     }
   }
 
@@ -116,12 +105,16 @@ LogSchema.post('findOne', async function (doc, next) {
   if (!doc) next()
 
   if (doc.category) {
-    await doc.populate('category', '-logs -createdBy')
+    await doc.populate('category', '-logs -createdBy -__v')
   } else {
-    doc.category = null
+    doc.category = undefined
   }
 
   next()
 })
+
+LogSchema.methods.doc = function () {
+  return this._doc
+}
 
 export default mongoose.model('log', LogSchema)

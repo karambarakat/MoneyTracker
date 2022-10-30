@@ -5,3 +5,5 @@
 
 build
 __Tests__/**/*.test.js
+
+node_modules

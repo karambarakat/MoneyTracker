@@ -4,10 +4,8 @@
   "description": "Easy to use money wallet",
   "main": "backend/server.js",
   "scripts": {
-    "start": "cd backend && node server",
-    "build": "cd backend && npm i && cd .. && cd frontend && npm i && npm run build",
-    "dev_front": "cd frontend && npm start",
-    "dev_back": "cd backend && nodemon server.js",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev  --prefix backend",
     "dev": "concurrently \"npm run dev_front\" \"npm run dev_back\""
   },
   "repository": {
