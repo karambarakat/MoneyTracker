@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { APIResponse, Actions } from '@redux/types'
+import { APIResponse, ActionsObjects } from '@redux/types'
 import dispatch from '@redux/dispatch'
 import {
   DefaultError,

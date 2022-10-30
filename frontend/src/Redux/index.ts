@@ -14,7 +14,7 @@ import categoryReducer from './reducers/categoryReducer'
 import logReducer from './reducers/logReducer'
 import metaReducer from './reducers/metaReducer'
 import userReducer from './reducers/userReducer'
-import { Actions, RootState } from './types'
+import { ActionsObjects, RootState } from './types'
 
 const initialState = {
   ...load({ namespace: 'VITE_REDUX_', states: ['user'] }),
@@ -28,7 +28,7 @@ const middleware: Middleware[] = [
 ]
 
 // @ts-ignore
-const rootReducer: Reducer<RootState, Actions> = combineReducers({
+const rootReducer: Reducer<RootState, ActionsObjects> = combineReducers({
   user: userReducer,
   logs: logReducer,
   categories: categoryReducer,

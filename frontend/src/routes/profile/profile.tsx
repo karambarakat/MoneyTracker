@@ -13,10 +13,12 @@ import {
 } from '@mantine/core'
 import { store } from '@redux/index'
 
-import { Actions, RootState, UserState } from '@redux/types'
+import { ActionsObjects, RootState, UserState } from '@redux/types'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import dispatch from '@redux/dispatch'
+import { ReactElement } from 'react'
+import OnlineStateAction from '@components/OnlineStateAction'
 
 function Profile() {
   const user = useSelector<RootState, UserState>((s) => s.user)
@@ -69,6 +71,22 @@ export function ProfileIndex() {
           </Button>
         </Link>
       )}
+      <OnlineStateAction>
+        {(text) => {
+          return (
+            <Button
+              style={{ width: '100%' }}
+              size="md"
+              variant="filled"
+              onClick={() => {
+                exit()
+              }}
+            >
+              {text}
+            </Button>
+          )
+        }}
+      </OnlineStateAction>
 
       <Button
         style={{ width: '100%' }}

@@ -1,5 +1,5 @@
 import { Middleware } from 'redux'
-import { Actions } from '../types'
+import { ActionsObjects } from '../types'
 
 /**
  * provide reducer with the ability of delete all data

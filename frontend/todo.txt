@@ -10,10 +10,18 @@
 - [ ] when created doc optional fields are null, but on getting doc optional fields don't exist
 
 
-- [ ] backend bug: `these fields are required: ` no fields are showing
+- [x] backend bug: `these fields are required: ` no fields are showing
+
+- [ ] frontend bug: sing in > go offline 
+        > go online (you will see notification with sign out option) 
+        > go to `/export` 
+        > sign out from that notification
+
 
  
 // rest -----------------------------------------------------------------
+- [ ] loading pages is not smooth
+
 - [ ] empty logs and empty categories
 
 - [ ] refactor testing in backend

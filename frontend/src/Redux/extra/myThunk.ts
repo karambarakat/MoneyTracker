@@ -1,15 +1,12 @@
 import { notification, pushNotification } from '@myHooks/notifications'
-import dispatch, { HelpersFns, ReduxFns } from '@redux/dispatch'
+import { dispatchFnToTuple as _d } from '@redux/dispatch'
+import { dispatchFunction, RootState } from '@redux/types'
 
 import { Middleware } from 'redux'
-import {
-  DefaultError,
-  GenericHttpError,
-  HttpErrorProps,
-} from 'src/types/httpErrors'
 import HttpError from 'src/utils/HttpError'
+import { addOffileData } from 'src/utils/offline'
 
-type typeFn = (reduxFns: ReduxFns, myFns: HelpersFns<any>) => Promise<any>
+type typeFn = dispatchFunction
 
 const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
   if (typeof action === 'function') {
@@ -23,6 +20,22 @@ const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
           return noti
         },
         online: async (callback) => {
+          if ((store.getState() as RootState).user.onlineState === false) {
+            try {
+              return addOffileData()
+            } catch (error) {
+              notis.push({
+                message: 'failed to add data while offline',
+                reactions: [
+                  {
+                    display: 'go online',
+                    dispatch: _d((d) => d('user:online', {})),
+                  },
+                ],
+              })
+            }
+          }
+
           const result = await (await callback).json()
 
           const httpError = new HttpError(result?.error)

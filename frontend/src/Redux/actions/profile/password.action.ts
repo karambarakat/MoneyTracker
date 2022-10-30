@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { Actions } from '@redux/types'
+import { ActionsObjects } from '@redux/types'
 import {
   apiProfileUpdate_local,
   apiProfileUpdate_nolocal,
@@ -38,7 +38,7 @@ const action: actionModule<ActionType> = async function (
     })
   )
   dispatch({
-    type: 'USER_LOGIN',
+    type: 'USER_ADD_PROFILE',
     pl: { profile },
   })
 

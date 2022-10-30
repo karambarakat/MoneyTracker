@@ -10,14 +10,10 @@ function GoogleCallback() {
 
   useEffect(() => {
     const {
-      __$openerFunctionsContext: { action, modal, callback },
+      __$openerFunctionsContext: { callback },
     } = window.opener as OpenerFunctions
 
-    pushNotification({ message: `welcome ${params.userName}` })
-
-    action('profile:fetch', { token: params.token }).then(() => {
-      callback(params)
-      modal()
+    callback(params).then(() => {
       window.close()
     })
   }, [])

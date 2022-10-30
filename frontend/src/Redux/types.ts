@@ -1,6 +1,8 @@
 import { CatDoc } from 'src/types/category'
 import { LogDoc } from 'src/types/log'
 import { UserDoc } from 'src/types/user'
+import { actions } from './actions/types'
+import { dispatchSugarFunction, HelpersFns, ReduxFns } from './dispatch'
 import { ActionClearAll, ExtraActionsTypes } from './extra/clearData'
 import { CategoriesActionTypes as CategoriesTypes } from './reducers/categoryReducer'
 import { LogsTypes } from './reducers/logReducer'
@@ -33,7 +35,7 @@ export interface RootState {
 }
 
 // this is used in dispatch function like `store.dispatch<Actions>(XXXActionTypes)
-export type Actions = { type: string /**, pl: *SOMETHING* */ } & (
+export type ActionsObjects = { type: string /**, pl: *SOMETHING* */ } & (
   | UserTypes
   | LogsTypes
   | CategoriesTypes
@@ -42,9 +44,16 @@ export type Actions = { type: string /**, pl: *SOMETHING* */ } & (
 )
 
 // this only used inside reducers
-export type InnerAction = Actions & {
+export type reducerAction = ActionsObjects & {
   fn: ActionClearAll // & OtherAction
 }
+
+export type dispatchAction = (action: ActionsObjects) => ActionsObjects
+export type dispatchSugar = dispatchSugarFunction
+export type dispatchFunction = (
+  reduxFns: ReduxFns,
+  myFns: HelpersFns<any>
+) => Promise<any>
 
 /**
  * api docs

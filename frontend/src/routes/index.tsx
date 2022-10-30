@@ -18,7 +18,7 @@ function Index_Page_Component() {
     dispatch('log:find', {})
   }, [])
 
-  // setTitle('Home')
+  setTitle('Home')
 
   // separate logs by their days
   const logs_ = useMemo(() => {

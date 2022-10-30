@@ -1,10 +1,10 @@
 import { notification, pushNotification } from '@myHooks/notifications'
 import { actions } from './actions/types'
 import { store } from './index'
-import { Actions, RootState } from './types'
+import { ActionsObjects, dispatchFunction, RootState } from './types'
 
 export type ReduxFns = {
-  dispatch: (obj: Actions) => void
+  dispatch: (obj: ActionsObjects) => void
   state: () => RootState
 }
 export type HelpersFns<R> = {
@@ -78,7 +78,7 @@ const dispatch = async function <
   const module = modules[type]
 
   // @ts-ignore
-  const result = await store.dispatch((redux, helpers) =>
+  const result = await store.dispatch<dispatchFunction>((redux, helpers) =>
     // @ts-ignore
     module(payload, redux, helpers)
   )
@@ -88,12 +88,14 @@ const dispatch = async function <
 
 export default dispatch
 
-export type dispatchFunction = typeof dispatch
+export type dispatchSugarFunction = typeof dispatch
+
+type dispatchFnToTupleType = (
+  cb: (d: dispatchSugarFunction) => void
+) => dispatchTupleArg
 
 // this is to provide better developer experience
-export const dispatchFnToTuple = (
-  cb: (d: dispatchFunction) => void
-): dispatchTupleArg => {
+export const dispatchFnToTuple: dispatchFnToTupleType = (cb) => {
   let rt: dispatchTupleArg
   // @ts-ignore
   cb((...args) => {

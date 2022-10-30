@@ -16,6 +16,15 @@ const action: actionModule<ActionType> = async function (
   { pushNoti, online }
 ) {
   dispatch({ type: 'USER_GO_OFFLINE' })
+  pushNoti({
+    message: "you're offline now",
+    reactions: [
+      {
+        display: 'go online',
+        dispatch: __d((d) => d('user:online', {})),
+      },
+    ],
+  })
 }
 
 action.type = type

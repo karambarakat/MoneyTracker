@@ -14,13 +14,14 @@ import {
 import MyButton from './Mantine/Button'
 import { Link } from './ReactRoute'
 import TextEllipsis from './TextEllipsis'
+import OnlineStateAction from './OnlineStateAction'
 
 export function UserController() {
   const theme = useMantineTheme()
   const [opened, handlers] = useDisclosure(false)
   const user = useSelector<RootState, UserState>((s) => s.user)
 
-  if (!user.onlineState || !user.profile) {
+  if (!user.profile) {
     return (
       <Link to={'/auth'} as_modal={true}>
         <MyButton>
@@ -34,6 +35,17 @@ export function UserController() {
       </Link>
     )
   }
+
+  // if (!user.offline)
+  //   return (
+  //     <>
+  //       <Text>Error</Text>
+  //       <div style={{ display: 'none' }}>
+  //         invalid state, contact developer. maybe you should use
+  //         invalidStateReducerEnhancer
+  //       </div>
+  //     </>
+  //   )
 
   return (
     <Menu
@@ -72,6 +84,12 @@ export function UserController() {
         <Link to={'/profile'} as_modal>
           <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
         </Link>
+        <OnlineStateAction>
+          {(text) => {
+            return <Menu.Item icon={<Logout size={14} />}>{text}</Menu.Item>
+          }}
+        </OnlineStateAction>
+
         <Menu.Item
           icon={<Logout size={14} />}
           onClick={() => {

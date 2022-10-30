@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { Actions } from '@redux/types'
+import { ActionsObjects } from '@redux/types'
 import { apiCatUpdate, CatDoc } from 'src/types/category'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'

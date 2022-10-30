@@ -24,10 +24,8 @@ const action: actionModule<ActionType> = async function (
     })
   )
 
-  pushNoti({ message: `welcome ${profile.userName}` })
-
   dispatch({
-    type: 'USER_LOGIN',
+    type: 'USER_ADD_PROFILE',
     pl: { profile },
   })
 

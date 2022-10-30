@@ -1,7 +1,7 @@
 import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
 import moment from 'moment'
 import { LogDoc } from 'src/types/log'
-import { InnerAction, LogsState, Actions } from './../types'
+import { reducerAction, LogsState, ActionsObjects } from './../types'
 const initialState: LogsState = []
 
 /**
@@ -27,7 +27,7 @@ export type LogsTypes =
 
 function logReducer(
   state: LogsState = initialState,
-  action: InnerAction
+  action: reducerAction
 ): LogsState {
   switch (action.type) {
     case 'CLEAR_ALL':

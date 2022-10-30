@@ -1,5 +1,5 @@
 import { CatDoc } from 'src/types/category'
-import { CategoriesState, InnerAction, Actions } from './../types'
+import { CategoriesState, reducerAction, ActionsObjects } from './../types'
 const initialState: CategoriesState = []
 
 /**
@@ -25,7 +25,7 @@ export type CategoriesActionTypes =
 
 export default function categoryReducer(
   state: CategoriesState = initialState,
-  action: InnerAction
+  action: reducerAction
 ): CategoriesState {
   switch (action.type) {
     case 'CLEAR_ALL':

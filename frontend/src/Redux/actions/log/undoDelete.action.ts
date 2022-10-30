@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { Actions } from '@redux/types'
+import { ActionsObjects } from '@redux/types'
 import { LogDoc } from 'src/types/log'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'

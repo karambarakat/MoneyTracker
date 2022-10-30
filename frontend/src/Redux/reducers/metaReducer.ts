@@ -1,4 +1,4 @@
-import { InnerAction, MetaState, UserState } from '@redux/types'
+import { reducerAction, MetaState, UserState } from '@redux/types'
 
 const initialState: MetaState = {
   title: 'Home',
@@ -25,7 +25,7 @@ export type MetaTypes =
 
 export default function metaReducer(
   state: MetaState = initialState,
-  action: InnerAction
+  action: reducerAction
 ): MetaState {
   switch (action.type) {
     case 'META_SET_TITLE':

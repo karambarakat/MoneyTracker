@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import NextStage from '@components/CSSTransition/NextStage'
 import LoginEmail from '@components/Forms/Email_login'
 import RegisterEmail from '@components/Forms/Email_register'
-import { Actions, RootState, UserState } from '@redux/types'
+import { ActionsObjects, RootState, UserState } from '@redux/types'
 import {
   ActionIcon,
   Box,
@@ -60,10 +60,15 @@ export default function () {
                 ;(
                   window as unknown as OpenerFunctions
                 ).__$openerFunctionsContext = {
-                  action: dispatch,
-                  modal: goBack,
-                  callback: (params) => {
-                    pushNotification({ message: `welcome ${params.userName}` })
+                  callback: async (params) => {
+                    await dispatch('profile:fetch', {
+                      token: params.token,
+                    }).then(() => {
+                      pushNotification({
+                        message: `welcome ${params.userName}`,
+                      })
+                      goBack()
+                    })
                   },
                 }
 

@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { Actions } from '@redux/types'
+import { ActionsObjects } from '@redux/types'
 import { LogDoc } from 'src/types/log'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
@@ -43,7 +43,7 @@ const action: actionModule<ActionType> = async function (
       {
         display: 'restore',
         dispatch: __d((d) => d('log:undoDelete', { id: log._id })),
-        style: { color: 'red' },
+        // style: { color: 'red' },
       },
     ],
   })

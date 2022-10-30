@@ -1,4 +1,4 @@
-import { Actions } from '@redux/types'
+import { ActionsObjects } from '@redux/types'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -8,6 +8,6 @@ import { useDispatch } from 'react-redux'
 export default function setTitle$$(title: string) {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch<Actions>({ type: 'META_SET_TITLE', pl: { title } })
+    dispatch<ActionsObjects>({ type: 'META_SET_TITLE', pl: { title } })
   }, [])
 }

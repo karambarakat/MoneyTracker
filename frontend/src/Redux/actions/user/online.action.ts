@@ -1,5 +1,6 @@
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { synceData } from 'src/utils/offline'
 
 const type = 'user:online'
 
@@ -15,7 +16,31 @@ const action: actionModule<ActionType> = async function (
   { dispatch, state },
   { pushNoti, online }
 ) {
-  alert('Syncing Data Is Not Available Right Now')
+  dispatch({ type: 'USER_GO_ONLINE' })
+
+  try {
+    synceData()
+    pushNoti({
+      message: 'data has been synced',
+    })
+  } catch (e) {
+    pushNoti({
+      message: 'syncing data is not available right now',
+      reactions: [
+        {
+          display: 'sign out',
+          style: { color: 'red' },
+          dispatch: __d((d) => d('user:logout', {})),
+        },
+        {
+          display: 'back data',
+          dispatch: __d((d) =>
+            d('app:navigate', { to: '/export', asModal: true })
+          ),
+        },
+      ],
+    })
+  }
 }
 
 action.type = type

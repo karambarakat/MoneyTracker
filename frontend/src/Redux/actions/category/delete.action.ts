@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { Actions } from '@redux/types'
+import { ActionsObjects } from '@redux/types'
 import { CatDoc } from 'src/types/category'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
@@ -42,7 +42,7 @@ const action: actionModule<ActionType> = async function (
       {
         display: 'restore',
         dispatch: __d((d) => d('cat:undoDelete', { id: cat._id })),
-        style: { color: 'red' },
+        // style: { color: 'red' },
       },
     ],
   })
