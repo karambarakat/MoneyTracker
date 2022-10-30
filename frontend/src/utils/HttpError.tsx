@@ -1,28 +1,74 @@
 import { store } from '@redux/index'
-import { APIResponse, MyDispatch } from '@redux/types'
+import { APIResponse, Actions } from '@redux/types'
+import dispatch from '@redux/dispatch'
+import {
+  DefaultError,
+  GenericHttpError,
+  HttpErrorProps,
+} from 'src/types/httpErrors'
+import { pushNotification } from '@myHooks/notifications'
 
-interface Error {
-  status: number
-  message: string
-  name: string
-  details: { errors?: { [key: string]: string } }
-}
+// export function httpErrorHandler(response: APIResponse) {
+//   if (!response.error) return response.data
 
-export default function HttpError(data: any) {
-  const e = new Error(data.message as string)
-  //@ts-ignore
-  e.errors = data.details?.errors
-  return e
-}
+//   // todo: log out when session ends
+//   // need better way to redirect the user to '/'
+//   if (response.error?.details?.name == 'TokenExpiredError') {
+//     dispatch('user:logout', {})
+//   }
 
-export function httpErrorHandler(response: APIResponse) {
-  if (!response.error) return response.data
+//   if (response.error) throw HttpError(response.error)
+// }
 
-  // todo: log out when session ends
-  // need better way to redirect the user to '/'
-  if (response.error?.details?.name == 'TokenExpiredError') {
-    store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })
+// export const HttpErrorS = Symbol('HttpError')
+// [HttpErrorS] = true
+
+export default class HttpError extends Error {
+  isHttpError = false
+  info: GenericHttpError = DefaultError
+
+  constructor(payload: Partial<HttpErrorProps> | undefined) {
+    super(payload?.message)
+
+    // @ts-ignore
+    this.info = payload
+
+    if (
+      typeof payload?.message !== 'string' ||
+      typeof payload?.status !== 'number' ||
+      typeof payload?.name !== 'string'
+    ) {
+      this.info = DefaultError
+      return
+    }
+
+    this.isHttpError = true
   }
 
-  if (response.error) throw HttpError(response.error)
+  responses() {
+    switch (this.info.name) {
+      case 'SessionEnded':
+        dispatch('user:logout', {})
+        pushNotification({
+          message: this.info.message,
+          display: 'failure',
+        })
+      case 'ResourceWasNotFound':
+        pushNotification({ message: 'holla' })
+      // case '':
+      // case '':
+      // case '':
+    }
+  }
+
+  // function actions{
+  //   switch (this.info.name) {
+  //     case 'SessionEnded':
+  //       dispatch('user:logout', {})
+  //       pushNotification({
+  //         message: this.info.message,
+  //         display: 'failure',
+  //       })
+  //   }
+  // }
 }

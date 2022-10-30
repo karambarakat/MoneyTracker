@@ -1,20 +1,23 @@
-import { CategoriesActionTypes } from './reducers/categoryReducer'
-import { LogsActionTypes } from './reducers/logReducer'
-import { MetaActionTypes } from './reducers/metaReducer'
-import { UserActionTypes } from './reducers/userReducer'
+import { CatDoc } from 'src/types/category'
+import { LogDoc } from 'src/types/log'
+import { UserDoc } from 'src/types/user'
+import { ActionClearAll, ExtraActionsTypes } from './extra/clearData'
+import { CategoriesActionTypes as CategoriesTypes } from './reducers/categoryReducer'
+import { LogsTypes } from './reducers/logReducer'
+import { MetaTypes } from './reducers/metaReducer'
+import { UserTypes } from './reducers/userReducer'
 
 /**
  * states
  */
 export interface UserState {
-  loggedIn: boolean
-  isOffline: boolean
-  profile?: ProfileDoc
+  onlineState: boolean
+  profile?: UserDoc
 }
 
 export type LogsState = LogDoc[]
 
-export type CategoriesState = CategoryDoc[]
+export type CategoriesState = CatDoc[]
 
 export interface MetaState {
   title: string
@@ -29,59 +32,66 @@ export interface RootState {
   categories: CategoriesState
 }
 
-export type MyDispatch = { type: string } & (
-  | UserActionTypes
-  | LogsActionTypes
-  | CategoriesActionTypes
-  | MetaActionTypes
+// this is used in dispatch function like `store.dispatch<Actions>(XXXActionTypes)
+export type Actions = { type: string /**, pl: *SOMETHING* */ } & (
+  | UserTypes
+  | LogsTypes
+  | CategoriesTypes
+  | MetaTypes
+  | ExtraActionsTypes
 )
+
+// this only used inside reducers
+export type InnerAction = Actions & {
+  fns: ActionClearAll // & OtherAction
+}
 
 /**
  * api docs
  */
-export interface CategoryDoc {
-  _id: string
+// export interface CategoryDoc {
+//   _id: string
 
-  title: string
-  color?: string
-  icon?: string
-  createdBy: string
+//   title: string
+//   color?: string
+//   icon?: string
+//   createdBy: string
 
-  __v: number
-}
+//   __v: number
+// }
 
-export interface LogDoc {
-  _id: string
+// export interface LogDoc {
+//   _id: string
 
-  title: string
-  amount: number
-  createdBy: string
-  category?: {
-    _id: string
-    title: string
-    color: string
-    icon: string
-  }
-  note?: string
+//   title: string
+//   amount: number
+//   createdBy: string
+//   category?: {
+//     _id: string
+//     title: string
+//     color: string
+//     icon: string
+//   }
+//   note?: string
 
-  createdAt: string
-  updatedAt: string
-  __v: number
-}
+//   createdAt: string
+//   updatedAt: string
+//   __v: number
+// }
 
-export interface ProfileDoc {
-  _id: string
+// export interface  UserDoc {
+//   _id: string
 
-  userName: string
-  email: string
-  googleProfile: undefined | Object
-  providers: ('local' | 'google')[]
-  picture?: string
-  createdAt: string
-  updatedAt: string
-  __v: number
-  token: string
-}
+//   userName: string
+//   email: string
+//   googleProfile: undefined | Object
+//   providers: ('local' | 'google')[]
+//   picture?: string
+//   createdAt: string
+//   updatedAt: string
+//   __v: number
+//   token: string
+// }
 
 export type APIResponse =
   | {

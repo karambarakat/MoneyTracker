@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { MetaState, MyDispatch, RootState } from '@redux/types'
+import { MetaState, Actions, RootState } from '@redux/types'
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useOutlet } from 'react-router-dom'
@@ -31,7 +31,7 @@ export function getTitle() {
 export function setTitle(title: string) {
   const [_, set] = useContext(context)
   useEffect(() => {
-    store.dispatch({ type: 'META_SET_TITLE', title })
+    store.dispatch({ type: 'META_SET_TITLE', pl: { title } })
     set(title)
   }, [])
 }

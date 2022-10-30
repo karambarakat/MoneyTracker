@@ -1,34 +1,38 @@
 import { NextFunction, Request, Response } from 'express'
+import { DefaultError, HttpErrorProps } from 'typesIntegrate/httpErrors'
 import { FieldsRequired } from './errTypes'
 
-export interface HttpErrorProps {
+export const HttpErrorS = Symbol('HttpError')
+export class HttpError<Props extends HttpErrorProps> extends Error {
   status: number
   name: string
-  message: string
-  details: object
-}
+  details: Record<string, string> | undefined;
+  [HttpErrorS] = true
 
-export interface HttpError extends Error {
-  __details: HttpErrorProps
+  constructor(args: Props) {
+    super(args.message || DefaultError.message)
+    this.status = args.status || DefaultError.status
+    this.name = args.name || DefaultError.name
+    this.details = args.details || DefaultError.details
+  }
 }
 
 export function HTTPErrorHandler(
-  err: HttpError,
+  err: HttpError<any> | Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (!err.__details) next(err)
+  if (!(err instanceof HttpError)) next(err)
   else {
-    // if (process.env.NODE_ENV !== 'test') console.error(err)
-    res.status(err.__details.status).json({
+    res.status(err.status).json({
       data: null,
       error: {
-        status: err.__details.status,
-        message: err.__details.message,
-        name: err.__details.name,
+        status: err.status,
+        message: err.message,
+        name: err.name,
         details: {
-          ...err.__details.details,
+          ...err.details,
         },
       },
     })
@@ -39,26 +43,16 @@ export function requiredFields(object: { [key: string]: any }) {
   if (
     Object.values(object).some((e) => e === null || typeof e === 'undefined')
   ) {
-    throw httpError(
-      FieldsRequired(
-        Object.keys(object).filter((key) => {
-          const value = object[key]
-          if (value === '' || value === null || typeof value === 'undefined')
-            return false
+    throw FieldsRequired(
+      Object.keys(object).filter((key) => {
+        const value = object[key]
+        if (value === '' || value === null || typeof value === 'undefined')
+          return false
 
-          return true
-        })
-      )
+        return true
+      })
     )
   }
-}
-
-//@ts-ignore
-export function httpError(error: HttpErrorProps): Error {
-  const CustomError = new Error(error.message) as HttpError
-  CustomError.__details = error
-
-  return CustomError
 }
 
 export function throwQuickHttpError(
@@ -67,15 +61,12 @@ export function throwQuickHttpError(
   name?: string,
   details?: any
 ): void {
-  const CustomError = new Error(message)
-  const quickError: HttpErrorProps = {
-    status,
+  const CustomError = new HttpError({
     message,
-    name: name || 'RequestError',
-    details: details || {},
-  }
-  // @ts-ignore
-  CustomError.__details = quickError
+    status,
+    details,
+    name: name || DefaultError.name,
+  })
 
   throw CustomError
 }

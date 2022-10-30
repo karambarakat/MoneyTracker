@@ -1,50 +1,54 @@
+import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
 import moment from 'moment'
-import { LogDoc, LogsState } from './../types'
+import { InnerAction, LogsState, Actions } from './../types'
 const initialState: LogsState = []
 
 /**
  * actions
  */
-export type LogsActionTypes =
+export type LogsTypes =
   | {
       type: 'LOG_ADD_ALL'
-      logs: LogDoc[]
+      pl: { logs: LogDoc[] }
     }
   | {
       type: 'LOG_ADD_ONE'
-      log: LogDoc
+      pl: { log: LogDoc }
     }
   | {
       type: 'LOG_UPDATE_ONE'
-      log: LogDoc
+      pl: { log: LogDoc }
     }
   | {
       type: 'LOG_DELETE_ONE'
-      id: string
+      pl: { id: string }
     }
 
-export default function logReducer(
+function logReducer(
   state: LogsState = initialState,
-  action: LogsActionTypes
+  action: InnerAction
 ): LogsState {
   switch (action.type) {
+    case 'CLEAR_ALL':
+      return []
     case 'LOG_ADD_ALL':
-      return action.logs.sort(
+      return action.pl.logs.sort(
         (prev, next) =>
           new Date(next.createdAt).getTime() -
           new Date(prev.createdAt).getTime()
       )
     case 'LOG_ADD_ONE':
-      return [action.log, ...state]
+      return [action.pl.log, ...state]
     case 'LOG_UPDATE_ONE':
       return state.map((log) => {
-        if (log._id === action.log._id) return action.log
+        if (log._id === action.pl.log._id) return action.pl.log
         return log
       })
     case 'LOG_DELETE_ONE':
-      return state.filter((log) => log._id !== action.id)
-
+      return state.filter((log) => log._id !== action.pl.id)
     default:
       return state
   }
 }
+
+export default logReducer

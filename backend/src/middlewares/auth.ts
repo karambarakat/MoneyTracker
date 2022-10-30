@@ -1,21 +1,22 @@
 import passport from 'passport'
 import { Router } from 'express'
-import { httpError } from '@httpErrors'
-import { UnAuthorized } from '@httpErrors/errTypes'
+import { ExpiredToken, UnAuthorized } from '@httpErrors/errTypes'
 
 const auth = Router()
 
 auth.all('*', function (req, res, next) {
   passport.authenticate('jwt', { session: false }, function (err, user, info) {
     //invalid token {null, false, JsonWebTokenError}
-    if (err) {
-      throw httpError(UnAuthorized(info))
-    } else if (!user) {
-      throw httpError(UnAuthorized(info))
-    } else {
+    if (!err && user) {
       req.user = user
       return next()
     }
+
+    if (Object.getPrototypeOf(info).constructor?.name === 'TokenExpiredError') {
+      throw ExpiredToken(info?.expiredAt || new Date().toISOString())
+    }
+
+    throw UnAuthorized(info)
   })(req, res, next)
 })
 

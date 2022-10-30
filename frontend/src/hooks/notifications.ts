@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import events, { Listener } from 'events'
 import type { EventEmitter } from 'events'
-import { actions } from 'src/actions/types'
 import { v4 as uuid } from 'uuid'
+import { dispatchTupleArg } from '@redux/dispatch'
 
-interface reaction {
+export interface ReactionI {
   display: string
-  action: actions
+  dispatch: dispatchTupleArg
   style?: {
     color: string
   }
@@ -17,7 +17,8 @@ interface reaction {
  */
 export interface notification {
   message: string
-  react?: reaction[]
+  display?: 'success' | 'failure'
+  reactions?: ReactionI[]
 }
 
 // @ts-ignore

@@ -1,4 +1,4 @@
-import { httpError, requiredFields } from '@httpErrors'
+import { requiredFields } from '@httpErrors'
 import {
   EmailOrPasswordIncorrect,
   UserAlreadyExist,
@@ -24,7 +24,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
 
   const userExist = await User.findOne({ email })
 
-  if (userExist) throw httpError(UserAlreadyExist)
+  if (userExist) throw UserAlreadyExist()
 
   const newUser = await User.create({
     userName,
@@ -32,7 +32,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
     password: password,
     providers: ['local'],
   })
-  res.status(201).json({ data: newUser.withToken() })
+  res.status(201).json({ data: newUser.doc() })
 }
 
 /**
@@ -53,9 +53,9 @@ async function local_login(req: Request, res: Response, next: NextFunction) {
     user?.providers.includes('local') &&
     user?.matchPasswords(password || '')
   ) {
-    res.json({ data: user.withToken() })
+    res.json({ data: user.doc() })
   } else {
-    throw httpError(EmailOrPasswordIncorrect)
+    throw EmailOrPasswordIncorrect()
   }
 }
 

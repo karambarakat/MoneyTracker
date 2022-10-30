@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import MainLayout from '@routes/_Layout'
 import MantineSetUp from '@components/MantineSetUp'
-import { Provider as Redux, useDispatch } from 'react-redux'
+import { Provider as Redux } from 'react-redux'
 import { store } from '@redux/index'
 import GoogleCallback from '@routes/auth/GoogleCallback'
 import { Routes as ModalRoutes } from '@components/ReactRoute/index'
@@ -17,10 +17,8 @@ import Profile_SetPassword from '@components/Forms/Profile_SetPassword'
 import Profile_ChangePassword from '@components/Forms/Profile_changePassword'
 import { Page } from '@components/ReactRoute/index'
 
-import command from './actions/index'
 import Notification from '@components/Notifications'
-
-// command('ping')
+import { NavigateController } from '@redux/actions/app/navigate.action'
 
 const AddLog = lazy(() => import('@components/Forms/Log_add'))
 const EditLog = lazy(() => import('@components/Forms/Log_edit'))
@@ -41,6 +39,7 @@ function App() {
     <MantineSetUp>
       <Redux store={store}>
         <BrowserRouter>
+          <NavigateController />
           <Suspense fallback={<>waiting</>}>
             <ModalRoutes>
               <Route element={<Page />}>

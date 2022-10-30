@@ -5,13 +5,18 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
-import user_login, { UserLoginArgs } from '@redux/api/user_login'
+import dispatch from '@redux/dispatch'
 import { useRoutes } from '@components/ReactRoute/index'
+import HttpError from 'src/utils/HttpError'
 
-interface Values extends UserLoginArgs {}
+type args = {
+  email: string
+  password: string
+}
+interface Values extends args {}
 
 function LoginEmail() {
-  const { exit: goBack } = useRoutes()
+  const goBack = useRoutes()
 
   return (
     <Formik
@@ -23,13 +28,15 @@ function LoginEmail() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        user_login(values)
+        dispatch('user:login', values)
           .then(() => {
             goBack()
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

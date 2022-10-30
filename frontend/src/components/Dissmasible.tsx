@@ -26,7 +26,10 @@ function Dismissible({
       p={12}
       mx={12}
       sx={(th) => ({
-        backgroundColor: th.colors?.gray[0] || 'gray',
+        backgroundColor:
+          th.colorScheme === 'light'
+            ? th.colors?.gray[0] || 'gray'
+            : th.colors?.gray[9] || 'gray',
       })}
     >
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>

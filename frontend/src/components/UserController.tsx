@@ -10,8 +10,9 @@ import {
 import { useDisclosure } from '@mantine/hooks'
 import { store } from '@redux/index'
 
-import { MyDispatch, RootState, UserState } from '@redux/types'
+import { Actions, RootState, UserState } from '@redux/types'
 import { useDispatch, useSelector } from 'react-redux'
+import dispatch from '@redux/dispatch'
 import {
   ChevronLeft,
   ChevronRight,
@@ -30,7 +31,7 @@ export function UserController() {
   const user = useSelector<RootState, UserState>((s) => s.user)
   const dispatch = useDispatch()
 
-  if (!user.profile) {
+  if (!user.onlineState || !user.profile) {
     return (
       <Link to={'/auth'} as_modal={true}>
         <MyButton>
@@ -49,7 +50,7 @@ export function UserController() {
     <Menu
       transition={'pop'}
       position="bottom-start"
-      styles={{ root: { width: '100%' } }}
+      // styles={{  }}
       opened={opened}
       onClose={handlers.close}
     >
@@ -85,7 +86,7 @@ export function UserController() {
         <Menu.Item
           icon={<Logout size={14} />}
           onClick={() => {
-            store.dispatch<MyDispatch>({ type: 'USER_LOGOUT' })
+            dispatch('user:logout', {})
           }}
         >
           Log Out

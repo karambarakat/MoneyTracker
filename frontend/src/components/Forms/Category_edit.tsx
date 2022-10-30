@@ -7,31 +7,30 @@ import AlertStatus from '@components/Formik/AlertStatus'
 import { useRoutes } from '@components/ReactRoute/index'
 
 import MySimpleInput from '@components/Formik/ISimple'
-import category_create, { CreateCategoryArgs } from '@redux/api/category_create'
 import MyColorInput from '@components/Formik/IColor'
 import MyIconInput from '@components/Formik/IIcon'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import {
-  CategoriesState,
-  CategoryDoc,
-  LogsState,
-  RootState,
-} from '@redux/types'
-import category_update from '@redux/api/category_update'
+import { CategoriesState, LogsState, RootState } from '@redux/types'
+import dispatch from '@redux/dispatch'
+import { CatDoc } from 'src/types/category'
+import HttpError from 'src/utils/HttpError'
 
-interface Values extends CreateCategoryArgs {}
+type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {
+  category?: string
+}
+interface Values extends args {}
 
 function AddCategory() {
   const { id } = useParams()
   const cats = useSelector<RootState, CategoriesState>((s) => s.categories)
   const cat = useMemo(
-    () => cats.find((cat) => cat._id === id) || ({} as CategoryDoc),
+    () => cats.find((cat) => cat._id === id) || ({} as CatDoc),
     [cats]
   )
   if (!cat._id) return <div>Server Error</div>
 
-  const { exit: goBack } = useRoutes()
+  const goBack = useRoutes()
 
   return (
     <Formik
@@ -45,13 +44,15 @@ function AddCategory() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        category_update(cat._id, values)
+        dispatch('category:update', { doc: values, id: cat._id })
           .then(() => {
             goBack()
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

@@ -2,30 +2,15 @@ import { Box, Notification, Text } from '@mantine/core'
 import {
   dismissNotification,
   pushNotification,
+  ReactionI,
   useNotification,
 } from '@myHooks/notifications'
-import action from 'src/actions'
+import dispatch, { dispatchTuple } from '@redux/dispatch'
 import Stack from './CSSTransition/Stack'
 import TextEllipsis from './TextEllipsis'
+import { useState } from 'react'
 
-setTimeout(() => {
-  action({ type: 'log:create', num: 23 })
-}, 150)
-setTimeout(() => {
-  action({ type: 'log:create', num: 23 })
-}, 300)
-setTimeout(() => {
-  action({ type: 'log:create', num: 23 })
-}, 450)
-setTimeout(() => {
-  action({ type: 'log:create', num: 23 })
-}, 600)
-setTimeout(() => {
-  action({ type: 'log:create', num: 23 })
-}, 750)
-action({ type: 'log:create', num: 23 })
-
-const Notifications$ = () => {
+function Notifications$() {
   const state = useNotification()
 
   return (
@@ -37,6 +22,7 @@ const Notifications$ = () => {
           return (
             <Box key={noti.id} pt={8}>
               <Notification
+                color={noti.display === 'failure' ? 'red' : 'blue'}
                 styles={{
                   description: {
                     display: 'flex',
@@ -48,16 +34,8 @@ const Notifications$ = () => {
                 onClose={() => dismissNotification(noti.id)}
               >
                 <TextEllipsis>{noti.message}</TextEllipsis>
-                {noti.react?.map((react) => (
-                  <Text
-                    onClick={() => {
-                      action(react.action)
-                    }}
-                    sx={{ cursor: 'pointer' }}
-                    color={react.style?.color || 'blue'}
-                  >
-                    {react.display}
-                  </Text>
+                {noti.reactions?.map((react, index) => (
+                  <Reaction key={index} react={react} />
                 ))}
               </Notification>
             </Box>
@@ -65,6 +43,25 @@ const Notifications$ = () => {
         })}
       </Stack>
     </Box>
+  )
+}
+
+function Reaction({ react }: { react: ReactionI }) {
+  const [triggered, setTriggered] = useState(false)
+  return (
+    <Text
+      onClick={() => {
+        !triggered &&
+          dispatchTuple(react.dispatch).then(() => setTriggered(true))
+      }}
+      sx={{
+        cursor: !triggered ? 'pointer' : 'default',
+        userSelect: triggered ? 'none' : 'initial',
+      }}
+      color={triggered ? 'gray' : react.style?.color || 'blue'}
+    >
+      {react.display}
+    </Text>
   )
 }
 

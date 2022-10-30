@@ -4,9 +4,9 @@ import {
   ValidationError,
   BadJsonPayload,
 } from '@httpErrors/errTypes'
-import { httpError } from '.'
 import type { HttpError } from '@httpErrors'
 import { NextFunction, Request, Response } from 'express'
+import { UnknownServerErrorE } from 'typesIntegrate/httpErrors'
 
 export function e400_JsonError(
   err: Error,
@@ -18,14 +18,14 @@ export function e400_JsonError(
     err.name === 'SyntaxError' &&
     err.message.startsWith('Unexpected string in JSON at position')
   ) {
-    throw httpError(BadJsonPayload)
+    throw BadJsonPayload()
   } else {
     next(err)
   }
 }
 
 export function e404_ResourceNotFound() {
-  throw httpError(ResourceWasNotFound)
+  throw ResourceWasNotFound()
 }
 
 interface mongoosePathValidationError extends Error {
@@ -66,23 +66,23 @@ export function e400_MongooseValidation(
       {}
     )
 
-    throw httpError(ValidationError(validationError))
+    throw ValidationError(validationError)
   } else {
     next(err)
   }
 }
 
 export function e500_ServerError(
-  err: HttpError,
+  err: HttpError<UnknownServerErrorE>,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   console.error(err)
-  res.status(UnknownServerError.status).json({
-    status: UnknownServerError.status,
-    message: UnknownServerError.message,
-    name: UnknownServerError.name,
+  res.status(UnknownServerError().status).json({
+    status: UnknownServerError().status,
+    message: UnknownServerError().message,
+    name: UnknownServerError().name,
     details: {},
   })
 }

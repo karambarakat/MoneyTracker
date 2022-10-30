@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import passport from 'passport'
+import type { apiGoogleCallbackParams } from 'types/models/UserModel'
 const google = Router()
 
 /**
@@ -65,17 +66,20 @@ let queryString = {
 }
 */
 callbackRouter.use('/', (req: Request, res: Response) => {
-  const profile = req.user?.withToken()
+  const profile = req.user?.doc()
 
   if (!profile) throw Error()
 
   const url = process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND as string
 
-  const toQuery = new URLSearchParams({
+  const params: apiGoogleCallbackParams = {
     _id: profile._id,
     token: profile.token,
     userName: profile.userName,
-  }).toString()
+  }
+
+  // @ts-ignore
+  const toQuery = new URLSearchParams(params).toString()
 
   res.redirect(url + '?' + toQuery)
 })

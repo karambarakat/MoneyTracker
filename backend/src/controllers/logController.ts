@@ -4,7 +4,7 @@ import {
   PrivateRoute,
   ResourceWasNotFound,
 } from '@httpErrors/errTypes'
-import { httpError, requiredFields, throwQuickHttpError } from '@httpErrors'
+import { requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import Log from '@models/Log'
@@ -26,7 +26,7 @@ const router = Router()
  *   @access    Private
  */
 async function find(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
   const logs = await Log.find({ createdBy: new ObjectId(req.user._id) })
 
@@ -41,8 +41,7 @@ async function find(req: Request, res: Response, next: NextFunction) {
  *   @access    Private
  */
 async function create(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
-  req.user._id
+  if (!req.user) throw PrivateRoute()
 
   const { title, amount, category, note } = of(req.body) as log_create
 
@@ -62,7 +61,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
  * helper functions
  */
 async function findLog(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
   const foundLog = await Log.findOne({
     createdBy: new ObjectId(req.user._id),
@@ -73,7 +72,7 @@ async function findLog(req: Request, res: Response, next: NextFunction) {
     req.log = foundLog
     next()
   } else {
-    throw httpError(ResourceWasNotFound)
+    throw ResourceWasNotFound()
   }
 }
 
@@ -85,7 +84,7 @@ async function findLog(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifLogExists
  */
 async function findOne(req: Request, res: Response, next: NextFunction) {
-  if (!req.log) throw httpError(NoLog)
+  if (!req.log) throw NoLog()
 
   res.json({
     data: req.log.doc(),
@@ -101,7 +100,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifLogExists
  */
 async function update(req: Request, res: Response, next: NextFunction) {
-  if (!req.log) throw httpError(NoLog)
+  if (!req.log) throw NoLog()
 
   const { title, amount, category, note } = of(req.body) as log_update
 
@@ -123,12 +122,13 @@ async function update(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifLogExists
  */
 async function delete_(req: Request, res: Response, next: NextFunction) {
-  if (!req.log) throw httpError(NoLog)
+  if (!req.log) throw NoLog()
 
   const deleted = await Log.deleteOne({ _id: req.log._id })
 
-  if (!deleted) throw httpError(FailedToDelete)
-  else res.json({ data: null })
+  if (!deleted) throw FailedToDelete()
+
+  res.json({ data: null })
 }
 
 router.route('/').get(auth, _(find))

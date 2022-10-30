@@ -7,11 +7,11 @@ import {
   Stack,
   Text,
 } from '@mantine/core'
-import log_delete from '@redux/api/log_delete'
+import dispatch from '@redux/dispatch'
 import { store } from '@redux/index'
-import { LogDoc } from '@redux/types'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
+import { LogDoc } from 'src/types/log'
 import Amount from './Amount'
 import CategoryIcon from './category/CategoryIcon'
 import { Link } from './ReactRoute'
@@ -65,7 +65,7 @@ function LogAccordion({ log }: { log: LogDoc }) {
             <Button
               variant="light"
               color={'red'}
-              onClick={() => log_delete(log._id)}
+              onClick={() => dispatch('log:delete', { id: log._id })}
             >
               Delete
             </Button>

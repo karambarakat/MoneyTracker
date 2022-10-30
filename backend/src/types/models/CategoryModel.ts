@@ -12,11 +12,6 @@ export default interface ICategoryModel {
   doc: () => CategoryDoc
 }
 
-export type CategoryMongoose = ICategoryModel &
-  Document<unknown, any, ICategoryModel> & {
-    _id: string | ObjectId
-  }
-
 export interface CategoryDoc {
   _id: string
 

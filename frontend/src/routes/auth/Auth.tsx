@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import NextStage from '@components/CSSTransition/NextStage'
 import LoginEmail from '@components/Forms/Email_login'
 import RegisterEmail from '@components/Forms/Email_register'
-import { RootState, UserState } from '@redux/types'
+import { Actions, RootState, UserState } from '@redux/types'
 import {
   ActionIcon,
   Box,
@@ -17,7 +17,10 @@ import { useLocalStorage } from '@mantine/hooks'
 import { useState } from 'react'
 import { ArrowBackUp, BrandGoogle, Mail, WifiOff } from 'tabler-icons-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRoutes } from '@components/ReactRoute/index'
+import { setTitle, useRoutes as useGoBack } from '@components/ReactRoute/index'
+import { OpenerFunctions } from 'src/utils/googleSigninTypes'
+import dispatch from '@redux/dispatch'
+import { store } from '@redux/index'
 
 const data = [
   {
@@ -37,15 +40,15 @@ const data = [
 
 export default function () {
   const [stage, setStage] = useState<'.' | './email'>('.')
-  const dispatch = useDispatch()
-  const { exit } = useRoutes()
+  const goBack = useGoBack()
+  setTitle(' ')
 
   return (
     <>
       <NextStage nextStage={stage === './email'}>
         <Box style={{ margin: '0 20px' }}>
           <Title order={2} align="center" mb={28}>
-            Select Authorization Method
+            Select Authorization Method.
           </Title>
           <Stack>
             <Button
@@ -53,14 +56,17 @@ export default function () {
               variant="filled"
               style={{ height: 48 }}
               onClick={() => {
-                // @ts-ignore
-                window._dispatchReact = dispatch
-                // @ts-ignore
-                window._modal = exit
+                ;(
+                  window as unknown as OpenerFunctions
+                ).__$openerFunctionsContext = {
+                  action: dispatch,
+                  modal: goBack,
+                }
+
                 window.open(
                   'http://localhost:8811/api/v1/auth/google',
                   '_blank',
-                  'popup=yes,width=100,height:100'
+                  'popup=yes,width=550,height:650'
                 )
               }}
             >
@@ -81,10 +87,10 @@ export default function () {
               </Group>
             </Button>
             <Button
-              onClick={() =>
-                //todo:
-                alert('this feature is not available right now')
-              }
+              onClick={() => {
+                dispatch('user:offline', {})
+                goBack()
+              }}
               color="primaryColor"
               variant="filled"
               style={{ height: 48 }}

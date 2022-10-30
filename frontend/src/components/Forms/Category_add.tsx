@@ -6,14 +6,20 @@ import AlertStatus from '@components/Formik/AlertStatus'
 import { useRoutes } from '@components/ReactRoute/index'
 
 import MySimpleInput from '@components/Formik/ISimple'
-import category_create, { CreateCategoryArgs } from '@redux/api/category_create'
+import dispatch from '@redux/dispatch'
+
 import MyColorInput from '@components/Formik/IColor'
 import MyIconInput from '@components/Formik/IIcon'
+import { CatDoc } from 'src/types/category'
+import HttpError from 'src/utils/HttpError'
 
-interface Values extends CreateCategoryArgs {}
+type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {
+  category?: string
+}
+interface Values extends args {}
 
 function AddCategory() {
-  const { exit: goBack } = useRoutes()
+  const goBack = useRoutes()
   return (
     <Formik
       initialValues={{
@@ -26,13 +32,16 @@ function AddCategory() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        category_create(values)
+        // dispatch('category:create', {doc: {}})
+        dispatch('category:create', { doc: values })
           .then(() => {
             goBack()
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

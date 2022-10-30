@@ -27,17 +27,17 @@ import passport from 'passport'
 import { useJWT } from '@passport/local'
 import { useGoogle } from '@passport/google'
 import PassportSerialization from '@passport/serialize'
-import IUser, { UserMongoose } from 'types/models/UserModel'
-import ILog, { LogMongoose } from 'types/models/LogModel'
-import { CategoryMongoose } from 'types/models/CategoryModel'
+import IUser from 'types/models/UserModel'
+import ILog from 'types/models/LogModel'
+import ICategoryModel from 'types/models/CategoryModel'
 import JSONReplacer from '@utils/JSONReplacer'
 
 declare global {
   namespace Express {
-    interface User extends UserMongoose {}
+    interface User extends IUser, Document<unknown, any, IUser> {}
     interface Request {
-      log?: LogMongoose
-      category?: CategoryMongoose
+      log?: ILog & Document<unknown, any, ILog>
+      category?: ICategoryModel & Document<unknown, any, ICategoryModel>
     }
   }
 }

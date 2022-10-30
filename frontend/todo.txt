@@ -5,18 +5,31 @@
 - [x] setting page + rate us + about
  
 - [ ] offline users
+
+- [x] unify backend and frontend data types and TypeScript 
+- [ ] when created doc optional fields are null, but on getting doc optional fields don't exist
+
+
+- [ ] backend bug: `these fields are required: ` no fields are showing
+
  
 // rest -----------------------------------------------------------------
 - [ ] empty logs and empty categories
+
+- [ ] refactor testing in backend
+
+- [ ] document the backend
+
+- [ ] refactor `store.dispatch('META_XXX')`
  
-- [ ] refactor redux api and actions
+- [x] refactor redux api and actions
 
 // unnecessary but very cool --------------------------------------------
 - [ ] figure out a way to display pages like export or addLog without a modal
 
 - [ ] on the home page add component to create logs without opening a whole new modal
 
-- [ ] commands + stack notification + undo commands
+- [x] commands + stack notification + undo commands
 
 - [ ] animation on deleting entries
  

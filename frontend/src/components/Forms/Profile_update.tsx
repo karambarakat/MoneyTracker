@@ -4,10 +4,15 @@ import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import { useNavigate } from 'react-router-dom'
-import profile_update, { ProfileUpdateArgs } from '@redux/api/profile_update'
+import dispatch from '@redux/dispatch'
 import MyUserInput from '@components/Formik/IUser'
+import HttpError from 'src/utils/HttpError'
 
-interface Values extends ProfileUpdateArgs {}
+type args = {
+  userName: string
+  // picture: string
+}
+interface Values extends args {}
 
 function ProfileUpdate() {
   const nav = useNavigate()
@@ -23,14 +28,15 @@ function ProfileUpdate() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        console.log('anything')
-        profile_update(values)
+        dispatch('profile:update', values)
           .then(() => {
             nav(-1)
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

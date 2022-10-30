@@ -52,7 +52,7 @@ const to = new Date()
 from.setMonth(to.getMonth() - 1)
 
 function Export() {
-  const { exit: goBack } = useRoutes()
+  const goBack = useRoutes()
   return (
     <Formik
       initialValues={{

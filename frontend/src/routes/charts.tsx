@@ -2,7 +2,7 @@ import CategoryIcon from '@components/category/CategoryIcon'
 import PieChart from '@components/d3/PieChart'
 import MyPaper from '@components/MyPaper'
 import { Box, List, Progress, Stack, Text, ThemeIcon } from '@mantine/core'
-import log_find from '@redux/api/log_find'
+import dispatch from '@redux/dispatch'
 import { setTitle } from '@components/ReactRoute/index'
 
 import { LogsState, RootState } from '@redux/types'
@@ -17,7 +17,7 @@ function Charts_Page_Component() {
 
   const logs = useSelector<RootState, LogsState>((s) => s.logs)
   React.useEffect(() => {
-    log_find()
+    dispatch('log:find', {})
   }, [])
   const cats = React.useMemo(() => {
     var lists = segregate(

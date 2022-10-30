@@ -16,11 +16,6 @@ export default interface ILog {
   updatedAt: string | Date
 }
 
-export type LogMongoose = ILog &
-  Document<unknown, any, ILog> & {
-    _id: string | ObjectId
-  }
-
 export interface LogDoc {
   _id: string
 

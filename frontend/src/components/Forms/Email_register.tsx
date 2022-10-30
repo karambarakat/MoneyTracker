@@ -11,19 +11,24 @@ import {
 } from 'yup'
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
-import user_signup, { UserSignUpArgs } from '@redux/api/user_signup'
+import dispatch from '@redux/dispatch'
 import { useRoutes } from '@components/ReactRoute/index'
 
-interface Values extends UserSignUpArgs {
-  // userName: string // from UserSignUpArgs
-  // email: string // from UserSignUpArgs
-  // password: string // from UserSignUpArgs
+type args = {
+  userName: string
+  email: string
+  password: string
+}
+interface Values extends args {
+  // userName: string // from args
+  // email: string // from args
+  // password: string // from args
   repeatPassword: string
   checked: boolean
 }
 
 function RegisterEmail() {
-  const { exit: goBack } = useRoutes()
+  const goBack = useRoutes()
   return (
     <Formik
       initialValues={{
@@ -37,13 +42,15 @@ function RegisterEmail() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        user_signup(values)
+        dispatch('user:signup', values)
           .then(() => {
             goBack()
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

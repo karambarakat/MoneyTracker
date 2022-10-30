@@ -21,8 +21,11 @@ function Export_Page_Component() {
 
         <Select
           placeholder="Pick one"
-          onChange={(v) =>
-            store.dispatch({ type: 'META_CURRENCY', currency: v || '/d' })
+          onChange={(c) =>
+            store.dispatch({
+              type: 'META_CURRENCY',
+              pl: { currency: c || '/d' },
+            })
           }
           value={currency}
           data={[

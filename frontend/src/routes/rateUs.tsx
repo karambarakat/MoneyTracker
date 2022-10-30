@@ -15,7 +15,9 @@ function Export_Page_Component() {
       <Text pb={12}>How Do You Like This App</Text>
       <FiveStar
         value={rating}
-        onChange={(v) => store.dispatch({ type: 'META_RATING', rating: v })}
+        onChange={(rating) =>
+          store.dispatch({ type: 'META_RATING', pl: { rating } })
+        }
       />
     </div>
   )

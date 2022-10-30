@@ -14,10 +14,10 @@ import {
 import { IconProps, User } from 'tabler-icons-react'
 import * as allTablerIcon from './CategoryAllIcons'
 import allColors from './CategoryAllColors'
-import { CategoriesState, CategoryDoc, RootState } from '@redux/types'
+import { CategoriesState, RootState } from '@redux/types'
 import React, { PropsWithChildren } from 'react'
 import { useSelector } from 'react-redux'
-import category_find from '@redux/api/category_find'
+import dispatch from '@redux/dispatch'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@components/category/CategoryAllIcons'
 
@@ -141,7 +141,7 @@ CategoryIcon.WithTitle = function ({
 const collectionAllCategories = () => {
   const cats = useSelector<RootState, CategoriesState>((s) => s.categories)
   React.useEffect(() => {
-    category_find()
+    dispatch('category:find', {})
   }, [])
   return cats
 }

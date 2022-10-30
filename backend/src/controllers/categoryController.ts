@@ -4,7 +4,7 @@ import {
   PrivateRoute,
   ResourceWasNotFound,
 } from '@httpErrors/errTypes'
-import { httpError, requiredFields, throwQuickHttpError } from '@httpErrors'
+import { requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 
@@ -25,7 +25,7 @@ const router = Router()
  *   @access    Private
  */
 async function find(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
   const categories = await Category.find({
     createdBy: new ObjectId(req.user._id),
@@ -42,7 +42,7 @@ async function find(req: Request, res: Response, next: NextFunction) {
  *   @access    Private
  */
 async function create(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
   req.user._id
 
   const { title, color, icon } = of(req.body) as category_create
@@ -62,7 +62,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
  * helper functions
  */
 async function findCategory(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
   const found = await Category.findOne({
     createdBy: new ObjectId(req.user._id),
@@ -73,7 +73,7 @@ async function findCategory(req: Request, res: Response, next: NextFunction) {
     req.category = found
     next()
   } else {
-    throw httpError(ResourceWasNotFound)
+    throw ResourceWasNotFound()
   }
 }
 
@@ -85,7 +85,7 @@ async function findCategory(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifCategoryExists
  */
 async function findOne(req: Request, res: Response, next: NextFunction) {
-  if (!req.category) throw httpError(NoCategory)
+  if (!req.category) throw NoCategory()
 
   res.json({
     data: req.category.doc(),
@@ -100,8 +100,8 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifCategoryExists
  */
 async function findAllLogs(req: Request, res: Response, next: NextFunction) {
-  if (!req.category) throw httpError(NoCategory)
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.category) throw NoCategory()
+  if (!req.user) throw PrivateRoute()
 
   const logs = await Log.find({
     category: req.category._id,
@@ -122,7 +122,7 @@ async function findAllLogs(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifCategoryExists
  */
 async function update(req: Request, res: Response, next: NextFunction) {
-  if (!req.category) throw httpError(NoCategory)
+  if (!req.category) throw NoCategory()
 
   const { title, color, icon } = of(req.body) as category_update
 
@@ -143,11 +143,11 @@ async function update(req: Request, res: Response, next: NextFunction) {
  *   @access    Private, ifCategoryExists
  */
 async function delete_(req: Request, res: Response, next: NextFunction) {
-  if (!req.category) throw httpError(NoCategory)
+  if (!req.category) throw NoCategory()
 
   const deleted = await Category.deleteOne({ _id: req.category._id })
 
-  if (!deleted) throw httpError(FailedToDelete)
+  if (!deleted) throw FailedToDelete()
   else res.json({ data: null })
 }
 

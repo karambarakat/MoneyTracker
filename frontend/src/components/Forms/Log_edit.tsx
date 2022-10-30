@@ -6,17 +6,23 @@ import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import { useRoutes } from '@components/ReactRoute/index'
 
-import log_create, { CreateLogArgs } from '@redux/api/log_create'
+import dispatch from '@redux/dispatch'
 import MySimpleInput from '@components/Formik/ISimple'
 import MyAmountInput from '@components/Formik/IAmount'
 import MyTextarea from '@components/Formik/ITextarea'
 import MyCategoryInput from '@components/Formik/ICategory'
-import log_update from '@redux/api/log_update'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { LogDoc, LogsState, RootState } from '@redux/types'
+import { LogsState, RootState } from '@redux/types'
+import { LogDoc } from 'src/types/log'
+import HttpError from 'src/utils/HttpError'
 
-interface Values extends CreateLogArgs {}
+type args = Omit<
+  LogDoc,
+  'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
+> & { category?: string }
+
+interface Values extends args {}
 
 function EditLog() {
   const { id } = useParams()
@@ -28,7 +34,7 @@ function EditLog() {
 
   if (!log._id) return <div>Server Error</div>
 
-  const { exit: goBack } = useRoutes()
+  const goBack = useRoutes()
   return (
     <Formik
       initialValues={{
@@ -42,13 +48,15 @@ function EditLog() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        log_update(log._id, values)
+        dispatch('log:update', { doc: values, id: log._id })
           .then(() => {
             goBack()
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

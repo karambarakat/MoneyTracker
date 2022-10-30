@@ -1,9 +1,5 @@
 import { Box, Input, ScrollArea } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
-import { useSelector } from 'react-redux'
-import { CategoriesState, RootState } from '@redux/types'
-import category_find from '@redux/api/category_find'
-import { useEffect } from 'react'
 import CategoryIcon from '@components/category/CategoryIcon'
 
 interface Props {

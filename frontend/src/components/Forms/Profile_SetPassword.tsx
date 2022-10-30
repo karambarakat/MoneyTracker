@@ -4,12 +4,14 @@ import { ObjectSchema as yupObj, string as yupStr } from 'yup'
 import SubmitButton from '@components/Formik/SubmitButton'
 import AlertStatus from '@components/Formik/AlertStatus'
 import { useNavigate } from 'react-router-dom'
-import profile_password, {
-  ProfilePasswordArgs,
-} from '@redux/api/profile_password'
+import dispatch from '@redux/dispatch'
 import MyPasswordInput from '@components/Formik/IPassword'
 
-interface Values extends ProfilePasswordArgs {}
+type args = {
+  oldPassword: string
+  newPassword: string
+}
+interface Values extends args {}
 
 function Profile_setPassword() {
   const nav = useNavigate()
@@ -25,13 +27,15 @@ function Profile_setPassword() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
-        profile_password(values)
+        dispatch('profile:password', values)
           .then(() => {
             nav(-1)
           })
           .catch((e) => {
             console.error(e)
-            e.errors && setErrors(e.errors)
+            if (e instanceof HttpError && e.isHttpError) {
+              e.info.details?.errors && setErrors(e.info.details?.errors)
+            }
             setStatus({ error: e.message })
           })
           .finally(() => {

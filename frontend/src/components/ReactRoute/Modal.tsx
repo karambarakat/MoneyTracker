@@ -8,7 +8,7 @@ import {
   useNavigate,
   Routes as NativeRoutes,
 } from 'react-router-dom'
-import { context } from './context'
+import { context } from './goBack'
 import { getTitle } from './Page'
 
 export default function Routes({ children }: PropsWithChildren<any>) {
@@ -31,11 +31,7 @@ export default function Routes({ children }: PropsWithChildren<any>) {
   const title = getTitle()
 
   return (
-    <context.Provider
-      value={{
-        exit: fns['close'],
-      }}
-    >
+    <context.Provider value={fns['close']}>
       <NativeRoutes location={location.state?.from || location}>
         {children}
       </NativeRoutes>

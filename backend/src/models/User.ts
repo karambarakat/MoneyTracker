@@ -78,8 +78,9 @@ UserSchema.pre('save', async function (next) {
 /**
  * methods attached to any instance of User, used to generate token, match password
  */
-UserSchema.methods.withToken = function () {
+UserSchema.methods.doc = function () {
   delete this._doc.password
+  delete this._doc.googleInfo
 
   return {
     ...this._doc,

@@ -1,4 +1,4 @@
-import { MetaState, UserState } from '@redux/types'
+import { InnerAction, MetaState, UserState } from '@redux/types'
 
 const initialState: MetaState = {
   title: 'Home',
@@ -9,39 +9,39 @@ const initialState: MetaState = {
 /**
  * actions
  */
-export type MetaActionTypes =
+export type MetaTypes =
   | {
       type: 'META_SET_TITLE'
-      title: string
+      pl: { title: string }
     }
   | {
       type: 'META_CURRENCY'
-      currency: string
+      pl: { currency: string }
     }
   | {
       type: 'META_RATING'
-      rating: number
+      pl: { rating: number }
     }
 
 export default function metaReducer(
   state: MetaState = initialState,
-  action: MetaActionTypes
+  action: InnerAction
 ): MetaState {
   switch (action.type) {
     case 'META_SET_TITLE':
       return {
         ...state,
-        title: action.title,
+        title: action.pl.title,
       }
     case 'META_CURRENCY':
       return {
         ...state,
-        currency: action.currency,
+        currency: action.pl.currency,
       }
     case 'META_RATING':
       return {
         ...state,
-        rating: action.rating,
+        rating: action.pl.rating,
       }
     default:
       return state

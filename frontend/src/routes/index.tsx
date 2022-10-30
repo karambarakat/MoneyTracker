@@ -1,6 +1,6 @@
 import AddLogButton from '@components/AddLogButton'
 import { Accordion, Card, Divider, Stack } from '@mantine/core'
-import log_find from '@redux/api/log_find'
+import dispatch from '@redux/dispatch'
 import { useEffect, useRef, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { LogsState, RootState } from '@redux/types'
@@ -15,10 +15,10 @@ import { title } from '@components/ReactRoute/Page'
 function Index_Page_Component() {
   const logs = useSelector<RootState, LogsState>((s) => s.logs)
   useEffect(() => {
-    log_find()
+    dispatch('log:find', {})
   }, [])
 
-  setTitle('Home')
+  // setTitle('Home')
 
   // separate logs by their days
   const logs_ = useMemo(() => {

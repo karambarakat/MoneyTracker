@@ -1,34 +1,21 @@
-import { ProfileDoc } from '@redux/types'
 import { Text } from '@mantine/core'
-
-import { UserActionTypes } from '@redux/reducers/userReducer'
-
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { CallbackParams, OpenerFunctions } from 'src/utils/googleSigninTypes'
 
 function GoogleCallback() {
-  const dispatch = useDispatch<(action: UserActionTypes) => UserActionTypes>()
-  const params = Object.fromEntries(
+  const params = Object.fromEntries<string>(
     new URLSearchParams(window.location.search).entries()
-  )
+  ) as unknown as CallbackParams
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_BACKEND_API + '/profile', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + params.token,
-      },
+    const {
+      __$openerFunctionsContext: { action, modal },
+    } = window.opener as OpenerFunctions
+
+    action('profile:fetch', { token: params.token }).then(() => {
+      modal()
+      window.close()
     })
-      .then((res) => res.json() as Promise<{ data: ProfileDoc }>)
-      .then(({ data }) => {
-        window.opener._dispatchReact({
-          type: 'USER_LOGIN',
-          profile: data,
-        })
-        window.opener._modal()
-        window.close()
-      })
   }, [])
   return (
     <>

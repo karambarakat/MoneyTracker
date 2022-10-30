@@ -19,18 +19,13 @@ export default interface IUser {
   providers: ('local' | 'google')[]
 
   matchPasswords: (password: string) => boolean
-  withToken: () => ProfileDoc
+  doc: () => ProfileDoc
 
   updatedAt: string | Date
   createdAt: string | Date
 }
 
-export type UserMongoose = IUser &
-  Document<unknown, any, IUser> & {
-    _id: string | ObjectId
-  }
-
-// return of withToken()
+// return of doc()
 export interface ProfileDoc {
   _id: string
 
@@ -60,4 +55,10 @@ export interface ProfileRawDoc {
 
   // extra password -- no token
   password?: string
+}
+
+export interface apiGoogleCallbackParams {
+  token: string
+  userName: string
+  _id: string
 }

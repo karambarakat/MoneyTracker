@@ -12,7 +12,7 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core'
-import category_find from '@redux/api/category_find'
+import dispatch from '@redux/dispatch'
 import {
   CategoriesState,
   CategoryDoc,
@@ -27,8 +27,6 @@ import MiddleRow from '@components/MiddleRow'
 import AddCategory from '@components/AddCategory'
 import Dismissible from '@components/Dissmasible'
 import { Link } from '@components/ReactRoute/index'
-
-import category_delete from '@redux/api/category_delete'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
 import Amount from '@components/Amount'
@@ -107,7 +105,7 @@ function CatDetails({
   }, [logs_, cat])
 
   return !cat ? null : (
-    <Stack sx={(th) => ({ backgroundColor: th.colors?.gray[0] || 'gray' })}>
+    <Stack>
       <Stack mb={12} justify={'space-between'} sx={{ flexDirection: 'row' }}>
         <Stack
           sx={{
@@ -131,7 +129,7 @@ function CatDetails({
           variant="light"
           color={'red'}
           onClick={() => {
-            category_delete(cat._id)
+            dispatch('category:delete', { id: cat._id })
             context()
           }}
         >

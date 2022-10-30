@@ -1,12 +1,5 @@
-import {
-  EmailIsUsed,
-  EmailOrPasswordIncorrect,
-  EmptyBody,
-  PasswordIncorrect,
-  PrivateRoute,
-  UserAlreadyExist,
-} from '@httpErrors/errTypes'
-import { httpError, requiredFields } from '@httpErrors'
+import { PasswordIncorrect, PrivateRoute } from '@httpErrors/errTypes'
+import { requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import User from '@models/User'
@@ -52,9 +45,9 @@ async function emailProvidersStatus(
  *   @access  Private
  */
 async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
-  res.json({ data: req.user.withToken() })
+  res.json({ data: req.user.doc() })
 }
 
 /**
@@ -69,7 +62,7 @@ async function updateCurrentUser(
   res: Response,
   next: NextFunction
 ) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
   const { userName, picture } = of(req.body) as profile_update
 
@@ -78,7 +71,7 @@ async function updateCurrentUser(
 
   await req.user.save()
 
-  res.json({ data: req.user.withToken() })
+  res.json({ data: req.user.doc() })
 }
 
 /**
@@ -89,14 +82,13 @@ async function updateCurrentUser(
  *   @access  Private
  */
 async function updatePassword(req: Request, res: Response, next: NextFunction) {
-  if (!req.user) throw httpError(PrivateRoute)
+  if (!req.user) throw PrivateRoute()
 
   if (req.user.providers.includes('local')) {
     const { newPassword, oldPassword } = of(req.body) as updatePassword_local
     requiredFields({ newPassword, oldPassword })
 
-    if (!req.user.matchPasswords(oldPassword))
-      throw httpError(PasswordIncorrect)
+    if (!req.user.matchPasswords(oldPassword)) throw PasswordIncorrect()
 
     req.user.password = newPassword
     await req.user.save()
@@ -109,7 +101,7 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
     await req.user.save()
   }
 
-  res.json({ data: req.user.withToken() })
+  res.json({ data: req.user.doc() })
 }
 
 router.get('/status', _(emailProvidersStatus))
