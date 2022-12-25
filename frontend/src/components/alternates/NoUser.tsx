@@ -18,12 +18,12 @@ function NoUser() {
       <Text
         // @ts-ignore
         size={'2rem'}
-        color="gray"
+        color="#aaa"
         weight="bold"
       >
         {"You're not signed in"}
       </Text>
-      {/* <Text color={'gray'}>{props.body || ''}</Text> */}
+      {/* <Text color='#bbb'>{props.body || ''}</Text> */}
     </Box>
   )
 }

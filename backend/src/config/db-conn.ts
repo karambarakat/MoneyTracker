@@ -7,21 +7,16 @@ async function connect() {
   log('database', 'connecting ...')
 
   var url = process.env.MONGO_STRING as string
-  
-  await mongoose
-    .connect(url)
-    .then(() => log('database', 'connected'))
-    .catch((err) => {
-      log('database', 'failed', err)
-      process.exit()
-    })
+
+  await mongoose.connect(url).catch((err) => {
+    log('database', 'failed', err)
+    process.exit()
+  })
+
+  log('database', 'connected')
 }
 
-export const express_conn = _(async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export const express_conn = _(async function (req: Request, res: Response, next: NextFunction) {
   await connect()
   next()
 })

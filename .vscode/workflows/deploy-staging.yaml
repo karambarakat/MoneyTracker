@@ -1,0 +1,13 @@
+name: Setup, Build, Publish, and Deploy for staging
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo deploy to do

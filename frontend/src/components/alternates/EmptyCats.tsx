@@ -16,17 +16,17 @@ function EmptyCats() {
       <img src={AddSvg} width="70%" />
       <Text
         // @ts-ignore
-        size={'2rem'}
-        color="gray"
+        size="2rem"
+        color="#aaa"
         weight="bold"
       >
-        {"There's No Data Yet."}
+        There's No Data Yet.
       </Text>
-      <Text color={'gray'}>
+      <Text color="#bbb">
         you can{' '}
         <Text
           sx={{ display: 'inline', cursor: 'pointer' }}
-          color={'blue'}
+          color="blue"
           onClick={() =>
             dispatch('app:navigate', { to: '/addCategory', asModal: true })
           }
