@@ -6,7 +6,11 @@
   "scripts": {
     "dev:frontend": "npm run dev --prefix frontend",
     "dev:backend": "npm run dev  --prefix backend",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\""
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "terraform:init": "npm run terraform -- init",
+    "terraform:plan": "npm run terraform -- plan -var-file=secrets.tfvars.json",
+    "terraform:apply": "npm run terraform -- apply -var-file=secrets.tfvars.json -auto-approve",
+    "terraform": "terraform -chdir=terraform"
   },
   "repository": {
     "type": "git",

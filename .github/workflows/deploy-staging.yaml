@@ -1,6 +1,7 @@
 name: Setup, Build, Publish, and Deploy for staging
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master

@@ -29,15 +29,15 @@ import { useGoogle } from '@passport/google'
 import PassportSerialization from '@passport/serialize'
 import IUser from 'types/models/UserModel'
 import ILog from 'types/models/LogModel'
-import ICategoryModel from 'types/models/CategoryModel'
+import ICategory from 'types/models/CategoryModel'
 import JSONReplacer from '@utils/JSONReplacer'
 
 declare global {
   namespace Express {
-    interface User extends IUser, Document<unknown, any, IUser> {}
+    interface User extends Omit<IUser, '_id'>, Document<any, any, IUser> {}
     interface Request {
-      log?: ILog & Document<unknown, any, ILog>
-      category?: ICategoryModel & Document<unknown, any, ICategoryModel>
+      log?: ILog & Document<any, any, ILog>
+      category?: ICategory & Document<any, any, ICategory>
     }
   }
 }
@@ -60,16 +60,17 @@ app.use(morgan('dev'))
  * Controllers
  */
 const api = express.Router()
-api.get('/', apiIsWorking)
-api.use('/v1/auth/local', localAuthController)
-api.use('/v1/auth/google', googleAuthController)
-api.use('/v1/profile', profileController)
-api.use('/v1/log', logController)
-api.use('/v1/category', categoryController)
+api.all('/', apiIsWorking)
+api.use('/auth/local', localAuthController)
+api.use('/auth/google', googleAuthController)
+api.use('/profile', profileController)
+api.use('/log', logController)
+api.use('/category', categoryController)
 
 api.use('*', e404)
 
-app.use('/api', api)
+app.use('/api/v1', api)
+app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 
 /**
  * Errors/Handlers

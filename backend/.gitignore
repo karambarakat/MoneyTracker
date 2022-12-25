@@ -1,7 +1,5 @@
 .env
-.env.prod
-.env.dev
-.env.test
+.env.*
 
 build
 __Tests__/**/*.test.js
