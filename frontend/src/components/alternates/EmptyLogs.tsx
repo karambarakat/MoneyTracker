@@ -17,12 +17,12 @@ function EmptyLogs() {
       <Text
         // @ts-ignore
         size={'2rem'}
-        color="gray"
+        color="#aaa"
         weight="bold"
       >
         {"There's No Data Yet."}
       </Text>
-      <Text color={'gray'}>
+      <Text color="#bbb">
         <div>
           you can{' '}
           <Text

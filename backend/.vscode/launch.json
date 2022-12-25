@@ -11,9 +11,11 @@
         "-r",
         "${workspaceFolder}/node_modules/tsconfig-paths/register"
       ],
-      "args": ["${workspaceFolder}/src/server.ts"],
+      "args": [
+        "${workspaceFolder}/src/server.ts"
+      ],
       "cwd": "${workspaceFolder}",
-      "protocol": "inspector",
+      // "protocol": "inspector",
       "env": {
         "NODE_ENV": "development",
         "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"

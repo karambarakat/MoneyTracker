@@ -1,12 +1,12 @@
 {
-  "name": "money-tracker",
+  "name": "my-pocket",
   "version": "1.0.0",
   "description": "Easy to use money wallet",
   "main": "backend/server.js",
   "scripts": {
     "dev:frontend": "npm run dev --prefix frontend",
     "dev:backend": "npm run dev  --prefix backend",
-    "dev": "concurrently \"npm run dev_front\" \"npm run dev_back\""
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\""
   },
   "repository": {
     "type": "git",

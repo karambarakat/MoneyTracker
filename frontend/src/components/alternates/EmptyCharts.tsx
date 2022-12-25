@@ -17,12 +17,12 @@ function EmptyCharts() {
       <Text
         // @ts-ignore
         size={'2rem'}
-        color="gray"
+        color="#aaa"
         weight="bold"
       >
         {"There's No Data Yet."}
       </Text>
-      <Text color={'gray'}>add more logs to see their statistics</Text>
+      <Text color="#bbb">add more logs to see their statistics</Text>
     </Box>
   )
 }

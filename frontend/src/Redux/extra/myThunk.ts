@@ -11,71 +11,82 @@ type typeFn = dispatchFunction
 const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
   if (typeof action === 'function') {
     const notis: notification[] = []
-    var offline = false
+    function pushNoti(noti: notification) {
+      notis.push(noti)
+      return noti
+    }
 
-    const n___ = await action(
+    var offline_ = false
+    function offline() {
+      offline_ = true
+    }
+
+    async function online(
+      fetch: (helpers: { token: () => string }) => Promise<Response>
+    ) {
+      if (
+        offline_ &&
+        (store.getState() as RootState).user.onlineState === false
+      ) {
+        try {
+          return addOffileData()
+        } catch (error) {
+          notis.push({
+            message: 'failed to add data while offline',
+            reactions: [
+              {
+                display: 'go online',
+                dispatch: _d((d) => d('user:online', {})),
+              },
+            ],
+          })
+        }
+      }
+
+      const token = () => {
+        const token_ = JSON.parse(
+          localStorage.getItem('VITE_REDUX__user') || '{}'
+        )?.profile?.token
+
+        if (!token_) {
+          // offline &&
+          //   pushNotification({
+          //     message:
+          //       "you can't preform this action offline; this feature is not available yet",
+          //     reactions: [
+          //       {
+          //         display: 'log in',
+          //         dispatch: _d((d) =>
+          //           d('app:navigate', { to: '/auth', asModal: true })
+          //         ),
+          //       },
+          //     ],
+          //   })
+          throw new Error(
+            "you can't preform this action offline; this feature is not available yet"
+          )
+        }
+
+        return token_
+      }
+
+      const result = await (await fetch({ token })).json()
+
+      const httpError = new HttpError(result?.error)
+      if (httpError.isHttpError) {
+        httpError.responses()
+        throw httpError
+      }
+
+      return result.data
+    }
+
+    const return___ = await action(
       { dispatch: store.dispatch, state: store.getState },
       {
-        pushNoti: (noti) => {
-          notis.push(noti)
-          return noti
-        },
-        offline: () => (offline = true),
-        online: async (fetch) => {
-          if (
-            offline &&
-            (store.getState() as RootState).user.onlineState === false
-          ) {
-            try {
-              return addOffileData()
-            } catch (error) {
-              notis.push({
-                message: 'failed to add data while offline',
-                reactions: [
-                  {
-                    display: 'go online',
-                    dispatch: _d((d) => d('user:online', {})),
-                  },
-                ],
-              })
-            }
-          }
-
-          const token = () => {
-            const token = JSON.parse(
-              localStorage.getItem('VITE_REDUX__user') || '{}'
-            )?.profile?.token
-
-            if (!token) {
-              // offline &&
-              //   pushNotification({
-              //     message:
-              //       "you can't preform this action offline; this feature is not available yet",
-              //     reactions: [
-              //       {
-              //         display: 'log in',
-              //         dispatch: _d((d) =>
-              //           d('app:navigate', { to: '/auth', asModal: true })
-              //         ),
-              //       },
-              //     ],
-              //   })
-              throw new Error("you can't preform this action offline")
-            }
-
-            return token
-          }
-
-          const result = await (await fetch({ token })).json()
-
-          const httpError = new HttpError(result?.error)
-          if (httpError.isHttpError) {
-            httpError.responses()
-            throw httpError
-          }
-
-          return result.data
-        },
+        pushNoti,
+        offline,
+        online,
       }
     )
 
@@ -83,7 +94,7 @@ const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
       pushNotification(noti)
     })
 
-    return n___
+    return return___
   } else {
     return next(action)
   }

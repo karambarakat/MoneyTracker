@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "cross-env NODE_ENV=production TS_NODE_BASEURL=./build node -r tsconfig-paths/register build/server.js",
-    "start:ts-node": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register src/server.ts",
+    "start:no-build": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
     "test": "jest",
     "doc": "typedoc"
