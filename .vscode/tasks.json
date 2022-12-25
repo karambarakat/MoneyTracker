@@ -1,0 +1,22 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "frontend development",
+      "type": "shell",
+      "command": "npm run dev --prefix frontend"
+    },
+    {
+      "label": "development",
+      "type": "shell",
+      "command": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\""
+    },
+    {
+      "label": "backend development",
+      "type": "shell",
+      "command": "npm run dev --prefix backend"
+    }
+  ]
+}

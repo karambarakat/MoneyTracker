@@ -2,8 +2,9 @@ PORT = 8811
 SALT = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 JWT_SECRET = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# will be overriden by `.env.(dev|prod)`
-# MONGO_STRING = mongodb://localhost:27017/xxxxxx-xxxxx
+MONGO_STRING = mongodb://localhost:27017/xxxxxx-xxxxx
+# or
+MONGO_STRING = mongodb://127.0.0.1:27017/xxxxxx-xxxxx
 
 
 GOOGLE_CLIENT_ID = XXXXXXXXXXXXXXXXXX

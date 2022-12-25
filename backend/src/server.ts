@@ -8,7 +8,7 @@ import db_conn from '@config/db-conn'
 async function main() {
   await db_conn()
 
-  const PORT = process.env.PORT || 8811
+  const PORT = process.env.PORT || 3000
   app.listen(PORT, () => log('app', `listening at port ${PORT}`))
 }
 
