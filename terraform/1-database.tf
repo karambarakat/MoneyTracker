@@ -1,41 +1,11 @@
-
-###
-###
-### variables
-variable "mongodbatlas_public_key" {
-  type = string
-}
-
-variable "mongodbatlas_private_key" {
-  type = string
-}
-
-variable "atlas_project_id" {
-  type = string
-}
-
-variable "atlas_user_password" {
-  type = string
-}
-
-###
-###
-### provider
-provider "mongodbatlas" {
-  public_key  = var.mongodbatlas_public_key
-  private_key = var.mongodbatlas_private_key
-}
-
-###
-###
-### resources
-resource "mongodbatlas_cluster" "mongo_cluster" {
+resource "mongodbatlas_cluster" "main" {
   project_id                  = var.atlas_project_id
-  name                        = "${var.app_name}-${terraform.workspace}"
+  name                        = "${local.project_name}-cluster"
   provider_instance_size_name = "M0"
-  provider_name               = "TENANT"
-  backing_provider_name       = "AWS"
-  provider_region_name        = "US_WEST_2"
+
+  provider_name         = "TENANT"
+  backing_provider_name = "AWS"
+  provider_region_name  = "US_WEST_2"
 
 
   cluster_type = "REPLICASET"
@@ -50,23 +20,17 @@ resource "mongodbatlas_cluster" "mongo_cluster" {
   }
 }
 
-resource "mongodbatlas_database_user" "mongo_user" {
-  username           = "mypocket-terraform-user-${terraform.workspace}"
+resource "mongodbatlas_database_user" "main" {
+  username           = "${local.project_name}-user"
   password           = var.atlas_user_password
   project_id         = var.atlas_project_id
   auth_database_name = "admin"
 
   roles {
     role_name     = "readWrite"
-    database_name = "mypocket"
+    database_name = "main"
   }
 }
-
-# use vpc peering instead
-# resource "mongodbatlas_project_ip_whitelist" "test" {
-#   project_id = var.atlas_project_id
-#   ip_address = aws_vpc.main.
-# }
 
 resource "mongodbatlas_network_container" "main" {
   project_id       = var.atlas_project_id
@@ -75,6 +39,7 @@ resource "mongodbatlas_network_container" "main" {
   region_name      = "US_WEST_2"
 }
 
+# assuming existing aws project
 resource "mongodbatlas_network_peering" "main" {
   accepter_region_name   = "US_WEST_2"
   project_id             = var.atlas_project_id
@@ -83,23 +48,26 @@ resource "mongodbatlas_network_peering" "main" {
   route_table_cidr_block = "192.168.0.0/24"
   vpc_id                 = aws_vpc.main.id
   aws_account_id         = var.aws_account_id
+  resource_group_name    = "${local.project_name}-peering"
 }
 
 resource "aws_vpc_peering_connection_accepter" "peer" {
   vpc_peering_connection_id = mongodbatlas_network_peering.main.connection_id
 
-
   auto_accept = true
 
   tags = {
-    "Name" = "mongodb_request_peering"
+    "Name"    = "${local.project_name}-mongodb_request_peering"
+    "Context" = "${local.project_name}"
   }
 }
 
+###
+###
+### output
 output "atlas_connection_strings" {
-  value = mongodbatlas_cluster.mongo_cluster.connection_strings[0].standard_srv
+  value = mongodbatlas_cluster.main.connection_strings[0].standard_srv
 }
 output "mongodbatlas_database_user" {
-  value = mongodbatlas_database_user.mongo_user.username
+  value = mongodbatlas_database_user.main.username
 }
-

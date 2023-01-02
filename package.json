@@ -8,8 +8,9 @@
     "dev:backend": "npm run dev  --prefix backend",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "terraform:init": "npm run terraform -- init",
-    "terraform:plan": "npm run terraform -- plan -var-file=secrets.tfvars.json",
-    "terraform:apply": "npm run terraform -- apply -var-file=secrets.tfvars.json -auto-approve",
+    "terraform:plan": "npm run terraform -- plan -var-file=secrets.tfvars",
+    "terraform:apply": "npm run terraform -- apply -var-file=secrets.tfvars -auto-approve",
+    "terraform:destroy": "npm run terraform -- destroy -var-file=secrets.tfvars",
     "terraform": "terraform -chdir=terraform"
   },
   "repository": {

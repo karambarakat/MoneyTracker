@@ -1,7 +1,3 @@
-variable "app_name" {
-  type = string
-}
-
 terraform {
   required_providers {
     mongodbatlas = {
@@ -11,6 +7,10 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "4.48.0"
+    }
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "2.24.0"
     }
   }
 }
