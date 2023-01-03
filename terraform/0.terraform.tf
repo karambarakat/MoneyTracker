@@ -1,4 +1,9 @@
 terraform {
+  backend "s3" {
+    bucket = "terraform-remote-state-1234"
+    key    = "key"
+    region = "us-west-2"
+  }
   required_providers {
     mongodbatlas = {
       source  = "mongodb/mongodbatlas"
