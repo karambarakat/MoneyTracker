@@ -51,3 +51,9 @@ provider "docker" {
     password = data.aws_ecr_authorization_token.temporary.password
   }
 }
+
+provider "vercel" {
+  # Or omit this for the api_token to be read
+  # from the VERCEL_API_TOKEN environment variable
+  api_token = var.vercel_api_token
+}

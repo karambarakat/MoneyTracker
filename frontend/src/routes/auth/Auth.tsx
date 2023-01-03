@@ -73,7 +73,9 @@ export default function () {
                 }
 
                 window.open(
-                  'http://localhost:8811/api/v1/auth/google',
+                  `http://${
+                    import.meta.env.VITE_BACKEND_URL
+                  }/api/v1/auth/google`,
                   '_blank',
                   'popup=yes,width=550,height:650'
                 )

@@ -7,8 +7,8 @@ function Brand() {
     <Link to={'/'}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
         <img src={LogoPng} width={32} height={32} />
-        <Text size='xl' weight={500}>
-          Money Tracker
+        <Text size="xl" weight={500}>
+          myPocket
         </Text>
       </Box>
     </Link>

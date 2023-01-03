@@ -12,5 +12,9 @@ terraform {
       source  = "kreuzwerker/docker"
       version = "2.24.0"
     }
+    vercel = {
+      source  = "vercel/vercel"
+      version = "~> 0.3"
+    }
   }
 }

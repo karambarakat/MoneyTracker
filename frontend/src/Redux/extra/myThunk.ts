@@ -63,7 +63,7 @@ const myThunk: Middleware = (store) => (next) => async (action: typeFn) => {
           //     ],
           //   })
           throw new Error(
-            "you can't preform this action offline; this feature is not available yet"
+            "you can't preform this action offline; this feature is not available yet. please sing in"
           )
         }
 
