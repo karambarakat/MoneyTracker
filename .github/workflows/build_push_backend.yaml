@@ -1,4 +1,4 @@
-name: Setup, Build, Publish, and Deploy  for production
+name: build and push backend image
 
 on:
   workflow_dispatch:

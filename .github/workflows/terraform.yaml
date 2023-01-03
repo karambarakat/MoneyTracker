@@ -1,4 +1,4 @@
-name: Setup, Build, Publish, and Deploy for staging
+name: terraform - setup infrastructure
 
 on:
   workflow_dispatch:
