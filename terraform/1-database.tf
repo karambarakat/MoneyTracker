@@ -5,14 +5,14 @@ resource "mongodbatlas_cluster" "main" {
 
   provider_name         = "TENANT"
   backing_provider_name = "AWS"
-  provider_region_name  = "US_WEST_2"
+  provider_region_name  = var.aws_region_camel
 
 
   cluster_type = "REPLICASET"
   replication_specs {
     num_shards = 1
     regions_config {
-      region_name     = "US_WEST_2"
+      region_name     = var.aws_region_camel
       electable_nodes = 3
       priority        = 7
       read_only_nodes = 0
@@ -36,12 +36,12 @@ resource "mongodbatlas_network_container" "main" {
   project_id       = var.atlas_project_id
   atlas_cidr_block = "10.8.0.0/21"
   provider_name    = "AWS"
-  region_name      = "US_WEST_2"
+  region_name      = var.aws_region_camel
 }
 
 # assuming existing aws project
 resource "mongodbatlas_network_peering" "main" {
-  accepter_region_name   = "US_WEST_2"
+  accepter_region_name   = var.aws_region_camel
   project_id             = var.atlas_project_id
   container_id           = mongodbatlas_network_container.main.id
   provider_name          = "AWS"

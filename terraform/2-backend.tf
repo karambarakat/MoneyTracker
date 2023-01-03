@@ -99,7 +99,14 @@ resource "aws_apprunner_service" "backend_api" {
           "JWT_SECRET" = var.JWT_SECRET,
           "SALT"       = var.SALT,
 
-          # todo google oauth vars
+          "GOOGLE_CLIENT_ID"     = var.GOOGLE_CLIENT_ID,
+          "GOOGLE_CLIENT_SECRET" = var.GOOGLE_CLIENT_SECRET,
+
+          "GOOGLE_CLIENT_CALLBACK_URL_BACKEND"          = var.GOOGLE_CLIENT_CALLBACK_URL_BACKEND,
+          "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND"         = var.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND,
+          "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE" = var.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE,
+
+          # todo google oauth var
         }
       }
       image_identifier      = docker_registry_image.api_backend_image.name
