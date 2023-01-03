@@ -10,9 +10,10 @@ import {
 } from 'react-router-dom'
 import { context } from './goBack'
 import { getTitle } from './Page'
+import { ModalLocation } from './_type'
 
 export default function Routes({ children }: PropsWithChildren<any>) {
-  const location = useLocation()
+  const location = useLocation() as any as ModalLocation
 
   const [open, fns] = useDisclosure(false, {
     onClose: () => {

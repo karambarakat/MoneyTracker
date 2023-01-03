@@ -13,6 +13,7 @@ import {
   useNavigate,
 } from 'react-router-dom'
 import events from 'events'
+import { ModalLocation } from '@components/ReactRoute/_type'
 
 const type = 'app:navigate'
 
@@ -29,7 +30,7 @@ const event = new events.EventEmitter()
  */
 export function NavigateController() {
   const nav = useNavigate()
-  const location = useLocation()
+  const location = useLocation() as any as ModalLocation
   useEffect(() => {
     function fn(args: ActionType['payload'], asModal: boolean = false) {
       nav(args.to, {
