@@ -3,7 +3,7 @@ import connect, { disconnect } from '@config/db-conn'
 import { generateToken } from '@utils/tokens'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
-import app from './../app'
+import { app } from '../server'
 
 const user1 = {
   userName: 'new user name',

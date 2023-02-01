@@ -25,10 +25,23 @@ const router = Router()
  *   @response  LogDoc[]
  *   @access    Private
  */
+/**
+ * @openapi
+ * /api/v1/log/:
+ *   get:
+ *     description: get all logs
+ *     responses:
+ *       200:
+ *         description: Everything went fine.
+ */
 async function find(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
+  // if (!req.filterQuery) throw new Error()
 
-  const logs = await Log.find({ createdBy: new ObjectId(req.user._id) })
+  const logs = await Log.find({
+    // ...req.filterQuery,
+    createdBy: new ObjectId(req.user._id),
+  })
 
   res.json({ data: logs.map((e) => e.doc()) })
 }
@@ -39,6 +52,15 @@ async function find(req: Request, res: Response, next: NextFunction) {
  *   @body      log_create
  *   @response  LogDoc
  *   @access    Private
+ */
+/**
+ * @openapi
+ * /api/v1/log/:
+ *   post:
+ *     description: add one log
+ *     responses:
+ *       200:
+ *         description: get all logs.
  */
 async function create(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()

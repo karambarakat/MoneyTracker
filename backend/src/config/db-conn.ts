@@ -16,11 +16,6 @@ async function connect() {
   log('database', 'connected')
 }
 
-export const express_conn = _(async function (req: Request, res: Response, next: NextFunction) {
-  await connect()
-  next()
-})
-
 export const disconnect = mongoose.disconnect
 
 export default connect

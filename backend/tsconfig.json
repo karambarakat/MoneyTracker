@@ -18,6 +18,7 @@
     "rootDir": "src/",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "target": "ESNext",
     "module": "CommonJS",
     "strict": true

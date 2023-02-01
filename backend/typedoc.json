@@ -1,5 +1,9 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "entryPoints" : ["./src/app.ts"],
-    "theme": "default"
+    "entryPointStrategy": "expand",
+    "entryPoints": [
+        "./src/controllers/logController.ts"
+    ],
+    "name": "myPocket API",
+    "out": "docs"
 }

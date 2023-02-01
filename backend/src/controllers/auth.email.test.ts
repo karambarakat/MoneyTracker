@@ -2,7 +2,7 @@
 import connect, { disconnect } from '@config/db-conn'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
-import app from './../app'
+import { app } from '../server'
 
 describe('AUTH_EMAIL', () => {
   beforeAll((done) => {

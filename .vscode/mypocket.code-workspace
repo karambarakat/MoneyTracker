@@ -1,0 +1,30 @@
+{
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": []
+	},
+	"folders": [
+		{
+			"name": "__",
+			"path": ".."
+		},
+		{
+			"path": "../backend"
+		},
+		{
+			"path": "../frontend"
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"cmnd",
+			"elems",
+			"hoverable",
+			"localstorage",
+			"openapi",
+			"signup",
+			"tabler"
+		],
+		"editor.tabSize": 2
+	}
+}

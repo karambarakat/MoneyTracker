@@ -42,6 +42,20 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
  *   @response  ProfileDoc
  *   @access    Public
  */
+/**
+ * @openapi
+ * /api/v1/auth/local/login:
+ *   get:
+ *     security:
+ *       - emailAuth : []
+ *     responses:
+ *       200:
+ *         description: ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/profile"
+ */
 async function local_login(req: Request, res: Response, next: NextFunction) {
   const { email, password } = of(req.body) as auth_local_login
 

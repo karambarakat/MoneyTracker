@@ -6,7 +6,7 @@ This project is written by TypeScript, some ExpressJS properties has been overri
 
 # Debugging
 
-I used Postman for debugging. to view all collection checkout `postman` directory
+I used Postman for debugging. to view all collection checkout [postman](https://www.postman.com/speeding-zodiac-567713/workspace/money-tracker)
 
 # Production
 
