@@ -8,11 +8,12 @@ components:
     category:
       summary: example when requesting category
       value:
-        title: buy new TV
-        amount: 500
-        note: new 40" plasma tv from flea market
-        createdBy: 
-          $ref: './profile.yaml#/components/examples/profile/value'
+        _id: 63da2a0a643dd3aa49f5c6b1
+        __v: 0
+        title: Entertainment
+        color: Blue
+        icon: Fun_Icon
+        createdBy: 63da2a0a643dd3aa49f5c6b1 
     category_populated:
       summary: when populating category properties like createdBy, __v will be deleted
       value:
@@ -30,25 +31,42 @@ components:
             - title
             - createdBy
           properties:
+            _id:
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
+            __v:
+              type: string
+              example: 0
+              default: 0
+
             title: 
               type: string
+              example: Entertainment
             color:
               type: string
+              example: "#333"
             icon:
               type: string
+              example: Fun_Face_Icon
             createdBy:
-              $ref: '#/components/schemas/profile'
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
     categoryPopulated:
         type: object
         properties:
           _id: 
             type: string
+            example: 63da2a0a643dd3aa49f5c6b1
           title: 
             type: string
+            example: Entertainment
           color:
             type: string
+            example: "#333"
           icon:
             type: string
+            example: Fun_Face_Icon
+
     mongoDoc: 
       $ref: "./database.yaml#/components/schemas/mongoDoc"
     profile: 

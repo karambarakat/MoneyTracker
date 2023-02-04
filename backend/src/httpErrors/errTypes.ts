@@ -5,8 +5,10 @@ import {
   EmailOrPasswordIncorrectE,
   FailedToDeleteE,
   FieldsRequiredE,
+  MalformedToken as MalformedTokenE,
   PasswordIncorrectE,
   ResourceWasNotFoundE,
+  SessionEnded,
   UnAuthorizedE,
   UnknownServerErrorE,
   UserAlreadyExistE,
@@ -15,6 +17,7 @@ import {
 } from 'typesIntegrate/httpErrors'
 import { HttpError } from '.'
 import { myValidationError } from './errMiddlewares'
+import { string } from 'yup'
 
 export function FieldsRequired(keys: string[]) {
   return new HttpError<FieldsRequiredE>({
@@ -42,21 +45,13 @@ export const EmailOrPasswordIncorrect = () =>
   new HttpError<EmailOrPasswordIncorrectE>({
     status: 401,
     name: 'EmailOrPasswordIncorrect',
-    message: "the email or the password doesn't match our records",
-    details: undefined,
-  })
-
-export const PasswordIncorrect = () =>
-  new HttpError<PasswordIncorrectE>({
-    status: 401,
-    name: 'PasswordIncorrect',
-    message: "the password doesn't match our records",
+    message: 'email/password were/was wrong or not provided',
     details: undefined,
   })
 
 export function UserAlreadyExist() {
   return new HttpError<UserAlreadyExistE>({
-    status: 400,
+    status: 409,
     name: 'UserAlreadyExist',
     message: 'User already exist.',
     details: {
@@ -169,12 +164,23 @@ export const UnAuthorized: (i: any) => HttpError<UnAuthorizedE> = (info) =>
     details: info,
   })
 
-export const ExpiredToken: (expiredAt: string) => HttpError<UnAuthorizedE> = (
+export const ExpiredToken: (expiredAt: string) => HttpError<SessionEnded> = (
   expiredAt
 ) =>
   new HttpError({
-    status: 401,
+    status: 441,
     name: 'SessionEnded',
     message: 'session has ended',
     details: { expiredAt },
+  })
+
+export const MalformedToken: (i: any) => HttpError<MalformedTokenE> = (info) =>
+  new HttpError({
+    status: 401,
+    name: 'MalformedToken',
+    message: 'the token is either corrupted or invalid',
+    details: {
+      name: info.name,
+      message: info.message,
+    },
   })

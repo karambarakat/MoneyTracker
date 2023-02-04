@@ -71,7 +71,7 @@ describe('AUTH_EMAIL', () => {
       password: '123456',
     })
 
-    expect(res.status).toBe(400)
+    expect(res.status).toBe(409)
     expect(res.body.error.name).toBe('UserAlreadyExist')
   })
 

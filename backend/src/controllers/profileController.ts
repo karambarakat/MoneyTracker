@@ -1,4 +1,4 @@
-import { PasswordIncorrect, PrivateRoute } from '@httpErrors/errTypes'
+import { EmailOrPasswordIncorrect, PrivateRoute } from '@httpErrors/errTypes'
 import { requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
@@ -88,7 +88,7 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
     const { newPassword, oldPassword } = of(req.body) as updatePassword_local
     requiredFields({ newPassword, oldPassword })
 
-    if (!req.user.matchPasswords(oldPassword)) throw PasswordIncorrect()
+    if (!req.user.matchPasswords(oldPassword)) throw EmailOrPasswordIncorrect()
 
     req.user.password = newPassword
     await req.user.save()

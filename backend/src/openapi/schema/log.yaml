@@ -11,8 +11,7 @@ components:
         title: buy new TV
         amount: 500
         note: new 40" plasma tv from flea market
-        createdBy: 
-          $ref: './profile.yaml#/components/examples/profile/value'
+        createdBy: 63da2a0a643dd3aa49f5c6b1 
         category: 
           $ref: './category.yaml#/components/examples/category_populated/value'
 
@@ -29,12 +28,16 @@ components:
           properties:
             title: 
               type: string
+              example: buy new TV
             amount:
               type: number
+              example: 400
             createdBy:
-              $ref: '#/components/schemas/profile'
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
             note:
               type: string
+              example: new 40" plasma tv from flea market
             category:
               $ref: '#/components/schemas/categoryPopulated'
     mongoDoc:

@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: 
+  /auth/local/login/: 
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - $ref: '#/components/parameters/emailPassword'
+      tags:
+        - "local authorization"
+      summary: login
+      description: |
+        login using email and password using Basic Token Http Authorization
+      responses:
+        401:
+          $ref: '#/components/responses/EmailOrPasswordIncorrect'
+        200:
+          $ref: '#/components/responses/profile'
+  /auth/local/register/: 
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - $ref: '#/components/parameters/emailPassword'
+      tags:
+        - "local authorization"
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: 'joe Due'
+      description: |
+        make new account with a displayName 
+      responses:
+        201:
+          $ref: '#/components/responses/profile'
+        400:
+          $ref: '#/components/responses/SomeFieldsRequired'
+        409:
+          $ref: '#/components/responses/UserAlreadyExist'
+
+        
+components:
+  parameters:
+    emailPassword:
+      $ref: "../security/http.yaml#/components/parameters/emailPassword"
+  responses:
+    EmailOrPasswordIncorrect:
+      $ref: "../errors/EmailOrPasswordIncorrect.yaml#/components/responses/EmailOrPasswordIncorrect"
+    SomeFieldsRequired:
+      $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
+    UserAlreadyExist:
+      $ref: "../errors/UserAlreadyExist.yaml#/components/responses/UserAlreadyExist"
+    profile:
+      $ref: "../success/profile.yaml#/components/responses/profile"

@@ -35,7 +35,7 @@ export interface PasswordIncorrectE extends HttpErrorProps {
   details: undefined
 }
 export interface UserAlreadyExistE extends HttpErrorProps {
-  status: 400
+  status: 409
   name: 'UserAlreadyExist'
   message: string
   details: {
@@ -99,8 +99,18 @@ export interface UnAuthorizedE extends HttpErrorProps {
   details: any
 }
 
-export interface SessionEnded extends HttpErrorProps {
+export interface MalformedToken extends HttpErrorProps {
   status: 401
+  name: 'MalformedToken'
+  message: 'the token is either corrupted or invalid'
+  details: {
+    name: string
+    message: string
+  }
+}
+
+export interface SessionEnded extends HttpErrorProps {
+  status: 441
   name: 'SessionEnded'
   message: string
   details: { expiredAt: string }

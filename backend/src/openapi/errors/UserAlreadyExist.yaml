@@ -5,9 +5,8 @@ info:
 paths: {}
 components:
   responses:
-    EmailOrPasswordIncorrect:
-      description: |
-        email/password were/was wrong or not provided
+    UserAlreadyExist:
+      description: User already exist
       content:
         application/json:
           x-failed: true
@@ -16,14 +15,13 @@ components:
             properties:
               status:
                 type: number
-                default: 401
+                default: 409
               message:
-                description: more details
-                example: the email or the password doesn't match our records
+                example: User already exist
                 type: string
               name:
                 type: string
-                default: EmailOrPasswordIncorrect
+                default: UserAlreadyExist
               details:
                 type: object
 

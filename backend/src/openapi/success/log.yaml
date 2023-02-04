@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    log:
+      description: Ok
+      content:
+        application/json: 
+          x-success: true
+          example:
+            $ref: "#/components/examples/log/value"
+          schema:
+            $ref: "#/components/schemas/log"
+  examples:
+    log:
+      $ref: "../schema/log.yaml#/components/examples/log"
+  schemas:
+    log:  
+      $ref: "../schema/log.yaml#/components/schemas/log"

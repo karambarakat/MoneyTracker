@@ -11,17 +11,21 @@ components:
     profile:
       summary: profile
       value:
+        _id: 63da2a0a643dd3aa49f5c6b1
         displayName: Jue Doe
         email: JueDoe@gmail.com
         providers: ['google', 'local']
         picture: "https ://example.com/path/to/img"
-
-
+        token: eyJHxxxxx.xxxxx.xxxxx
+        updatedAt: 2022-04-26T16:08:38.276Z
+        createdAt: 2022-04-26T16:08:38.276Z
+        __v: 0
   schemas: 
     providers:
       type: array
       items:
         type: string
+        example: ['local', 'google']
         enum:
           - "local"
           - "google"
@@ -36,17 +40,25 @@ components:
             - providers
             - token
           properties:
+            _id:
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
+            __v:
+              type: number
+              example: 0
+              default: 0
             displayName: 
               type: string
-              example: 'eyJxxxx.xxxxx.xxxxxx'
+              example: 'joe Due'
             email:
               type: string
-              example: 'eyJxxxx.xxxxx.xxxxxx'
+              example: 'joeDue@gmail.com'
             token:
               type: string
               example: 'eyJxxxx.xxxxx.xxxxxx'
             providers:
               type: array
+              example: ['local', 'google']
               items:
                 type: string
                 enum:
@@ -54,6 +66,7 @@ components:
                   - "google"
             picture:
               type: string
+              example: "https ://example.com/path/to/img"
     mongoDoc: 
       $ref: "./database.yaml#/components/schemas/mongoDoc"
     mongoTime: 

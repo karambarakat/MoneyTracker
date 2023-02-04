@@ -6,7 +6,9 @@ paths:
   /auth/local/login/:
     post:
       security:
-        - emailPassword: []
+        - BasicToken: []
+      parameters:
+        - $ref: "#/components/parameters/emailPassword"
       tags:
         - local authorization
       summary: login
@@ -14,24 +16,160 @@ paths:
         login using email and password using Basic Token Http Authorization
       responses:
         "200":
+          $ref: "#/components/responses/profile"
+        "401":
+          $ref: "#/components/responses/EmailOrPasswordIncorrect"
+  /auth/local/register/:
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - $ref: "#/components/parameters/emailPassword"
+      tags:
+        - local authorization
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: joe Due
+      description: |
+        make new account with a displayName 
+      responses:
+        "201":
+          $ref: "#/components/responses/profile"
+        "400":
+          $ref: "#/components/responses/SomeFieldsRequired"
+        "409":
+          $ref: "#/components/responses/UserAlreadyExist"
+  /category/:
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/bearer"
+      tags:
+        - category
+      summary: list all categories
+      description: list all categories for the current user
+      responses:
+        "200":
           description: Ok
           content:
             application/json:
               x-success: true
               examples:
-                basic profile:
-                  summary: profile
+                singed up:
+                  description: singed up with multiple authentication methods
                   value:
-                    displayName: Jue Doe
-                    email: JueDoe@gmail.com
-                    providers:
-                      - google
-                      - local
-                    picture: https ://example.com/path/to/img
+                    - local
+                    - google
+                not signed up:
+                  description: email is not signed up
+                  value: []
               schema:
-                $ref: "#/components/schemas/profile"
+                type: array
+                items:
+                  type: string
+                  example:
+                    - local
+                    - google
+                  enum:
+                    - local
+                    - google
+        "400":
+          $ref: "#/components/responses/SomeFieldsRequired"
+  /profile/:
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/bearer"
+      tags:
+        - profile
+      summary: get profile
+      description: retrieve profile info
+      responses:
+        "200":
+          $ref: "#/components/responses/profile"
         "401":
-          $ref: "#/components/responses/EmailOrPasswordIncorrect"
+          $ref: "#/components/responses/UnAuthorized"
+        "441":
+          $ref: "#/components/responses/SessionEnded"
+        "442":
+          $ref: "#/components/responses/MalformedToken"
+    put:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/bearer"
+      requestBody:
+        description: fields to update
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: Joe Doe
+                picture:
+                  type: string
+                  example: https ://example.com/path/to/img"
+      tags:
+        - profile
+      summary: update profile
+      description: update profile information
+      responses:
+        "200":
+          $ref: "#/components/responses/profile"
+        "401":
+          $ref: "#/components/responses/UnAuthorized"
+        "441":
+          $ref: "#/components/responses/SessionEnded"
+        "442":
+          $ref: "#/components/responses/MalformedToken"
+  /profile/password/:
+    put:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/bearer"
+      requestBody:
+        description: update the password
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newPassword
+              properties:
+                oldPassword:
+                  description: may be required if `local` authenticate is provided
+                  type: string
+                  example: 12345567
+                newPassword:
+                  type: string
+                  example: 12345567differentPassword
+      tags:
+        - profile
+      summary: (re)set password
+      description: update users password
+      responses:
+        "200":
+          $ref: "#/components/responses/profile"
+        "400":
+          $ref: "#/components/responses/SomeFieldsRequired"
+        "401":
+          $ref: "#/components/responses/UnAuthorized"
+        "441":
+          $ref: "#/components/responses/SessionEnded"
+        "442":
+          $ref: "#/components/responses/MalformedToken"
   /profile/status/:
     get:
       tags:
@@ -68,6 +206,9 @@ paths:
                 type: array
                 items:
                   type: string
+                  example:
+                    - local
+                    - google
                   enum:
                     - local
                     - google
@@ -90,6 +231,84 @@ paths:
           description: Ok.
 components:
   responses:
+    EmailOrPasswordIncorrect:
+      description: |
+        email/password were/was wrong or not provided
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 401
+              message:
+                description: more details
+                example: email/password were/was wrong or not provided
+                type: string
+              name:
+                type: string
+                default: EmailOrPasswordIncorrect
+              details:
+                type: object
+    MalformedToken:
+      description: token is corrupt
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 442
+                enum:
+                  - 401
+                  - 442
+              message:
+                description: more details
+                example: the token is either corrupted or invalid
+                type: string
+              name:
+                type: string
+                default: MalformedToken
+              details:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    default: JsonWebTokenError
+                  message:
+                    type: string
+                    default: invalid signature
+    SessionEnded:
+      description: the token/session has expired, login again
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                  - 401
+                  - 441
+                default: 441
+              message:
+                description: session has ended
+                example: session has ended
+                type: string
+              name:
+                type: string
+                default: SessionEnded
+              details:
+                type: object
+                properties:
+                  expiredAt:
+                    type: string
+                    example: 2023-02-03T09:06:50.000Z
     SomeFieldsRequired:
       description: |
         some of the fields are missing
@@ -117,9 +336,8 @@ components:
                     description: |
                       key value pair where key is properties
                       name and value is more explanation
-    EmailOrPasswordIncorrect:
-      description: |
-        email/password were/was wrong or not provided
+    UnAuthorized:
+      description: authentication failed, Authorization is required
       content:
         application/json:
           x-failed: true
@@ -128,69 +346,116 @@ components:
             properties:
               status:
                 type: number
-                default: 401
+                default: 442
+                enum:
+                  - 401
+                  - 442
               message:
                 description: more details
-                example: the email or the password doesn't match our records
+                example: authentication failed
                 type: string
               name:
                 type: string
-                default: EmailOrPasswordIncorrect
+                default: UnAuthorized
               details:
                 type: object
-  schemas:
-    profile:
-      allOf:
-        - type: object
-          required:
-            - _id
-            - __v
-          properties:
-            _id:
-              type: string
-              example: 626819066b8ac48b612dda69
-            __v:
-              type: string
-              enum:
-                - 0
-          $ref: "#/components/schemas/mongoDoc"
-        - type: object
-          required:
-            - createdAt
-            - updatedAt
-          properties:
-            createdAt:
-              type: string
-              example: 2022-04-26T16:08:38.276Z
-            updatedAt:
-              type: string
-              example: 2022-04-26T16:08:38.276Z
-          $ref: "#/components/schemas/mongoTime"
-        - type: object
-          required:
-            - displayName
-            - email
-            - providers
-            - token
-          properties:
-            displayName:
-              type: string
-              example: eyJxxxx.xxxxx.xxxxxx
-            email:
-              type: string
-              example: eyJxxxx.xxxxx.xxxxxx
-            token:
-              type: string
-              example: eyJxxxx.xxxxx.xxxxxx
-            providers:
-              type: array
-              items:
+    UserAlreadyExist:
+      description: User already exist
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 409
+              message:
+                example: User already exist
                 type: string
-                enum:
-                  - local
-                  - google
-            picture:
-              type: string
+              name:
+                type: string
+                default: UserAlreadyExist
+              details:
+                type: object
+    profile:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          example:
+            displayName: Jue Doe
+            email: JueDoe@gmail.com
+            providers:
+              - google
+              - local
+            picture: https ://example.com/path/to/img
+            token: eyJHxxxxx.xxxxx.xxxxx
+            updatedAt: 2022-04-26T16:08:38.276Z
+            createdAt: 2022-04-26T16:08:38.276Z
+            __v: 0
+            $ref: "#/components/examples/profile/value"
+          schema:
+            allOf:
+              - type: object
+                required:
+                  - _id
+                  - __v
+                properties:
+                  _id:
+                    type: string
+                    example: 626819066b8ac48b612dda69
+                  __v:
+                    type: string
+                    enum:
+                      - 0
+              - type: object
+                required:
+                  - createdAt
+                  - updatedAt
+                properties:
+                  createdAt:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+                  updatedAt:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+              - type: object
+                required:
+                  - displayName
+                  - email
+                  - providers
+                  - token
+                properties:
+                  displayName:
+                    type: string
+                    example: joe Due
+                  email:
+                    type: string
+                    example: joeDue@gmail.com
+                  token:
+                    type: string
+                    example: eyJxxxx.xxxxx.xxxxxx
+                  providers:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - local
+                        - google
+                  picture:
+                    type: string
+            $ref: "#/components/schemas/profile"
+    log:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          example:
+            $ref: "#/components/examples/log"
+          schema:
+            $ref: "#/components/schemas/log"
+  schemas:
     category:
       allOf:
         - $ref: "#/components/schemas/mongoDoc"
@@ -231,6 +496,58 @@ components:
           type: string
           enum:
             - 0
+    profile:
+      allOf:
+        - $ref: "#/components/schemas/mongoDoc"
+          type: object
+          required:
+            - _id
+            - __v
+          properties:
+            _id:
+              type: string
+              example: 626819066b8ac48b612dda69
+            __v:
+              type: string
+              enum:
+                - 0
+        - $ref: "#/components/schemas/mongoTime"
+          type: object
+          required:
+            - createdAt
+            - updatedAt
+          properties:
+            createdAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+            updatedAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+        - type: object
+          required:
+            - displayName
+            - email
+            - providers
+            - token
+          properties:
+            displayName:
+              type: string
+              example: joe Due
+            email:
+              type: string
+              example: joeDue@gmail.com
+            token:
+              type: string
+              example: eyJxxxx.xxxxx.xxxxxx
+            providers:
+              type: array
+              items:
+                type: string
+                enum:
+                  - local
+                  - google
+            picture:
+              type: string
     mongoTime:
       type: object
       required:
@@ -246,12 +563,36 @@ components:
     log:
       allOf:
         - $ref: "#/components/schemas/mongoDoc"
+          type: object
+          required:
+            - _id
+            - __v
+          properties:
+            _id:
+              type: string
+              example: 626819066b8ac48b612dda69
+            __v:
+              type: string
+              enum:
+                - 0
         - $ref: "#/components/schemas/mongoTime"
+          type: object
+          required:
+            - createdAt
+            - updatedAt
+          properties:
+            createdAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+            updatedAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
         - type: object
           required:
-            - title
-            - amount
-            - createdBy
+            - displayName
+            - email
+            - providers
+            - token
           properties:
             title:
               type: string
@@ -263,23 +604,72 @@ components:
               type: string
             category:
               $ref: "#/components/schemas/categoryPopulated"
+            displayName:
+              type: string
+              example: joe Due
+            email:
+              type: string
+              example: joeDue@gmail.com
+            token:
+              type: string
+              example: eyJxxxx.xxxxx.xxxxxx
+            providers:
+              type: array
+              items:
+                type: string
+                enum:
+                  - local
+                  - google
+            picture:
+              type: string
     providers:
       type: array
       items:
         type: string
+        example:
+          - local
+          - google
         enum:
           - local
           - google
   securitySchemes:
-    new:
-      $ref: "#components/securitySchemes/emailPassword"
-    emailPassword:
+    BasicToken:
       type: http
       scheme: basic
       description: |
         use email and password to gain
         user's profile along with the
-        token.  
+        token.
+        ```
+        curl 'http://exmaple:0000/api/path/to' \
+          --H 'Authorization: Basic ZGtAZy5jOjEyMw==' \
+        ```  
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: |
+        this is the standard way to authenticate
+        requests, such a token can be obtained via
+        emailAuth or googleAuth
+        ```
+        curl 'http://exmaple:0000/api/path/to' \
+          --H 'Authorization: Bearer eyxxx.xxx.xxx' \
+        ```  
+  parameters:
+    emailPassword:
+      name: Authorization
+      in: header
+      description: base64 email and password pair
+      schema:
+        type: string
+        example: Basic xxxxxxx=
+    bearer:
+      name: Authorization
+      in: header
+      description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+      schema:
+        type: string
+        example: Bearer xxxxxxx=
   examples:
     category:
       summary: example when requesting category
@@ -294,6 +684,10 @@ components:
             - google
             - local
           picture: https ://example.com/path/to/img
+          token: eyJHxxxxx.xxxxx.xxxxx
+          updatedAt: 2022-04-26T16:08:38.276Z
+          createdAt: 2022-04-26T16:08:38.276Z
+          __v: 0
     category_populated:
       summary: when populating category properties like createdBy, __v will be deleted
       value:
@@ -302,7 +696,7 @@ components:
         color: Green
         icon: GAS_ICON
     log:
-      summary: log example
+      summary: profile
       value:
         title: buy new TV
         amount: 500
@@ -314,11 +708,25 @@ components:
             - google
             - local
           picture: https ://example.com/path/to/img
+          token: eyJHxxxxx.xxxxx.xxxxx
+          updatedAt: 2022-04-26T16:08:38.276Z
+          createdAt: 2022-04-26T16:08:38.276Z
+          __v: 0
         category:
           _id: 123xxxxxxxxxxxx
           title: Gas
           color: Green
           icon: GAS_ICON
+        displayName: Jue Doe
+        email: JueDoe@gmail.com
+        providers:
+          - google
+          - local
+        picture: https ://example.com/path/to/img
+        token: eyJHxxxxx.xxxxx.xxxxx
+        updatedAt: 2022-04-26T16:08:38.276Z
+        createdAt: 2022-04-26T16:08:38.276Z
+        __v: 0
     profile_providers:
       summary: profile providers
       value:
@@ -333,4 +741,16 @@ components:
           - google
           - local
         picture: https ://example.com/path/to/img
+        token: eyJHxxxxx.xxxxx.xxxxx
+        updatedAt: 2022-04-26T16:08:38.276Z
+        createdAt: 2022-04-26T16:08:38.276Z
+        __v: 0
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: "8811"
 tags: []

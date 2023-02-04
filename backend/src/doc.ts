@@ -17,7 +17,7 @@ doc.use(
 export { doc }
 
 async function main() {
-  const PORT = 8800
+  const PORT = 8811
   const app = express()
   app.get('/', (_, res) => res.redirect('/doc/ui'))
   app.use('/doc', doc)
