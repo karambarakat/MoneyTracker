@@ -1,4 +1,5 @@
 import {
+  BadBasicTokenE,
   BadJsonPayloadE,
   EmailIsUsedE,
   EmailOrPasswordIncorrectE,
@@ -28,6 +29,14 @@ export function FieldsRequired(keys: string[]) {
     },
   })
 }
+
+export const BadBasicToken = () =>
+  new HttpError<BadBasicTokenE>({
+    status: 401,
+    name: 'BadBasicToken',
+    message: 'email and password not provided',
+    details: undefined,
+  })
 
 export const EmailOrPasswordIncorrect = () =>
   new HttpError<EmailOrPasswordIncorrectE>({

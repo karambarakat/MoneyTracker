@@ -3,7 +3,7 @@ export interface email_status {
 }
 
 export interface profile_update {
-  userName?: string
+  displayName?: string
   picture?: string
 }
 

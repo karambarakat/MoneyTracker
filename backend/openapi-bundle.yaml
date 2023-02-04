@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths:
+  /auth/local/login/:
+    post:
+      security:
+        - emailPassword: []
+      tags:
+        - local authorization
+      summary: login
+      description: |
+        login using email and password using Basic Token Http Authorization
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              examples:
+                basic profile:
+                  summary: profile
+                  value:
+                    displayName: Jue Doe
+                    email: JueDoe@gmail.com
+                    providers:
+                      - google
+                      - local
+                    picture: https ://example.com/path/to/img
+              schema:
+                $ref: "#/components/schemas/profile"
+        "401":
+          $ref: "#/components/responses/EmailOrPasswordIncorrect"
+  /profile/status/:
+    get:
+      tags:
+        - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: joeDue@gmail.com
+      summary: authentication status
+      description: |
+        when provided with email, this will resolve to
+        all available authentication methods for given email
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              examples:
+                singed up:
+                  description: singed up with multiple authentication methods
+                  value:
+                    - local
+                    - google
+                not signed up:
+                  description: email is not signed up
+                  value: []
+              schema:
+                type: array
+                items:
+                  type: string
+                  enum:
+                    - local
+                    - google
+        "400":
+          $ref: "#/components/responses/SomeFieldsRequired"
+  /api/v1/log/:
+    get:
+      tags:
+        - log
+      description: get all logs
+      responses:
+        "200":
+          description: Ok.
+    post:
+      tags:
+        - log
+      description: add one log
+      responses:
+        "200":
+          description: Ok.
+components:
+  responses:
+    SomeFieldsRequired:
+      description: |
+        some of the fields are missing
+        `these fields are required`
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 400
+              message:
+                description: in form of `these fields are required\:email`
+                type: string
+              name:
+                type: string
+                default: SomeFieldsRequired
+              details:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: |
+                      key value pair where key is properties
+                      name and value is more explanation
+    EmailOrPasswordIncorrect:
+      description: |
+        email/password were/was wrong or not provided
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 401
+              message:
+                description: more details
+                example: the email or the password doesn't match our records
+                type: string
+              name:
+                type: string
+                default: EmailOrPasswordIncorrect
+              details:
+                type: object
+  schemas:
+    profile:
+      allOf:
+        - type: object
+          required:
+            - _id
+            - __v
+          properties:
+            _id:
+              type: string
+              example: 626819066b8ac48b612dda69
+            __v:
+              type: string
+              enum:
+                - 0
+          $ref: "#/components/schemas/mongoDoc"
+        - type: object
+          required:
+            - createdAt
+            - updatedAt
+          properties:
+            createdAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+            updatedAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+          $ref: "#/components/schemas/mongoTime"
+        - type: object
+          required:
+            - displayName
+            - email
+            - providers
+            - token
+          properties:
+            displayName:
+              type: string
+              example: eyJxxxx.xxxxx.xxxxxx
+            email:
+              type: string
+              example: eyJxxxx.xxxxx.xxxxxx
+            token:
+              type: string
+              example: eyJxxxx.xxxxx.xxxxxx
+            providers:
+              type: array
+              items:
+                type: string
+                enum:
+                  - local
+                  - google
+            picture:
+              type: string
+    category:
+      allOf:
+        - $ref: "#/components/schemas/mongoDoc"
+        - type: object
+          required:
+            - title
+            - createdBy
+          properties:
+            title:
+              type: string
+            color:
+              type: string
+            icon:
+              type: string
+            createdBy:
+              $ref: "#/components/schemas/profile"
+    categoryPopulated:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        color:
+          type: string
+        icon:
+          type: string
+    mongoDoc:
+      type: object
+      required:
+        - _id
+        - __v
+      properties:
+        _id:
+          type: string
+          example: 626819066b8ac48b612dda69
+        __v:
+          type: string
+          enum:
+            - 0
+    mongoTime:
+      type: object
+      required:
+        - createdAt
+        - updatedAt
+      properties:
+        createdAt:
+          type: string
+          example: 2022-04-26T16:08:38.276Z
+        updatedAt:
+          type: string
+          example: 2022-04-26T16:08:38.276Z
+    log:
+      allOf:
+        - $ref: "#/components/schemas/mongoDoc"
+        - $ref: "#/components/schemas/mongoTime"
+        - type: object
+          required:
+            - title
+            - amount
+            - createdBy
+          properties:
+            title:
+              type: string
+            amount:
+              type: number
+            createdBy:
+              $ref: "#/components/schemas/profile"
+            note:
+              type: string
+            category:
+              $ref: "#/components/schemas/categoryPopulated"
+    providers:
+      type: array
+      items:
+        type: string
+        enum:
+          - local
+          - google
+  securitySchemes:
+    new:
+      $ref: "#components/securitySchemes/emailPassword"
+    emailPassword:
+      type: http
+      scheme: basic
+      description: |
+        use email and password to gain
+        user's profile along with the
+        token.  
+  examples:
+    category:
+      summary: example when requesting category
+      value:
+        title: buy new TV
+        amount: 500
+        note: new 40" plasma tv from flea market
+        createdBy:
+          displayName: Jue Doe
+          email: JueDoe@gmail.com
+          providers:
+            - google
+            - local
+          picture: https ://example.com/path/to/img
+    category_populated:
+      summary: when populating category properties like createdBy, __v will be deleted
+      value:
+        _id: 123xxxxxxxxxxxx
+        title: Gas
+        color: Green
+        icon: GAS_ICON
+    log:
+      summary: log example
+      value:
+        title: buy new TV
+        amount: 500
+        note: new 40" plasma tv from flea market
+        createdBy:
+          displayName: Jue Doe
+          email: JueDoe@gmail.com
+          providers:
+            - google
+            - local
+          picture: https ://example.com/path/to/img
+        category:
+          _id: 123xxxxxxxxxxxx
+          title: Gas
+          color: Green
+          icon: GAS_ICON
+    profile_providers:
+      summary: profile providers
+      value:
+        - google
+        - local
+    profile:
+      summary: profile
+      value:
+        displayName: Jue Doe
+        email: JueDoe@gmail.com
+        providers:
+          - google
+          - local
+        picture: https ://example.com/path/to/img
+tags: []

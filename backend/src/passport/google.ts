@@ -42,7 +42,7 @@ const useGoogle = new GoogleStrategy(
 
     if (!existUser) {
       const newUser = await User.create({
-        userName: profile.displayName,
+        displayName: profile.displayName,
         email,
         providers: ['google'],
         picture: profile._json.picture,

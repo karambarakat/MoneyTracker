@@ -9,7 +9,7 @@ import MyUserInput from '@components/Formik/IUser'
 import HttpError from 'src/utils/HttpError'
 
 type args = {
-  userName: string
+  displayName: string
   // picture: string
 }
 interface Values extends args {}
@@ -20,7 +20,7 @@ function ProfileUpdate() {
   return (
     <Formik
       initialValues={{
-        userName: '',
+        displayName: '',
         // picture: '',
       }}
       v
@@ -45,7 +45,7 @@ function ProfileUpdate() {
       }}
       validationSchema={
         new yupObj({
-          userName: yupStr(),
+          displayName: yupStr(),
           // picture: yupStr().required(),
         })
       }
@@ -54,7 +54,7 @@ function ProfileUpdate() {
         <Stack>
           <AlertStatus />
 
-          <MyUserInput formikName="userName" />
+          <MyUserInput formikName="displayName" />
           {/* todo: make input to upload picture */}
           {/* <MyPasswordInput required formikName="password" /> */}
 

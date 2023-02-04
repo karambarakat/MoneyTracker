@@ -2,7 +2,7 @@ import { CatDoc } from './category'
 import { Doc, ObjectId, TimeStamped as TS, _id } from './general'
 
 export interface UserFields {
-  userName: string
+  displayName: string
   email: string
   providers: ('local' | 'google')[]
   picture?: string
@@ -48,7 +48,7 @@ export interface UserModel extends UserFields {
 export type apiUserSignup = {
   email: string
   password: string
-  userName?: string
+  displayName?: string
 }
 export type apiUserLogin = {
   email: string
@@ -58,7 +58,7 @@ export interface apiUserStatus {
   email: string
 }
 export interface apiProfileUpdate {
-  userName?: string
+  displayName?: string
   picture?: string
 }
 export interface apiProfileUpdate_nolocal {
@@ -70,6 +70,6 @@ export interface apiProfileUpdate_local {
 }
 export interface apiGoogleCallbackParams {
   token: string
-  userName: string
+  displayName: string
   _id: string
 }

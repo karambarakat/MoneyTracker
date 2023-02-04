@@ -20,19 +20,20 @@ import of from '@utils/omitFalsy'
 const router = Router()
 
 /**
- *   @desc      get all logs
- *   @route     GET /api/v__/log
- *   @response  LogDoc[]
- *   @access    Private
- */
-/**
  * @openapi
  * /api/v1/log/:
  *   get:
+ *     tags:
+ *       - "log"
  *     description: get all logs
  *     responses:
  *       200:
- *         description: Everything went fine.
+ *         description: Ok.
+ *
+ * @desc      get all logs
+ * @route     GET /api/v__/log
+ * @response  LogDoc[]
+ * @access    Private
  */
 async function find(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
@@ -47,20 +48,20 @@ async function find(req: Request, res: Response, next: NextFunction) {
 }
 
 /**
- *   @desc      add one log
- *   @route     POST /api/v__/log
- *   @body      log_create
- *   @response  LogDoc
- *   @access    Private
- */
-/**
  * @openapi
  * /api/v1/log/:
  *   post:
+ *     tags:
+ *       - "log"
  *     description: add one log
  *     responses:
  *       200:
- *         description: get all logs.
+ *         description: Ok.
+ * @desc      add one log
+ * @route     POST /api/v__/log
+ * @body      log_create
+ * @response  LogDoc
+ * @access    Private
  */
 async function create(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()

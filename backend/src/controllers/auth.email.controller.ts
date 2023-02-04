@@ -1,5 +1,7 @@
 import { requiredFields } from '@httpErrors'
+import { Buffer } from 'buffer'
 import {
+  BadBasicToken,
   EmailOrPasswordIncorrect,
   UserAlreadyExist,
 } from '@httpErrors/errTypes'
@@ -18,16 +20,16 @@ const local = Router()
  *   @access    Public
  */
 async function local_register(req: Request, res: Response, next: NextFunction) {
-  const { userName, email, password } = of(req.body) as auth_local_register
+  const { email, password } = BasicToken(req.header('Authorization'))
 
-  requiredFields({ email, password })
+  const { displayName } = of(req.body) as auth_local_register
 
   const userExist = await User.findOne({ email })
 
   if (userExist) throw UserAlreadyExist()
 
   const newUser = await User.create({
-    userName,
+    displayName,
     email,
     password: password,
     providers: ['local'],
@@ -42,24 +44,8 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
  *   @response  ProfileDoc
  *   @access    Public
  */
-/**
- * @openapi
- * /api/v1/auth/local/login:
- *   get:
- *     security:
- *       - emailAuth : []
- *     responses:
- *       200:
- *         description: ok
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/profile"
- */
 async function local_login(req: Request, res: Response, next: NextFunction) {
-  const { email, password } = of(req.body) as auth_local_login
-
-  requiredFields({ email, password })
+  const { email, password } = BasicToken(req.header('Authorization'))
 
   const user = await User.findOne({ email })
 
@@ -71,6 +57,19 @@ async function local_login(req: Request, res: Response, next: NextFunction) {
   } else {
     throw EmailOrPasswordIncorrect()
   }
+}
+
+function BasicToken(req?: string) {
+  var basicToken
+  if (!(basicToken = req?.split(' ')[1]) || req?.split(' ')[0] !== 'Basic')
+    throw BadBasicToken()
+  const [email, password] = Buffer.from(basicToken, 'base64')
+    .toString()
+    .split(':')
+
+  if (!email || !password) throw BadBasicToken()
+
+  return { email, password }
 }
 
 local.route('/register').post(_(local_register))

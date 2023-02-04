@@ -16,7 +16,7 @@ declare namespace schema {
   interface Profile extends T {
     _id: Id
     __v: V
-    userName: string
+    DisplayName: string
     email: string
     providers: ('local' | 'google')[]
     picture?: Optional<string>
@@ -28,8 +28,9 @@ declare namespace schema {
     createdBy: IsPopulated<Profile, string>
     title: string
     amount: number
-    category?: //
-    Optional<IsPopulated<Pick<Cat, '_id' | 'title' | 'color' | 'icon'>, string>>
+    category?: Optional<
+      IsPopulated<Pick<Cat, '_id' | 'title' | 'color' | 'icon'>, string>
+    >
     note?: Optional<string>
   }
 

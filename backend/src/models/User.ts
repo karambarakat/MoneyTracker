@@ -6,7 +6,7 @@ import IUser from 'types/models/UserModel'
 
 const UserSchema = new mongoose.Schema<IUser>(
   {
-    userName: {
+    displayName: {
       type: String,
       default: function () {
         return 'user-' + uuidv4().split('-')[0]

@@ -1,4 +1,7 @@
+// @ts-check
 const swaggerJsdoc = require('swagger-jsdoc')
+const Parser = require('@apidevtools/swagger-parser')
+
 const YAML = require('yaml')
 const { writeFile, readFile } = require('fs/promises')
 
@@ -9,25 +12,48 @@ async function main() {
   /**
    * @type {string[]}
    */
-  const paths = await new Promise((res, rej) =>
-    glob('./src/**/*.openapi.yaml', (e, m) => (e ? rej() : res(m)))
+  const yamlFiles = await new Promise((res, rej) => {
+    glob.glob('./src/openapi/**/*.yaml', function (e, files) {
+      if (e) rej(e)
+      res(files)
+    })
+  })
+
+  await Promise.all(yamlFiles.map((c) => Parser.validate(c))).catch((e) => {
+    console.error('Error: failed to validating all openapi/**/*.yaml files')
+    throw new Error(e)
+  })
+
+  const definitions = await Promise.all(
+    yamlFiles.map((c) => Parser.bundle(c))
+  ).catch((e) => {
+    console.error('Error: failed to dereference all openapi/**/*.yaml files')
+    throw new Error(e)
+  })
+
+  /**
+   * @type {{
+   *  openapi: string
+   *  info: {
+   *    title: string
+   *    version: string
+   *  }
+   *  paths: any
+   * }}
+   */
+  const basicDef = YAML.parse(
+    (await readFile('./src/openapi/info.yaml').catch((r) => '')).toString(
+      'utf-8'
+    )
   )
 
-  const d1 = paths.map((path) => readFile(path))
-  const d2 = await Promise.all(d1)
-  const d3 = d2.map((b) => YAML.parse(b.toString()))
-  const v = d3[0]?.openapi || '3.0.0'
-  d3.forEach((next) => {
-    if (next?.openapi !== v) {
-      throw new Error('all .openapi.yaml has to have same openapi version')
-    }
-  })
-  const d0 = d3.reduce((acc, n) => merge(acc, n), {})
-
-  delete d0.paths
+  const definition = merge(
+    definitions.reduce((acc, next) => merge(acc, next), {}),
+    basicDef
+  )
 
   const options = {
-    definition: d0,
+    definition,
     apis: ['./src/**/*.ts'], // files containing block annotations @openapi or @swagger
   }
 
@@ -35,10 +61,10 @@ async function main() {
   const swaggerYaml = YAML.stringify(specification)
   const swaggerJSON = JSON.stringify(specification, null, ' ')
 
-  await writeFile('swagger.yaml', swaggerYaml)
-  await writeFile('src/swagger.json', swaggerJSON)
+  await writeFile('openapi-bundle.yaml', swaggerYaml)
+  await writeFile('src/static/swagger.json', swaggerJSON)
 }
 
 main()
   .then(() => console.log('success'))
-  .catch((e) => console.log(e))
+  .catch((e) => console.log('Error:', e))

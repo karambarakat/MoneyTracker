@@ -25,6 +25,7 @@
 			"signup",
 			"tabler"
 		],
-		"editor.tabSize": 2
+		"editor.tabSize": 2,
+		"liveServer.settings.multiRootWorkspaceName": "__"
 	}
 }

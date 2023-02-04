@@ -16,12 +16,12 @@ import { useRoutes } from '@components/ReactRoute/index'
 import HttpError from 'src/utils/HttpError'
 
 type args = {
-  userName: string
+  displayName: string
   email: string
   password: string
 }
 interface Values extends args {
-  // userName: string // from args
+  // displayName: string // from args
   // email: string // from args
   // password: string // from args
   repeatPassword: string
@@ -33,7 +33,7 @@ function RegisterEmail() {
   return (
     <Formik
       initialValues={{
-        userName: '',
+        displayName: '',
         email: '',
         password: '',
         repeatPassword: '',
@@ -78,7 +78,7 @@ function RegisterEmail() {
         <Stack>
           <AlertStatus />
 
-          <MyUserInput formikName="userName" />
+          <MyUserInput formikName="displayName" />
           <MyEmailInput required formikName="email" />
           <MyPasswordInput required formikName="password" />
           <MyPasswordInput required formikName="repeatPassword" />

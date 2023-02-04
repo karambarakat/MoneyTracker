@@ -45,4 +45,18 @@ General testing files are in `\_\_Tests\_\_`directory. and some testing files li
 
 # Documentation
 
-Not Ready Yet
+This project uses Open Api Specification to document its schema and rest api.
+
+To generate final and bundle openapi specification run:
+
+```
+npm run doc:bundle
+```
+
+The final specificaton is placed at `openapi-bundle.yaml` and `src/openapi-bundle.json`. and you can view Swagger UI via visiting `/docs` or running `npm run doc`.
+
+The unbundled specifications are defined in two place:
+
+1. `./src/openapi/**/*.yaml` these files may reference any other yaml file. All external $ref will dereferenced, internal $ref will not be touched
+2. as JsDoc comments starts with `@openapi`
+3. for `openapi`, `info.title` and `info.version` will be defined in `src/openapi/info.yaml`, any other locations will be overridden

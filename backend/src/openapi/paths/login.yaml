@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: 
+  /auth/local/login/: 
+    post:
+      security:
+        - emailPassword: []
+      tags:
+        - "local authorization"
+      summary: login
+      description: |
+        login using email and password using Basic Token Http Authorization
+      responses:
+        401:
+          $ref: '#/components/responses/EmailOrPasswordIncorrect'
+        200:
+          description: Ok
+          content:
+            application/json: 
+              x-success: true
+              examples:
+                basic profile:
+                  $ref: "../schema/profile.yaml#/components/examples/profile"
+              schema:
+                $ref: "#/components/schemas/profile"
+components:
+  securitySchemes:
+    new:
+      $ref: "#components/securitySchemes/emailPassword"
+    emailPassword:
+      type: http
+      scheme: basic
+      description: |
+        use email and password to get
+        user's profile along with the
+        token.  
+  schemas:
+    profile:  
+      $ref: "../schema/profile.yaml#/components/schemas/profile"
+  responses:
+    EmailOrPasswordIncorrect:
+      $ref: "../errors/401EmailOrPasswordIncorrect.yaml#/components/responses/EmailOrPasswordIncorrect"

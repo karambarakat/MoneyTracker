@@ -33,7 +33,7 @@ function Profile() {
         <Avatar size={'xl'} src={user.profile.picture} radius="sm" />
         <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
           <Text size="xl" weight={500}>
-            <TextEllipsis>{user.profile.userName}</TextEllipsis>
+            <TextEllipsis>{user.profile.displayName}</TextEllipsis>
           </Text>
           <Text color="dimmed" weight={200} size="lg">
             <TextEllipsis>{user.profile.email}</TextEllipsis>

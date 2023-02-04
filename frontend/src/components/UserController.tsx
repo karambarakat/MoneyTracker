@@ -62,7 +62,7 @@ export function UserController() {
               <Avatar src={user.profile.picture} radius="xl" />
               <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
                 <Text size="sm" weight={500}>
-                  <TextEllipsis>{user.profile.userName}</TextEllipsis>
+                  <TextEllipsis>{user.profile.displayName}</TextEllipsis>
                 </Text>
                 <Text color="dimmed" size="xs">
                   <TextEllipsis>{user.profile.email}</TextEllipsis>

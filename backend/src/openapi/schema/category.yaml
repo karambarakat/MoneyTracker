@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  examples:
+    category:
+      summary: example when requesting category
+      value:
+        title: buy new TV
+        amount: 500
+        note: new 40" plasma tv from flea market
+        createdBy: 
+          $ref: './profile.yaml#/components/examples/profile/value'
+    category_populated:
+      summary: when populating category properties like createdBy, __v will be deleted
+      value:
+        _id: 123xxxxxxxxxxxx
+        title: Gas
+        color: Green
+        icon: GAS_ICON
+
+  schemas:
+    category:
+      allOf:
+        - $ref: '#/components/schemas/mongoDoc'
+        - type: object
+          required:
+            - title
+            - createdBy
+          properties:
+            title: 
+              type: string
+            color:
+              type: string
+            icon:
+              type: string
+            createdBy:
+              $ref: '#/components/schemas/profile'
+    categoryPopulated:
+        type: object
+        properties:
+          _id: 
+            type: string
+          title: 
+            type: string
+          color:
+            type: string
+          icon:
+            type: string
+    mongoDoc: 
+      $ref: "./database.yaml#/components/schemas/mongoDoc"
+    profile: 
+      $ref: "./profile.yaml#/components/schemas/profile"
+    mongoTime: 
+      $ref: "./database.yaml#/components/schemas/mongoTime"

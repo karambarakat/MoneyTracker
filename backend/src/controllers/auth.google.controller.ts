@@ -62,7 +62,7 @@ callbackRouter.use(
 let queryString = {
   "_id": "62f441f966b72b4ee6cdea28",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmYzODNiMTM2ZGY1NmMyODc4ODFmZWEiLCJlbWFpbCI6ImthcmFtLmJhcmFrYXQuOTlAZ21haWwuY29tIiwiaWF0IjoxNjYwMTI3MzU0LCJleHAiOjE2NjAzMDAxNTR9.BYGDcGlU6sUmK8ibZd8lImJdbCcOzZbSGxwA1ZrQKcA",
-  "userName": "Karam Barakat"
+  "displayName": "Karam Barakat"
 }
 */
 callbackRouter.use('/', (req: Request, res: Response) => {
@@ -75,7 +75,7 @@ callbackRouter.use('/', (req: Request, res: Response) => {
   const params: apiGoogleCallbackParams = {
     _id: profile._id,
     token: profile.token,
-    userName: profile.userName,
+    displayName: profile.displayName,
   }
 
   // @ts-ignore

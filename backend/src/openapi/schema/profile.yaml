@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  examples:
+    profile_providers:
+      summary: profile providers
+      value: ['google', 'local']
+    profile:
+      summary: profile
+      value:
+        displayName: Jue Doe
+        email: JueDoe@gmail.com
+        providers: ['google', 'local']
+        picture: "https ://example.com/path/to/img"
+
+
+  schemas: 
+    providers:
+      type: array
+      items:
+        type: string
+        enum:
+          - "local"
+          - "google"
+    profile:  
+      allOf:
+        - $ref: '#/components/schemas/mongoDoc'
+        - $ref: '#/components/schemas/mongoTime'
+        - type: object
+          required:
+            - displayName
+            - email
+            - providers
+            - token
+          properties:
+            displayName: 
+              type: string
+              example: 'eyJxxxx.xxxxx.xxxxxx'
+            email:
+              type: string
+              example: 'eyJxxxx.xxxxx.xxxxxx'
+            token:
+              type: string
+              example: 'eyJxxxx.xxxxx.xxxxxx'
+            providers:
+              type: array
+              items:
+                type: string
+                enum:
+                  - "local"
+                  - "google"
+            picture:
+              type: string
+    mongoDoc: 
+      $ref: "./database.yaml#/components/schemas/mongoDoc"
+    mongoTime: 
+      $ref: "./database.yaml#/components/schemas/mongoTime"
+

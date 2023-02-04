@@ -2,19 +2,6 @@
   "name": "my-pocket",
   "version": "1.0.0",
   "description": "Easy to use money wallet",
-  "main": "backend/server.js",
-  "scripts": {
-    "dev:frontend": "npm run dev --prefix frontend",
-    "dev:backend": "npm run dev  --prefix backend",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "compose": "docker compose up",
-    "schema": "cp schema.d.ts backend/schema.d.ts && cp schema.d.ts frontend/schema.d.ts",
-    "terraform:init": "npm run terraform -- init",
-    "terraform:plan": "npm run terraform -- plan -var-file=secrets.tfvars",
-    "terraform:apply": "npm run terraform -- apply -var-file=secrets.tfvars -auto-approve",
-    "terraform:destroy": "npm run terraform -- destroy -var-file=secrets.tfvars",
-    "terraform": "terraform -chdir=terraform"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/karambarakat/MoneyTracker.git"

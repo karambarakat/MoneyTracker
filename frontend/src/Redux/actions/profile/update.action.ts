@@ -41,7 +41,7 @@ const action: actionModule<ActionType> = async function (
   // },
   // pushNotification: function (doc) {
   //   return {
-  //     message: 'Welcome ' + doc.userName,
+  //     message: 'Welcome ' + doc.displayName,
   //     reactions: [],
   //   }
   // },

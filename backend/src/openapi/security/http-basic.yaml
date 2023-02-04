@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  securitySchemes:
+    emailPassword:
+      type: http
+      scheme: basic
+      description: |
+        use email and password to gain
+        user's profile along with the
+        token.  
+    # token:
+    #   type: http
+    #   scheme: bearer
+    #   description: |
+    #     this is the standard way to authenticate
+    #     requests, such a token can be obtained via
+    #     emailAuth or googleAuth

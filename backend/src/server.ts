@@ -84,10 +84,8 @@ api.use('*', e404)
 
 app.use('/api/v1', api)
 
-import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from './swagger.json'
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-app.get('/docs/json', express.static('./swagger.json'))
+import { doc } from 'doc'
+app.use('/doc', doc)
 
 app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 
@@ -109,4 +107,9 @@ async function main() {
   app.listen(PORT, () => log('app', `listening at port ${PORT}`))
 }
 
-main().catch(console.error)
+if (module.id === '.') {
+  main().catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+}

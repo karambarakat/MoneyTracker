@@ -6,7 +6,7 @@ import supertest from 'supertest'
 import { app } from '../server'
 
 const user1 = {
-  userName: 'new user name',
+  displayName: 'new user name',
   email: 'k99.barakat@gmail.com',
   providers: ['google'],
   createdAt: {
@@ -41,7 +41,7 @@ const user1 = {
 var user1Token = ''
 
 const user2 = {
-  userName: 'karam barakat',
+  displayName: 'karam barakat',
   email: 'karam.barakat.99@gmail.com',
   providers: ['google', 'local'],
   googleInfo: {

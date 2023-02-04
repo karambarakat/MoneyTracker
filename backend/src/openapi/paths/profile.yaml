@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: 
+  /profile/status/: 
+
+    get:
+      tags:
+        - "profile"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'joeDue@gmail.com'
+      summary: authentication status
+      description: |
+        when provided with email, this will resolve to
+        all available authentication methods for given email
+      responses:
+        400:
+          $ref: '#/components/responses/SomeFieldsRequired'
+        200:
+          description: Ok
+          content:
+            application/json: 
+              x-success: true
+              examples:
+                singed up:
+                  description: singed up with multiple authentication methods
+                  value: ['local', 'google']
+                not signed up:
+                  description: email is not signed up
+                  value: []
+              schema:
+                $ref: "../schema/profile.yaml#/components/schemas/providers"
+components:
+  responses:
+    SomeFieldsRequired:
+      $ref: "../errors/400SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"

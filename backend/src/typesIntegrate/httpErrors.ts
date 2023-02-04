@@ -21,6 +21,13 @@ export interface EmailOrPasswordIncorrectE extends HttpErrorProps {
   details: undefined
 }
 
+export interface BadBasicTokenE extends HttpErrorProps {
+  status: 401
+  name: 'BadBasicToken'
+  message: string
+  details: undefined
+}
+
 export interface PasswordIncorrectE extends HttpErrorProps {
   status: 401
   name: 'PasswordIncorrect'

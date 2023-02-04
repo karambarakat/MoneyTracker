@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    mongoDoc:  
+      # this type is used as composition with other type 
+      # @example {allOf: [$ref: '#/components/schemas/mongoDoc', {...}]}
+      type: object
+      required:
+        - _id
+        - __v
+      properties:
+        _id: 
+           type: string
+           example: 626819066b8ac48b612dda69
+        __v:
+          type: string
+          enum:
+            - 0
+    mongoTime: 
+      # this type is used as composition with other type 
+      # @example {allOf: [$ref: '#/components/schemas/mongoDoc', {...}]}
+      type: object
+      required:
+        - createdAt
+        - updatedAt
+      properties:
+        createdAt:
+          type: string
+          example: 2022-04-26T16:08:38.276Z
+        updatedAt:
+          type: string
+          example: 2022-04-26T16:08:38.276Z
+

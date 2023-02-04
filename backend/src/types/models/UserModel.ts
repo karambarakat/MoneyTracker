@@ -11,7 +11,7 @@ export interface IUser_google {
 export default interface IUser {
   _id: string | ObjectId
 
-  userName: string
+  displayName: string
   email: string
   password: string
   picture: string | undefined
@@ -29,7 +29,7 @@ export default interface IUser {
 export interface ProfileDoc {
   _id: string
 
-  userName: string
+  displayName: string
   email: string
   googleProfile: undefined | Object
   providers: ('local' | 'google')[]
@@ -44,7 +44,7 @@ export interface ProfileDoc {
 export interface ProfileRawDoc {
   _id: string
 
-  userName: string
+  displayName: string
   email: string
   googleProfile: undefined | Object
   providers: ('local' | 'google')[]
@@ -59,6 +59,6 @@ export interface ProfileRawDoc {
 
 export interface apiGoogleCallbackParams {
   token: string
-  userName: string
+  displayName: string
   _id: string
 }

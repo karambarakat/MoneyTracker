@@ -24,7 +24,7 @@ const action: actionModule<ActionType> = async function (
     })
   )
 
-  pushNoti({ message: `user \`${profile.userName}\` was created` })
+  pushNoti({ message: `user \`${profile.displayName}\` was created` })
 
   dispatch({
     type: 'USER_ADD_PROFILE',

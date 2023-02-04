@@ -91,7 +91,7 @@ export type dispatchFunction = (
 // export interface  UserDoc {
 //   _id: string
 
-//   userName: string
+//   displayName: string
 //   email: string
 //   googleProfile: undefined | Object
 //   providers: ('local' | 'google')[]

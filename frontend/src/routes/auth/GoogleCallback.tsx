@@ -19,7 +19,7 @@ function GoogleCallback() {
   }, [])
   return (
     <>
-      <Text>Hello {params.userName}</Text>
+      <Text>Hello {params.displayName}</Text>
 
       <Text>
         authentication with google succeeded, fetching profile information, the

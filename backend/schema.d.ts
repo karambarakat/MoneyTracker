@@ -14,7 +14,7 @@ declare namespace schema {
   interface Profile extends T {
     _id: Id
     __v: V
-    userName: string
+    displayName: string
     email: string
     providers: ('local' | 'google')[]
     picture?: Optional<string>

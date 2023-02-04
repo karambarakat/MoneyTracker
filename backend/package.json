@@ -9,12 +9,14 @@
     "start:no-build": "cross-env NODE_ENV=production -- ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "dotenv -v NODE_ENV=development -- ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
     "test": "jest",
-    "doc:genSpec": "node swagger",
-    "doc": "npm run doc:genSpec"
+    "doc:bundle": "node swagger",
+    "doc:watch": "nodemon -e yaml --watch src/**/*.yaml --exec npm run doc:bundle",
+    "doc": "ts-node -r tsconfig-paths/register src/doc.ts"
   },
   "author": "karam barakat",
   "license": "MIT",
   "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
@@ -30,6 +32,8 @@
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "redoc": "^2.0.0",
+    "redoc-express": "^1.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "uuid": "^8.3.2"
@@ -48,7 +52,6 @@
     "@types/passport-http-bearer": "^1.0.37",
     "@types/passport-jwt": "^3.0.6",
     "@types/supertest": "^2.0.12",
-    "@types/swagger-ui-express": "^4.1.3",
     "@types/uuid": "^8.3.4",
     "@types/yup": "^0.29.13",
     "glob": "^8.1.0",
@@ -57,7 +60,6 @@
     "node-fetch": "^3.2.3",
     "supertest": "^6.2.2",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.0",
     "ts-jest": "^27.1.4",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.14.1",

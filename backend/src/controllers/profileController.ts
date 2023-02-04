@@ -64,9 +64,9 @@ async function updateCurrentUser(
 ) {
   if (!req.user) throw PrivateRoute()
 
-  const { userName, picture } = of(req.body) as profile_update
+  const { displayName, picture } = of(req.body) as profile_update
 
-  req.user.userName = userName || req.user.userName
+  req.user.displayName = displayName || req.user.displayName
   req.user.picture = picture || req.user.picture
 
   await req.user.save()

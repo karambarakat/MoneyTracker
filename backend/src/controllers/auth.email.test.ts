@@ -24,7 +24,7 @@ describe('AUTH_EMAIL', () => {
 
     expect(res.status).toBe(201)
     expect(res.body.data.email).toBe('test@g.c')
-    expect(res.body.data.userName).toBeDefined()
+    expect(res.body.data.displayName).toBeDefined()
     expect(res.body.data.password).not.toBeDefined()
     expect(res.body.data.providers).toContain('local')
     expect(res.body.data._id).toBeDefined()
@@ -75,16 +75,16 @@ describe('AUTH_EMAIL', () => {
     expect(res.body.error.name).toBe('UserAlreadyExist')
   })
 
-  test('/auth/local/register : valid with username', async function () {
+  test('/auth/local/register : valid with displayName', async function () {
     const res = await supertest(app).post('/api/v1/auth/local/register').send({
       email: 'test2@g.c',
-      userName: 'some user name',
+      displayName: 'some user name',
       password: '123456',
     })
 
     expect(res.status).toBe(201)
     expect(res.body.data.email).toBe('test2@g.c')
-    expect(res.body.data.userName).toBe('some user name')
+    expect(res.body.data.displayName).toBe('some user name')
     expect(res.body.data.password).not.toBeDefined()
     expect(res.body.data.providers).toContain('local')
     expect(res.body.data._id).toBeDefined()
@@ -105,7 +105,7 @@ describe('AUTH_EMAIL', () => {
 
     expect(res.status).toBe(200)
     expect(res.body.data.email).toBe('test@g.c')
-    expect(res.body.data.userName).toBeDefined()
+    expect(res.body.data.displayName).toBeDefined()
     expect(res.body.data.password).not.toBeDefined()
     expect(res.body.data.providers).toContain('local')
     expect(res.body.data._id).toBeDefined()

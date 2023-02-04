@@ -65,7 +65,7 @@ export default function () {
                       token: params.token,
                     }).then(() => {
                       pushNotification({
-                        message: `welcome ${params.userName}`,
+                        message: `welcome ${params.displayName}`,
                       })
                       goBack()
                     })
