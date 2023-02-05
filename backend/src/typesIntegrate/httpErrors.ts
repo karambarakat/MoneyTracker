@@ -99,21 +99,18 @@ export interface UnAuthorizedE extends HttpErrorProps {
   details: any
 }
 
-export interface MalformedToken extends HttpErrorProps {
+export interface TokenFailedE extends HttpErrorProps {
   status: 401
-  name: 'MalformedToken'
-  message: 'the token is either corrupted or invalid'
-  details: {
-    name: string
-    message: string
-  }
-}
-
-export interface SessionEnded extends HttpErrorProps {
-  status: 441
-  name: 'SessionEnded'
+  name: 'TokenFailed'
   message: string
-  details: { expiredAt: string }
+  details: {
+    type:
+      | 'JsonWebTokenError'
+      | 'TokenExpiredError'
+      | 'NoTokenWasProvided'
+      | 'UnspecifiedError'
+    date?: string
+  }
 }
 
 export interface DefaultErrorE extends HttpErrorProps {
@@ -143,5 +140,5 @@ export type GenericHttpError =
   | WrongRouteConfig
   | FailedToDeleteE
   | UnAuthorizedE
-  | SessionEnded
+  | TokenFailedE
   | DefaultErrorE

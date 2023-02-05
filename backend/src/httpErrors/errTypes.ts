@@ -5,10 +5,8 @@ import {
   EmailOrPasswordIncorrectE,
   FailedToDeleteE,
   FieldsRequiredE,
-  MalformedToken as MalformedTokenE,
-  PasswordIncorrectE,
   ResourceWasNotFoundE,
-  SessionEnded,
+  TokenFailedE,
   UnAuthorizedE,
   UnknownServerErrorE,
   UserAlreadyExistE,
@@ -156,31 +154,24 @@ export const FailedToDelete = () =>
     details: undefined,
   })
 
+export const TokenFailed: (
+  type: TokenFailedE['details']['type'],
+  date: string | undefined | false
+) => HttpError<TokenFailedE> = (type, date) =>
+  new HttpError({
+    status: 401,
+    name: 'TokenFailed',
+    message: 'authorization failed',
+    details: {
+      type,
+      ...((date && { date }) || {}),
+    },
+  })
+
 export const UnAuthorized: (i: any) => HttpError<UnAuthorizedE> = (info) =>
   new HttpError({
     status: 401,
     name: 'UnAuthorized',
     message: 'authentication failed',
     details: info,
-  })
-
-export const ExpiredToken: (expiredAt: string) => HttpError<SessionEnded> = (
-  expiredAt
-) =>
-  new HttpError({
-    status: 441,
-    name: 'SessionEnded',
-    message: 'session has ended',
-    details: { expiredAt },
-  })
-
-export const MalformedToken: (i: any) => HttpError<MalformedTokenE> = (info) =>
-  new HttpError({
-    status: 401,
-    name: 'MalformedToken',
-    message: 'the token is either corrupted or invalid',
-    details: {
-      name: info.name,
-      message: info.message,
-    },
   })

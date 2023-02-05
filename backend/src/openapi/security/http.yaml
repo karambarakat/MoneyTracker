@@ -16,6 +16,7 @@ components:
       name: Authorization
       in: header
       description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+      required: true
       schema:
         type: string
         example: Bearer xxxxxxx=

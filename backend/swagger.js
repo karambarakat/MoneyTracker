@@ -27,7 +27,7 @@ async function main() {
   const definitions = await Promise.all(
     yamlFiles.map((c) => Parser.bundle(c))
   ).catch((e) => {
-    console.error('Error: failed to dereference all openapi/**/*.yaml files')
+    console.error('Error: failed to bundle all openapi/**/*.yaml files')
     throw new Error(e)
   })
 
@@ -61,7 +61,7 @@ async function main() {
   const swaggerYaml = YAML.stringify(specification)
   const swaggerJSON = JSON.stringify(specification, null, ' ')
 
-  await writeFile('openapi-bundle.yaml', swaggerYaml)
+  await writeFile('openapi.yaml', swaggerYaml)
   await writeFile('src/static/swagger.json', swaggerJSON)
 }
 

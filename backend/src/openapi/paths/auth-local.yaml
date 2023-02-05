@@ -60,4 +60,13 @@ components:
     UserAlreadyExist:
       $ref: "../errors/UserAlreadyExist.yaml#/components/responses/UserAlreadyExist"
     profile:
-      $ref: "../success/profile.yaml#/components/responses/profile"
+      $ref: "../schema/profile.yaml#/components/responses/profile"
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: '8811'
+

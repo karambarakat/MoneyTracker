@@ -17,10 +17,18 @@ components:
            type: string
            example: 626819066b8ac48b612dda69
         __v:
-          type: string
+          oneOf:
+            - type: string
+              enum:
+                - offline
+            - type: number
+              enum:
+                - 0
           example: 0
+          default: 0
           enum:
             - 0
+            - offline
     mongoTime: 
       # this type is used as composition with other type 
       # @example {allOf: [$ref: '#/components/schemas/mongoDoc', {...}]}

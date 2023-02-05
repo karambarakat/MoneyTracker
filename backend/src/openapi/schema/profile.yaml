@@ -4,22 +4,14 @@ info:
   version: 1.0.0
 paths: {}
 components:
-  examples:
-    profile_providers:
-      summary: profile providers
-      value: ['google', 'local']
+  responses:
     profile:
-      summary: profile
-      value:
-        _id: 63da2a0a643dd3aa49f5c6b1
-        displayName: Jue Doe
-        email: JueDoe@gmail.com
-        providers: ['google', 'local']
-        picture: "https ://example.com/path/to/img"
-        token: eyJHxxxxx.xxxxx.xxxxx
-        updatedAt: 2022-04-26T16:08:38.276Z
-        createdAt: 2022-04-26T16:08:38.276Z
-        __v: 0
+      description: Ok
+      content:
+        application/json: 
+          x-success: true
+          schema:
+            $ref: "#/components/schemas/profile"
   schemas: 
     providers:
       type: array

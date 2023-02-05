@@ -51,11 +51,7 @@ paths:
         200:
           $ref: '#/components/responses/profile'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
     put:
       security:
         - BearerToken: []
@@ -82,11 +78,7 @@ paths:
         200:
           $ref: '#/components/responses/profile'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
 
   /profile/password/:
     put: 
@@ -120,11 +112,7 @@ paths:
         400:
           $ref: '#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
 
 components:
   parameters:
@@ -133,12 +121,20 @@ components:
 
   responses:
     profile:
-      $ref: "../success/profile.yaml#/components/responses/profile"
+      $ref: "../schema/profile.yaml#/components/responses/profile"
     SessionEnded:
       $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
     MalformedToken:
       $ref: "../errors/MalformedToken.yaml#/components/responses/MalformedToken"
-    UnAuthorized:
-      $ref: "../errors/UnAuthorized.yaml#/components/responses/UnAuthorized"
+    TokenFailed:
+      $ref: "../errors/TokenFailed.yaml#/components/responses/TokenFailed"
     SomeFieldsRequired:
       $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: '8811'

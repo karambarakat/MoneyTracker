@@ -3,41 +3,7 @@ info:
   title: myPocket
   version: 1.0.0
 paths: 
-  /profile/status/: 
-    get:
-      tags:
-        - "log"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  example: 'joeDue@gmail.com'
-      summary: authentication status
-      description: |
-        when provided with email, this will resolve to
-        all available authentication methods for given email
-      responses:
-        400:
-          $ref: '#/components/responses/SomeFieldsRequired'
-        200:
-          description: Ok
-          content:
-            application/json: 
-              x-success: true
-              examples:
-                singed up:
-                  description: singed up with multiple authentication methods
-                  value: ['local', 'google']
-                not signed up:
-                  description: email is not signed up
-                  value: []
-              schema:
-                $ref: "../schema/profile.yaml#/components/schemas/providers"
-  /profile/:
+  /log/: 
     get:
       security:
         - BearerToken: []
@@ -45,100 +11,158 @@ paths:
         - $ref: '#/components/parameters/bearer'
       tags:
         - "log"
-      summary: get profile
-      description: retrieve profile info
+      summary: list all logs
+      description: list all logs for the current user
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '#/components/responses/logs'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
+    post:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/bearer'
+      tags:
+        - "log"
+      summary: create new log
+      description: create new log for the current user
+      requestBody:
+        required: true
+        description: properties like title, amount, category and note
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - amount
+              properties:
+                title:
+                  type: string
+                  example: buy new TV
+                amount:
+                  type: string
+                  example: \#000000
+                notes:
+                  type: string
+                  example: New_Icon              
+                category:
+                  type: string
+                  example: 63da2a0a643dd3aa49f5c6b1
+      responses:
+        200:
+          $ref: '#/components/responses/log'
+        400:
+          $ref: '#/components/responses/SomeFieldsRequired'
+        401:
+          $ref: '#/components/responses/TokenFailed'
+  /log/{id}:
+    parameters:
+      - $ref: '#/components/parameters/byId'
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/bearer'
+      tags:
+        - "log"
+      summary: get log
+      description: create new log for the current user
+      responses:
+        200:
+          $ref: '#/components/responses/log'
+        400:
+          $ref: '#/components/responses/SomeFieldsRequired'
+        401:
+          $ref: '#/components/responses/TokenFailed'
+        404:
+          $ref: '#/components/responses/ResourceWasNotFound'
     put:
       security:
         - BearerToken: []
       parameters:
         - $ref: '#/components/parameters/bearer'
       requestBody:
-        description: fields to update
+        required: true
+        description: properties like title, amount, category and note
         content:
           application/json:
             schema:
               type: object
               properties:
-                displayName:
+                title:
                   type: string
-                  example: Joe Doe
-                picture:
+                  example: buy new TV
+                amount:
                   type: string
-                  example: https ://example.com/path/to/img"
+                  example: \#000000
+                notes:
+                  type: string
+                  example: New_Icon              
+                category:
+                  type: string
+                  example: 63da2a0a643dd3aa49f5c6b1
       tags:
         - "log"
-      summary: update profile 
-      description: update profile information
+      summary: update log
+      description: update log by id
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '#/components/responses/log'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
-
-  /profile/password/:
-    put: 
+          $ref: '#/components/responses/TokenFailed'
+        404:
+          $ref: '#/components/responses/ResourceWasNotFound'
+    delete:
       security:
         - BearerToken: []
       parameters:
         - $ref: '#/components/parameters/bearer'
-      requestBody:
-        description: update the password
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - newPassword
-              properties:
-                oldPassword:
-                  description: may be required if `local` authenticate is provided
-                  type: string
-                  example: 12345567
-                newPassword:
-                  type: string
-                  example: 12345567differentPassword
       tags:
         - "log"
-      summary: (re)set password 
-      description: update users password
+      summary: delete log
+      description: delete log by id
       responses:
         200:
-          $ref: '#/components/responses/profile'
-        400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          description: Ok
+          content:
+            application/json: 
+              x-success: true
+              schema: {}
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
+        404:
+          $ref: '#/components/responses/ResourceWasNotFound'
+
 
 components:
   parameters:
+    byId:
+      $ref: "../paths/__parameters.yaml#/components/parameters/byId"
     bearer:
       $ref: "../security/http.yaml#/components/parameters/bearer"
 
   responses:
-    profile:
-      $ref: "../success/profile.yaml#/components/responses/profile"
+    log:
+      $ref: "../schema/log.yaml#/components/responses/log"
+    logs:
+      $ref: "../schema/log.yaml#/components/responses/logs"
     SessionEnded:
       $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
     MalformedToken:
       $ref: "../errors/MalformedToken.yaml#/components/responses/MalformedToken"
-    UnAuthorized:
-      $ref: "../errors/UnAuthorized.yaml#/components/responses/UnAuthorized"
+    TokenFailed:
+      $ref: "../errors/TokenFailed.yaml#/components/responses/TokenFailed"
     SomeFieldsRequired:
       $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
+    ResourceWasNotFound:
+      $ref: "../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound"
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: '8811'

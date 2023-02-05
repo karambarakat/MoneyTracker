@@ -1,3 +1,8 @@
+.DEFAULT_GOAL := list
+
+prehook:
+	npm run doc:bundle --prefix backend
+
 dev-frontend:
 	npm run dev --prefix frontend
 dev-backend:

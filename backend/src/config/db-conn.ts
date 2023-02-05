@@ -10,7 +10,7 @@ async function connect() {
 
   await mongoose.connect(url).catch((err) => {
     log('database', 'failed', err)
-    process.exit()
+    throw new Error('database failed to connect')
   })
 
   log('database', 'connected')

@@ -96,47 +96,76 @@
     "description": "list all categories for the current user",
     "responses": {
      "200": {
-      "description": "Ok",
-      "content": {
-       "application/json": {
-        "x-success": true,
-        "examples": {
-         "singed up": {
-          "description": "singed up with multiple authentication methods",
-          "value": [
-           "local",
-           "google"
-          ]
-         },
-         "not signed up": {
-          "description": "email is not signed up",
-          "value": []
-         }
-        },
-        "schema": {
-         "type": "array",
-         "items": {
+      "$ref": "#/components/responses/categories"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     }
+    }
+   },
+   "post": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "category"
+    ],
+    "summary": "create new category",
+    "description": "create new category for the current user",
+    "requestBody": {
+     "required": true,
+     "description": "properties like title, color and icon",
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "required": [
+         "title"
+        ],
+        "properties": {
+         "title": {
           "type": "string",
-          "example": [
-           "local",
-           "google"
-          ],
-          "enum": [
-           "local",
-           "google"
-          ]
+          "example": "Entertainment"
+         },
+         "color": {
+          "type": "string",
+          "example": "#333"
+         },
+         "icon": {
+          "type": "string",
+          "example": "Fun_Face_Icon"
          }
         }
        }
       }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/category"
      },
      "400": {
       "$ref": "#/components/responses/SomeFieldsRequired"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
      }
     }
    }
   },
-  "/profile/": {
+  "/category/{id}": {
+   "parameters": [
+    {
+     "$ref": "#/components/parameters/byId"
+    }
+   ],
    "get": {
     "security": [
      {
@@ -149,22 +178,57 @@
      }
     ],
     "tags": [
-     "profile"
+     "category"
     ],
-    "summary": "get profile",
-    "description": "retrieve profile info",
+    "summary": "get category",
+    "description": "create new category for the current user",
     "responses": {
      "200": {
-      "$ref": "#/components/responses/profile"
+      "$ref": "#/components/responses/category"
+     },
+     "400": {
+      "$ref": "#/components/responses/SomeFieldsRequired"
      },
      "401": {
-      "$ref": "#/components/responses/UnAuthorized"
+      "$ref": "#/components/responses/TokenFailed"
      },
-     "441": {
-      "$ref": "#/components/responses/SessionEnded"
+     "404": {
+      "$ref": "#/components/responses/ResourceWasNotFound"
+     }
+    }
+   }
+  },
+  "/category/{id}/logs": {
+   "parameters": [
+    {
+     "$ref": "#/components/parameters/byId"
+    }
+   ],
+   "get": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "category"
+    ],
+    "summary": "get all logs",
+    "description": "get all logs associated by this category for the current user",
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/logs"
      },
-     "442": {
-      "$ref": "#/components/responses/MalformedToken"
+     "400": {
+      "$ref": "#/components/responses/SomeFieldsRequired"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
      }
     }
    },
@@ -180,19 +244,24 @@
      }
     ],
     "requestBody": {
-     "description": "fields to update",
+     "required": true,
+     "description": "properties like title, color and icon",
      "content": {
       "application/json": {
        "schema": {
         "type": "object",
         "properties": {
-         "displayName": {
+         "title": {
           "type": "string",
-          "example": "Joe Doe"
+          "example": "Entertainment"
          },
-         "picture": {
+         "color": {
           "type": "string",
-          "example": "https ://example.com/path/to/img\""
+          "example": "#333"
+         },
+         "icon": {
+          "type": "string",
+          "example": "Fun_Face_Icon"
          }
         }
        }
@@ -200,27 +269,182 @@
      }
     },
     "tags": [
-     "profile"
+     "category"
     ],
-    "summary": "update profile",
-    "description": "update profile information",
+    "summary": "update category",
+    "description": "update category by id",
     "responses": {
      "200": {
-      "$ref": "#/components/responses/profile"
+      "$ref": "#/components/responses/category"
      },
      "401": {
-      "$ref": "#/components/responses/UnAuthorized"
+      "$ref": "#/components/responses/TokenFailed"
      },
-     "441": {
-      "$ref": "#/components/responses/SessionEnded"
+     "404": {
+      "$ref": "#/components/responses/ResourceWasNotFound"
+     }
+    }
+   },
+   "delete": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "category"
+    ],
+    "summary": "delete category",
+    "description": "delete category by id",
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "content": {
+       "application/json": {
+        "x-success": true,
+        "schema": {}
+       }
+      }
      },
-     "442": {
-      "$ref": "#/components/responses/MalformedToken"
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     },
+     "404": {
+      "$ref": "#/components/responses/ResourceWasNotFound"
      }
     }
    }
   },
-  "/profile/password/": {
+  "/log/": {
+   "get": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "log"
+    ],
+    "summary": "list all logs",
+    "description": "list all logs for the current user",
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/logs"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     }
+    }
+   },
+   "post": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "log"
+    ],
+    "summary": "create new log",
+    "description": "create new log for the current user",
+    "requestBody": {
+     "required": true,
+     "description": "properties like title, amount, category and note",
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "required": [
+         "title",
+         "amount"
+        ],
+        "properties": {
+         "title": {
+          "type": "string",
+          "example": "buy new TV"
+         },
+         "amount": {
+          "type": "string",
+          "example": "\\#000000"
+         },
+         "notes": {
+          "type": "string",
+          "example": "New_Icon"
+         },
+         "category": {
+          "type": "string",
+          "example": "63da2a0a643dd3aa49f5c6b1"
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/log"
+     },
+     "400": {
+      "$ref": "#/components/responses/SomeFieldsRequired"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     }
+    }
+   }
+  },
+  "/log/{id}": {
+   "parameters": [
+    {
+     "$ref": "#/components/parameters/byId"
+    }
+   ],
+   "get": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "log"
+    ],
+    "summary": "get log",
+    "description": "create new log for the current user",
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/log"
+     },
+     "400": {
+      "$ref": "#/components/responses/SomeFieldsRequired"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     },
+     "404": {
+      "$ref": "#/components/responses/ResourceWasNotFound"
+     }
+    }
+   },
    "put": {
     "security": [
      {
@@ -233,23 +457,28 @@
      }
     ],
     "requestBody": {
-     "description": "update the password",
+     "required": true,
+     "description": "properties like title, amount, category and note",
      "content": {
       "application/json": {
        "schema": {
         "type": "object",
-        "required": [
-         "newPassword"
-        ],
         "properties": {
-         "oldPassword": {
-          "description": "may be required if `local` authenticate is provided",
+         "title": {
           "type": "string",
-          "example": 12345567
+          "example": "buy new TV"
          },
-         "newPassword": {
+         "amount": {
           "type": "string",
-          "example": "12345567differentPassword"
+          "example": "\\#000000"
+         },
+         "notes": {
+          "type": "string",
+          "example": "New_Icon"
+         },
+         "category": {
+          "type": "string",
+          "example": "63da2a0a643dd3aa49f5c6b1"
          }
         }
        }
@@ -257,25 +486,53 @@
      }
     },
     "tags": [
-     "profile"
+     "log"
     ],
-    "summary": "(re)set password",
-    "description": "update users password",
+    "summary": "update log",
+    "description": "update log by id",
     "responses": {
      "200": {
-      "$ref": "#/components/responses/profile"
-     },
-     "400": {
-      "$ref": "#/components/responses/SomeFieldsRequired"
+      "$ref": "#/components/responses/log"
      },
      "401": {
-      "$ref": "#/components/responses/UnAuthorized"
+      "$ref": "#/components/responses/TokenFailed"
      },
-     "441": {
-      "$ref": "#/components/responses/SessionEnded"
+     "404": {
+      "$ref": "#/components/responses/ResourceWasNotFound"
+     }
+    }
+   },
+   "delete": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "log"
+    ],
+    "summary": "delete log",
+    "description": "delete log by id",
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "content": {
+       "application/json": {
+        "x-success": true,
+        "schema": {}
+       }
+      }
      },
-     "442": {
-      "$ref": "#/components/responses/MalformedToken"
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     },
+     "404": {
+      "$ref": "#/components/responses/ResourceWasNotFound"
      }
     }
    }
@@ -344,26 +601,128 @@
     }
    }
   },
-  "/api/v1/log/": {
+  "/profile/": {
    "get": {
-    "tags": [
-     "log"
+    "security": [
+     {
+      "BearerToken": []
+     }
     ],
-    "description": "get all logs",
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "tags": [
+     "profile"
+    ],
+    "summary": "get profile",
+    "description": "retrieve profile info",
     "responses": {
      "200": {
-      "description": "Ok."
+      "$ref": "#/components/responses/profile"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
      }
     }
    },
-   "post": {
-    "tags": [
-     "log"
+   "put": {
+    "security": [
+     {
+      "BearerToken": []
+     }
     ],
-    "description": "add one log",
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "requestBody": {
+     "description": "fields to update",
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "displayName": {
+          "type": "string",
+          "example": "Joe Doe"
+         },
+         "picture": {
+          "type": "string",
+          "example": "https ://example.com/path/to/img\""
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "profile"
+    ],
+    "summary": "update profile",
+    "description": "update profile information",
     "responses": {
      "200": {
-      "description": "Ok."
+      "$ref": "#/components/responses/profile"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
+     }
+    }
+   }
+  },
+  "/profile/password/": {
+   "put": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "$ref": "#/components/parameters/bearer"
+     }
+    ],
+    "requestBody": {
+     "description": "update the password",
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "required": [
+         "newPassword"
+        ],
+        "properties": {
+         "oldPassword": {
+          "description": "may be required if `local` authenticate is provided",
+          "type": "string",
+          "example": 12345567
+         },
+         "newPassword": {
+          "type": "string",
+          "example": "12345567differentPassword"
+         }
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "profile"
+    ],
+    "summary": "(re)set password",
+    "description": "update users password",
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/profile"
+     },
+     "400": {
+      "$ref": "#/components/responses/SomeFieldsRequired"
+     },
+     "401": {
+      "$ref": "#/components/responses/TokenFailed"
      }
     }
    }
@@ -443,6 +802,34 @@
      }
     }
    },
+   "ResourceWasNotFound": {
+    "description": "current resource doesn't exist",
+    "content": {
+     "application/json": {
+      "x-failed": true,
+      "schema": {
+       "type": "object",
+       "properties": {
+        "status": {
+         "type": "number",
+         "default": 404
+        },
+        "message": {
+         "type": "string",
+         "default": "couldn't find the target"
+        },
+        "name": {
+         "type": "string",
+         "default": "ResourceWasNotFound"
+        },
+        "details": {
+         "type": "object"
+        }
+       }
+      }
+     }
+    }
+   },
    "SessionEnded": {
     "description": "the token/session has expired, login again",
     "content": {
@@ -508,6 +895,54 @@
           "errors": {
            "type": "object",
            "description": "key value pair where key is properties\nname and value is more explanation\n"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "TokenFailed": {
+    "description": "authentication via bearer token has failed",
+    "content": {
+     "application/json": {
+      "x-failed": true,
+      "schema": {
+       "type": "object",
+       "properties": {
+        "status": {
+         "type": "number",
+         "default": 401
+        },
+        "message": {
+         "description": "more details",
+         "example": "authentication failed",
+         "type": "string"
+        },
+        "name": {
+         "type": "string",
+         "default": "TokenFailed"
+        },
+        "details": {
+         "type": "object",
+         "required": [
+          "type"
+         ],
+         "properties": {
+          "type": {
+           "type": "string",
+           "enum": [
+            "JsonWebTokenError",
+            "TokenExpiredError",
+            "NoTokenWasProvided",
+            "UnspecifiedError"
+           ],
+           "example": "TokenExpiredError"
+          },
+          "date": {
+           "type": "string",
+           "example": "2022-04-26T16:08:38.276Z"
           }
          }
         }
@@ -582,20 +1017,6 @@
     "content": {
      "application/json": {
       "x-success": true,
-      "example": {
-       "displayName": "Jue Doe",
-       "email": "JueDoe@gmail.com",
-       "providers": [
-        "google",
-        "local"
-       ],
-       "picture": "https ://example.com/path/to/img",
-       "token": "eyJHxxxxx.xxxxx.xxxxx",
-       "updatedAt": "2022-04-26T16:08:38.276Z",
-       "createdAt": "2022-04-26T16:08:38.276Z",
-       "__v": 0,
-       "$ref": "#/components/examples/profile/value"
-      },
       "schema": {
        "allOf": [
         {
@@ -610,9 +1031,25 @@
            "example": "626819066b8ac48b612dda69"
           },
           "__v": {
-           "type": "string",
+           "oneOf": [
+            {
+             "type": "string",
+             "enum": [
+              "offline"
+             ]
+            },
+            {
+             "type": "number",
+             "enum": [
+              0
+             ]
+            }
+           ],
+           "example": 0,
+           "default": 0,
            "enum": [
-            0
+            0,
+            "offline"
            ]
           }
          }
@@ -643,6 +1080,15 @@
           "token"
          ],
          "properties": {
+          "_id": {
+           "type": "string",
+           "example": "63da2a0a643dd3aa49f5c6b1"
+          },
+          "__v": {
+           "type": "number",
+           "example": 0,
+           "default": 0
+          },
           "displayName": {
            "type": "string",
            "example": "joe Due"
@@ -657,6 +1103,10 @@
           },
           "providers": {
            "type": "array",
+           "example": [
+            "local",
+            "google"
+           ],
            "items": {
             "type": "string",
             "enum": [
@@ -666,7 +1116,8 @@
            }
           },
           "picture": {
-           "type": "string"
+           "type": "string",
+           "example": "https ://example.com/path/to/img"
           }
          }
         }
@@ -676,15 +1127,331 @@
      }
     }
    },
+   "category": {
+    "description": "Ok",
+    "content": {
+     "application/json": {
+      "x-success": true,
+      "schema": {
+       "allOf": [
+        {
+         "type": "object",
+         "required": [
+          "_id",
+          "__v"
+         ],
+         "properties": {
+          "_id": {
+           "type": "string",
+           "example": "626819066b8ac48b612dda69"
+          },
+          "__v": {
+           "oneOf": [
+            {
+             "type": "string",
+             "enum": [
+              "offline"
+             ]
+            },
+            {
+             "type": "number",
+             "enum": [
+              0
+             ]
+            }
+           ],
+           "example": 0,
+           "default": 0,
+           "enum": [
+            0,
+            "offline"
+           ]
+          }
+         }
+        },
+        {
+         "type": "object",
+         "required": [
+          "title",
+          "createdBy"
+         ],
+         "properties": {
+          "title": {
+           "type": "string",
+           "example": "Entertainment"
+          },
+          "color": {
+           "type": "string",
+           "example": "#333"
+          },
+          "icon": {
+           "type": "string",
+           "example": "Fun_Face_Icon"
+          },
+          "createdBy": {
+           "type": "string",
+           "example": "63da2a0a643dd3aa49f5c6b1"
+          }
+         }
+        }
+       ],
+       "$ref": "#/components/schemas/category"
+      }
+     }
+    }
+   },
+   "categories": {
+    "description": "Ok",
+    "content": {
+     "application/json": {
+      "x-success": true,
+      "x-paged": true,
+      "examples": {
+       "basic": {
+        "description": "basic example",
+        "value": [
+         {
+          "_id": "626819066b8ac48b612dda69",
+          "__v": 0,
+          "title": "Entertainment",
+          "color": "#333",
+          "icon": "Fun_Face_Icon",
+          "createdBy": "63da2a0a643dd3aa49f5c6b1"
+         }
+        ]
+       },
+       "no data": {
+        "description": "empty data",
+        "value": []
+       }
+      },
+      "schema": {
+       "type": "array",
+       "items": {
+        "$ref": "#/components/schemas/category"
+       }
+      }
+     }
+    }
+   },
+   "logs": {
+    "description": "Ok",
+    "content": {
+     "application/json": {
+      "x-success": true,
+      "x-paged": true,
+      "examples": {
+       "basic": {
+        "description": "basic example",
+        "value": [
+         {
+          "_id": "626819066b8ac48b612dda69",
+          "__v": 0,
+          "createdAt": "2022-04-26T16:08:38.276Z",
+          "updatedAt": "2022-04-26T16:08:38.276Z",
+          "title": "buy new TV",
+          "amount": 400,
+          "createdBy": "63da2a0a643dd3aa49f5c6b1",
+          "note": "new 40\" plasma tv from flea market",
+          "category": {
+           "_id": "63da2a0a643dd3aa49f5c6b1",
+           "title": "Entertainment",
+           "color": "#333",
+           "icon": "Fun_Face_Icon"
+          }
+         }
+        ]
+       },
+       "no data": {
+        "description": "empty data",
+        "value": []
+       }
+      },
+      "schema": {
+       "type": "array",
+       "items": {
+        "allOf": [
+         {
+          "$ref": "#/paths/~1category~1/post/responses/200/content/application~1json/schema/allOf/0"
+         },
+         {
+          "type": "object",
+          "required": [
+           "createdAt",
+           "updatedAt"
+          ],
+          "properties": {
+           "createdAt": {
+            "type": "string",
+            "example": "2022-04-26T16:08:38.276Z"
+           },
+           "updatedAt": {
+            "type": "string",
+            "example": "2022-04-26T16:08:38.276Z"
+           }
+          }
+         },
+         {
+          "type": "object",
+          "required": [
+           "title",
+           "amount",
+           "createdBy"
+          ],
+          "properties": {
+           "title": {
+            "type": "string",
+            "example": "buy new TV"
+           },
+           "amount": {
+            "type": "number",
+            "example": 400
+           },
+           "createdBy": {
+            "type": "string",
+            "example": "63da2a0a643dd3aa49f5c6b1"
+           },
+           "note": {
+            "type": "string",
+            "example": "new 40\" plasma tv from flea market"
+           },
+           "category": {
+            "type": "object",
+            "properties": {
+             "_id": {
+              "type": "string",
+              "example": "63da2a0a643dd3aa49f5c6b1"
+             },
+             "title": {
+              "type": "string",
+              "example": "Entertainment"
+             },
+             "color": {
+              "type": "string",
+              "example": "#333"
+             },
+             "icon": {
+              "type": "string",
+              "example": "Fun_Face_Icon"
+             }
+            }
+           }
+          }
+         }
+        ],
+        "$ref": "#/components/schemas/log"
+       }
+      }
+     }
+    }
+   },
    "log": {
     "description": "Ok",
     "content": {
      "application/json": {
       "x-success": true,
-      "example": {
-       "$ref": "#/components/examples/log"
-      },
       "schema": {
+       "allOf": [
+        {
+         "type": "object",
+         "required": [
+          "_id",
+          "__v"
+         ],
+         "properties": {
+          "_id": {
+           "type": "string",
+           "example": "626819066b8ac48b612dda69"
+          },
+          "__v": {
+           "oneOf": [
+            {
+             "type": "string",
+             "enum": [
+              "offline"
+             ]
+            },
+            {
+             "type": "number",
+             "enum": [
+              0
+             ]
+            }
+           ],
+           "example": 0,
+           "default": 0,
+           "enum": [
+            0,
+            "offline"
+           ]
+          }
+         }
+        },
+        {
+         "type": "object",
+         "required": [
+          "createdAt",
+          "updatedAt"
+         ],
+         "properties": {
+          "createdAt": {
+           "type": "string",
+           "example": "2022-04-26T16:08:38.276Z"
+          },
+          "updatedAt": {
+           "type": "string",
+           "example": "2022-04-26T16:08:38.276Z"
+          }
+         }
+        },
+        {
+         "type": "object",
+         "required": [
+          "title",
+          "amount",
+          "createdBy"
+         ],
+         "properties": {
+          "title": {
+           "type": "string",
+           "example": "buy new TV"
+          },
+          "amount": {
+           "type": "number",
+           "example": 400
+          },
+          "createdBy": {
+           "type": "string",
+           "example": "63da2a0a643dd3aa49f5c6b1"
+          },
+          "note": {
+           "type": "string",
+           "example": "new 40\" plasma tv from flea market"
+          },
+          "category": {
+           "type": "object",
+           "properties": {
+            "_id": {
+             "type": "string",
+             "example": "63da2a0a643dd3aa49f5c6b1"
+            },
+            "title": {
+             "type": "string",
+             "example": "Entertainment"
+            },
+            "color": {
+             "type": "string",
+             "example": "#333"
+            },
+            "icon": {
+             "type": "string",
+             "example": "Fun_Face_Icon"
+            }
+           }
+          }
+         }
+        }
+       ],
        "$ref": "#/components/schemas/log"
       }
      }
@@ -705,16 +1472,20 @@
       ],
       "properties": {
        "title": {
-        "type": "string"
+        "type": "string",
+        "example": "Entertainment"
        },
        "color": {
-        "type": "string"
+        "type": "string",
+        "example": "#333"
        },
        "icon": {
-        "type": "string"
+        "type": "string",
+        "example": "Fun_Face_Icon"
        },
        "createdBy": {
-        "$ref": "#/components/schemas/profile"
+        "type": "string",
+        "example": "63da2a0a643dd3aa49f5c6b1"
        }
       }
      }
@@ -724,16 +1495,20 @@
     "type": "object",
     "properties": {
      "_id": {
-      "type": "string"
+      "type": "string",
+      "example": "63da2a0a643dd3aa49f5c6b1"
      },
      "title": {
-      "type": "string"
+      "type": "string",
+      "example": "Entertainment"
      },
      "color": {
-      "type": "string"
+      "type": "string",
+      "example": "#333"
      },
      "icon": {
-      "type": "string"
+      "type": "string",
+      "example": "Fun_Face_Icon"
      }
     }
    },
@@ -749,90 +1524,28 @@
       "example": "626819066b8ac48b612dda69"
      },
      "__v": {
-      "type": "string",
-      "enum": [
-       0
-      ]
-     }
-    }
-   },
-   "profile": {
-    "allOf": [
-     {
-      "$ref": "#/components/schemas/mongoDoc",
-      "type": "object",
-      "required": [
-       "_id",
-       "__v"
-      ],
-      "properties": {
-       "_id": {
+      "oneOf": [
+       {
         "type": "string",
-        "example": "626819066b8ac48b612dda69"
+        "enum": [
+         "offline"
+        ]
        },
-       "__v": {
-        "type": "string",
+       {
+        "type": "number",
         "enum": [
          0
         ]
        }
-      }
-     },
-     {
-      "$ref": "#/components/schemas/mongoTime",
-      "type": "object",
-      "required": [
-       "createdAt",
-       "updatedAt"
       ],
-      "properties": {
-       "createdAt": {
-        "type": "string",
-        "example": "2022-04-26T16:08:38.276Z"
-       },
-       "updatedAt": {
-        "type": "string",
-        "example": "2022-04-26T16:08:38.276Z"
-       }
-      }
-     },
-     {
-      "type": "object",
-      "required": [
-       "displayName",
-       "email",
-       "providers",
-       "token"
-      ],
-      "properties": {
-       "displayName": {
-        "type": "string",
-        "example": "joe Due"
-       },
-       "email": {
-        "type": "string",
-        "example": "joeDue@gmail.com"
-       },
-       "token": {
-        "type": "string",
-        "example": "eyJxxxx.xxxxx.xxxxxx"
-       },
-       "providers": {
-        "type": "array",
-        "items": {
-         "type": "string",
-         "enum": [
-          "local",
-          "google"
-         ]
-        }
-       },
-       "picture": {
-        "type": "string"
-       }
-      }
+      "example": 0,
+      "default": 0,
+      "enum": [
+       0,
+       "offline"
+      ]
      }
-    ]
+    }
    },
    "mongoTime": {
     "type": "object",
@@ -854,42 +1567,49 @@
    "log": {
     "allOf": [
      {
-      "$ref": "#/components/schemas/mongoDoc",
-      "type": "object",
-      "required": [
-       "_id",
-       "__v"
-      ],
-      "properties": {
-       "_id": {
-        "type": "string",
-        "example": "626819066b8ac48b612dda69"
-       },
-       "__v": {
-        "type": "string",
-        "enum": [
-         0
-        ]
-       }
-      }
+      "$ref": "#/components/schemas/mongoDoc"
      },
      {
-      "$ref": "#/components/schemas/mongoTime",
+      "$ref": "#/components/schemas/mongoTime"
+     },
+     {
       "type": "object",
       "required": [
-       "createdAt",
-       "updatedAt"
+       "title",
+       "amount",
+       "createdBy"
       ],
       "properties": {
-       "createdAt": {
+       "title": {
         "type": "string",
-        "example": "2022-04-26T16:08:38.276Z"
+        "example": "buy new TV"
        },
-       "updatedAt": {
+       "amount": {
+        "type": "number",
+        "example": 400
+       },
+       "createdBy": {
         "type": "string",
-        "example": "2022-04-26T16:08:38.276Z"
+        "example": "63da2a0a643dd3aa49f5c6b1"
+       },
+       "note": {
+        "type": "string",
+        "example": "new 40\" plasma tv from flea market"
+       },
+       "category": {
+        "$ref": "#/components/schemas/categoryPopulated"
        }
       }
+     }
+    ]
+   },
+   "profile": {
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/mongoDoc"
+     },
+     {
+      "$ref": "#/components/schemas/mongoTime"
      },
      {
       "type": "object",
@@ -900,20 +1620,14 @@
        "token"
       ],
       "properties": {
-       "title": {
-        "type": "string"
+       "_id": {
+        "type": "string",
+        "example": "63da2a0a643dd3aa49f5c6b1"
        },
-       "amount": {
-        "type": "number"
-       },
-       "createdBy": {
-        "$ref": "#/components/schemas/profile"
-       },
-       "note": {
-        "type": "string"
-       },
-       "category": {
-        "$ref": "#/components/schemas/categoryPopulated"
+       "__v": {
+        "type": "number",
+        "example": 0,
+        "default": 0
        },
        "displayName": {
         "type": "string",
@@ -929,6 +1643,10 @@
        },
        "providers": {
         "type": "array",
+        "example": [
+         "local",
+         "google"
+        ],
         "items": {
          "type": "string",
          "enum": [
@@ -938,7 +1656,8 @@
         }
        },
        "picture": {
-        "type": "string"
+        "type": "string",
+        "example": "https ://example.com/path/to/img"
        }
       }
      }
@@ -972,6 +1691,16 @@
    }
   },
   "parameters": {
+   "byId": {
+    "name": "id",
+    "in": "path",
+    "description": "grap entry by its id, should be place in path as in `to/path/:id/etc`",
+    "required": true,
+    "schema": {
+     "type": "string",
+     "example": "63da2a0a643dd3aa49f5c6b1"
+    }
+   },
    "emailPassword": {
     "name": "Authorization",
     "in": "header",
@@ -985,102 +1714,10 @@
     "name": "Authorization",
     "in": "header",
     "description": "can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx",
+    "required": true,
     "schema": {
      "type": "string",
      "example": "Bearer xxxxxxx="
-    }
-   }
-  },
-  "examples": {
-   "category": {
-    "summary": "example when requesting category",
-    "value": {
-     "title": "buy new TV",
-     "amount": 500,
-     "note": "new 40\" plasma tv from flea market",
-     "createdBy": {
-      "displayName": "Jue Doe",
-      "email": "JueDoe@gmail.com",
-      "providers": [
-       "google",
-       "local"
-      ],
-      "picture": "https ://example.com/path/to/img",
-      "token": "eyJHxxxxx.xxxxx.xxxxx",
-      "updatedAt": "2022-04-26T16:08:38.276Z",
-      "createdAt": "2022-04-26T16:08:38.276Z",
-      "__v": 0
-     }
-    }
-   },
-   "category_populated": {
-    "summary": "when populating category properties like createdBy, __v will be deleted",
-    "value": {
-     "_id": "123xxxxxxxxxxxx",
-     "title": "Gas",
-     "color": "Green",
-     "icon": "GAS_ICON"
-    }
-   },
-   "log": {
-    "summary": "profile",
-    "value": {
-     "title": "buy new TV",
-     "amount": 500,
-     "note": "new 40\" plasma tv from flea market",
-     "createdBy": {
-      "displayName": "Jue Doe",
-      "email": "JueDoe@gmail.com",
-      "providers": [
-       "google",
-       "local"
-      ],
-      "picture": "https ://example.com/path/to/img",
-      "token": "eyJHxxxxx.xxxxx.xxxxx",
-      "updatedAt": "2022-04-26T16:08:38.276Z",
-      "createdAt": "2022-04-26T16:08:38.276Z",
-      "__v": 0
-     },
-     "category": {
-      "_id": "123xxxxxxxxxxxx",
-      "title": "Gas",
-      "color": "Green",
-      "icon": "GAS_ICON"
-     },
-     "displayName": "Jue Doe",
-     "email": "JueDoe@gmail.com",
-     "providers": [
-      "google",
-      "local"
-     ],
-     "picture": "https ://example.com/path/to/img",
-     "token": "eyJHxxxxx.xxxxx.xxxxx",
-     "updatedAt": "2022-04-26T16:08:38.276Z",
-     "createdAt": "2022-04-26T16:08:38.276Z",
-     "__v": 0
-    }
-   },
-   "profile_providers": {
-    "summary": "profile providers",
-    "value": [
-     "google",
-     "local"
-    ]
-   },
-   "profile": {
-    "summary": "profile",
-    "value": {
-     "displayName": "Jue Doe",
-     "email": "JueDoe@gmail.com",
-     "providers": [
-      "google",
-      "local"
-     ],
-     "picture": "https ://example.com/path/to/img",
-     "token": "eyJHxxxxx.xxxxx.xxxxx",
-     "updatedAt": "2022-04-26T16:08:38.276Z",
-     "createdAt": "2022-04-26T16:08:38.276Z",
-     "__v": 0
     }
    }
   }

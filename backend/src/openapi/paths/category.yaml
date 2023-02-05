@@ -14,27 +14,48 @@ paths:
       summary: list all categories
       description: list all categories for the current user
       responses:
+        200:
+          $ref: '#/components/responses/categories'
+        401:
+          $ref: '#/components/responses/TokenFailed'
+    post:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/bearer'
+      tags:
+        - "category"
+      summary: create new category
+      description: create new category for the current user
+      requestBody:
+        required: true
+        description: properties like title, color and icon
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: Entertainment
+                color:
+                  type: string
+                  example: "#333"
+                icon:
+                  type: string
+                  example: Fun_Face_Icon              
+      responses:
+        200:
+          $ref: '#/components/responses/category'
         400:
           $ref: '#/components/responses/SomeFieldsRequired'
-        200:
-          description: Ok
-          content:
-            application/json: 
-              x-success: true
-              # examples:
-              #   singed up:
-              #     description: singed up with multiple authentication methods
-              #     value: ['local', 'google']
-              #   not signed up:
-              #     description: email is not signed up
-              #     value: []
-              schema:
-                type: array
-                items: 
-                  type: object
-                  $ref: '#/components/responses/category'
-                    
-  /profile/:
+        401:
+          $ref: '#/components/responses/TokenFailed'
+  /category/{id}:
+    parameters:
+      - $ref: '#/components/parameters/byId'
     get:
       security:
         - BearerToken: []
@@ -42,102 +63,122 @@ paths:
         - $ref: '#/components/parameters/bearer'
       tags:
         - "category"
-      summary: get profile
-      description: retrieve profile info
+      summary: get category
+      description: create new category for the current user
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '#/components/responses/category'
+        400:
+          $ref: '#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
+        404:
+          $ref: '#/components/responses/ResourceWasNotFound'
+  # todo
+  /category/{id}/logs:
+    parameters:
+      - $ref: '#/components/parameters/byId'
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/bearer'
+      tags:
+        - "category"
+      summary: get all logs
+      description: get all logs associated by this category for the current user
+      responses:
+        200:
+          $ref: '#/components/responses/logs'
+        400:
+          $ref: '#/components/responses/SomeFieldsRequired'
+        401:
+          $ref: '#/components/responses/TokenFailed'
+
     put:
       security:
         - BearerToken: []
       parameters:
         - $ref: '#/components/parameters/bearer'
       requestBody:
-        description: fields to update
+        required: true
+        description: properties like title, color and icon
         content:
           application/json:
             schema:
               type: object
               properties:
-                displayName:
+                title:
                   type: string
-                  example: Joe Doe
-                picture:
+                  example: Entertainment
+                color:
                   type: string
-                  example: https ://example.com/path/to/img"
+                  example: "#333"
+                icon:
+                  type: string
+                  example: Fun_Face_Icon              
       tags:
         - "category"
-      summary: update profile 
-      description: update profile information
+      summary: update category
+      description: update category by id
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '#/components/responses/category'
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
-
-  /profile/password/:
-    put: 
+          $ref: '#/components/responses/TokenFailed'
+        404:
+          $ref: '#/components/responses/ResourceWasNotFound'
+    delete:
       security:
         - BearerToken: []
       parameters:
         - $ref: '#/components/parameters/bearer'
-      requestBody:
-        description: update the password
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - newPassword
-              properties:
-                oldPassword:
-                  description: may be required if `local` authenticate is provided
-                  type: string
-                  example: 12345567
-                newPassword:
-                  type: string
-                  example: 12345567differentPassword
       tags:
         - "category"
-      summary: (re)set password 
-      description: update users password
+      summary: delete category
+      description: delete category by id
       responses:
         200:
-          $ref: '#/components/responses/profile'
-        400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          description: Ok
+          content:
+            application/json: 
+              x-success: true
+              schema: {}
         401:
-          $ref: '#/components/responses/UnAuthorized'
-        442:
-          $ref: '#/components/responses/MalformedToken'
-        441:
-          $ref: '#/components/responses/SessionEnded'
+          $ref: '#/components/responses/TokenFailed'
+        404:
+          $ref: '#/components/responses/ResourceWasNotFound'
+
 
 components:
   parameters:
+    byId:
+      $ref: "../paths/__parameters.yaml#/components/parameters/byId"
     bearer:
       $ref: "../security/http.yaml#/components/parameters/bearer"
 
   responses:
-    profile:
-      $ref: "../success/profile.yaml#/components/responses/profile"
     category:
-      $ref: "../success/category.yaml#/components/responses/category"
+      $ref: "../schema/category.yaml#/components/responses/category"
+    categories:
+      $ref: "../schema/category.yaml#/components/responses/categories"
+    logs:
+      $ref: "../schema/log.yaml#/components/responses/logs"
     SessionEnded:
       $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
     MalformedToken:
       $ref: "../errors/MalformedToken.yaml#/components/responses/MalformedToken"
-    UnAuthorized:
-      $ref: "../errors/UnAuthorized.yaml#/components/responses/UnAuthorized"
+    TokenFailed:
+      $ref: "../errors/TokenFailed.yaml#/components/responses/TokenFailed"
     SomeFieldsRequired:
       $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
+    ResourceWasNotFound:
+      $ref: "../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound"
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: '8811'
