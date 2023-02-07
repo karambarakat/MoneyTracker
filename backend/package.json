@@ -10,9 +10,8 @@
     "start:no-build": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
     "test": "jest",
-    "test:gen": "openapi-generator-cli validate -i openapi.yaml",
-    "doc:bundle": "node swagger",
-    "doc:watch": "nodemon -e yaml --watch src/**/*.yaml --exec npm run doc:bundle",
+    "openapi": "node swagger",
+    "doc:watch": "nodemon -e yaml --watch src/**/*.yaml --exec npm run doc:openapi",
     "doc": "ts-node -r tsconfig-paths/register src/doc.ts"
   },
   "author": "karam barakat",

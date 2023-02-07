@@ -1,0 +1,6 @@
+repos:
+  - repo: local
+    hooks:
+      - id: bundle-swagger
+        language: system
+        entry: npm run openapi --prefix backend

@@ -716,6 +716,7 @@ components:
                   picture:
                     type: string
                     example: https ://example.com/path/to/img
+            $ref: "#/components/schemas/profile"
     category:
       description: Ok
       content:
@@ -761,6 +762,7 @@ components:
                   createdBy:
                     type: string
                     example: 63da2a0a643dd3aa49f5c6b1
+            $ref: "#/components/schemas/category"
     categories:
       description: Ok
       content:
@@ -860,6 +862,7 @@ components:
                         icon:
                           type: string
                           example: Fun_Face_Icon
+              $ref: "#/components/schemas/log"
     log:
       description: Ok
       content:
@@ -932,6 +935,7 @@ components:
                       icon:
                         type: string
                         example: Fun_Face_Icon
+            $ref: "#/components/schemas/log"
   schemas:
     category:
       allOf:
