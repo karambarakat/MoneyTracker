@@ -1,6 +1,5 @@
-/**
- * @module moduleNewName
- */
+import dotenv from 'dotenv'
+dotenv.config()
 import { Document } from 'mongoose'
 
 // libraries
@@ -84,10 +83,10 @@ api.use('*', e404)
 
 app.use('/api/v1', api)
 
-import { doc } from 'doc'
+import { doc } from './doc'
 app.use('/doc', doc)
 
-app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
+app.all('*', (_, res) =>  res.status(404).send('go to /api/v1'))
 
 /**
  * Errors/Handlers

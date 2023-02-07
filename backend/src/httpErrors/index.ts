@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { DefaultError, HttpErrorProps } from 'typesIntegrate/httpErrors'
+import { DefaultError, HttpErrorProps } from '../typesIntegrate/httpErrors'
 import { FieldsRequired } from './errTypes'
 
 export const HttpErrorS = Symbol('HttpError')

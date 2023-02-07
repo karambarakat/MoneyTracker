@@ -3,6 +3,7 @@
 		"version": "2.0.0",
 		"tasks": []
 	},
+
 	"folders": [
 		{
 			"name": "__",
@@ -16,6 +17,7 @@
 		}
 	],
 	"settings": {
+		
 		"cSpell.words": [
 			"cmnd",
 			"elems",
