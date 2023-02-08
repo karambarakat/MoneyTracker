@@ -27,8 +27,4 @@ components:
           schema:
             type: array
             items:
-              $ref: "#/components/schemas/category"
-  schemas:
-    category:
-      $ref: "../schema/category.yaml#/components/schemas/category"
- 
+              $ref: "../schema/category.yaml#/components/schemas/category" 

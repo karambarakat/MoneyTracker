@@ -8,21 +8,21 @@ paths:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "category"
       summary: list all categories
       description: list all categories for the current user
       responses:
         200:
-          $ref: '#/components/responses/categories'
+          $ref: '../responses/categories.yaml#/components/responses/categories'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
     post:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "category"
       summary: create new category
@@ -48,58 +48,58 @@ paths:
                   example: Fun_Face_Icon              
       responses:
         200:
-          $ref: '#/components/responses/category'
+          $ref: '../responses/category.yaml#/components/responses/category'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
   /category/{id}:
     parameters:
-      - $ref: '#/components/parameters/byId'
+      - $ref: '../paths/__parameters.yaml#/components/parameters/byId'
     get:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "category"
       summary: get category
       description: create new category for the current user
       responses:
         200:
-          $ref: '#/components/responses/category'
+          $ref: '../responses/category.yaml#/components/responses/category'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
-          $ref: '#/components/responses/ResourceWasNotFound'
+          $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
   # todo
   /category/{id}/logs:
     parameters:
-      - $ref: '#/components/parameters/byId'
+      - $ref: '../paths/__parameters.yaml#/components/parameters/byId'
     get:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "category"
       summary: get all logs
       description: get all logs associated by this category for the current user
       responses:
         200:
-          $ref: '#/components/responses/logs'
+          $ref: '../responses/logs.yaml#/components/responses/logs'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
 
     put:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       requestBody:
         required: true
         description: properties like title, color and icon
@@ -123,16 +123,16 @@ paths:
       description: update category by id
       responses:
         200:
-          $ref: '#/components/responses/category'
+          $ref: '../responses/category.yaml#/components/responses/category'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
-          $ref: '#/components/responses/ResourceWasNotFound'
+          $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
     delete:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "category"
       summary: delete category
@@ -145,35 +145,11 @@ paths:
               x-success: true
               schema: {}
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
-          $ref: '#/components/responses/ResourceWasNotFound'
+          $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
 
 
-components:
-  parameters:
-    byId:
-      $ref: "../paths/__parameters.yaml#/components/parameters/byId"
-    bearer:
-      $ref: "../security/http.yaml#/components/parameters/bearer"
-
-  responses:
-    category:
-      $ref: "../responses/category.yaml#/components/responses/category"
-    categories:
-      $ref: "../responses/categories.yaml#/components/responses/categories"
-    logs:
-      $ref: "../responses/logs.yaml#/components/responses/logs"
-    SessionEnded:
-      $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
-    MalformedToken:
-      $ref: "../errors/MalformedToken.yaml#/components/responses/MalformedToken"
-    TokenFailed:
-      $ref: "../errors/TokenFailed.yaml#/components/responses/TokenFailed"
-    SomeFieldsRequired:
-      $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
-    ResourceWasNotFound:
-      $ref: "../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound"
 servers:
   - url: https://localhost:{port}/api/{version}
     description: development localhost servers

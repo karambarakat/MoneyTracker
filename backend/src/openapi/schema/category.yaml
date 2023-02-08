@@ -7,7 +7,7 @@ components:
   schemas:
     category:
       allOf:
-        - $ref: '#/components/schemas/mongoDoc'
+        - $ref: '../schema/database.yaml#/components/schemas/mongoDoc'
         - type: object
           required:
             - title
@@ -47,6 +47,3 @@ components:
         icon:
           type: string
           example: Fun_Face_Icon
-
-    mongoDoc: 
-      $ref: "./database.yaml#/components/schemas/mongoDoc"

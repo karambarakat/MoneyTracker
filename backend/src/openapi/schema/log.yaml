@@ -8,8 +8,8 @@ components:
   schemas: 
     log:
       allOf:
-        - $ref: '#/components/schemas/mongoDoc'
-        - $ref: '#/components/schemas/mongoTime'
+        - $ref: '../schema/database.yaml#/components/schemas/mongoDoc'
+        - $ref: '../schema/database.yaml#/components/schemas/mongoTime'
         - type: object
           required:
             - title
@@ -29,14 +29,5 @@ components:
               type: string
               example: new 40" plasma tv from flea market
             category:
-              $ref: '#/components/schemas/categoryPopulated'
-    mongoDoc:
-      $ref: "./database.yaml#/components/schemas/mongoDoc"
-    mongoTime:
-      $ref: "./database.yaml#/components/schemas/mongoTime"
-    profile:
-      $ref: "./profile.yaml#/components/schemas/profile"
-    categoryPopulated:
-      $ref: "./category.yaml#/components/schemas/categoryPopulated"
-
+              $ref: './category.yaml#/components/schemas/categoryPopulated'
     

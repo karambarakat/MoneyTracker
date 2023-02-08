@@ -7,7 +7,7 @@ components:
   schemas:
     mongoDoc:  
       # this type is used as composition with other type 
-      # @example {allOf: [$ref: '#/components/schemas/mongoDoc', {...}]}
+      # @example {allOf: [$ref: '../schema/database.yaml#/components/schemas/mongoDoc', {...}]}
       type: object
       required:
         - _id
@@ -31,7 +31,7 @@ components:
             - offline
     mongoTime: 
       # this type is used as composition with other type 
-      # @example {allOf: [$ref: '#/components/schemas/mongoDoc', {...}]}
+      # @example {allOf: [$ref: '../schema/database.yaml#/components/schemas/mongoDoc', {...}]}
       type: object
       required:
         - createdAt

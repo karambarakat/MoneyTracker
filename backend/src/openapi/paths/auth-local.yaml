@@ -8,7 +8,7 @@ paths:
       security:
         - BasicToken: []
       parameters:
-        - $ref: '#/components/parameters/emailPassword'
+        - $ref: '../security/http.yaml#/components/parameters/emailPassword'
       tags:
         - "local authorization"
       summary: login
@@ -16,15 +16,15 @@ paths:
         login using email and password using Basic Token Http Authorization
       responses:
         401:
-          $ref: '#/components/responses/EmailOrPasswordIncorrect'
+          $ref: '../errors/EmailOrPasswordIncorrect.yaml#/components/responses/EmailOrPasswordIncorrect'
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '../responses/profile.yaml#/components/responses/profile'
   /auth/local/register/: 
     post:
       security:
         - BasicToken: []
       parameters:
-        - $ref: '#/components/parameters/emailPassword'
+        - $ref: '../security/http.yaml#/components/parameters/emailPassword'
       tags:
         - "local authorization"
       summary: register
@@ -41,26 +41,11 @@ paths:
         make new account with a displayName 
       responses:
         201:
-          $ref: '#/components/responses/profile'
+          $ref: '../responses/profile.yaml#/components/responses/profile'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         409:
-          $ref: '#/components/responses/UserAlreadyExist'
-
-        
-components:
-  parameters:
-    emailPassword:
-      $ref: "../security/http.yaml#/components/parameters/emailPassword"
-  responses:
-    EmailOrPasswordIncorrect:
-      $ref: "../errors/EmailOrPasswordIncorrect.yaml#/components/responses/EmailOrPasswordIncorrect"
-    SomeFieldsRequired:
-      $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
-    UserAlreadyExist:
-      $ref: "../errors/UserAlreadyExist.yaml#/components/responses/UserAlreadyExist"
-    profile:
-      $ref: "../responses/profile.yaml#/components/responses/profile"
+          $ref: '../errors/UserAlreadyExist.yaml#/components/responses/UserAlreadyExist'
 servers:
   - url: https://localhost:{port}/api/{version}
     description: development localhost servers

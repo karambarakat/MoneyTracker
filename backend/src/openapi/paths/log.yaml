@@ -8,21 +8,21 @@ paths:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "log"
       summary: list all logs
       description: list all logs for the current user
       responses:
         200:
-          $ref: '#/components/responses/logs'
+          $ref: '../responses/logs.yaml#/components/responses/logs'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
     post:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "log"
       summary: create new log
@@ -52,37 +52,37 @@ paths:
                   example: 63da2a0a643dd3aa49f5c6b1
       responses:
         200:
-          $ref: '#/components/responses/log'
+          $ref: '../responses/log.yaml#/components/responses/log'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
   /log/{id}:
     parameters:
-      - $ref: '#/components/parameters/byId'
+      - $ref: '../paths/__parameters.yaml#/components/parameters/byId'
     get:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "log"
       summary: get log
       description: create new log for the current user
       responses:
         200:
-          $ref: '#/components/responses/log'
+          $ref: '../responses/log.yaml#/components/responses/log'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
-          $ref: '#/components/responses/ResourceWasNotFound'
+          $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
     put:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       requestBody:
         required: true
         description: properties like title, amount, category and note
@@ -109,16 +109,16 @@ paths:
       description: update log by id
       responses:
         200:
-          $ref: '#/components/responses/log'
+          $ref: '../responses/log.yaml#/components/responses/log'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
-          $ref: '#/components/responses/ResourceWasNotFound'
+          $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
     delete:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "log"
       summary: delete log
@@ -131,33 +131,10 @@ paths:
               x-success: true
               schema: {}
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
-          $ref: '#/components/responses/ResourceWasNotFound'
+          $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
 
-
-components:
-  parameters:
-    byId:
-      $ref: "../paths/__parameters.yaml#/components/parameters/byId"
-    bearer:
-      $ref: "../security/http.yaml#/components/parameters/bearer"
-
-  responses:
-    log:
-      $ref: "../responses/log.yaml#/components/responses/log"
-    logs:
-      $ref: "../responses/logs.yaml#/components/responses/logs"
-    SessionEnded:
-      $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
-    MalformedToken:
-      $ref: "../errors/MalformedToken.yaml#/components/responses/MalformedToken"
-    TokenFailed:
-      $ref: "../errors/TokenFailed.yaml#/components/responses/TokenFailed"
-    SomeFieldsRequired:
-      $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
-    ResourceWasNotFound:
-      $ref: "../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound"
 servers:
   - url: https://localhost:{port}/api/{version}
     description: development localhost servers

@@ -22,7 +22,7 @@ paths:
         all available authentication methods for given email
       responses:
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         200:
           description: Ok
           content:
@@ -42,21 +42,21 @@ paths:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       tags:
         - "profile"
       summary: get profile
       description: retrieve profile info
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '../responses/profile.yaml#/components/responses/profile'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
     put:
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       requestBody:
         description: fields to update
         content:
@@ -76,16 +76,16 @@ paths:
       description: update profile information
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '../responses/profile.yaml#/components/responses/profile'
         401:
-          $ref: '#/components/responses/TokenFailed'
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
 
   /profile/password/:
     put: 
       security:
         - BearerToken: []
       parameters:
-        - $ref: '#/components/parameters/bearer'
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
       requestBody:
         description: update the password
         content:
@@ -108,28 +108,11 @@ paths:
       description: update users password
       responses:
         200:
-          $ref: '#/components/responses/profile'
+          $ref: '../responses/profile.yaml#/components/responses/profile'
         400:
-          $ref: '#/components/responses/SomeFieldsRequired'
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
-          $ref: '#/components/responses/TokenFailed'
-
-components:
-  parameters:
-    bearer:
-      $ref: "../security/http.yaml#/components/parameters/bearer"
-
-  responses:
-    profile:
-      $ref: "../responses/profile.yaml#/components/responses/profile"
-    SessionEnded:
-      $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
-    MalformedToken:
-      $ref: "../errors/MalformedToken.yaml#/components/responses/MalformedToken"
-    TokenFailed:
-      $ref: "../errors/TokenFailed.yaml#/components/responses/TokenFailed"
-    SomeFieldsRequired:
-      $ref: "../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired"
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
 servers:
   - url: https://localhost:{port}/api/{version}
     description: development localhost servers

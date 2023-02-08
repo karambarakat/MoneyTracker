@@ -15,8 +15,8 @@ components:
           - "google"
     profile:  
       allOf:
-        - $ref: '#/components/schemas/mongoDoc'
-        - $ref: '#/components/schemas/mongoTime'
+        - $ref: '../schema/database.yaml#/components/schemas/mongoDoc'
+        - $ref: '../schema/database.yaml#/components/schemas/mongoTime'
         - type: object
           required:
             - displayName
@@ -51,8 +51,3 @@ components:
             picture:
               type: string
               example: "https ://example.com/path/to/img"
-    mongoDoc: 
-      $ref: "./database.yaml#/components/schemas/mongoDoc"
-    mongoTime: 
-      $ref: "./database.yaml#/components/schemas/mongoTime"
-

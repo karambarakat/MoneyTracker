@@ -26,7 +26,7 @@ async function main() {
   })
 
   const definitions = await Promise.all(
-    yamlFiles.map((c) => Parser.bundle(c))
+    yamlFiles.map((c) => Parser.dereference(c))
   ).catch((e) => {
     console.error('Error: failed to bundle all openapi/**/*.yaml files')
     throw new Error(e)
@@ -70,6 +70,16 @@ async function main() {
    */
   await /** @type {Promise<void>} */(new Promise((res, rej ) => {
     childProcess.exec('npx openapi-generator-cli validate -i openapi.yaml', (err, out, stderr) => {
+      if(err || stderr) {
+        console.log(stderr)
+        rej()
+      }
+      res()
+    })
+  }))
+
+  await /** @type {Promise<void>} */(new Promise((res, rej ) => {
+    childProcess.exec('npx openapi-generator-cli generate -g markdown -i openapi.yaml -o md-docs', (err, out, stderr) => {
       if(err || stderr) {
         console.log(stderr)
         rej()
