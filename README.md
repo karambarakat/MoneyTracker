@@ -19,23 +19,6 @@ this app is a easy-to-use wallet list that helps you keep track all your expense
 
 this app is Front end application built using ReactJS library, it consists of a total of 2555 line of JavaScript code and the final production folder is only 2MB in size, and was built using:
 
-## User-Experience features
-
-- for every component of page, whenever there is AJAX loading in the background, a loading page will be shown and sequently either error page or the actual data
-
-      <HttpHandler
-        action={fetchData()}
-        selector={(state) => state.logs)}
-      >
-        {(data) => ({
-            <h2> there is you data {data}</h2>
-        })
-      </HttpHandler>
-
-- some pages are accessible as a modal (called gallery modal) as oppose of opening a new page
-
-        <Link to="/entry/2" modal>go to </Link>
-
 # Technologies
 
 ## Front End:

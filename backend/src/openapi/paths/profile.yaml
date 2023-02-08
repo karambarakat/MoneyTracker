@@ -121,7 +121,7 @@ components:
 
   responses:
     profile:
-      $ref: "../schema/profile.yaml#/components/responses/profile"
+      $ref: "../responses/profile.yaml#/components/responses/profile"
     SessionEnded:
       $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
     MalformedToken:

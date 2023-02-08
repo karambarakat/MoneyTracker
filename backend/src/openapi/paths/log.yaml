@@ -145,9 +145,9 @@ components:
 
   responses:
     log:
-      $ref: "../schema/log.yaml#/components/responses/log"
+      $ref: "../responses/log.yaml#/components/responses/log"
     logs:
-      $ref: "../schema/log.yaml#/components/responses/logs"
+      $ref: "../responses/logs.yaml#/components/responses/logs"
     SessionEnded:
       $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
     MalformedToken:

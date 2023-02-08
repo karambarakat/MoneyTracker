@@ -1462,6 +1462,39 @@
    "category": {
     "allOf": [
      {
+      "type": "object",
+      "required": [
+       "_id",
+       "__v"
+      ],
+      "properties": {
+       "_id": {
+        "type": "string",
+        "example": "626819066b8ac48b612dda69"
+       },
+       "__v": {
+        "oneOf": [
+         {
+          "type": "string",
+          "enum": [
+           "offline"
+          ]
+         },
+         {
+          "type": "number",
+          "enum": [
+           0
+          ]
+         }
+        ],
+        "example": 0,
+        "default": 0,
+        "enum": [
+         0,
+         "offline"
+        ]
+       }
+      },
       "$ref": "#/components/schemas/mongoDoc"
      },
      {
@@ -1486,6 +1519,220 @@
        "createdBy": {
         "type": "string",
         "example": "63da2a0a643dd3aa49f5c6b1"
+       }
+      }
+     }
+    ]
+   },
+   "log": {
+    "allOf": [
+     {
+      "type": "object",
+      "required": [
+       "_id",
+       "__v"
+      ],
+      "properties": {
+       "_id": {
+        "type": "string",
+        "example": "626819066b8ac48b612dda69"
+       },
+       "__v": {
+        "oneOf": [
+         {
+          "type": "string",
+          "enum": [
+           "offline"
+          ]
+         },
+         {
+          "type": "number",
+          "enum": [
+           0
+          ]
+         }
+        ],
+        "example": 0,
+        "default": 0,
+        "enum": [
+         0,
+         "offline"
+        ]
+       }
+      },
+      "$ref": "#/components/schemas/mongoDoc"
+     },
+     {
+      "type": "object",
+      "required": [
+       "createdAt",
+       "updatedAt"
+      ],
+      "properties": {
+       "createdAt": {
+        "type": "string",
+        "example": "2022-04-26T16:08:38.276Z"
+       },
+       "updatedAt": {
+        "type": "string",
+        "example": "2022-04-26T16:08:38.276Z"
+       }
+      },
+      "$ref": "#/components/schemas/mongoTime"
+     },
+     {
+      "type": "object",
+      "required": [
+       "title",
+       "amount",
+       "createdBy"
+      ],
+      "properties": {
+       "title": {
+        "type": "string",
+        "example": "buy new TV"
+       },
+       "amount": {
+        "type": "number",
+        "example": 400
+       },
+       "createdBy": {
+        "type": "string",
+        "example": "63da2a0a643dd3aa49f5c6b1"
+       },
+       "note": {
+        "type": "string",
+        "example": "new 40\" plasma tv from flea market"
+       },
+       "category": {
+        "type": "object",
+        "properties": {
+         "_id": {
+          "type": "string",
+          "example": "63da2a0a643dd3aa49f5c6b1"
+         },
+         "title": {
+          "type": "string",
+          "example": "Entertainment"
+         },
+         "color": {
+          "type": "string",
+          "example": "#333"
+         },
+         "icon": {
+          "type": "string",
+          "example": "Fun_Face_Icon"
+         }
+        },
+        "$ref": "#/components/schemas/categoryPopulated"
+       }
+      }
+     }
+    ]
+   },
+   "profile": {
+    "allOf": [
+     {
+      "type": "object",
+      "required": [
+       "_id",
+       "__v"
+      ],
+      "properties": {
+       "_id": {
+        "type": "string",
+        "example": "626819066b8ac48b612dda69"
+       },
+       "__v": {
+        "oneOf": [
+         {
+          "type": "string",
+          "enum": [
+           "offline"
+          ]
+         },
+         {
+          "type": "number",
+          "enum": [
+           0
+          ]
+         }
+        ],
+        "example": 0,
+        "default": 0,
+        "enum": [
+         0,
+         "offline"
+        ]
+       }
+      },
+      "$ref": "#/components/schemas/mongoDoc"
+     },
+     {
+      "type": "object",
+      "required": [
+       "createdAt",
+       "updatedAt"
+      ],
+      "properties": {
+       "createdAt": {
+        "type": "string",
+        "example": "2022-04-26T16:08:38.276Z"
+       },
+       "updatedAt": {
+        "type": "string",
+        "example": "2022-04-26T16:08:38.276Z"
+       }
+      },
+      "$ref": "#/components/schemas/mongoTime"
+     },
+     {
+      "type": "object",
+      "required": [
+       "displayName",
+       "email",
+       "providers",
+       "token"
+      ],
+      "properties": {
+       "_id": {
+        "type": "string",
+        "example": "63da2a0a643dd3aa49f5c6b1"
+       },
+       "__v": {
+        "type": "number",
+        "example": 0,
+        "default": 0
+       },
+       "displayName": {
+        "type": "string",
+        "example": "joe Due"
+       },
+       "email": {
+        "type": "string",
+        "example": "joeDue@gmail.com"
+       },
+       "token": {
+        "type": "string",
+        "example": "eyJxxxx.xxxxx.xxxxxx"
+       },
+       "providers": {
+        "type": "array",
+        "example": [
+         "local",
+         "google"
+        ],
+        "items": {
+         "type": "string",
+         "enum": [
+          "local",
+          "google"
+         ]
+        }
+       },
+       "picture": {
+        "type": "string",
+        "example": "https ://example.com/path/to/img"
        }
       }
      }
@@ -1563,105 +1810,6 @@
       "example": "2022-04-26T16:08:38.276Z"
      }
     }
-   },
-   "log": {
-    "allOf": [
-     {
-      "$ref": "#/components/schemas/mongoDoc"
-     },
-     {
-      "$ref": "#/components/schemas/mongoTime"
-     },
-     {
-      "type": "object",
-      "required": [
-       "title",
-       "amount",
-       "createdBy"
-      ],
-      "properties": {
-       "title": {
-        "type": "string",
-        "example": "buy new TV"
-       },
-       "amount": {
-        "type": "number",
-        "example": 400
-       },
-       "createdBy": {
-        "type": "string",
-        "example": "63da2a0a643dd3aa49f5c6b1"
-       },
-       "note": {
-        "type": "string",
-        "example": "new 40\" plasma tv from flea market"
-       },
-       "category": {
-        "$ref": "#/components/schemas/categoryPopulated"
-       }
-      }
-     }
-    ]
-   },
-   "profile": {
-    "allOf": [
-     {
-      "$ref": "#/components/schemas/mongoDoc"
-     },
-     {
-      "$ref": "#/components/schemas/mongoTime"
-     },
-     {
-      "type": "object",
-      "required": [
-       "displayName",
-       "email",
-       "providers",
-       "token"
-      ],
-      "properties": {
-       "_id": {
-        "type": "string",
-        "example": "63da2a0a643dd3aa49f5c6b1"
-       },
-       "__v": {
-        "type": "number",
-        "example": 0,
-        "default": 0
-       },
-       "displayName": {
-        "type": "string",
-        "example": "joe Due"
-       },
-       "email": {
-        "type": "string",
-        "example": "joeDue@gmail.com"
-       },
-       "token": {
-        "type": "string",
-        "example": "eyJxxxx.xxxxx.xxxxxx"
-       },
-       "providers": {
-        "type": "array",
-        "example": [
-         "local",
-         "google"
-        ],
-        "items": {
-         "type": "string",
-         "enum": [
-          "local",
-          "google"
-         ]
-        }
-       },
-       "picture": {
-        "type": "string",
-        "example": "https ://example.com/path/to/img"
-       }
-      }
-     }
-    ]
    },
    "providers": {
     "type": "array",

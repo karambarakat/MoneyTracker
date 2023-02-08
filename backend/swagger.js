@@ -7,6 +7,7 @@ const { writeFile, readFile } = require('fs/promises')
 
 const glob = require('glob')
 const merge = require('lodash.merge')
+const childProcess = require('child_process')
 
 async function main() {
   /**
@@ -51,18 +52,31 @@ async function main() {
     definitions.reduce((acc, next) => merge(acc, next), {}),
     basicDef
   )
-
+  
   const options = {
     definition,
     apis: ['./src/**/*.ts'], // files containing block annotations @openapi or @swagger
   }
-
+  
   const specification = swaggerJsdoc(options)
   const swaggerYaml = YAML.stringify(specification)
   const swaggerJSON = JSON.stringify(specification, null, ' ')
+  
+  await writeFile('./openapi.yaml', swaggerYaml)
+  await writeFile('./src/static/swagger.json', swaggerJSON)
 
-  await writeFile('openapi.yaml', swaggerYaml)
-  await writeFile('src/static/swagger.json', swaggerJSON)
+  /**
+   * validate using openapi-generator-cli to make sure no errors when generating templates
+   */
+  await /** @type {Promise<void>} */(new Promise((res, rej ) => {
+    childProcess.exec('npx openapi-generator-cli validate -i openapi.yaml', (err, out, stderr) => {
+      if(err || stderr) {
+        console.log(stderr)
+        rej()
+      }
+      res()
+    })
+  }))
 }
 
 main()

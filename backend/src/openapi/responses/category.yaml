@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    category:
+      description: Ok
+      content:
+        application/json: 
+          x-success: true
+          schema:
+            $ref: "#/components/schemas/category"
+  schemas:
+    category:
+      $ref: "../schema/category.yaml#/components/schemas/category"

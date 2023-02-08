@@ -4,14 +4,6 @@ info:
   version: 1.0.0
 paths: {}
 components:
-  responses:
-    profile:
-      description: Ok
-      content:
-        application/json: 
-          x-success: true
-          schema:
-            $ref: "#/components/schemas/profile"
   schemas: 
     providers:
       type: array

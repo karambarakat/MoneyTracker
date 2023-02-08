@@ -159,11 +159,11 @@ components:
 
   responses:
     category:
-      $ref: "../schema/category.yaml#/components/responses/category"
+      $ref: "../responses/category.yaml#/components/responses/category"
     categories:
-      $ref: "../schema/category.yaml#/components/responses/categories"
+      $ref: "../responses/categories.yaml#/components/responses/categories"
     logs:
-      $ref: "../schema/log.yaml#/components/responses/logs"
+      $ref: "../responses/logs.yaml#/components/responses/logs"
     SessionEnded:
       $ref: "../errors/SessionEnded.yaml#/components/responses/SessionEnded"
     MalformedToken:

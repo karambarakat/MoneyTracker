@@ -60,7 +60,7 @@ components:
     UserAlreadyExist:
       $ref: "../errors/UserAlreadyExist.yaml#/components/responses/UserAlreadyExist"
     profile:
-      $ref: "../schema/profile.yaml#/components/responses/profile"
+      $ref: "../responses/profile.yaml#/components/responses/profile"
 servers:
   - url: https://localhost:{port}/api/{version}
     description: development localhost servers
