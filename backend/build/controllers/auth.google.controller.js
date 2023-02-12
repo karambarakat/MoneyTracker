@@ -1,11 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const passport_1 = __importDefault(require("passport"));
-const google = (0, express_1.Router)();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _express = require("express");
+var _passport = _interopRequireDefault(require("passport"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const google = (0, _express.Router)();
+
 /**
  * authentication flow
  *      1. GET http://localhost:8811/api/v1/auth/google
@@ -18,15 +21,17 @@ const google = (0, express_1.Router)();
  *          5.2. `redirectCallback`
  *          5.3. if any error `googleErrorHandler`
  */
+
 /**
  *   @desc    this will direct me to google concent screen
  *            302 to https://accounts.google.com/o/oauth2/v2/auth
  *   @route   GET /api/v__/auth/google
  *   @access  Public
  */
-google.route('/').get(passport_1.default.authenticate('google', {
-    scope: ['email', 'profile'],
+google.route('/').get(_passport.default.authenticate('google', {
+  scope: ['email', 'profile']
 }));
+
 /**
  *   @desc    after google receive the concent
  *            it will redirect user to this route.
@@ -46,11 +51,13 @@ google.route('/').get(passport_1.default.authenticate('google', {
  *   @route   GET /api/v__/auth/google/callback
  *   @access  Public
  */
-const callbackRouter = (0, express_1.Router)();
+const callbackRouter = (0, _express.Router)();
+
 // step 1
-callbackRouter.use(passport_1.default.authenticate('google', {
-    failureRedirect: process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE,
+callbackRouter.use(_passport.default.authenticate('google', {
+  failureRedirect: process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE
 }));
+
 // step 2
 /**
 let queryString = {
@@ -60,23 +67,25 @@ let queryString = {
 }
 */
 callbackRouter.use('/', (req, res) => {
-    const profile = req.user?.doc();
-    if (!profile)
-        throw Error();
-    const url = process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND;
-    const params = {
-        _id: profile._id,
-        token: profile.token,
-        displayName: profile.displayName,
-    };
-    // @ts-ignore
-    const toQuery = new URLSearchParams(params).toString();
-    res.redirect(url + '?' + toQuery);
+  const profile = req.user?.doc();
+  if (!profile) throw Error();
+  const url = process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND;
+  const params = {
+    _id: profile._id,
+    token: profile.token,
+    displayName: profile.displayName
+  };
+
+  // @ts-ignore
+  const toQuery = new URLSearchParams(params).toString();
+  res.redirect(url + '?' + toQuery);
 });
+
 // step 3
 callbackRouter.use(function (error, req, res, next) {
-    console.error(error);
-    res.send('error with google authentication');
+  console.error(error);
+  res.send('error with google authentication');
 });
 google.get('/callback', callbackRouter);
-exports.default = google;
+var _default = google;
+exports.default = _default;

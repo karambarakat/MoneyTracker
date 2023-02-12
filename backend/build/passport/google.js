@@ -1,11 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.useGoogle = void 0;
-const User_1 = __importDefault(require("@models/User"));
-const passport_google_oauth20_1 = require("passport-google-oauth20");
+var _User = _interopRequireDefault(require("./..\\models\\User"));
+var _passportGoogleOauth = require("passport-google-oauth20");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * authentication flow
  *      1. GET http://localhost:8811/api/v1/auth/google
@@ -18,6 +19,7 @@ const passport_google_oauth20_1 = require("passport-google-oauth20");
  *          5.2. `redirectCallback`
  *          5.3. `googleErrorHandler`
  */
+
 /**
  *   @desc  passport strategy
  *          @param options where I register variable
@@ -26,46 +28,47 @@ const passport_google_oauth20_1 = require("passport-google-oauth20");
  *              accessToken, refreshToken and profile
  *              to write them to the database
  */
-const useGoogle = new passport_google_oauth20_1.Strategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND,
+const useGoogle = new _passportGoogleOauth.Strategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND
 }, async function (accessToken, refreshToken, profile, done) {
-    const email = profile.emails?.[0]?.value;
-    if (!email)
-        throw new Error();
-    const existUser = await User_1.default.findOne({
-        email: email,
+  const email = profile.emails?.[0]?.value;
+  if (!email) throw new Error();
+  const existUser = await _User.default.findOne({
+    email: email
+  });
+  if (!existUser) {
+    const newUser = await _User.default.create({
+      displayName: profile.displayName,
+      email,
+      providers: ['google'],
+      picture: profile._json.picture,
+      googleInfo: {
+        accessToken,
+        refreshToken,
+        json: profile._json
+      }
     });
-    if (!existUser) {
-        const newUser = await User_1.default.create({
-            displayName: profile.displayName,
-            email,
-            providers: ['google'],
-            picture: profile._json.picture,
-            googleInfo: {
-                accessToken,
-                refreshToken,
-                json: profile._json,
-            },
-        });
-        done(null, newUser);
-        return;
-    }
-    if (existUser && !existUser.providers.includes('google')) {
-        existUser.providers = [...existUser.providers, 'google'];
-        existUser.googleInfo = {
-            accessToken,
-            refreshToken,
-            json: profile._json,
-        };
-        await existUser.save();
-        done(null, existUser);
-        return;
-    }
-    if (existUser && existUser.providers.includes('google')) {
-        done(null, existUser);
-        return;
-    }
+    done(null, newUser);
+    return;
+  }
+  if (existUser && !existUser.providers.includes('google')) {
+    existUser.providers = [...existUser.providers, 'google'];
+    existUser.googleInfo = {
+      accessToken,
+      refreshToken,
+      json: profile._json
+    };
+    await existUser.save();
+    done(null, existUser);
+    return;
+  }
+  if (existUser && existUser.providers.includes('google')) {
+    done(null, existUser);
+    return;
+  }
 });
+
+// passport.use(useGoogle)
 exports.useGoogle = useGoogle;

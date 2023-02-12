@@ -1,12 +1,11 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import { Document } from 'mongoose'
 
 // libraries
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
-import path from 'path'
+
+import expressApp from '@utils/expressApp'
 
 // controllers
 import localAuthController from '@controllers/auth.email.controller'
@@ -15,6 +14,7 @@ import profileController from '@controllers/profileController'
 import logController from '@controllers/logController'
 import categoryController from '@controllers/categoryController'
 import apiIsWorking, { serverIsWroking } from '@middlewares/apiIsWorking'
+
 
 import { HTTPErrorHandler } from '@httpErrors'
 import {
@@ -40,6 +40,7 @@ declare global {
     interface Request {
       log?: ILog & Document<any, any, ILog>
       category?: ICategory & Document<any, any, ICategory>
+      getBasicToken: () => Record<'email' | 'password', string>
     }
   }
   namespace schema {
@@ -54,7 +55,7 @@ declare global {
   }
 }
 
-const app = express()
+const app = expressApp()
 
 app.set('json replacer', JSONReplacer)
 

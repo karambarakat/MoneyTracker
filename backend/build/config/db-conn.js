@@ -1,19 +1,22 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.disconnect = void 0;
-const log_1 = __importDefault(require("@utils/log"));
-const mongoose_1 = __importDefault(require("mongoose"));
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.disconnect = exports.default = void 0;
+var _log = _interopRequireDefault(require("./..\\utils\\log"));
+var _mongoose = _interopRequireDefault(require("mongoose"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 async function connect() {
-    (0, log_1.default)('database', 'connecting ...');
-    var url = process.env.MONGO_STRING;
-    await mongoose_1.default.connect(url).catch((err) => {
-        (0, log_1.default)('database', 'failed', err);
-        throw new Error('database failed to connect');
-    });
-    (0, log_1.default)('database', 'connected');
+  (0, _log.default)('database', 'connecting ...');
+  var url = process.env.MONGO_STRING;
+  await _mongoose.default.connect(url).catch(err => {
+    (0, _log.default)('database', 'failed', err);
+    throw new Error('database failed to connect');
+  });
+  (0, _log.default)('database', 'connected');
 }
-exports.disconnect = mongoose_1.default.disconnect;
-exports.default = connect;
+const disconnect = _mongoose.default.disconnect;
+exports.disconnect = disconnect;
+var _default = connect;
+exports.default = _default;

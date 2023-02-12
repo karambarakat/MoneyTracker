@@ -1,15 +1,17 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const buffer_1 = require("buffer");
-const errTypes_1 = require("@httpErrors/errTypes");
-const User_1 = __importDefault(require("@models/User"));
-const omitFalsy_1 = __importDefault(require("@utils/omitFalsy"));
-const express_1 = require("express");
-const express_async_handler_1 = __importDefault(require("express-async-handler"));
-const local = (0, express_1.Router)();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _errTypes = require("./..\\httpErrors\\errTypes");
+var _User = _interopRequireDefault(require("./..\\models\\User"));
+var _omitFalsy = _interopRequireDefault(require("./..\\utils\\omitFalsy"));
+var _express = require("express");
+var _expressAsyncHandler = _interopRequireDefault(require("express-async-handler"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const local = (0, _express.Router)();
+
 /**
  *   @desc      Register a new user
  *   @route     POST /api/v__/auth/local/register
@@ -18,19 +20,28 @@ const local = (0, express_1.Router)();
  *   @access    Public
  */
 async function local_register(req, res, next) {
-    const { email, password } = BasicToken(req.header('Authorization'));
-    const { displayName } = (0, omitFalsy_1.default)(req.body);
-    const userExist = await User_1.default.findOne({ email });
-    if (userExist)
-        throw (0, errTypes_1.UserAlreadyExist)();
-    const newUser = await User_1.default.create({
-        displayName,
-        email,
-        password: password,
-        providers: ['local'],
-    });
-    res.status(201).json({ data: newUser.doc() });
+  const {
+    email,
+    password
+  } = req.getBasicToken();
+  const {
+    displayName
+  } = (0, _omitFalsy.default)(req.body);
+  const userExist = await _User.default.findOne({
+    email
+  });
+  if (userExist) throw (0, _errTypes.UserAlreadyExist)();
+  const newUser = await _User.default.create({
+    displayName,
+    email,
+    password: password,
+    providers: ['local']
+  });
+  res.status(201).json({
+    data: newUser.doc()
+  });
 }
+
 /**
  *   @desc      Login existing user using email and password
  *   @route     POST /api/v__/auth/local/login
@@ -39,27 +50,22 @@ async function local_register(req, res, next) {
  *   @access    Public
  */
 async function local_login(req, res, next) {
-    const { email, password } = BasicToken(req.header('Authorization'));
-    const user = await User_1.default.findOne({ email });
-    if (user?.providers.includes('local') &&
-        user?.matchPasswords(password || '')) {
-        res.json({ data: user.doc() });
-    }
-    else {
-        throw (0, errTypes_1.EmailOrPasswordIncorrect)();
-    }
+  const {
+    email,
+    password
+  } = req.getBasicToken();
+  const user = await _User.default.findOne({
+    email
+  });
+  if (user?.providers.includes('local') && user?.matchPasswords(password || '')) {
+    res.json({
+      data: user.doc()
+    });
+  } else {
+    throw (0, _errTypes.EmailOrPasswordIncorrect)();
+  }
 }
-function BasicToken(req) {
-    var basicToken;
-    if (!(basicToken = req?.split(' ')[1]) || req?.split(' ')[0] !== 'Basic')
-        throw (0, errTypes_1.BadBasicToken)();
-    const [email, password] = buffer_1.Buffer.from(basicToken, 'base64')
-        .toString()
-        .split(':');
-    if (!email || !password)
-        throw (0, errTypes_1.BadBasicToken)();
-    return { email, password };
-}
-local.route('/register').post((0, express_async_handler_1.default)(local_register));
-local.route('/login').post((0, express_async_handler_1.default)(local_login));
-exports.default = local;
+local.route('/register').post((0, _expressAsyncHandler.default)(local_register));
+local.route('/login').post((0, _expressAsyncHandler.default)(local_login));
+var _default = local;
+exports.default = _default;

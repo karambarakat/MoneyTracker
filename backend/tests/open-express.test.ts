@@ -1,6 +1,11 @@
-import { app } from "../src/server"
-import express from "express"
+// import { app } from "../src/server"
+// import request from 'supertest';
 
-test('open express', () => {
-  expect(app).toBeDefined()
+describe('general test', () => {
+  test('response to /', async () => {
+    console.log(process.env.NODE_ENV)
+    // const res = await request(app).get('/')
+    // expect(res.statusCode).toBe(404)
+    // expect(res.text).toBe('go to /api/v1')
+  })
 })

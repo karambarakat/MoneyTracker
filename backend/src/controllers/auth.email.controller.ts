@@ -20,7 +20,7 @@ const local = Router()
  *   @access    Public
  */
 async function local_register(req: Request, res: Response, next: NextFunction) {
-  const { email, password } = BasicToken(req.header('Authorization'))
+  const { email, password } = req.getBasicToken()
 
   const { displayName } = of(req.body) as auth_local_register
 
@@ -45,7 +45,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
  *   @access    Public
  */
 async function local_login(req: Request, res: Response, next: NextFunction) {
-  const { email, password } = BasicToken(req.header('Authorization'))
+  const { email, password } = req.getBasicToken()
 
   const user = await User.findOne({ email })
 
@@ -57,19 +57,6 @@ async function local_login(req: Request, res: Response, next: NextFunction) {
   } else {
     throw EmailOrPasswordIncorrect()
   }
-}
-
-function BasicToken(req?: string) {
-  var basicToken
-  if (!(basicToken = req?.split(' ')[1]) || req?.split(' ')[0] !== 'Basic')
-    throw BadBasicToken()
-  const [email, password] = Buffer.from(basicToken, 'base64')
-    .toString()
-    .split(':')
-
-  if (!email || !password) throw BadBasicToken()
-
-  return { email, password }
 }
 
 local.route('/register').post(_(local_register))
