@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import passport from 'passport'
-import type { apiGoogleCallbackParams } from 'types/models/UserModel'
+import type { apiGoogleCallbackParams } from 'types/api/api'
 const google = Router()
 
 /**

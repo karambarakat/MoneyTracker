@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
-import { DefaultError, HttpErrorProps } from '../typesIntegrate/httpErrors'
+import { DefaultError, HttpErrorProps } from 'types/httpErrors'
 import { FieldsRequired } from './errTypes'
 
-export const HttpErrorS = Symbol('HttpError')
+export const isHttpError = Symbol('HttpError')
 export class HttpError<Props extends HttpErrorProps> extends Error {
   status: number
   name: string
   details: Record<string, string> | undefined;
-  [HttpErrorS] = true
+  [isHttpError] = true
 
   constructor(args: Props) {
     super(args.message || DefaultError.message)
@@ -18,12 +18,13 @@ export class HttpError<Props extends HttpErrorProps> extends Error {
 }
 
 export function HTTPErrorHandler(
-  err: HttpError<any> | Error,
+  err: HttpError<any>,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (!(err instanceof HttpError)) next(err)
+
+  if (!(err[isHttpError])) next(err)
   else {
     res.status(err.status).json({
       data: null,
@@ -31,9 +32,7 @@ export function HTTPErrorHandler(
         status: err.status,
         message: err.message,
         name: err.name,
-        details: {
-          ...err.details,
-        },
+        details: err.details,
       },
     })
   }

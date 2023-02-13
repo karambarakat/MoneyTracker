@@ -12,7 +12,7 @@ import {
   UserAlreadyExistE,
   ValidationE,
   WrongRouteConfig,
-} from 'typesIntegrate/httpErrors'
+} from 'types/httpErrors'
 import { HttpError } from '.'
 import { myValidationError } from './errMiddlewares'
 import { string } from 'yup'

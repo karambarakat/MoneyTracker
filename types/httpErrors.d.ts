@@ -4,6 +4,7 @@ export interface HttpErrorProps {
   message: string
   details: Record<string, any> | undefined
 }
+// 
 
 export interface FieldsRequiredE extends HttpErrorProps {
   status: 400
@@ -105,10 +106,10 @@ export interface TokenFailedE extends HttpErrorProps {
   message: string
   details: {
     type:
-      | 'JsonWebTokenError'
-      | 'TokenExpiredError'
-      | 'NoTokenWasProvided'
-      | 'UnspecifiedError'
+    | 'JsonWebTokenError'
+    | 'TokenExpiredError'
+    | 'NoTokenWasProvided'
+    | 'UnspecifiedError'
     date?: string
   }
 }
@@ -120,16 +121,11 @@ export interface DefaultErrorE extends HttpErrorProps {
   details: undefined
 }
 
-export const DefaultError: DefaultErrorE = {
-  status: 500,
-  name: 'UnspecifiedError',
-  message: 'unspecified error',
-  details: undefined,
-}
-
 export type GenericHttpError =
+  | HttpErrorProps
   | FieldsRequiredE
   | EmailOrPasswordIncorrectE
+  | BadBasicTokenE
   | PasswordIncorrectE
   | UserAlreadyExistE
   | EmailIsUsedE

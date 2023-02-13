@@ -1,5 +1,9 @@
 import mongoose from 'mongoose'
-import ICategory from 'types/models/CategoryModel'
+import { Cat } from 'types/schema'
+
+export interface ICategory extends Omit<Cat, '_id' | '__v'> {
+  doc: () => Omit<ICategory, 'doc'>
+}
 
 const CategorySchema = new mongoose.Schema<ICategory>({
   title: {
@@ -8,12 +12,6 @@ const CategorySchema = new mongoose.Schema<ICategory>({
   },
   color: {
     type: String,
-    // validate: {
-    //   validator: function (v: string) {
-    //     return typeof v === 'string' && /^#[\dabcdef]{6}$/.test(v)
-    //   },
-    //   message: (props: any) => `${props.value} is not hex color`,
-    // },
   },
   icon: { type: String },
   createdBy: { type: mongoose.Types.ObjectId },

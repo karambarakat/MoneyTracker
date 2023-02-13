@@ -6,7 +6,7 @@ import {
 } from '@httpErrors/errTypes'
 import type { HttpError } from '@httpErrors'
 import { NextFunction, Request, Response } from 'express'
-import { UnknownServerErrorE } from 'typesIntegrate/httpErrors'
+import { UnknownServerErrorE } from 'types/httpErrors'
 
 export function e400_JsonError(
   err: Error,
@@ -78,7 +78,7 @@ export function e500_ServerError(
   res: Response,
   next: NextFunction
 ) {
-  console.error(err)
+  console.error('unhandled error', err)
   res.status(UnknownServerError().status).json({
     status: UnknownServerError().status,
     message: UnknownServerError().message,

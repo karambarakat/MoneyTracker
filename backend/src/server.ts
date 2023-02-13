@@ -29,28 +29,31 @@ import passport from 'passport'
 import { useJWT } from '@passport/local'
 import { useGoogle } from '@passport/google'
 import PassportSerialization from '@passport/serialize'
-import IUser from 'types/models/UserModel'
-import ILog from 'types/models/LogModel'
-import ICategory from 'types/models/CategoryModel'
 import JSONReplacer from '@utils/JSONReplacer'
+import type { IProfile } from '@models/User'
+import type { ILog } from '@models/Log'
+import type { ICategory } from '@models/Category'
+
+declare module "types/schema" {
+  type isPopulated<A, B> = A
+  type Doc = {
+    _id: string
+    __v: number
+  }
+  type T = {
+    createdAt: string
+    updatedAt: string
+  }
+  type Optional<V> = V | undefined | null
+}
 
 declare global {
   namespace Express {
-    interface User extends Omit<IUser, '_id'>, Document<any, any, IUser> {}
+    interface User extends Omit<IProfile, '_id'>, Document<any, any, IProfile> { }
     interface Request {
       log?: ILog & Document<any, any, ILog>
       category?: ICategory & Document<any, any, ICategory>
       getBasicToken: () => Record<'email' | 'password', string>
-    }
-  }
-  namespace schema {
-    type Optional<T> = T | null | undefined
-    type IsPopulated<Y, N> = N
-    type Id = number
-    type V = 0
-    type T = {
-      createdAt: string | Date
-      updatedAt: string | Date
     }
   }
 }
@@ -87,7 +90,7 @@ app.use('/api/v1', api)
 import { doc } from './doc'
 app.use('/doc', doc)
 
-app.all('*', (_, res) =>  res.status(404).send('go to /api/v1'))
+app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 
 /**
  * Errors/Handlers

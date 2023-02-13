@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
-import ILog from 'types/models/LogModel'
 import Category from './Category'
+import { Log } from 'types/schema'
+
+export interface ILog extends Omit<Log, '_id' | '__v'> {
+  doc: () => Omit<ILog, 'doc'>
+}
 
 const LogSchema = new mongoose.Schema<ILog>(
   {

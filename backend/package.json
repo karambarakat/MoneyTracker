@@ -5,11 +5,13 @@
   "main": "src/server.ts",
   "scripts": {
     "build": "babel --extensions .ts src -d build",
+    "prestart": "npm link ../types",
     "start": "node build/server.js",
     "start:local": "dotenv -- ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "dotenv -c dev -- ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
     "test": "dotenv -c test -- jest",
     "openapi": "node swagger",
+    "openapi:test": "openapi-generator-cli generate -i openapi.yaml -g typescript-node -o gen-test",
     "doc:watch": "nodemon -e yaml --watch src/**/*.yaml --exec npm run doc:openapi",
     "doc": "ts-node -r tsconfig-paths/register src/doc.ts"
   },
@@ -68,6 +70,7 @@
     "swagger-jsdoc": "^6.2.8",
     "ts-jest": "^27.1.4",
     "ts-node-dev": "^1.1.8",
+    "types": "file:../types",
     "yaml": "^2.2.1"
   }
 }

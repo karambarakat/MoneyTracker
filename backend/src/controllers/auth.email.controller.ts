@@ -9,7 +9,7 @@ import User from '@models/User'
 import of from '@utils/omitFalsy'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
-import { auth_local_login, auth_local_register } from 'types/routes/auth_local'
+import { auth_local_login, auth_local_register } from 'types/api/routes/auth_local'
 const local = Router()
 
 /**

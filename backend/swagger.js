@@ -52,25 +52,26 @@ async function main() {
     definitions.reduce((acc, next) => merge(acc, next), {}),
     basicDef
   )
-  
+
   const options = {
     definition,
     apis: ['./src/**/*.ts'], // files containing block annotations @openapi or @swagger
   }
-  
+
   const specification = swaggerJsdoc(options)
   const swaggerYaml = YAML.stringify(specification)
   const swaggerJSON = JSON.stringify(specification, null, ' ')
-  
+
   await writeFile('./openapi.yaml', swaggerYaml)
   await writeFile('./src/static/swagger.json', swaggerJSON)
+  console.log('generated openapi.yaml, swagger.json')
 
   /**
    * validate using openapi-generator-cli to make sure no errors when generating templates
    */
-  await /** @type {Promise<void>} */(new Promise((res, rej ) => {
+  await /** @type {Promise<void>} */(new Promise((res, rej) => {
     childProcess.exec('npx openapi-generator-cli validate -i openapi.yaml', (err, out, stderr) => {
-      if(err || stderr) {
+      if (err || stderr) {
         console.log(stderr)
         rej()
       }
@@ -78,12 +79,13 @@ async function main() {
     })
   }))
 
-  await /** @type {Promise<void>} */(new Promise((res, rej ) => {
+  await /** @type {Promise<void>} */(new Promise((res, rej) => {
     childProcess.exec('npx openapi-generator-cli generate -g markdown -i openapi.yaml -o md-docs', (err, out, stderr) => {
-      if(err || stderr) {
+      if (err || stderr) {
         console.log(stderr)
         rej()
       }
+      console.log('generated dir md-docs')
       res()
     })
   }))

@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb'
-
 interface logFields {
   title: string
   amount: number

@@ -3,7 +3,6 @@ import { requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import User from '@models/User'
-import UserInterface from 'types/models/UserModel'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
@@ -12,7 +11,7 @@ import {
   profile_update,
   updatePassword_local,
   updatePassword_nolocal,
-} from 'types/routes/profile'
+} from 'types/api/routes/profile'
 import of from '@utils/omitFalsy'
 
 const router = Router()

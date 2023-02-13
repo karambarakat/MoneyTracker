@@ -49,7 +49,7 @@ const useGoogle = new GoogleStrategy(
         googleInfo: {
           accessToken,
           refreshToken,
-          json: profile._json,
+          profile: profile._json,
         },
       })
       done(null, newUser)

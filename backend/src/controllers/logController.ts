@@ -8,13 +8,11 @@ import { requiredFields } from '@httpErrors'
 
 import auth from '@middlewares/auth'
 import Log from '@models/Log'
-import UserInterface from 'types/models/UserModel'
-import LogInterface from 'types/models/LogModel'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
-import { log_create, log_update } from 'types/routes/log'
+import { log_create, log_update } from 'types/api/routes/log'
 import of from '@utils/omitFalsy'
 
 const router = Router()
