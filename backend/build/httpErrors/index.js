@@ -4,34 +4,37 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.HTTPErrorHandler = HTTPErrorHandler;
-exports.HttpErrorS = exports.HttpError = void 0;
+exports.isHttpError = exports.HttpError = void 0;
 exports.requiredFields = requiredFields;
 exports.throwQuickHttpError = throwQuickHttpError;
-var _httpErrors = require("../typesIntegrate/httpErrors");
 var _errTypes = require("./errTypes");
-const HttpErrorS = Symbol('HttpError');
-exports.HttpErrorS = HttpErrorS;
+const DefaultError = {
+  details: undefined,
+  message: 'UnspecifiedError',
+  name: 'UnspecifiedError',
+  status: 500
+};
+const isHttpError = Symbol('HttpError');
+exports.isHttpError = isHttpError;
 class HttpError extends Error {
-  [HttpErrorS] = true;
+  [isHttpError] = true;
   constructor(args) {
-    super(args.message || _httpErrors.DefaultError.message);
-    this.status = args.status || _httpErrors.DefaultError.status;
-    this.name = args.name || _httpErrors.DefaultError.name;
-    this.details = args.details || _httpErrors.DefaultError.details;
+    super(args.message || DefaultError.message);
+    this.status = args.status || DefaultError.status;
+    this.name = args.name || DefaultError.name;
+    this.details = args.details || DefaultError.details;
   }
 }
 exports.HttpError = HttpError;
 function HTTPErrorHandler(err, req, res, next) {
-  if (!(err instanceof HttpError)) next(err);else {
+  if (!err[isHttpError]) next(err);else {
     res.status(err.status).json({
       data: null,
       error: {
         status: err.status,
         message: err.message,
         name: err.name,
-        details: {
-          ...err.details
-        }
+        details: err.details
       }
     });
   }
@@ -50,7 +53,7 @@ function throwQuickHttpError(status, message, name, details) {
     message,
     status,
     details,
-    name: name || _httpErrors.DefaultError.name
+    name: name || DefaultError.name
   });
   throw CustomError;
 }

@@ -1,9 +1,8 @@
 import log from '@utils/log'
 import mongoose from 'mongoose'
-import { NextFunction, Request, Response } from 'express'
 import _ from 'express-async-handler'
 
-async function connect() {
+async function db_conn() {
   log('database', 'connecting ...')
 
   var url = process.env.MONGO_STRING as string
@@ -16,6 +15,7 @@ async function connect() {
   log('database', 'connected')
 }
 
+export const connection = mongoose.connection
 export const disconnect = mongoose.disconnect
 
-export default connect
+export default db_conn

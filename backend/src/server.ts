@@ -44,14 +44,13 @@ declare module "types/schema" {
     createdAt: string
     updatedAt: string
   }
-  type Optional<V> = V | undefined | null
 }
 
 declare global {
   namespace Express {
     interface User extends Omit<IProfile, '_id'>, Document<any, any, IProfile> { }
     interface Request {
-      log?: ILog & Document<any, any, ILog>
+      log?: ILog<true> & Document<any, any, ILog<true>>
       category?: ICategory & Document<any, any, ICategory>
       getBasicToken: () => Record<'email' | 'password', string>
     }

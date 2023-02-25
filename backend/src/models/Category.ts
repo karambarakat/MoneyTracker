@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import { Cat } from 'types/schema'
 
-export interface ICategory extends Omit<Cat, '_id' | '__v'> {
-  doc: () => Omit<ICategory, 'doc'>
+export interface ICategory<P extends boolean = true> extends Cat<P> {
+  doc: () => Omit<ICategory<P>, 'doc'>
 }
 
 const CategorySchema = new mongoose.Schema<ICategory>({

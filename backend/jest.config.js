@@ -11,9 +11,8 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest"
   },
-  
   rootDir: '.',
-  testPathIgnorePatterns: ['/build/', '/test/*.js'],
+
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     // modify ts.config.json also

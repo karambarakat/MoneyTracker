@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 import Category from './Category'
 import { Log } from 'types/schema'
 
-export interface ILog extends Omit<Log, '_id' | '__v'> {
-  doc: () => Omit<ILog, 'doc'>
+export interface ILog<P extends boolean = true> extends Log<P> {
+  doc: () => Omit<ILog<P>, 'doc'>
 }
 
-const LogSchema = new mongoose.Schema<ILog>(
+const LogSchema = new mongoose.Schema<ILog<true>>(
   {
     title: {
       type: String,

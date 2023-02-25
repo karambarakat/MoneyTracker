@@ -61,7 +61,7 @@ const useGoogle = new GoogleStrategy(
       existUser.googleInfo = {
         accessToken,
         refreshToken,
-        json: profile._json,
+        profile: profile._json,
       }
       await existUser.save()
 

@@ -1,12 +1,13 @@
 import {
   FailedToDelete,
+  FieldsRequired,
   NoCategory,
   PrivateRoute,
   ResourceWasNotFound,
 } from '@httpErrors/errTypes'
-import { requiredFields } from '@httpErrors'
+import { requiredFieldsMiddleware } from '@httpErrors'
 
-import auth from '@middlewares/auth'
+import bearerAuth from '@middlewares/bearerAuth'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
@@ -47,7 +48,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
 
   const { title, color, icon } = of(req.body) as category_create
 
-  requiredFields({ title })
+  requiredFieldsMiddleware({ title })
 
   const category = await Category.create({
     title,
@@ -61,8 +62,14 @@ async function create(req: Request, res: Response, next: NextFunction) {
 /**
  * helper functions
  */
+const isIdHex = (str: unknown) => typeof str === 'string' && str.length === 24 && str.match(/(?![0-9a-fA-F])/g)
 async function findCategory(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
+
+  if (!req.params.id || !isIdHex(req.params.id)) {
+    throw FieldsRequired(['_id'])
+  }
+
 
   const found = await Category.findOne({
     createdBy: new ObjectId(req.user._id),
@@ -151,11 +158,11 @@ async function delete_(req: Request, res: Response, next: NextFunction) {
   else res.json({ data: null })
 }
 
-router.route('/').get(auth, _(find))
-router.route('/').post(auth, _(create))
-router.route('/:id').get(auth, _(findCategory), _(findOne))
-router.route('/:id').put(auth, _(findCategory), _(update))
-router.route('/:id').delete(auth, _(findCategory), _(delete_))
-router.route('/:id/logs').get(auth, _(findCategory), _(findAllLogs))
+router.route('/').get(bearerAuth, _(find))
+router.route('/').post(bearerAuth, _(create))
+router.route('/:id').get(bearerAuth, _(findCategory), _(findOne))
+router.route('/:id').put(bearerAuth, _(findCategory), _(update))
+router.route('/:id').delete(bearerAuth, _(findCategory), _(delete_))
+router.route('/:id/logs').get(bearerAuth, _(findCategory), _(findAllLogs))
 
 export default router

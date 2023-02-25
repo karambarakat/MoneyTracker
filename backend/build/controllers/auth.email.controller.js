@@ -24,6 +24,10 @@ async function local_register(req, res, next) {
     email,
     password
   } = req.getBasicToken();
+  console.log({
+    email,
+    password
+  });
   const {
     displayName
   } = (0, _omitFalsy.default)(req.body);

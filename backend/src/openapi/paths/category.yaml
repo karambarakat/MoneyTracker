@@ -74,27 +74,6 @@ paths:
           $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
           $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
-  # todo
-  /category/{id}/logs:
-    parameters:
-      - $ref: '../paths/__parameters.yaml#/components/parameters/byId'
-    get:
-      security:
-        - BearerToken: []
-      parameters:
-        - $ref: "../security/http.yaml#/components/parameters/bearer"
-      tags:
-        - "category"
-      summary: get all logs
-      description: get all logs associated by this category for the current user
-      responses:
-        200:
-          $ref: '../responses/logs.yaml#/components/responses/logs'
-        400:
-          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
-        401:
-          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
-
     put:
       security:
         - BearerToken: []
@@ -148,6 +127,27 @@ paths:
           $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
           $ref: '../errors/ResourceWasNotFound.yaml#/components/responses/ResourceWasNotFound'
+
+  /category/{id}/logs:
+    parameters:
+      - $ref: '../paths/__parameters.yaml#/components/parameters/byId'
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "../security/http.yaml#/components/parameters/bearer"
+      tags:
+        - "category"
+      summary: get all logs
+      description: get all logs associated by this category for the current user
+      responses:
+        200:
+          $ref: '../responses/logs.yaml#/components/responses/logs'
+        400:
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
+        401:
+          $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
+
 
 
 servers:

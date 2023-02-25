@@ -3,22 +3,22 @@ import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 import { generateToken } from '@utils/tokens'
 import { Profile } from 'types/schema'
+import type { Profile as PG } from 'passport-google-oauth20'
 
-export interface IProfile extends Omit<Profile, "_d" | '__v'> {
+export interface IProfile extends Profile {
   password?: string
   googleInfo?: {
     accessToken: string
     refreshToken: string
-    profile: {
-      sub: string
-      name: string
-      given_name: string
-      family_name: string
-      picture: string
-      email: string
-      email_verified: boolean
-      locale: string
-    }
+    profile: Pick<PG['_json'],
+      | 'sub'
+      | 'name'
+      | 'given_name'
+      | 'family_name'
+      | 'picture'
+      | 'email'
+      | 'email_verified'
+      | 'locale'>
   }
 
   matchPasswords: (password: string) => boolean
@@ -137,10 +137,5 @@ UserSchema.pre('updateOne', async function (next) {
       .toString('hex')
   }
 })
-
-const user = mongoose.model('user', UserSchema)
-const m = new user()
-m.matchPasswords
-m._id
 
 export default mongoose.model('user', UserSchema)

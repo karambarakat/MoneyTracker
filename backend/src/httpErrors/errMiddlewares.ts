@@ -43,12 +43,6 @@ interface mongooseValidationError extends Error {
   _message: string
 }
 
-export interface myValidationError extends Error {
-  errors: {
-    [key: string]: string
-  }
-}
-
 export function e400_MongooseValidation(
   err: mongooseValidationError,
   req: Request,
@@ -56,17 +50,17 @@ export function e400_MongooseValidation(
   next: NextFunction
 ) {
   if (err.name === 'ValidationError' && err.errors) {
-    const validationError = new Error(err._message) as myValidationError
+    const validationError = new Error(err._message)
 
-    validationError.errors = Object.keys(err.errors).reduce(
-      (acc: { [key: string]: string }, key) => {
-        acc[key] = err.errors[key].message
-        return acc
-      },
-      {}
-    )
-
-    throw ValidationError(validationError)
+    throw ValidationError({
+      msg: err._message, errors: Object.keys(err.errors).reduce(
+        (acc: Record<string, string>, key) => {
+          acc[key] = err.errors[key].message
+          return acc
+        },
+        {}
+      )
+    })
   } else {
     next(err)
   }

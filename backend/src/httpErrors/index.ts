@@ -1,19 +1,27 @@
 import { NextFunction, Request, Response } from 'express'
-import { DefaultError, HttpErrorProps } from 'types/httpErrors'
+import { DefaultErrorE, HttpErrorProps } from 'types/httpErrors'
 import { FieldsRequired } from './errTypes'
+
+
+const DefaultError: DefaultErrorE = {
+  details: null,
+  message: 'UnspecifiedError',
+  name: 'UnspecifiedError',
+  status: 500
+}
 
 export const isHttpError = Symbol('HttpError')
 export class HttpError<Props extends HttpErrorProps> extends Error {
   status: number
   name: string
-  details: Record<string, string> | undefined;
+  details: Record<string, string> | null;
   [isHttpError] = true
 
   constructor(args: Props) {
     super(args.message || DefaultError.message)
     this.status = args.status || DefaultError.status
     this.name = args.name || DefaultError.name
-    this.details = args.details || DefaultError.details
+    this.details = args.details || DefaultError.details || null
   }
 }
 
@@ -38,7 +46,7 @@ export function HTTPErrorHandler(
   }
 }
 
-export function requiredFields(object: { [key: string]: any }) {
+export function requiredFieldsMiddleware(object: Record<string, any>) {
   if (
     Object.values(object).some((e) => e === null || typeof e === 'undefined')
   ) {

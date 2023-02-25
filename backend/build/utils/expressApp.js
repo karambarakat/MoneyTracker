@@ -11,14 +11,15 @@ function expressApp() {
   const app = (0, _express.default)();
   app.use('static', _express.default.static('static'));
   app.use((req, res, next) => {
-    req.getBasicToken = () => BasicToken(req.header('Authorization'));
+    req.getBasicToken = () => BasicToken(req);
     next();
   });
   return app;
 }
-function BasicToken(header) {
+function BasicToken(req) {
   var basicToken;
-  if (!(basicToken = header?.split(' ')[1]) || header?.split(' ')[0] !== 'Basic') {
+  const header = (req.header('Authorization') || '').split(' ');
+  if (!(basicToken = header[1]) || header[0] !== 'Basic') {
     throw (0, _errTypes.BadBasicToken)();
   }
   const [email, password] = Buffer.from(basicToken, 'base64').toString().split(':');

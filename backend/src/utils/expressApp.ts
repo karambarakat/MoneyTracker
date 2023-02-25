@@ -1,20 +1,23 @@
 import { BadBasicToken } from '@httpErrors/errTypes'
 import express from 'express'
+import { Request } from 'express'
 
-export default function expressApp () {
-  const app =  express()
+
+export default function expressApp() {
+  const app = express()
   app.use('static', express.static('static'))
   app.use((req, res, next) => {
-    req.getBasicToken = () => BasicToken(req.header('Authorization'))
+    req.getBasicToken = () => BasicToken(req)
     next()
   })
   return app
 }
 
 
-function BasicToken(header?: string) {
+export function BasicToken(req: Request) {
   var basicToken
-  if (!(basicToken = header?.split(' ')[1]) || header?.split(' ')[0] !== 'Basic'){
+  const header = (req.headers.authorization || '').split(' ')
+  if (!(basicToken = header[1]) || header[0] !== 'Basic') {
     throw BadBasicToken()
   }
 

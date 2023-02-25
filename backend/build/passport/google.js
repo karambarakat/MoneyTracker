@@ -47,7 +47,7 @@ const useGoogle = new _passportGoogleOauth.Strategy({
       googleInfo: {
         accessToken,
         refreshToken,
-        json: profile._json
+        profile: profile._json
       }
     });
     done(null, newUser);
@@ -58,7 +58,7 @@ const useGoogle = new _passportGoogleOauth.Strategy({
     existUser.googleInfo = {
       accessToken,
       refreshToken,
-      json: profile._json
+      profile: profile._json
     };
     await existUser.save();
     done(null, existUser);

@@ -105,5 +105,9 @@ UserSchema.pre('updateOne', async function (next) {
     this._update.password = _crypto.default.pbkdf2Sync(this._update.password, salt, 100, 64, 'sha512').toString('hex');
   }
 });
+const user = _mongoose.default.model('user', UserSchema);
+const m = new user();
+m.matchPasswords;
+m._id;
 var _default = _mongoose.default.model('user', UserSchema);
 exports.default = _default;

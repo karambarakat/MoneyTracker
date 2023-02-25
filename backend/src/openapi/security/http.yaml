@@ -8,9 +8,11 @@ components:
     emailPassword:
       name: Authorization
       in: header
-      description: base64 email and password pair
+      description: base64 email and password pair with colon as separator
+      required: true
       schema:
-        type: string
+        type: string                  
+        x-sub-type: base64-email
         example: Basic xxxxxxx=
     bearer:
       name: Authorization

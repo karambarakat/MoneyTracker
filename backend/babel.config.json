@@ -4,6 +4,10 @@
   ],
   "plugins": [
     "babel-plugin-tsconfig-paths-module-resolver",
-    "@babel/plugin-transform-modules-commonjs"
+    "@babel/plugin-transform-modules-commonjs",
+  ],
+  "ignore": [
+    "**/tests", // ignore the whole test directory
+    "**/*.test.ts" // ignore test files only
   ]
 }

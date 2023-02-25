@@ -31,7 +31,7 @@ function e400_MongooseValidation(err, req, res, next) {
   }
 }
 function e500_ServerError(err, req, res, next) {
-  console.error(err);
+  console.error('unhandled error', err);
   res.status((0, _errTypes.UnknownServerError)().status).json({
     status: (0, _errTypes.UnknownServerError)().status,
     message: (0, _errTypes.UnknownServerError)().message,

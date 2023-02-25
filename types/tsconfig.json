@@ -1,25 +1,25 @@
 {
-  "compilerOptions": {
-      "module": "commonjs",
-      "lib": [
-          "es6"
-      ],
-      "noImplicitAny": true,
-      "noImplicitThis": true,
-      "strictNullChecks": true,
-      "strictFunctionTypes": true,
-      "baseUrl": "./",
-      "typeRoots": [
-          "./"
-      ],
-      "types": [],
-      "noEmit": true,
-      "forceConsistentCasingInFileNames": true
-  },
-  "include": ["./api/**/*"],
-  "files": [
-      "schema.d.ts",
-      "httpErrors.d.ts",
-      "jwt.d.ts",
-  ]
-}
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": [
+            "es6"
+        ],
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "baseUrl": "./",
+        "typeRoots": [
+            "./"
+        ],
+        "types": [],
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": ["./api/**/*"],
+    "files": [
+        "schema.d.ts",
+        "httpErrors.d.ts",
+        "jwt.d.ts",
+    ]
+  }

@@ -14,8 +14,6 @@ import {
   WrongRouteConfig,
 } from 'types/httpErrors'
 import { HttpError } from '.'
-import { myValidationError } from './errMiddlewares'
-import { string } from 'yup'
 
 export function FieldsRequired(keys: string[]) {
   return new HttpError<FieldsRequiredE>({
@@ -36,7 +34,7 @@ export const BadBasicToken = () =>
     status: 401,
     name: 'BadBasicToken',
     message: 'email and password not provided',
-    details: undefined,
+    details: null,
   })
 
 export const EmailOrPasswordIncorrect = () =>
@@ -44,7 +42,7 @@ export const EmailOrPasswordIncorrect = () =>
     status: 401,
     name: 'EmailOrPasswordIncorrect',
     message: 'email/password were/was wrong or not provided',
-    details: undefined,
+    details: null,
   })
 
 export function UserAlreadyExist() {
@@ -63,7 +61,7 @@ export function EmailIsUsed() {
     status: 400,
     name: 'EmailIsUsed',
     message: 'Email is used.',
-    details: undefined,
+    details: null,
   })
 }
 
@@ -72,7 +70,7 @@ export function ResourceWasNotFound() {
     status: 404,
     name: 'ResourceWasNotFound',
     message: "couldn't find the target",
-    details: undefined,
+    details: null,
   })
 }
 
@@ -81,15 +79,15 @@ export function UnknownServerError() {
     status: 500,
     name: 'UnknownServerError',
     message: 'Unknown error occurred in the server.',
-    details: undefined,
+    details: null,
   })
 }
 
-export function ValidationError(error: myValidationError) {
+export function ValidationError(error: { msg: string, errors: Record<string, string> }) {
   return new HttpError<ValidationE>({
     status: 400,
     name: 'ValidationError',
-    message: error.message || 'some fields are not valid',
+    message: error.msg || 'some fields are not valid',
     details: {
       errors: error.errors,
     },
@@ -111,7 +109,7 @@ export function ValidationError(error: myValidationError) {
 //   status: 500,
 //   name: 'UnknownServerError',
 //   message: message || 'Unknown error occurred in the server.',
-//   details: undefined,
+//   details: null,
 // })
 
 export function BadJsonPayload() {
@@ -119,7 +117,7 @@ export function BadJsonPayload() {
     status: 400,
     name: 'JsonSyntaxError',
     message: "can't parse the json payload",
-    details: undefined,
+    details: null,
   })
 }
 
@@ -128,7 +126,7 @@ export const PrivateRoute = () =>
     status: 500,
     name: 'ServerError',
     message: 'authentication error, private route',
-    details: undefined,
+    details: null,
   })
 
 export const NoLog = () =>
@@ -136,7 +134,7 @@ export const NoLog = () =>
     status: 500,
     name: 'ServerError',
     message: "log wasn't found",
-    details: undefined,
+    details: null,
   })
 
 export const NoCategory = () =>
@@ -144,34 +142,25 @@ export const NoCategory = () =>
     status: 500,
     name: 'ServerError',
     message: "category wasn't found",
-    details: undefined,
+    details: null,
   })
 export const FailedToDelete = () =>
   new HttpError<FailedToDeleteE>({
     status: 500,
     name: 'ServerError',
     message: 'failed to delete',
-    details: undefined,
+    details: null,
   })
 
 export const TokenFailed: (
   type: TokenFailedE['details']['type'],
-  date: string | undefined | false
+  date?: string | null | false
 ) => HttpError<TokenFailedE> = (type, date) =>
-  new HttpError({
-    status: 401,
-    name: 'TokenFailed',
-    message: 'authorization failed',
-    details: {
-      type,
-      ...((date && { date }) || {}),
-    },
-  })
-
-export const UnAuthorized: (i: any) => HttpError<UnAuthorizedE> = (info) =>
-  new HttpError({
-    status: 401,
-    name: 'UnAuthorized',
-    message: 'authentication failed',
-    details: info,
-  })
+    new HttpError({
+      status: 401,
+      name: type,
+      message: 'authorization failed',
+      details: {
+        ...((date && { date }) || {}),
+      },
+    })

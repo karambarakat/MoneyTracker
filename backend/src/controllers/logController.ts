@@ -1,13 +1,14 @@
 import {
   FailedToDelete,
+  FieldsRequired,
   NoLog,
   PrivateRoute,
   ResourceWasNotFound,
 } from '@httpErrors/errTypes'
-import { requiredFields } from '@httpErrors'
+import { requiredFieldsMiddleware } from '@httpErrors'
 
-import auth from '@middlewares/auth'
-import Log from '@models/Log'
+import bearerAuth from '@middlewares/bearerAuth'
+import Log, { ILog } from '@models/Log'
 
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
@@ -47,7 +48,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
 
   const { title, amount, category, note } = of(req.body) as log_create
 
-  requiredFields({ title, amount })
+  requiredFieldsMiddleware({ title, amount })
 
   const log = await Log.create({
     title,
@@ -62,8 +63,13 @@ async function create(req: Request, res: Response, next: NextFunction) {
 /**
  * helper functions
  */
+const isIdHex = (str: unknown) => typeof str === 'string' && str.length === 24 && str.match(/(?![0-9a-fA-F])/g)
 async function findLog(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
+
+  if (!req.params.id || !isIdHex(req.params.id)) {
+    throw FieldsRequired(['_id'])
+  }
 
   const foundLog = await Log.findOne({
     createdBy: new ObjectId(req.user._id),
@@ -107,8 +113,8 @@ async function update(req: Request, res: Response, next: NextFunction) {
   const { title, amount, category, note } = of(req.body) as log_update
 
   req.log.title = title || req.log.title
-  req.log.amount = amount || req.log.amount
-  req.log.category = category || req.log.category
+  req.log.amount = amount || req.log.amount;
+  (req.log.category as unknown as string) = category || (req.log.category as unknown as string)
   req.log.note = note || req.log.note
 
   await req.log.save()
@@ -133,10 +139,10 @@ async function delete_(req: Request, res: Response, next: NextFunction) {
   res.json({ data: null })
 }
 
-router.route('/').get(auth, _(find))
-router.route('/').post(auth, _(create))
-router.route('/:id').get(auth, _(findLog), _(findOne))
-router.route('/:id').put(auth, _(findLog), _(update))
-router.route('/:id').delete(auth, _(findLog), _(delete_))
+router.route('/').get(bearerAuth, _(find))
+router.route('/').post(bearerAuth, _(create))
+router.route('/:id').get(bearerAuth, _(findLog), _(findOne))
+router.route('/:id').put(bearerAuth, _(findLog), _(update))
+router.route('/:id').delete(bearerAuth, _(findLog), _(delete_))
 
 export default router
