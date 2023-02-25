@@ -3,21 +3,25 @@
 		"version": "2.0.0",
 		"tasks": []
 	},
-
 	"folders": [
 		{
 			"name": "__",
 			"path": ".."
 		},
 		{
-			"path": "../backend"
+			"name": "backend",
+			"path": "../apps/backend"
 		},
 		{
-			"path": "../frontend"
+			"name": "frontend",
+			"path": "../apps/frontend"
+		},
+		{
+			"name": "packages",
+			"path": "../packages"
 		}
 	],
 	"settings": {
-		
 		"cSpell.words": [
 			"cmnd",
 			"elems",

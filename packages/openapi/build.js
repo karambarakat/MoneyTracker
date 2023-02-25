@@ -14,7 +14,7 @@ async function main() {
    * @type {string[]}
    */
   const yamlFiles = await new Promise((res, rej) => {
-    glob.glob('./src/openapi/**/*.yaml', function (e, files) {
+    glob.glob('./src/**/*.yaml', function (e, files) {
       if (e) rej(e)
       res(files)
     })
@@ -43,7 +43,7 @@ async function main() {
    * }}
    */
   const basicDef = YAML.parse(
-    (await readFile('./src/openapi/info.yaml').catch((r) => '')).toString(
+    (await readFile('./src/info.yaml').catch((r) => '')).toString(
       'utf-8'
     )
   )
@@ -62,15 +62,15 @@ async function main() {
   const swaggerYaml = YAML.stringify(specification)
   const swaggerJSON = JSON.stringify(specification, null, ' ')
 
-  await writeFile('./openapi.yaml', swaggerYaml)
-  await writeFile('./src/static/swagger.json', swaggerJSON)
-  console.log('generated openapi.yaml, swagger.json')
+  await writeFile('./dist/openapi.yaml', swaggerYaml)
+  await writeFile('./dist/openapi.json', swaggerJSON)
+  console.log('generated openapi.yaml, openapi.json')
 
   /**
    * validate using openapi-generator-cli to make sure no errors when generating templates
    */
   await /** @type {Promise<void>} */(new Promise((res, rej) => {
-    childProcess.exec('npx openapi-generator-cli validate -i openapi.yaml', (err, out, stderr) => {
+    childProcess.exec('npx openapi-generator-cli validate -i dist/openapi.yaml', (err, out, stderr) => {
       if (err || stderr) {
         console.log(stderr)
         rej()
@@ -80,7 +80,7 @@ async function main() {
   }))
 
   await /** @type {Promise<void>} */(new Promise((res, rej) => {
-    childProcess.exec('npx openapi-generator-cli generate -g markdown -i openapi.yaml -o md-docs', (err, out, stderr) => {
+    childProcess.exec('npx openapi-generator-cli generate -g markdown -i dist/openapi.yaml -o dist/md-docs', (err, out, stderr) => {
       if (err || stderr) {
         console.log(stderr)
         rej()

@@ -16,9 +16,11 @@
      {
       "name": "Authorization",
       "in": "header",
-      "description": "base64 email and password pair",
+      "description": "base64 email and password pair with colon as separator",
+      "required": true,
       "schema": {
        "type": "string",
+       "x-sub-type": "base64-email",
        "example": "Basic xxxxxxx="
       }
      }
@@ -186,9 +188,11 @@
      {
       "name": "Authorization",
       "in": "header",
-      "description": "base64 email and password pair",
+      "description": "base64 email and password pair with colon as separator",
+      "required": true,
       "schema": {
        "type": "string",
+       "x-sub-type": "base64-email",
        "example": "Basic xxxxxxx="
       }
      }
@@ -992,270 +996,6 @@
       }
      }
     }
-   }
-  },
-  "/category/{id}/logs": {
-   "parameters": [
-    {
-     "name": "id",
-     "in": "path",
-     "description": "grap entry by its id, should be place in path as in `to/path/:id/etc`",
-     "required": true,
-     "schema": {
-      "type": "string",
-      "example": "63da2a0a643dd3aa49f5c6b1"
-     }
-    }
-   ],
-   "get": {
-    "security": [
-     {
-      "BearerToken": []
-     }
-    ],
-    "parameters": [
-     {
-      "name": "Authorization",
-      "in": "header",
-      "description": "can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx",
-      "required": true,
-      "schema": {
-       "type": "string",
-       "example": "Bearer xxxxxxx="
-      }
-     }
-    ],
-    "tags": [
-     "category"
-    ],
-    "summary": "get all logs",
-    "description": "get all logs associated by this category for the current user",
-    "responses": {
-     "200": {
-      "description": "Ok",
-      "content": {
-       "application/json": {
-        "x-success": true,
-        "x-paged": true,
-        "examples": {
-         "basic": {
-          "description": "basic example",
-          "value": [
-           {
-            "_id": "626819066b8ac48b612dda69",
-            "__v": 0,
-            "createdAt": "2022-04-26T16:08:38.276Z",
-            "updatedAt": "2022-04-26T16:08:38.276Z",
-            "title": "buy new TV",
-            "amount": 400,
-            "createdBy": "63da2a0a643dd3aa49f5c6b1",
-            "note": "new 40\" plasma tv from flea market",
-            "category": {
-             "_id": "63da2a0a643dd3aa49f5c6b1",
-             "title": "Entertainment",
-             "color": "#333",
-             "icon": "Fun_Face_Icon"
-            }
-           }
-          ]
-         },
-         "no data": {
-          "description": "empty data",
-          "value": []
-         }
-        },
-        "schema": {
-         "type": "array",
-         "items": {
-          "allOf": [
-           {
-            "type": "object",
-            "required": [
-             "_id",
-             "__v"
-            ],
-            "properties": {
-             "_id": {
-              "type": "string",
-              "example": "626819066b8ac48b612dda69"
-             },
-             "__v": {
-              "oneOf": [
-               {
-                "type": "string",
-                "enum": [
-                 "offline"
-                ]
-               },
-               {
-                "type": "number",
-                "enum": [
-                 0
-                ]
-               }
-              ],
-              "example": 0,
-              "default": 0,
-              "enum": [
-               0,
-               "offline"
-              ]
-             }
-            }
-           },
-           {
-            "type": "object",
-            "required": [
-             "createdAt",
-             "updatedAt"
-            ],
-            "properties": {
-             "createdAt": {
-              "type": "string",
-              "example": "2022-04-26T16:08:38.276Z"
-             },
-             "updatedAt": {
-              "type": "string",
-              "example": "2022-04-26T16:08:38.276Z"
-             }
-            }
-           },
-           {
-            "type": "object",
-            "required": [
-             "title",
-             "amount",
-             "createdBy"
-            ],
-            "properties": {
-             "title": {
-              "type": "string",
-              "example": "buy new TV"
-             },
-             "amount": {
-              "type": "number",
-              "example": 400
-             },
-             "createdBy": {
-              "type": "string",
-              "example": "63da2a0a643dd3aa49f5c6b1"
-             },
-             "note": {
-              "type": "string",
-              "example": "new 40\" plasma tv from flea market"
-             },
-             "category": {
-              "type": "object",
-              "properties": {
-               "_id": {
-                "type": "string",
-                "example": "63da2a0a643dd3aa49f5c6b1"
-               },
-               "title": {
-                "type": "string",
-                "example": "Entertainment"
-               },
-               "color": {
-                "type": "string",
-                "example": "#333"
-               },
-               "icon": {
-                "type": "string",
-                "example": "Fun_Face_Icon"
-               }
-              }
-             }
-            }
-           }
-          ]
-         }
-        }
-       }
-      }
-     },
-     "400": {
-      "description": "some of the fields are missing\n`these fields are required`\n",
-      "content": {
-       "application/json": {
-        "x-failed": true,
-        "schema": {
-         "type": "object",
-         "properties": {
-          "status": {
-           "type": "number",
-           "default": 400
-          },
-          "message": {
-           "description": "in form of `these fields are required\\:email`",
-           "type": "string"
-          },
-          "name": {
-           "type": "string",
-           "default": "SomeFieldsRequired"
-          },
-          "details": {
-           "type": "object",
-           "properties": {
-            "errors": {
-             "type": "object",
-             "description": "key value pair where key is properties\nname and value is more explanation\n"
-            }
-           }
-          }
-         }
-        }
-       }
-      }
-     },
-     "401": {
-      "description": "authentication via bearer token has failed",
-      "content": {
-       "application/json": {
-        "x-failed": true,
-        "schema": {
-         "type": "object",
-         "properties": {
-          "status": {
-           "type": "number",
-           "default": 401
-          },
-          "message": {
-           "description": "more details",
-           "example": "authentication failed",
-           "type": "string"
-          },
-          "name": {
-           "type": "string",
-           "default": "TokenFailed"
-          },
-          "details": {
-           "type": "object",
-           "required": [
-            "type"
-           ],
-           "properties": {
-            "type": {
-             "type": "string",
-             "enum": [
-              "JsonWebTokenError",
-              "TokenExpiredError",
-              "NoTokenWasProvided",
-              "UnspecifiedError"
-             ],
-             "example": "TokenExpiredError"
-            },
-            "date": {
-             "type": "string",
-             "example": "2022-04-26T16:08:38.276Z"
-            }
-           }
-          }
-         }
-        }
-       }
-      }
-     }
-    }
    },
    "put": {
     "security": [
@@ -1559,6 +1299,270 @@
           },
           "details": {
            "type": "object"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/category/{id}/logs": {
+   "parameters": [
+    {
+     "name": "id",
+     "in": "path",
+     "description": "grap entry by its id, should be place in path as in `to/path/:id/etc`",
+     "required": true,
+     "schema": {
+      "type": "string",
+      "example": "63da2a0a643dd3aa49f5c6b1"
+     }
+    }
+   ],
+   "get": {
+    "security": [
+     {
+      "BearerToken": []
+     }
+    ],
+    "parameters": [
+     {
+      "name": "Authorization",
+      "in": "header",
+      "description": "can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "example": "Bearer xxxxxxx="
+      }
+     }
+    ],
+    "tags": [
+     "category"
+    ],
+    "summary": "get all logs",
+    "description": "get all logs associated by this category for the current user",
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "content": {
+       "application/json": {
+        "x-success": true,
+        "x-paged": true,
+        "examples": {
+         "basic": {
+          "description": "basic example",
+          "value": [
+           {
+            "_id": "626819066b8ac48b612dda69",
+            "__v": 0,
+            "createdAt": "2022-04-26T16:08:38.276Z",
+            "updatedAt": "2022-04-26T16:08:38.276Z",
+            "title": "buy new TV",
+            "amount": 400,
+            "createdBy": "63da2a0a643dd3aa49f5c6b1",
+            "note": "new 40\" plasma tv from flea market",
+            "category": {
+             "_id": "63da2a0a643dd3aa49f5c6b1",
+             "title": "Entertainment",
+             "color": "#333",
+             "icon": "Fun_Face_Icon"
+            }
+           }
+          ]
+         },
+         "no data": {
+          "description": "empty data",
+          "value": []
+         }
+        },
+        "schema": {
+         "type": "array",
+         "items": {
+          "allOf": [
+           {
+            "type": "object",
+            "required": [
+             "_id",
+             "__v"
+            ],
+            "properties": {
+             "_id": {
+              "type": "string",
+              "example": "626819066b8ac48b612dda69"
+             },
+             "__v": {
+              "oneOf": [
+               {
+                "type": "string",
+                "enum": [
+                 "offline"
+                ]
+               },
+               {
+                "type": "number",
+                "enum": [
+                 0
+                ]
+               }
+              ],
+              "example": 0,
+              "default": 0,
+              "enum": [
+               0,
+               "offline"
+              ]
+             }
+            }
+           },
+           {
+            "type": "object",
+            "required": [
+             "createdAt",
+             "updatedAt"
+            ],
+            "properties": {
+             "createdAt": {
+              "type": "string",
+              "example": "2022-04-26T16:08:38.276Z"
+             },
+             "updatedAt": {
+              "type": "string",
+              "example": "2022-04-26T16:08:38.276Z"
+             }
+            }
+           },
+           {
+            "type": "object",
+            "required": [
+             "title",
+             "amount",
+             "createdBy"
+            ],
+            "properties": {
+             "title": {
+              "type": "string",
+              "example": "buy new TV"
+             },
+             "amount": {
+              "type": "number",
+              "example": 400
+             },
+             "createdBy": {
+              "type": "string",
+              "example": "63da2a0a643dd3aa49f5c6b1"
+             },
+             "note": {
+              "type": "string",
+              "example": "new 40\" plasma tv from flea market"
+             },
+             "category": {
+              "type": "object",
+              "properties": {
+               "_id": {
+                "type": "string",
+                "example": "63da2a0a643dd3aa49f5c6b1"
+               },
+               "title": {
+                "type": "string",
+                "example": "Entertainment"
+               },
+               "color": {
+                "type": "string",
+                "example": "#333"
+               },
+               "icon": {
+                "type": "string",
+                "example": "Fun_Face_Icon"
+               }
+              }
+             }
+            }
+           }
+          ]
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "some of the fields are missing\n`these fields are required`\n",
+      "content": {
+       "application/json": {
+        "x-failed": true,
+        "schema": {
+         "type": "object",
+         "properties": {
+          "status": {
+           "type": "number",
+           "default": 400
+          },
+          "message": {
+           "description": "in form of `these fields are required\\:email`",
+           "type": "string"
+          },
+          "name": {
+           "type": "string",
+           "default": "SomeFieldsRequired"
+          },
+          "details": {
+           "type": "object",
+           "properties": {
+            "errors": {
+             "type": "object",
+             "description": "key value pair where key is properties\nname and value is more explanation\n"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "authentication via bearer token has failed",
+      "content": {
+       "application/json": {
+        "x-failed": true,
+        "schema": {
+         "type": "object",
+         "properties": {
+          "status": {
+           "type": "number",
+           "default": 401
+          },
+          "message": {
+           "description": "more details",
+           "example": "authentication failed",
+           "type": "string"
+          },
+          "name": {
+           "type": "string",
+           "default": "TokenFailed"
+          },
+          "details": {
+           "type": "object",
+           "required": [
+            "type"
+           ],
+           "properties": {
+            "type": {
+             "type": "string",
+             "enum": [
+              "JsonWebTokenError",
+              "TokenExpiredError",
+              "NoTokenWasProvided",
+              "UnspecifiedError"
+             ],
+             "example": "TokenExpiredError"
+            },
+            "date": {
+             "type": "string",
+             "example": "2022-04-26T16:08:38.276Z"
+            }
+           }
           }
          }
         }
@@ -2662,6 +2666,9 @@
       "application/json": {
        "schema": {
         "type": "object",
+        "required": [
+         "email"
+        ],
         "properties": {
          "email": {
           "type": "string",
@@ -4601,9 +4608,11 @@
    "emailPassword": {
     "name": "Authorization",
     "in": "header",
-    "description": "base64 email and password pair",
+    "description": "base64 email and password pair with colon as separator",
+    "required": true,
     "schema": {
      "type": "string",
+     "x-sub-type": "base64-email",
      "example": "Basic xxxxxxx="
     }
    },

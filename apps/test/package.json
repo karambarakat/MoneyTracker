@@ -1,0 +1,12 @@
+{
+  "name": "test",
+  "private": true,
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "openapi": "*",
+    "tsconfig": "*"
+  }
+}

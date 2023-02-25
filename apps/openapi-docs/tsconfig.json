@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/backend.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+}

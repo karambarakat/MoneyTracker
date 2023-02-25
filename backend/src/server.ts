@@ -86,7 +86,7 @@ api.use('*', e404)
 
 app.use('/api/v1', api)
 
-import { doc } from './doc'
+import { doc } from './openapi-docs'
 app.use('/doc', doc)
 
 app.all('*', (_, res) => res.status(404).send('go to /api/v1'))

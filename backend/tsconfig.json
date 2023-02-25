@@ -1,6 +1,8 @@
 {
+  "extends": "tsconfig/backend.json",
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
       // modify jest.config.js also
@@ -14,12 +16,6 @@
       "@httpErrors/*": ["httpErrors/*"],
       // "@types/*": ["types/*"],
       "@config/*": ["config/*"]
-    },
-    "esModuleInterop": true,
-    "allowJs": false,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "module": "CommonJS",
-    "strict": true
+    }
   }
 }

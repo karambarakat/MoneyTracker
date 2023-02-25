@@ -1,5 +1,5 @@
 {
-  "name": "front-end",
+  "name": "frontend",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -33,7 +33,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "types": "file:../types",
+    "types": "*",
     "@types/d3": "^7.4.0",
     "@types/events": "^3.0.0",
     "@types/react": "^17.0.33",

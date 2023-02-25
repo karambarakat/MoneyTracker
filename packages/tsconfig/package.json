@@ -1,0 +1,10 @@
+{
+  "name": "tsconfig",
+  "private": true,
+  "version": "1.0.0",
+  "description": "shared typescript configuration accross all apps",
+  "files": [
+    "base.json",
+    "backend.json"
+  ]
+}

@@ -1,11 +1,11 @@
 import redoc from 'redoc-express'
 import express from 'express'
-import log from '@utils/log'
 const doc = express.Router()
 
 doc.use('/swagger.json', (req, res) => {
   res.sendFile('./static/swagger.json', { root: './src' })
 })
+
 doc.use(
   '/ui',
   redoc({
@@ -22,7 +22,7 @@ async function main() {
   app.get('/', (_, res) => res.redirect('/doc/ui'))
   app.use('/doc', doc)
   app.listen(PORT, () =>
-    log({ name: 'doc', color: 'magenta' }, `listening at port ${PORT}`)
+    console.log(`listening at port ${PORT}`)
   )
 }
 
