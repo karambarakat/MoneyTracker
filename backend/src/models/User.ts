@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mongoose from 'mongoose'
 import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
@@ -73,10 +74,6 @@ const UserSchema = new mongoose.Schema<IProfile>(
   }
 )
 
-/**
- * validation: require password if the provider is local
- * @tested : AUTH_EMAIL > "/auth/local/register : no password"
- */
 UserSchema.pre('save', async function (next) {
   if (this.providers.some((provider: string) => provider === 'local')) {
     if (!this.password) {

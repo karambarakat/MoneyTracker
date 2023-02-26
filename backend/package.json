@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
+  "types": "src/server.ts",
   "private": true,
   "scripts": {
     "build": "babel --extensions .ts src -d dist",
     "start": "node dist/server.js",
-    "start:local": "dotenv -- ts-node -r tsconfig-paths/register src/server.ts",
+    "start:local": "dotenv -c -- ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "dotenv -c dev -- ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
-    "test": "dotenv -c test -- jest --runInBand",
     "test:watch": "dotenv -c test -- jest --watch --runInBand",
-    "doc": "ts-node -r tsconfig-paths/register src/doc.ts"
+    "test:base": "dotenv -c test -- jest --runInBand",
+    "test": "docker compose -f tests/compose.yaml up --abort-on-container-exit --exit-code-from server-test",
+    "test:build": "npm run test -- --build"
   },
   "author": "karam barakat",
   "license": "MIT",
@@ -69,9 +71,10 @@
     "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "ts-jest": "^27.1.4",
-    "ts-node-dev": "^1.1.8",
+    "ts-node-dev": "^2.0.0",
     "types": "*",
     "tsconfig": "*",
+    "openapi-docs": "*",
     "openapi": "*"
   }
 }

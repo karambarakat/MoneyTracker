@@ -13,7 +13,7 @@ import googleAuthController from '@controllers/auth.google.controller'
 import profileController from '@controllers/profileController'
 import logController from '@controllers/logController'
 import categoryController from '@controllers/categoryController'
-import apiIsWorking, { serverIsWroking } from '@middlewares/apiIsWorking'
+import apiIsWorking from '@middlewares/apiIsWorking'
 
 
 import { HTTPErrorHandler } from '@httpErrors'
@@ -86,8 +86,8 @@ api.use('*', e404)
 
 app.use('/api/v1', api)
 
-import { doc } from './openapi-docs'
-app.use('/doc', doc)
+import { doc } from 'openapi-docs'
+app.use(doc)
 
 app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 

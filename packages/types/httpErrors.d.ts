@@ -2,7 +2,7 @@ export interface HttpErrorProps {
   status: number
   name: string
   message: string
-  details: Record<string, any> | undefined
+  details: Record<string, any> | null
 }
 // 
 
@@ -19,21 +19,21 @@ export interface EmailOrPasswordIncorrectE extends HttpErrorProps {
   status: 401
   name: 'EmailOrPasswordIncorrect'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface BadBasicTokenE extends HttpErrorProps {
   status: 401
   name: 'BadBasicToken'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface PasswordIncorrectE extends HttpErrorProps {
   status: 401
   name: 'PasswordIncorrect'
   message: string
-  details: undefined
+  details: null
 }
 export interface UserAlreadyExistE extends HttpErrorProps {
   status: 409
@@ -49,21 +49,21 @@ export interface EmailIsUsedE extends HttpErrorProps {
   status: 400
   name: 'EmailIsUsed'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface ResourceWasNotFoundE extends HttpErrorProps {
   status: 404
   name: 'ResourceWasNotFound'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface UnknownServerErrorE extends HttpErrorProps {
   status: 500
   name: 'UnknownServerError'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface ValidationE extends HttpErrorProps {
@@ -77,21 +77,21 @@ export interface BadJsonPayloadE extends HttpErrorProps {
   status: 400
   name: 'JsonSyntaxError'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface WrongRouteConfig extends HttpErrorProps {
   status: 500
   name: 'ServerError'
   message: string
-  details: undefined
+  details: null
 }
 
 export interface FailedToDeleteE extends HttpErrorProps {
   status: 500
   name: 'ServerError'
   message: string
-  details: undefined
+  details: null
 }
 export interface UnAuthorizedE extends HttpErrorProps {
   status: 401
@@ -118,7 +118,7 @@ export interface DefaultErrorE extends HttpErrorProps {
   status: 500
   name: 'UnspecifiedError'
   message: string
-  details: undefined
+  details: null
 }
 
 export type GenericHttpError =

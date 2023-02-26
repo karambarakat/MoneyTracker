@@ -3,19 +3,21 @@ import grapOnly from "@utils/grapOnly";
 import isPlain from "@utils/isPlain";
 import clone from 'lodash/clone'
 // blueprint for extending expect
-// type SecondParameter<T extends (...args: any) => any> = T extends (skip: any, ...args: infer P) => any ? P : never;
-// declare global {
-//   namespace jest {
-//     type TypeOfMatcher<T extends jest.CustomMatcher> = (...args: SecondParameter<T>) => ReturnType<T>
-//     interface Matchers<R> {
-//       hi: TypeOfMatcher<typeof hi>
-//     }
-//   }
-// }
-// expect.extend({hi})
-// function hi(this: jest.MatcherContext, expect: unknown, toBe: 'toBe' /**should be _treated_ as unknown */): jest.CustomMatcherResult {}
-// expect('could be anything').hi("toBe") // correct type
-
+/**
+type SecondParameter<T extends (...args: any) => any> = T extends (this: 'skip=>jest.MatcherContext', ...args: infer P) => any ? P : never;
+declare global {
+  namespace jest {
+    type TypeOfMatcher<T extends jest.CustomMatcher> = (...args: SecondParameter<T>) => ReturnType<T>
+    interface Matchers<R> {
+      hi: TypeOfMatcher<typeof hi>
+    }
+  }
+}
+expect.extend({hi})
+type ToBeArg = 'toBe' // should be treated as unknown
+function hi(this: jest.MatcherContext, expect: unknown, toBe: ToBeArg): jest.CustomMatcherResult {}
+expect('could be anything').hi("toBe") // correct type
+ */
 type SecondParameter<T extends (...args: any) => any> = T extends (skip: any, ...args: infer P) => any ? P : never;
 declare global {
   namespace jest {

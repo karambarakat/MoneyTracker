@@ -1,3 +1,12 @@
 {
-  "editor.tabSize": 2
+  "editor.tabSize": 2,		
+  "cSpell.words": [
+    "cmnd",
+    "elems",
+    "hoverable",
+    "localstorage",
+    "openapi",
+    "signup",
+    "tabler"
+  ]
 }

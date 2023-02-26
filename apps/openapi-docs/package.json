@@ -5,19 +5,21 @@
   "main": "index.ts",
   "scripts": {
     "build": "tsc index.ts",
-    "dev": "node index.ts"
+    "dev": "ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "redoc-express": "^1.0.0"
+    "redoc-express": "^1.0.0",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "tsconfig": "*",
-    "openapi": "*",
     "@types/express": "^4.17.17",
+    "openapi": "*",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig": "*",
     "typescript": "^4.9.5"
   }
 }

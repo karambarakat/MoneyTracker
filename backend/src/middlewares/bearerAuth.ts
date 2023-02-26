@@ -21,7 +21,7 @@ bearerAuth.all('*', function (req, res, next) {
   passport.authenticate(
     'jwt',
     { session: false },
-    function (err, user, info: Info) {
+    function (err: false | Error, user: Express.User, info: Info) {
       // 1. pass {err: false, user: {...}, info: null}
       if (!err && user) {
         req.user = user

@@ -1,16 +1,18 @@
 import redoc from 'redoc-express'
 import express from 'express'
+import openapi from 'openapi'
+
 const doc = express.Router()
 
 doc.use('/swagger.json', (req, res) => {
-  res.sendFile('./static/swagger.json', { root: './src' })
+  res.json(openapi)
 })
 
 doc.use(
-  '/ui',
+  '/docs',
   redoc({
     title: 'API Docs',
-    specUrl: '/doc/swagger.json',
+    specUrl: '/swagger.json',
   })
 )
 
@@ -19,8 +21,8 @@ export { doc }
 async function main() {
   const PORT = 8811
   const app = express()
-  app.get('/', (_, res) => res.redirect('/doc/ui'))
-  app.use('/doc', doc)
+  app.use(doc)
+  app.get('*', (_, res) => res.redirect('/docs'))
   app.listen(PORT, () =>
     console.log(`listening at port ${PORT}`)
   )

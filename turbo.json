@@ -13,6 +13,12 @@
       "dependsOn": ["openapi#build"],
       "cache": false, 
       "persistent": true
+    },
+    "test": {
+      "dependsOn": []
+    },
+    "deploy": {
+      "dependsOn": ["build", "test"]
     }
   }
 }
