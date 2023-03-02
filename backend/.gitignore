@@ -1,6 +1,0 @@
-.env
-.env.*
-!.env.*.local
-!.env.README.md
-
-node_modules

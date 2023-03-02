@@ -4,8 +4,6 @@
   "description": "Easy to use money wallet",
   "private": true,
   "workspaces": [
-    "backend",
-    "frontend",
     "apps/*",
     "packages/*"
   ],
@@ -13,6 +11,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "test": "turbo run test",
+    "deploy": "turbo run deploy --filter terraform",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
