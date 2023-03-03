@@ -1,14 +1,14 @@
 version: '3'
 services:
-  server-test:
+  main-service:
     build:
-      dockerfile: apps/backend/tests/Dockerfile
-      context: ../../../
+      dockerfile: Dockerfile
+      context: ../../
       args:
-        BUILD_CONTEXT: apps/backend
+        Package_name: backend
     command: [ "npm", "run", "test:base", "-w", "backend" ]
     env_file:
-      - ../.env.test.local
+      - ./.env.test.local
     environment:
       - MONGO_STRING=mongodb://mongo:27017/testing
     networks:

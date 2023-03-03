@@ -17,7 +17,7 @@
     "dev": "dotenv -c dev -- ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
     "test:watch": "npm run test:base -- --watch",
     "test:base": "dotenv -c test -- jest --runInBand",
-    "test": "docker compose -f tests/compose.yaml up --abort-on-container-exit --exit-code-from server-test",
+    "test": "docker compose -f test-compose.yaml up --abort-on-container-exit --exit-code-from main-service",
     "test:force-build": "npm run test -- --build"
   },
   "author": "karam barakat",

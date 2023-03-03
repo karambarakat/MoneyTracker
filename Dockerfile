@@ -17,16 +17,4 @@ WORKDIR /src
 COPY --from=0 /src .
 RUN npm i -w ${Package_name}
 COPY . .
-RUN npm run build -w ${Package_name}
-
-# final image
-FROM gcr.io/distroless/nodejs:18
-ARG Package_name
-ARG Package_dir=apps/$Package_name
-
-WORKDIR /src
-COPY --from=1 /src/$Package_dir/dist .
-USER nonroot
-
-EXPOSE 3000
-CMD ["index.bundle.js"]
+CMD ["sleep", "infinity"]
