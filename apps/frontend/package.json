@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "vite",
     "lint": "eslint --fix .",
-    "build": "echo to be implemented || tsc && vite build",
     "prestart": "npm link ../types",
     "preview": "vite preview"
   },

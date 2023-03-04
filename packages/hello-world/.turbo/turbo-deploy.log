@@ -1,0 +1,17 @@
+
+> hello-world@5.0.0 deploy
+> terraform init && terraform apply
+
+
+[0m[1mInitializing Terraform Cloud...[0m
+[31m[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mRequired token could not be found[0m
+[31m│[0m [0m
+[31m│[0m [0m[0mRun the following command to generate a token for app.terraform.io:
+[31m│[0m [0m    terraform login
+[31m╵[0m[0m
+[0m[0m
+npm ERR! Lifecycle script `deploy` failed with error: 
+npm ERR! Error: command failed 
+npm ERR!   in workspace: hello-world@5.0.0 
+npm ERR!   at location: D:\Portfolio\myPocket\packages\hello-world 
