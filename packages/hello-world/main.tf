@@ -26,23 +26,24 @@ provider "google" {
   credentials = var.GOOGLE_CREDENTIALS
 }
 
-data "google_storage_bucket" "main" {
-  name = "gcf-v2-sources-567349561198-us-central1"
+resource "google_storage_bucket" "main" {
+  name     = "function-bucket-xxx"
+  location = "us-central1"
 }
 
 resource "google_storage_bucket_object" "main" {
-  name    = "${terraform.workspace}-test-function"
-  content = "./src.zip"
-  bucket  = data.google_storage_bucket.main.name
+  name   = "terraform-${terraform.workspace}-function-src-files"
+  source = "./src.zip"
+  bucket = google_storage_bucket.main.name
 }
 
 resource "google_cloudfunctions_function" "main" {
-  name        = "function-test"
+  name        = "function-test-new"
   description = "My function"
   runtime     = "nodejs18"
 
   available_memory_mb   = 128
-  source_archive_bucket = data.google_storage_bucket.main.name
+  source_archive_bucket = google_storage_bucket.main.name
   source_archive_object = google_storage_bucket_object.main.name
   trigger_http          = true
   entry_point           = "helloGET"
