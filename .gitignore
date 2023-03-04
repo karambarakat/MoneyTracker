@@ -1,5 +1,7 @@
 /.VSCodeCounter
 
+.env*
+!.env.*.local
 
 # Local .terraform directories
 **/.terraform/*
@@ -39,4 +41,4 @@ terraform.rc
 
 node_modules
 
-**/.turbo/*
+**/.turbo/*.turbo

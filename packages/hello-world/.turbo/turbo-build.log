@@ -1,0 +1,24 @@
+
+> hello-world@5.0.0 build
+> zip a src.zip index.js package.json
+
+
+7-Zip 22.01 (x64) : Copyright (c) 1999-2022 Igor Pavlov : 2022-07-15
+
+Open archive: src.zip
+--
+Path = src.zip
+Type = zip
+Physical Size = 654
+
+Scanning the drive:
+2 files, 563 bytes (1 KiB)
+
+Updating archive: src.zip
+
+Add new data to archive: 2 files, 563 bytes (1 KiB)
+
+
+Files read from disk: 2
+Archive size: 654 bytes (1 KiB)
+Everything is Ok

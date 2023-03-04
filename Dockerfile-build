@@ -1,31 +1,30 @@
-# Copy Package*.json files from all packages
-FROM node:18-bullseye-slim
+FROM node:18-bullseye-slim as prune
+ARG Package_name
 
-WORKDIR /src
-COPY package*.json .
-COPY apps apps
-COPY packages packages
-RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
-RUN find apps \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
+WORKDIR /app
+COPY . .
+RUN npx turbo prune --scope ${Package_name} --docker
 
 # npm install & build
 FROM node:18-bullseye-slim
 ARG Package_name
 
 
-WORKDIR /src
-COPY --from=0 /src .
-RUN npm i -w ${Package_name}
-COPY . .
-RUN npm run build -w ${Package_name}
+WORKDIR /app
+COPY --from=prune /app/out/json/ .
+COPY --from=prune /app/out/package-lock.json ./package-lock.json
+RUN npm install
+COPY --from=prune /app/out/full/ .
+
+RUN npx turbo build --filter ${Package_name}
 
 # final image
 FROM gcr.io/distroless/nodejs:18
 ARG Package_name
 ARG Package_dir=apps/$Package_name
 
-WORKDIR /src
-COPY --from=1 /src/$Package_dir/dist .
+WORKDIR /app
+COPY --from=1 /app/$Package_dir/dist .
 USER nonroot
 
 EXPOSE 3000

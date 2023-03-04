@@ -1,0 +1,17 @@
+{
+  "name": "hello-world",
+  "version": "5.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "zip a src.zip index.js package.json",
+    "build:clear": "rm src.zip",
+    "deploy": "terraform init && terraform apply"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.3"
+  }
+}

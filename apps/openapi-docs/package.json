@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc index.ts",
     "dev": "ts-node-dev index.ts"
   },
   "keywords": [],

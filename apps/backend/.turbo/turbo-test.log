@@ -1,0 +1,253 @@
+
+> backend@1.0.0 test
+> docker compose -f test-compose.yaml up --abort-on-container-exit --exit-code-from main-service
+
+time="2023-03-03T14:36:29-08:00" level=warning msg="Found orphan containers ([backend-server-test-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+Container backend-mongo-1  Created
+Container backend-main-service-1  Created
+Attaching to backend-main-service-1, backend-mongo-1
+backend-mongo-1         | 2023-03-03T22:36:30.795+0000 I CONTROL  [initandlisten] MongoDB starting : pid=1 port=27017 dbpath=/data/db 64-bit host=69f25516fbc1
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] db version v3.6.23
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] git version: d352e6a4764659e0d0350ce77279de3c1f243e5c
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2g  1 Mar 2016
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] allocator: tcmalloc
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] modules: none
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] build environment:
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten]     distmod: ubuntu1604
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten]     distarch: x86_64
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten]     target_arch: x86_64
+backend-mongo-1         | 2023-03-03T22:36:30.796+0000 I CONTROL  [initandlisten] options: { net: { bindIpAll: true } }
+backend-mongo-1         | 2023-03-03T22:36:30.798+0000 I -        [initandlisten] Detected data files in /data/db created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+backend-mongo-1         | 2023-03-03T22:36:30.798+0000 I STORAGE  [initandlisten] 
+backend-mongo-1         | 2023-03-03T22:36:30.798+0000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+backend-mongo-1         | 2023-03-03T22:36:30.798+0000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+backend-mongo-1         | 2023-03-03T22:36:30.798+0000 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=3394M,cache_overflow=(file_max=0M),session_max=20000,eviction=(threads_min=4,threads_max=4),config_base=false,statistics=(fast),compatibility=(release="3.0",require_max="3.0"),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),statistics_log=(wait=0),verbose=(recovery_progress),
+backend-mongo-1         | 2023-03-03T22:36:31.693+0000 I STORAGE  [initandlisten] WiredTiger message [1677882991:693058][1:0x7fe958fdca40], txn-recover: Main recovery loop: starting at 3/66048
+backend-mongo-1         | 2023-03-03T22:36:31.816+0000 I STORAGE  [initandlisten] WiredTiger message [1677882991:816853][1:0x7fe958fdca40], txn-recover: Recovering log 3 through 4
+backend-mongo-1         | 2023-03-03T22:36:31.887+0000 I STORAGE  [initandlisten] WiredTiger message [1677882991:887413][1:0x7fe958fdca40], txn-recover: Recovering log 4 through 4
+backend-mongo-1         | 2023-03-03T22:36:31.946+0000 I STORAGE  [initandlisten] WiredTiger message [1677882991:946760][1:0x7fe958fdca40], txn-recover: Set global recovery timestamp: 0
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] 
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] 
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] 
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+backend-mongo-1         | 2023-03-03T22:36:31.972+0000 I CONTROL  [initandlisten] 
+backend-mongo-1         | 2023-03-03T22:36:31.992+0000 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/data/db/diagnostic.data'
+backend-mongo-1         | 2023-03-03T22:36:31.993+0000 I NETWORK  [initandlisten] listening via socket bound to 0.0.0.0
+backend-mongo-1         | 2023-03-03T22:36:31.993+0000 I NETWORK  [initandlisten] listening via socket bound to /tmp/mongodb-27017.sock
+backend-mongo-1         | 2023-03-03T22:36:31.993+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+backend-main-service-1  | 
+backend-main-service-1  | > backend@1.0.0 test:base
+backend-main-service-1  | > dotenv -c test -- jest --runInBand
+backend-main-service-1  | 
+backend-main-service-1  | (node:26) [MONGOOSE] DeprecationWarning: Mongoose: the `strictQuery` option will be switched back to `false` by default in Mongoose 7. Use `mongoose.set('strictQuery', false);` if you want to prepare for this change. Or use `mongoose.set('strictQuery', true);` to suppress this warning.
+backend-main-service-1  | (Use `node --trace-deprecation ...` to show where the warning was created)
+backend-mongo-1         | 2023-03-03T22:36:35.940+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39924 #1 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:35.945+0000 I NETWORK  [conn1] received client metadata from 172.19.0.3:39924 conn1: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:35.967+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39928 #2 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:35.967+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39930 #3 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:35.980+0000 I NETWORK  [conn2] received client metadata from 172.19.0.3:39928 conn2: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:35.982+0000 I NETWORK  [conn3] received client metadata from 172.19.0.3:39930 conn3: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:35.988+0000 I STORAGE  [conn2] createCollection: testing.users with generated UUID: 97dfa7f6-67d0-4beb-84a7-3a0c433afab5
+backend-mongo-1         | 2023-03-03T22:36:35.989+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39932 #4 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:35.989+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39934 #5 (5 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:35.990+0000 I NETWORK  [conn4] received client metadata from 172.19.0.3:39932 conn4: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:35.992+0000 I NETWORK  [conn5] received client metadata from 172.19.0.3:39934 conn5: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:36.019+0000 I INDEX    [conn2] build index on: testing.users properties: { v: 2, unique: true, key: { email: 1 }, name: "email_1", ns: "testing.users", background: true }
+backend-mongo-1         | 2023-03-03T22:36:36.019+0000 I INDEX    [conn2] build index done.  scanned 0 total records. 0 secs
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 73.207 ms - 429[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 6.017 ms - 429[0m
+backend-main-service-1  | [0mPOST /api/v1/category [32m201[0m 12.129 ms - 138[0m
+backend-main-service-1  | [0mGET /api/v1/log/ [33m401[0m 0.995 ms - 110[0m
+backend-main-service-1  | [0mGET /api/v1/log/ [32m200[0m 5.646 ms - 11[0m
+backend-main-service-1  | [0mPOST /api/v1/log [32m201[0m 14.103 ms - 314[0m
+backend-main-service-1  | [0mGET /api/v1/log/ [32m200[0m 5.241 ms - 316[0m
+backend-main-service-1  | [0mPOST /api/v1/log [33m401[0m 0.353 ms - 110[0m
+backend-main-service-1  | [0mPOST /api/v1/log [33m400[0m 3.975 ms - 202[0m
+backend-main-service-1  | [0mPOST /api/v1/log [32m201[0m 5.455 ms - 228[0m
+backend-main-service-1  | [0mPOST /api/v1/log [32m201[0m 14.407 ms - 309[0m
+backend-main-service-1  | [0mGET /api/v1/log/ [33m401[0m 0.320 ms - 110[0m
+backend-main-service-1  | [0mGET /api/v1/log/63f86fa47822eec8d37b8469 [33m404[0m 7.075 ms - 117[0m
+backend-main-service-1  | [0mGET /api/v1/log/invalid [33m400[0m 2.971 ms - 156[0m
+backend-main-service-1  | [0mGET /api/v1/log/64027674ee7a70b0bbf7eedb [32m200[0m 4.910 ms - 309[0m
+backend-main-service-1  | [0mPUT /api/v1/log/63f86fa47822eec8d37b8469 [33m401[0m 0.328 ms - 110[0m
+backend-main-service-1  | [0mPUT /api/v1/log/63f86fa47822eec8d37b8469 [33m404[0m 3.819 ms - 117[0m
+backend-main-service-1  | [0mPUT /api/v1/log/invalid [33m400[0m 2.689 ms - 156[0m
+backend-main-service-1  | [0mPUT /api/v1/log/64027674ee7a70b0bbf7eedb [32m200[0m 10.112 ms - 309[0m
+backend-main-service-1  | [0mPUT /api/v1/log/64027674ee7a70b0bbf7eedb [32m200[0m 11.077 ms - 317[0m
+backend-main-service-1  | [0mDELETE /api/v1/log/63f86fa47822eec8d37b8469 [33m401[0m 0.367 ms - 110[0m
+backend-main-service-1  | [0mDELETE /api/v1/log/63f86fa47822eec8d37b8469 [33m404[0m 4.386 ms - 117[0m
+backend-main-service-1  | [0mDELETE /api/v1/log/64027674ee7a70b0bbf7eedb [32m200[0m 5.997 ms - 13[0m
+backend-mongo-1         | 2023-03-03T22:36:36.277+0000 I COMMAND  [conn2] CMD: drop testing.users
+backend-mongo-1         | 2023-03-03T22:36:36.277+0000 I COMMAND  [conn5] CMD: drop testing.categories
+backend-mongo-1         | 2023-03-03T22:36:36.277+0000 I COMMAND  [conn4] CMD: drop testing.logs
+backend-mongo-1         | 2023-03-03T22:36:36.277+0000 I STORAGE  [conn2] Finishing collection drop for testing.users (97dfa7f6-67d0-4beb-84a7-3a0c433afab5).
+backend-mongo-1         | 2023-03-03T22:36:36.284+0000 I STORAGE  [conn5] Finishing collection drop for testing.categories (a835e843-e616-44d4-8959-c0917f252f3e).
+backend-mongo-1         | 2023-03-03T22:36:36.286+0000 I STORAGE  [conn4] Finishing collection drop for testing.logs (adf74607-1310-4f22-bd83-3fa25a15f4d4).
+backend-mongo-1         | 2023-03-03T22:36:36.291+0000 I NETWORK  [conn1] end connection 172.19.0.3:39924 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.292+0000 I NETWORK  [conn4] end connection 172.19.0.3:39932 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.292+0000 I NETWORK  [conn5] end connection 172.19.0.3:39934 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.292+0000 I NETWORK  [conn2] end connection 172.19.0.3:39928 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:36.292+0000 I NETWORK  [conn3] end connection 172.19.0.3:39930 (0 connections now open)
+backend-main-service-1  | PASS src/controllers/log.test.ts
+backend-main-service-1  | [0mGET /api/v1/log/64027674ee7a70b0bbf7eedb [33m404[0m 5.749 ms - 117[0m
+backend-mongo-1         | 2023-03-03T22:36:36.761+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39982 #6 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:36.765+0000 I NETWORK  [conn6] received client metadata from 172.19.0.3:39982 conn6: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:36.787+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39986 #7 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.787+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39988 #8 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.787+0000 I NETWORK  [conn7] received client metadata from 172.19.0.3:39986 conn7: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:36.788+0000 I NETWORK  [conn8] received client metadata from 172.19.0.3:39988 conn8: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:36.790+0000 I STORAGE  [conn7] createCollection: testing.users with generated UUID: fcf611fa-d98b-457a-81bc-a9614a68e787
+backend-mongo-1         | 2023-03-03T22:36:36.792+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39990 #9 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.792+0000 I NETWORK  [conn9] received client metadata from 172.19.0.3:39990 conn9: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:36.793+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:39992 #10 (5 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:36.794+0000 I NETWORK  [conn10] received client metadata from 172.19.0.3:39992 conn10: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:36.805+0000 I STORAGE  [conn8] createCollection: testing.categories with generated UUID: edaa0c02-408b-4196-b30f-dfe0cca2e600
+backend-mongo-1         | 2023-03-03T22:36:36.819+0000 I STORAGE  [conn9] createCollection: testing.logs with generated UUID: 47b0dcf6-8d27-480b-b461-0327a6882f31
+backend-mongo-1         | 2023-03-03T22:36:36.836+0000 I INDEX    [conn7] build index on: testing.users properties: { v: 2, unique: true, key: { email: 1 }, name: "email_1", ns: "testing.users", background: true }
+backend-mongo-1         | 2023-03-03T22:36:36.836+0000 I INDEX    [conn7] build index done.  scanned 0 total records. 0 secs
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 70.267 ms - 429[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 4.944 ms - 429[0m
+backend-main-service-1  | [0mGET /api/v1/category/ [33m401[0m 1.322 ms - 110[0m
+backend-main-service-1  | [0mGET /api/v1/category/ [32m200[0m 8.358 ms - 11[0m
+backend-main-service-1  | [0mPOST /api/v1/category [32m201[0m 5.251 ms - 143[0m
+backend-main-service-1  | [0mGET /api/v1/category/ [32m200[0m 6.018 ms - 145[0m
+backend-main-service-1  | [0mPOST /api/v1/category [33m401[0m 0.340 ms - 110[0m
+backend-main-service-1  | [0mPOST /api/v1/category [33m400[0m 2.585 ms - 162[0m
+backend-main-service-1  | [0mPOST /api/v1/category [32m201[0m 5.233 ms - 135[0m
+backend-main-service-1  | [0mPOST /api/v1/category [32m201[0m 3.690 ms - 143[0m
+backend-main-service-1  | [0mGET /api/v1/category/ [33m401[0m 0.401 ms - 110[0m
+backend-main-service-1  | [0mGET /api/v1/category/63f86fa47822eec8d37b8469 [33m404[0m 9.725 ms - 117[0m
+backend-main-service-1  | [0mGET /api/v1/category/invalid [33m400[0m 3.258 ms - 156[0m
+backend-main-service-1  | [0mGET /api/v1/category/6402767462ead3b97f4a2a86 [32m200[0m 4.894 ms - 143[0m
+backend-mongo-1         | 2023-03-03T22:36:37.030+0000 I COMMAND  [conn10] CMD: drop testing.users
+backend-mongo-1         | 2023-03-03T22:36:37.031+0000 I COMMAND  [conn7] CMD: drop testing.categories
+backend-mongo-1         | 2023-03-03T22:36:37.031+0000 I STORAGE  [conn10] Finishing collection drop for testing.users (fcf611fa-d98b-457a-81bc-a9614a68e787).
+backend-mongo-1         | 2023-03-03T22:36:37.036+0000 I STORAGE  [conn7] Finishing collection drop for testing.categories (edaa0c02-408b-4196-b30f-dfe0cca2e600).
+backend-mongo-1         | 2023-03-03T22:36:37.044+0000 I NETWORK  [conn6] end connection 172.19.0.3:39982 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.044+0000 I NETWORK  [conn7] end connection 172.19.0.3:39986 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.044+0000 I NETWORK  [conn10] end connection 172.19.0.3:39992 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.044+0000 I NETWORK  [conn9] end connection 172.19.0.3:39990 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:37.044+0000 I NETWORK  [conn8] end connection 172.19.0.3:39988 (0 connections now open)
+backend-main-service-1  | PASS src/controllers/category.test.ts
+backend-main-service-1  | [0mPUT /api/v1/category/63f86fa47822eec8d37b8469 [33m401[0m 0.671 ms - 110[0m
+backend-main-service-1  | [0mPUT /api/v1/category/63f86fa47822eec8d37b8469 [33m404[0m 6.336 ms - 117[0m
+backend-main-service-1  | [0mPUT /api/v1/category/invalid [33m400[0m 3.473 ms - 156[0m
+backend-main-service-1  | [0mPUT /api/v1/category/6402767462ead3b97f4a2a86 [32m200[0m 8.443 ms - 143[0m
+backend-main-service-1  | [0mPUT /api/v1/category/6402767462ead3b97f4a2a86 [32m200[0m 7.804 ms - 154[0m
+backend-main-service-1  | [0mDELETE /api/v1/category/63f86fa47822eec8d37b8469 [33m401[0m 0.490 ms - 110[0m
+backend-main-service-1  | [0mDELETE /api/v1/category/63f86fa47822eec8d37b8469 [33m404[0m 4.271 ms - 117[0m
+backend-main-service-1  | [0mDELETE /api/v1/category/6402767462ead3b97f4a2a86 [32m200[0m 5.331 ms - 13[0m
+backend-main-service-1  | [0mGET /api/v1/category/6402767462ead3b97f4a2a86 [33m404[0m 2.972 ms - 117[0m
+backend-mongo-1         | 2023-03-03T22:36:37.426+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40038 #11 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:37.430+0000 I NETWORK  [conn11] received client metadata from 172.19.0.3:40038 conn11: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:37.445+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40042 #12 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.445+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40044 #13 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.446+0000 I NETWORK  [conn12] received client metadata from 172.19.0.3:40042 conn12: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:37.446+0000 I NETWORK  [conn13] received client metadata from 172.19.0.3:40044 conn13: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:37.448+0000 I STORAGE  [conn12] createCollection: testing.categories with generated UUID: e6e38001-25fa-4c46-a9f8-d5be2578ca89
+backend-mongo-1         | 2023-03-03T22:36:37.449+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40046 #14 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.449+0000 I NETWORK  [conn14] received client metadata from 172.19.0.3:40046 conn14: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:37.449+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40048 #15 (5 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.450+0000 I NETWORK  [conn15] received client metadata from 172.19.0.3:40048 conn15: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:37.465+0000 I STORAGE  [conn13] createCollection: testing.users with generated UUID: 270deb4f-4a1c-44a3-b2fa-f66a542b48ee
+backend-mongo-1         | 2023-03-03T22:36:37.483+0000 I INDEX    [conn13] build index on: testing.users properties: { v: 2, unique: true, key: { email: 1 }, name: "email_1", ns: "testing.users", background: true }
+backend-mongo-1         | 2023-03-03T22:36:37.483+0000 I INDEX    [conn13] build index done.  scanned 0 total records. 0 secs
+backend-mongo-1         | 2023-03-03T22:36:37.580+0000 I COMMAND  [conn15] CMD: drop testing.users
+backend-mongo-1         | 2023-03-03T22:36:37.580+0000 I STORAGE  [conn15] Finishing collection drop for testing.users (270deb4f-4a1c-44a3-b2fa-f66a542b48ee).
+backend-mongo-1         | 2023-03-03T22:36:37.589+0000 I NETWORK  [conn11] end connection 172.19.0.3:40038 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.589+0000 I NETWORK  [conn15] end connection 172.19.0.3:40048 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.589+0000 I NETWORK  [conn13] end connection 172.19.0.3:40044 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:37.589+0000 I NETWORK  [conn14] end connection 172.19.0.3:40046 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:37.589+0000 I NETWORK  [conn12] end connection 172.19.0.3:40042 (0 connections now open)
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 49.521 ms - 439[0m
+backend-main-service-1  | [0mGET /api/v1/profile/status [32m200[0m 2.849 ms - 11[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 3.846 ms - 406[0m
+backend-main-service-1  | [0mGET /api/v1/profile/status [32m200[0m 2.275 ms - 18[0m
+backend-main-service-1  | [0mGET /api/v1/profile/status [33m400[0m 1.521 ms - 162[0m
+backend-main-service-1  | [0mGET /api/v1/profile [33m401[0m 0.901 ms - 110[0m
+backend-main-service-1  | [0mGET /api/v1/profile [32m200[0m 5.106 ms - 439[0m
+backend-main-service-1  | [0mPUT /api/v1/profile [33m401[0m 0.345 ms - 110[0m
+backend-main-service-1  | [0mPUT /api/v1/profile [32m200[0m 5.012 ms - 454[0m
+backend-main-service-1  | [0mPUT /api/v1/profile [32m200[0m 5.225 ms - 463[0m
+backend-main-service-1  | [0mPUT /api/v1/profile/password [33m401[0m 0.291 ms - 110[0m
+backend-main-service-1  | [0mPUT /api/v1/profile/password [33m400[0m 2.529 ms - 235[0m
+backend-main-service-1  | [0mPUT /api/v1/profile/password [32m200[0m 4.148 ms - 463[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/login [33m401[0m 2.346 ms - 143[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/login [32m200[0m 1.956 ms - 463[0m
+backend-main-service-1  | PASS src/controllers/profile.test.ts
+backend-mongo-1         | 2023-03-03T22:36:37.988+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40078 #16 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:37.991+0000 I NETWORK  [conn16] received client metadata from 172.19.0.3:40078 conn16: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.003+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40082 #17 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.014+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40084 #18 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.020+0000 I NETWORK  [conn17] received client metadata from 172.19.0.3:40082 conn17: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.021+0000 I NETWORK  [conn18] received client metadata from 172.19.0.3:40084 conn18: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.023+0000 I STORAGE  [conn17] createCollection: testing.users with generated UUID: 5a3cc7a7-8fef-4634-a31b-82eb3d3de983
+backend-mongo-1         | 2023-03-03T22:36:38.030+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40088 #19 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.031+0000 I NETWORK  [conn19] received client metadata from 172.19.0.3:40088 conn19: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.031+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40090 #20 (5 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.033+0000 I NETWORK  [conn20] received client metadata from 172.19.0.3:40090 conn20: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.054+0000 I INDEX    [conn17] build index on: testing.users properties: { v: 2, unique: true, key: { email: 1 }, name: "email_1", ns: "testing.users", background: true }
+backend-mongo-1         | 2023-03-03T22:36:38.055+0000 I INDEX    [conn17] build index done.  scanned 0 total records. 0 secs
+backend-mongo-1         | 2023-03-03T22:36:38.111+0000 I COMMAND  [conn20] CMD: drop testing.users
+backend-mongo-1         | 2023-03-03T22:36:38.111+0000 I STORAGE  [conn20] Finishing collection drop for testing.users (5a3cc7a7-8fef-4634-a31b-82eb3d3de983).
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [33m401[0m 1.895 ms - 118[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 37.045 ms - 427[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 4.889 ms - 414[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 3.821 ms - 413[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [33m400[0m 3.138 ms - 147[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [33m409[0m 2.648 ms - 146[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [33m409[0m 1.815 ms - 146[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/login [33m401[0m 0.283 ms - 118[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/login [32m200[0m 1.945 ms - 427[0m
+backend-main-service-1  | [0mPOST /api/v1/auth/local/login [33m401[0m 1.626 ms - 143[0m
+backend-mongo-1         | 2023-03-03T22:36:38.119+0000 I NETWORK  [conn16] end connection 172.19.0.3:40078 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.120+0000 I NETWORK  [conn20] end connection 172.19.0.3:40090 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.120+0000 I NETWORK  [conn17] end connection 172.19.0.3:40082 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.120+0000 I NETWORK  [conn19] end connection 172.19.0.3:40088 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:38.120+0000 I NETWORK  [conn18] end connection 172.19.0.3:40084 (0 connections now open)
+backend-main-service-1  | PASS src/controllers/auth.email.test.ts
+backend-mongo-1         | 2023-03-03T22:36:38.505+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40108 #21 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:38.508+0000 I NETWORK  [conn21] received client metadata from 172.19.0.3:40108 conn21: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.520+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40112 #22 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.520+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40114 #23 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.528+0000 I NETWORK  [conn22] received client metadata from 172.19.0.3:40112 conn22: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.529+0000 I NETWORK  [conn23] received client metadata from 172.19.0.3:40114 conn23: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.534+0000 I STORAGE  [conn23] createCollection: testing.users with generated UUID: ea0b867c-6459-41a8-ab82-1614ce567aab
+backend-mongo-1         | 2023-03-03T22:36:38.545+0000 I NETWORK  [listener] connection accepted from 172.19.0.3:40116 #24 (4 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.546+0000 I NETWORK  [conn24] received client metadata from 172.19.0.3:40116 conn24: { driver: { name: "nodejs|Mongoose", version: "4.14.0" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.10.16.3-microsoft-standard-WSL2" }, platform: "Node.js v18.14.2, LE (unified)", version: "4.14.0|6.10.0" }
+backend-mongo-1         | 2023-03-03T22:36:38.551+0000 I INDEX    [conn23] build index on: testing.users properties: { v: 2, unique: true, key: { email: 1 }, name: "email_1", ns: "testing.users", background: true }
+backend-mongo-1         | 2023-03-03T22:36:38.551+0000 I INDEX    [conn23] build index done.  scanned 1 total records. 0 secs
+backend-mongo-1         | 2023-03-03T22:36:38.585+0000 I COMMAND  [conn23] CMD: drop testing.users
+backend-mongo-1         | 2023-03-03T22:36:38.585+0000 I STORAGE  [conn23] Finishing collection drop for testing.users (ea0b867c-6459-41a8-ab82-1614ce567aab).
+backend-mongo-1         | 2023-03-03T22:36:38.594+0000 I NETWORK  [conn21] end connection 172.19.0.3:40108 (3 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.594+0000 I NETWORK  [conn23] end connection 172.19.0.3:40114 (2 connections now open)
+backend-mongo-1         | 2023-03-03T22:36:38.594+0000 I NETWORK  [conn24] end connection 172.19.0.3:40116 (1 connection now open)
+backend-mongo-1         | 2023-03-03T22:36:38.594+0000 I NETWORK  [conn22] end connection 172.19.0.3:40112 (0 connections now open)
+backend-main-service-1  | PASS src/middlewares/bearerAuth.test.ts
+backend-main-service-1  | [0mPOST /api/v1/auth/local/register [32m201[0m 28.236 ms - 422[0m
+backend-main-service-1  | [0mGET /api/v1/profile [32m200[0m 6.524 ms - 422[0m
+backend-main-service-1  | [0mGET /api/v1/profile [33m401[0m 0.953 ms - 110[0m
+backend-main-service-1  | [0mGET /api/v1/profile [33m401[0m 2.354 ms - 142[0m
+backend-main-service-1  | [0mGET /api/v1/profile [33m401[0m 0.784 ms - 109[0m
+backend-main-service-1  | [0mGET /api/v1/profile [33m401[0m 0.771 ms - 109[0m
+backend-main-service-1  | PASS tests/open-express.test.ts
+backend-main-service-1  | [0mGET / [33m404[0m 2.542 ms - 13[0m
+backend-main-service-1  | PASS src/utils/expressApp.test.ts
+backend-main-service-1  | PASS src/passport/local.test.ts
+backend-main-service-1  | 
+backend-main-service-1  | Test Suites: 8 passed, 8 total
+backend-main-service-1  | Tests:       70 passed, 70 total
+backend-main-service-1  | Snapshots:   0 total
+backend-main-service-1  | Time:        5.885 s, estimated 8 s
+backend-main-service-1  | Ran all test suites.
+backend-main-service-1 exited with code 0
+Aborting on container exit...
+Container backend-main-service-1  Stopping
+Container backend-server-test-1  Stopping
+Container backend-server-test-1  Stopped
+Container backend-main-service-1  Stopped
+Container backend-mongo-1  Stopping
+Container backend-mongo-1  Stopped

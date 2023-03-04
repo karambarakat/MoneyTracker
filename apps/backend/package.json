@@ -18,7 +18,8 @@
     "test:watch": "npm run test:base -- --watch",
     "test:base": "dotenv -c test -- jest --runInBand",
     "test": "docker compose -f test-compose.yaml up --abort-on-container-exit --exit-code-from main-service",
-    "test:force-build": "npm run test -- --build"
+    "test:force-build": "npm run test -- --build",
+    "deploy": "echo \"todo: to be implemented\""
   },
   "author": "karam barakat",
   "license": "MIT",

@@ -1,20 +1,23 @@
+FROM node:18-bullseye-slim as base
 # Copy Package*.json files from all packages
-FROM node:18-bullseye-slim
-
-WORKDIR /src
-COPY package*.json .
-COPY apps apps
-COPY packages packages
-RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
-RUN find apps \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
-
-# npm install & build
-FROM node:18-bullseye-slim
+FROM base as prune
 ARG Package_name
 
-
-WORKDIR /src
-COPY --from=0 /src .
-RUN npm i -w ${Package_name}
+WORKDIR /app
 COPY . .
+RUN npx turbo prune --scope ${Package_name} --docker
+
+# npm install
+FROM base
+
+WORKDIR /app
+COPY --from=prune /app/out/json/ .
+COPY --from=prune /app/out/package-lock.json ./package-lock.json
+RUN npm install
+COPY --from=prune /app/out/full/ .
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
+
 CMD ["sleep", "infinity"]
