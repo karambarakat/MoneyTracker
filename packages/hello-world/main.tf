@@ -3,7 +3,7 @@ terraform {
     organization = "myPocket"
 
     workspaces {
-      name = "myPocket_test"
+      name = "myPocket_test2"
     }
   }
   required_providers {
@@ -14,9 +14,16 @@ terraform {
   }
 }
 
+variable "GOOGLE_CREDENTIALS" {
+  type      = string
+  sensitive = true
+}
+
 provider "google" {
   project = "mypocket-379109"
   region  = "us-central1"
+
+  credentials = var.GOOGLE_CREDENTIALS
 }
 
 data "google_storage_bucket" "main" {

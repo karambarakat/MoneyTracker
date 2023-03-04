@@ -7,7 +7,7 @@
   "scripts": {
     "build": "zip a src.zip index.js package.json",
     "build:clear": "rm src.zip",
-    "deploy": "terraform init && terraform apply"
+    "deploy": "terraform init && terraform apply -auto-approve"
   },
   "author": "",
   "license": "ISC",
