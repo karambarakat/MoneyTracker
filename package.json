@@ -12,7 +12,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "deploy": "turbo run deploy --filter terraform",
+    "deploy": "turbo run deploy",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
