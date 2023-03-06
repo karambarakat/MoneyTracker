@@ -1,9 +1,13 @@
 {
+  "$schema": "https://turbo.build/schema.json",
   "extends": ["//"],
   "pipeline": {
     "build": {
-      "input": ["./src/*", "./index.js", "./package.json"],
+      "inputs": ["./src/*", "./index.js", "./package.json"],
       "outputs": ["./.src.zip"]
+    },
+    "deploy": {
+      "dependsOn": ["build"]
     }
   }
 }

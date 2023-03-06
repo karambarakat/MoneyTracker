@@ -16,7 +16,7 @@
       "dependsOn": ["build", "test", "^deploy"]
     },
     "dev": {
-      "dependsOn": ["openapi#build"],
+      "dependsOn": ["^openapi#build"],
       "cache": false,
       "persistent": true
     }

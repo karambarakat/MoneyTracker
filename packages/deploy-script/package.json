@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "deploy-script",
+  "private": true,
+  "main": "./index.js",
+  "exports": {
+    "./index.js": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "bin": {
+    "deploy-script": "./index.js"
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.8.11",
+    "@types/yargs": "^17.0.22",
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "import-local": "^3.1.0",
+    "shelljs": "^0.8.5",
+    "yargs": "^17.7.1"
+  }
+}

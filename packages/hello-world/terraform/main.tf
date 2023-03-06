@@ -6,6 +6,7 @@ terraform {
       name = "myPocket_test2"
     }
   }
+
   required_providers {
     google = {
       source  = "hashicorp/google"
