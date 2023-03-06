@@ -7,11 +7,12 @@
   "scripts": {
     "build": "zip a src.zip src package.json",
     "build:clear": "rm src.zip",
-    "deploy": "terraform init && terraform apply -auto-approve"
+    "deploy": "deploy-script ./main.tf --dir hi"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.3"
+    "@google-cloud/functions-framework": "^3.1.3",
+    "deploy-script": "*"
   }
 }
