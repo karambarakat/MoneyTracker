@@ -31,7 +31,7 @@ resource "google_storage_bucket_object" "main" {
 }
 
 resource "google_cloudfunctions_function" "main" {
-  name        = "${terraform.workspace}-function"
+  name        = "terraform.workspace-function"
   description = "My function"
   runtime     = "nodejs18"
 
