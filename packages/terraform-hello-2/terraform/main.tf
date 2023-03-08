@@ -50,3 +50,7 @@ resource "google_cloudfunctions_function_iam_member" "main" {
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
 }
+
+output "function_url" {
+  value = google_cloudfunctions_function.main.https_trigger_url
+}

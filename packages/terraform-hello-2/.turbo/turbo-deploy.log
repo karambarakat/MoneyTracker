@@ -1,0 +1,25 @@
+
+> hello-world@5.0.0 deploy
+> deploy-script --appName hello-world --zip_dir ./ --working_dir ./terraform
+
+[
+  'package.json',
+  'src',
+  'src.zip',
+  'terraform',
+  'turbo.json',
+  stdout: 'package.json\nsrc\nsrc.zip\nterraform\nturbo.json\n',
+  stderr: null,
+  code: 0,
+  cat: [Function: bound ],
+  exec: [Function: bound ],
+  grep: [Function: bound ],
+  head: [Function: bound ],
+  sed: [Function: bound ],
+  sort: [Function: bound ],
+  tail: [Function: bound ],
+  to: [Function: bound ],
+  toEnd: [Function: bound ],
+  uniq: [Function: bound ]
+]
+bingo
