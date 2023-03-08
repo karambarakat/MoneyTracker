@@ -4,7 +4,9 @@ This is a monorepo for `myPocket` app, this is seamless and powerfully MERN full
 # DevOps
 The workflow of deploying and operating this app is relying primarily on Github Actions, Terraform and Turborepo. there are two main branches in this app: develop and master. In regards of environments there is only production and I'm working on having staging and experimentation environments.
 
-Deploying infrastructure relay on Terraform Cloud, as a monorepo every app and package has its own workspace in the cloud and it defines its infrastructure in `terraform` subdirectory, from CI/CD perspective I made a script in `packages/deploy-script` that would be triggered on every commit on `master` branch by `deploy` action . To integrate github with terraform cloud **you have to provide `TF_API_TOKEN` secret to your github repository**.
+Deploying infrastructure relay on Terraform Cloud, as a monorepo every app and package has its own workspace in the cloud and it defines its infrastructure in `terraform` subdirectory, from CI/CD perspective I made a script in `packages/deploy-script` that would be triggered on every commit on `master` branch by `deploy` action . 
+
+To integrate github with terraform cloud. **you have to provide `TF_Organization` and `TF_Token` secrets to your github repository**.
 
 # Technologies
 

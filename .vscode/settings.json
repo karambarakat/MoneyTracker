@@ -4,10 +4,13 @@
     "cmnd",
     "elems",
     "hoverable",
+    "karam",
+    "karambarakat",
     "localstorage",
     "openapi",
     "signup",
     "tabler",
+    "TCICD",
     "Turborepo"
   ]
 }

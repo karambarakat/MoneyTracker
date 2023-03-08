@@ -1,0 +1,15 @@
+{
+  "name": "terraform-hello-2",
+  "version": "5.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "deploy": "deploy-script --appName terraform-hello-2 --zip_dir ./ --working_dir ./terraform"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.1.3"
+  }
+}
