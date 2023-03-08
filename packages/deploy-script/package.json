@@ -14,13 +14,17 @@
     "deploy-script": "./index.js"
   },
   "devDependencies": {
+    "dotenv-cli": "^7.0.0",
     "@types/shelljs": "^0.8.11",
+    "@types/tar": "^6.1.4",
     "@types/yargs": "^17.0.22",
     "nodemon": "^2.0.21"
   },
   "dependencies": {
     "import-local": "^3.1.0",
+    "node-fetch": "^3.3.0",
     "shelljs": "^0.8.5",
+    "tar": "^6.1.13",
     "yargs": "^17.7.1"
   }
 }

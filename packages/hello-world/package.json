@@ -5,14 +5,13 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "build": "zip a src.zip src package.json",
+    "build": "zip u src.zip src package.json",
     "build:clear": "rm src.zip",
-    "deploy": "deploy-script ./main.tf --dir hi"
+    "deploy": "deploy-script --appName hello-world --zip_dir ./ --working_dir ./terraform"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.3",
-    "deploy-script": "*"
+    "@google-cloud/functions-framework": "^3.1.3"
   }
 }

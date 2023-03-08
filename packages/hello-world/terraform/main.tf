@@ -1,12 +1,4 @@
 terraform {
-  cloud {
-    organization = "myPocket"
-
-    workspaces {
-      name = "myPocket_test2"
-    }
-  }
-
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -28,18 +20,18 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "main" {
-  name     = "function-bucket-xxx"
+  name     = "development-mypocket"
   location = "us-central1"
 }
 
 resource "google_storage_bucket_object" "main" {
-  name   = "terraform-${terraform.workspace}-function-src-files"
-  source = "./src.zip"
+  name   = "${terraform.workspace}-function"
+  source = "../src.zip"
   bucket = google_storage_bucket.main.name
 }
 
 resource "google_cloudfunctions_function" "main" {
-  name        = "function-test-new"
+  name        = "${terraform.workspace}-function"
   description = "My function"
   runtime     = "nodejs18"
 
