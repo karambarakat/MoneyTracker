@@ -16,6 +16,8 @@ jobs:
        TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
        TF_Token: ${{ secrets.TF_Token }}
        TF_Organization: ${{ secrets.TF_Organization }}
+       NODE_ENV: ${{ var.NODE_ENV }}
+       Version: ${{ var.Version }}
        TURBO_REMOTE_ONLY: true 
       steps:
         - name: Check out code

@@ -1,6 +1,8 @@
 # myPocket
 This is a monorepo for `myPocket` app, this is seamless and powerfully MERN full stack app designed to simplify and assist your personal finances. it is made of React frontend application and Express backend with MongoDB as the database of choice.
 
+To opt into Truporepo cashing **provide `TURBO_REPO_CACHE_TOKEN` and `TURBO_REPO_CACHE_TEAM` secrets** in the github repo
+
 # DevOps
 The workflow of deploying and operating this app is relying primarily on Github Actions, Terraform and Turborepo. there are two main branches in this app: develop and master. In regards of environments there is only production and I'm working on having staging and experimentation environments.
 

@@ -6,7 +6,7 @@ const shx = require('shelljs')
 const tar = require('tar')
 
 async function main() {
-  const { default: _fetch, Headers } = (await import('node-fetch'))
+  const { default: _fetch, Headers } = await import('node-fetch')
   /**
    * @type {(...args: Parameters<_fetch>) => Promise<safeAny>}
    */
@@ -18,83 +18,101 @@ async function main() {
   // @ts-ignore
   const argv = yarg.argv
 
-  const { working_dir, appName, v, zip_dir } = argv
+  const { working_dir, appName, zip_dir } = argv
 
   const working_dir_f = path.join(zip_dir, working_dir)
   test_if_tf_files_exist(working_dir_f)
 
-  const workspace = (`tcicd-${organization}-${appName}-${env}-${v}`).toLowerCase().replace('_', '-')
+  const workspace = `tcicd-${organization}-${appName}-${env}-${v}`
+    .toLowerCase()
+    .replace('_', '-')
 
   // look up the workspace id
-  var res = await fetch(`https://app.terraform.io/api/v2/organizations/${organization}/workspaces/${workspace}`, {
-    headers: new Headers({
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/vnd.api+json"
-    }),
-  })
+  var res = await fetch(
+    `https://app.terraform.io/api/v2/organizations/${organization}/workspaces/${workspace}`,
+    {
+      headers: new Headers({
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/vnd.api+json',
+      }),
+    }
+  )
 
   // or create new one
-  if (typeof res?.errors?.some === 'function' && res.errors.some(e => e.status === "404")) {
-    res = await fetch(`https://app.terraform.io/api/v2/organizations/${organization}/workspaces`, {
-      method: "POST",
-      body: JSON.stringify({
-        data: {
-          type: "workspaces",
-          attributes: {
-            name: workspace,
-            "working-directory": working_dir_f
-          }
-        }
-      }),
-      headers: new Headers({
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/vnd.api+json"
-      }),
-    })
+  if (
+    typeof res?.errors?.some === 'function' &&
+    res.errors.some((e) => e.status === '404')
+  ) {
+    res = await fetch(
+      `https://app.terraform.io/api/v2/organizations/${organization}/workspaces`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          data: {
+            type: 'workspaces',
+            attributes: {
+              name: workspace,
+              'working-directory': working_dir_f,
+            },
+          },
+        }),
+        headers: new Headers({
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/vnd.api+json',
+        }),
+      }
+    )
   }
 
-  if (res?.success === false)
-    err("failed to given fetch workspace", res)
+  if (res?.success === false) err('failed to given fetch workspace', res)
 
-  const id = res?.data?.id || err("no data.id")
+  const id = res?.data?.id || err('no data.id')
 
-  res = await fetch(`https://app.terraform.io/api/v2/workspaces/${id}/configuration-versions`, {
-    method: "POST",
-    body: '{"data":{"type":"configuration-versions"}}',
-    headers: new Headers({
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/vnd.api+json"
-    }),
-  })
+  res = await fetch(
+    `https://app.terraform.io/api/v2/workspaces/${id}/configuration-versions`,
+    {
+      method: 'POST',
+      body: '{"data":{"type":"configuration-versions"}}',
+      headers: new Headers({
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/vnd.api+json',
+      }),
+    }
+  )
   /**
    * @type {string}
    */
-  const uploadUrl = res?.data?.attributes?.['upload-url'] || err('.data.attributes."upload-url"')
+  const uploadUrl =
+    res?.data?.attributes?.['upload-url'] ||
+    err('.data.attributes."upload-url"')
 
   console.log(shx.ls())
 
   const res2 = await _fetch(uploadUrl, {
-    method: "PUT",
+    method: 'PUT',
     body: tar.c(
       {
         gzip: true,
-      }, [path.join(process.cwd(), zip_dir).replace(process.cwd(), ".")]
+      },
+      [path.join(process.cwd(), zip_dir).replace(process.cwd(), '.')]
     ),
     headers: new Headers({
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/vnd.api+json"
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/vnd.api+json',
     }),
   })
 
-  if (!res2.ok)
-    err("failed to upload the configuration", res2)
+  if (!res2.ok) err('failed to upload the configuration', res2)
 }
 
 /**
- * prints extra argument and can be use as expression instead of `throw new Error()` statement 
+ * prints extra argument and can be use as expression instead of `throw new Error()` statement
  * @type {(m: string, ...rest: any[])=> any}
  */
-const err = (m, ...rest) => { console.log(m, ...rest); throw new Error(m) }
+const err = (m, ...rest) => {
+  console.log(m, ...rest)
+  throw new Error(m)
+}
 /**
  * possible undefined but can be optionally chained
  * i.e. :give an error when you try to access property but works fine when you use optional chaining
@@ -102,12 +120,17 @@ const err = (m, ...rest) => { console.log(m, ...rest); throw new Error(m) }
  * @example safeAny.hi.hi.hi.hi // error
  * @example safeAny?.hi?.hi?.hi?.hi // works
  * @example safeAny?.hi === "random" // works
- * @typedef {undefined | ({[k: string]: safeAny} & (boolean | string | number | function))} safeAny 
+ * @typedef {undefined | ({[k: string]: safeAny} & (boolean | string | number | function))} safeAny
  */
 
-const token = process.env.TF_Token || err("`TF_Token` was not provided as environment variable")
-const env = process.env.NODE_ENV || "default"
-const organization = process.env.TF_Organization || err("`TF_Organization` was not provided as environment variable")
+const token =
+  process.env.TF_Token ||
+  err('`TF_Token` was not provided as environment variable')
+const env = process.env.NODE_ENV || 'default'
+const v = process.env.Version || 'vx'
+const organization =
+  process.env.TF_Organization ||
+  err('`TF_Organization` was not provided as environment variable')
 
 const yarg = yargs
   .demandCommand(
@@ -116,8 +139,8 @@ const yarg = yargs
     'provide no positional argument',
     'provide less positional argument'
   )
-  .options("appName", {
-    type: "string",
+  .options('appName', {
+    type: 'string',
     demandOption: true,
   })
   .options('working_dir', {
@@ -126,18 +149,14 @@ const yarg = yargs
     demandOption: true,
     desc: 'directory contains all .tf configurations',
   })
-  .options('v', {
-    default: 'vx',
-    type: "string",
-    describe: 'deployment verstion'
-  })
   .options('zip_dir', {
     default: './terraform',
-    type: "string",
-    describe: 'what directory will be send to the cloud, default `./terraform` but you can specify `./` to send the entire working directory, note `../` is not tested yet but should work',
+    type: 'string',
+    describe:
+      'what directory will be send to the cloud, default `./terraform` but you can specify `./` to send the entire working directory, note `../` is not tested yet but should work',
     coerce: (val) => {
-      return path.join(process.cwd(), val).replace(process.cwd(), ".")
-    }
+      return path.join(process.cwd(), val).replace(process.cwd(), '.')
+    },
   })
 
 function test_if_tf_files_exist(val) {
