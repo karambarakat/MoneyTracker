@@ -1,24 +1,18 @@
 
 > hello-world@5.0.0 build
-> zip a src.zip src package.json
+> zip u src.zip src package.json
 
 
 7-Zip 22.01 (x64) : Copyright (c) 1999-2022 Igor Pavlov : 2022-07-15
 
-Open archive: src.zip
---
-Path = src.zip
-Type = zip
-Physical Size = 791
-
 Scanning the drive:
-1 folder, 2 files, 586 bytes (1 KiB)
+1 folder, 2 files, 620 bytes (1 KiB)
 
-Updating archive: src.zip
+Creating archive: src.zip
 
-Add new data to archive: 1 folder, 2 files, 586 bytes (1 KiB)
+Add new data to archive: 1 folder, 2 files, 620 bytes (1 KiB)
 
 
 Files read from disk: 2
-Archive size: 790 bytes (1 KiB)
+Archive size: 812 bytes (1 KiB)
 Everything is Ok

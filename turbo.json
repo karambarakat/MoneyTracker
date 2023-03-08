@@ -6,14 +6,14 @@
       "outputs": []
     },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [],
       "outputs": ["dist/**", ".next/**"]
     },
     "test": {
       "dependsOn": []
     },
     "deploy": {
-      "dependsOn": ["build", "test", "^deploy"]
+      "dependsOn": ["^build", "^deploy"]
     },
     "dev": {
       "dependsOn": ["^openapi#build"],
