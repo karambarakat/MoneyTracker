@@ -5,14 +5,21 @@
 
 7-Zip 22.01 (x64) : Copyright (c) 1999-2022 Igor Pavlov : 2022-07-15
 
+Open archive: src.zip
+--
+Path = src.zip
+Type = zip
+Physical Size = 812
+
 Scanning the drive:
 1 folder, 2 files, 620 bytes (1 KiB)
 
-Creating archive: src.zip
+Updating archive: src.zip
 
-Add new data to archive: 1 folder, 2 files, 620 bytes (1 KiB)
+Keep old data in archive: 1 folder, 2 files, 620 bytes (1 KiB)
+Add new data to archive: 0 files, 0 bytes
 
 
-Files read from disk: 2
+Files read from disk: 0
 Archive size: 812 bytes (1 KiB)
 Everything is Ok

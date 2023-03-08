@@ -71,6 +71,8 @@ async function main() {
    */
   const uploadUrl = res?.data?.attributes?.['upload-url'] || err('.data.attributes."upload-url"')
 
+  console.log(shx.ls())
+
   const res2 = await _fetch(uploadUrl, {
     method: "PUT",
     body: tar.c(
