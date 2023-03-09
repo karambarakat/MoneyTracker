@@ -86,7 +86,7 @@ async function main() {
    */
   const uploadUrl =
     res?.data?.attributes?.['upload-url'] ||
-    err('no `.data.attributes."upload-url`', res)
+    err('no `.data.attributes."upload-url"`', res)
 
   console.log(shx.ls())
 
