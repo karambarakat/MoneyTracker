@@ -10,8 +10,10 @@ async function main() {
   /**
    * @type {(...args: Parameters<_fetch>) => Promise<safeAny>}
    */
-  const fetch = (...args) => _fetch(...args).then(json)
-  const json = (/** @type {{ json: () => any; }} */ val) => val.json()
+  const fetch = (...args) =>
+    _fetch(...args).then((/** @type {{ json: () => any; }} */ val) =>
+      val.json()
+    )
   /**
    * @type {{_: unknown[]} & ((typeof yarg) extends import("yargs").Argv<infer I> ? I : never)}
    */
@@ -66,7 +68,7 @@ async function main() {
 
   if (res?.success === false) err('failed to given fetch workspace', res)
 
-  const id = res?.data?.id || err('no data.id')
+  const id = res?.data?.id || err('no `data.id`', res)
 
   res = await fetch(
     `https://app.terraform.io/api/v2/workspaces/${id}/configuration-versions`,
@@ -84,7 +86,7 @@ async function main() {
    */
   const uploadUrl =
     res?.data?.attributes?.['upload-url'] ||
-    err('.data.attributes."upload-url"')
+    err('no `.data.attributes."upload-url`', res)
 
   console.log(shx.ls())
 
@@ -111,11 +113,13 @@ async function main() {
  */
 const err = (m, ...rest) => {
   console.log(m, ...rest)
-  throw new Error(m)
+  process.exit(1)
 }
 /**
  * possible undefined but can be optionally chained
+ *
  * i.e. :give an error when you try to access property but works fine when you use optional chaining
+ *
  * note: this is how optional chaining shoud work with `unknown` but idw and I don`t wanna bother
  * @example safeAny.hi.hi.hi.hi // error
  * @example safeAny?.hi?.hi?.hi?.hi // works
@@ -170,6 +174,4 @@ function test_if_tf_files_exist(val) {
   }
 }
 
-main()
-  .then((e) => console.log('bingo'))
-  .catch((e) => console.log('\n', e.message || e))
+main().then((e) => console.log('bingo'))
