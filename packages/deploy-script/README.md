@@ -2,6 +2,13 @@
 
 this a helper to integrate Github actions with Terraform API-driven workspaces.
 
+# development
+
+to make life easy I create local file `.env.deploy` and run the following to test outcome
+```
+$ dotenv -c deploy -- npm run deploy -w terraform-hello
+```
+
 # doc
 
 ```
