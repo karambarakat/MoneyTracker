@@ -1,3 +1,4 @@
+const path = require('path')
 const yargs = require('yargs/yargs')(process.argv.slice(2))
 
 const myYarg = yargs
