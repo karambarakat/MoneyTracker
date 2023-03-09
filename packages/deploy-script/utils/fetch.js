@@ -1,19 +1,22 @@
 /**
- * @type {(...args: Parameters<_fetch>) => Promise<Response & { get : (cb: ((a:safeAny) => any)) => Promise<any>}> }
+ * @typedef {(cb?: ((a:safeAny) => any)) => Promise<any>} Get
+ */
+
+/**
+ * @type {(...args: Parameters<_fetch>) => Promise<Response & { get : Get }> }
  */
 exports.fetch = async (...args) =>
-  //@ts-ignore
   import('node-fetch')
     .then((m) => m.default)
     .then((fetch) => fetch(...args))
-    .then((res) => {
-      let body
+    .then(async (res) => {
+      const body = await res.json()
       Object.defineProperty(res, 'get', {
         value: async function (acc) {
-          if (res.ok) {
-            if (!body) body = (await res.json()) || {}
-            return acc(body)
+          if (!res.ok) {
+            // ???
           }
+          return typeof acc === 'function' ? acc(body) : body
         },
       })
       return res

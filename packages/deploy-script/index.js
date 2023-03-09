@@ -57,6 +57,8 @@ async function main() {
         },
       }
     )
+
+    console.log('created new workspace with id:', res.get())
   }
 
   const success = await res.get((v) => v?.success === false)
@@ -66,7 +68,7 @@ async function main() {
   // get id
   const id = await res.get((val) => val?.data?.id)
 
-  id || err('no `data.id`', res)
+  id || err('no `data.id`', await res.json())
 
   // prepare to upload configuration
   res = await fetch(
@@ -98,7 +100,7 @@ async function main() {
     },
   })
 
-  if (!res2.ok) err('failed to upload the configuration', res2)
+  if (!res2.ok) err('failed to upload the configuration', await res2.json())
 }
 
 main().then((e) => console.log('bingo'))
