@@ -5,11 +5,10 @@ const tar = require('tar')
 const { test_if_tf_files_exist } = require('./utils/test_if_tf_files_exist.js')
 const { err } = require('./utils/err.js')
 const { parseEnv } = require('./utils/parseEnv.js')
-const { fetch, _fetch: _fetchwait } = require('./utils/fetch.js')
+const { fetch } = require('./utils/fetch.js')
 const { argv, yarg } = require('./yarg.js')
 
 async function main() {
-  const _fetch = await _fetchwait
   const { env, organization, token, v } = parseEnv()
 
   const { working_dir, appName, zip_dir } = argv
@@ -33,11 +32,8 @@ async function main() {
   )
 
   // or create new one
-  const ifError = await res.get((v) => v?.errors)
-  if (
-    typeof ifError?.some === 'function' &&
-    ifError.some((e) => e.status === '404')
-  ) {
+  const ifError = await res.get((v) => v?.errors?.[0]?.status === '404')
+  if (ifError) {
     res = await fetch(
       `https://app.terraform.io/api/v2/organizations/${organization}/workspaces`,
       {
@@ -58,17 +54,17 @@ async function main() {
       }
     )
 
-    console.log('created new workspace with id:', res.get())
+    console.log('created new workspace with id:', await res.get())
   }
 
   const success = await res.get((v) => v?.success === false)
 
-  if (success) err('failed to given fetch workspace', res)
+  if (success) err('failed to given fetch workspace', await res.get())
 
   // get id
   const id = await res.get((val) => val?.data?.id)
 
-  id || err('no `data.id`', await res.json())
+  id || err('no `data.id`', await res.get())
 
   // prepare to upload configuration
   res = await fetch(
@@ -86,7 +82,7 @@ async function main() {
   const uploadUrl = await res.get((v) => v?.data?.attributes?.['upload-url'])
   uploadUrl || err('no `.data.attributes."upload-url"`', await res.json())
 
-  const res2 = await _fetch(uploadUrl, {
+  const res2 = await fetch(uploadUrl, {
     method: 'PUT',
     body: tar.c(
       {
@@ -100,7 +96,7 @@ async function main() {
     },
   })
 
-  if (!res2.ok) err('failed to upload the configuration', await res2.json())
+  if (!res2.ok) err('failed to upload the configuration')
 }
 
 main().then((e) => console.log('bingo'))

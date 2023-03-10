@@ -10,7 +10,10 @@ exports.fetch = async (...args) =>
     .then((m) => m.default)
     .then((fetch) => fetch(...args))
     .then(async (res) => {
-      const body = await res.json()
+      var body
+      try {
+        body = await res.json()
+      } catch {}
       Object.defineProperty(res, 'get', {
         value: async function (acc) {
           if (!res.ok) {
@@ -21,7 +24,9 @@ exports.fetch = async (...args) =>
       })
       return res
     })
-exports._fetch = import('node-fetch').then((m) => m.default)
+
+exports._fetch = (...args) =>
+  import('node-fetch').then((m) => m.default(...args))
 
 /**
  * possible undefined but can be optionally chained
