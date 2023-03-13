@@ -1,2 +1,0 @@
-- [ ] optional fields are null (put requests) sometime and sometime are undefined
-- [x] unit tests
