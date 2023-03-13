@@ -1,7 +1,15 @@
+Debugger attached.
 
 > openapi@1.0.0 build
 > node build.js
 
+Debugger attached.
 generated openapi.yaml, openapi.json
-generated dir md-docs
-success
+Debugger attached.
+Debugger attached.
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...
+
+Error: undefined
+Waiting for the debugger to disconnect...

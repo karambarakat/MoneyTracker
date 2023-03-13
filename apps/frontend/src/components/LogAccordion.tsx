@@ -8,15 +8,14 @@ import {
   Text,
 } from '@mantine/core'
 import dispatch from '@redux/dispatch'
-import { store } from '@redux/index'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import { LogDoc } from 'src/types/log'
+import { Log } from 'types/schema'
 import Amount from './Amount'
 import CategoryIcon from './category/CategoryIcon'
 import { Link } from './ReactRoute'
 
-function LogAccordion({ log }: { log: LogDoc }) {
+function LogAccordion({ log }: { log: Log }) {
   const nav = useNavigate()
   return (
     <Accordion.Item value={log._id} key={log._id}>

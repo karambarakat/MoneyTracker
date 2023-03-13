@@ -1,4 +1,4 @@
-import { BadBasicToken } from '@httpErrors/errTypes'
+import { BadBasicToken } from '@utils/httpError/errTypes'
 import express from 'express'
 import { Request } from 'express'
 

@@ -4,7 +4,7 @@ import {
   apiProfileUpdate_local,
   apiProfileUpdate_nolocal,
   UserDoc,
-} from 'src/types/user'
+} from 'types/schema'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'

@@ -2,7 +2,19 @@
   "name": "types",
   "version": "5.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "",
+  "types": "./schema.d.ts",
+  "exports": {
+    "./jwt": {
+      "types": "./jwt.d.ts"
+    },
+    "./httpErrors": {
+      "types": "./httpErrors.d.ts"
+    },
+    "./helpers": {
+      "types": "./helpers.d.ts"
+    }
+  },
   "scripts": {},
   "author": "",
   "license": "ISC"

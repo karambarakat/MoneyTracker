@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import _ from 'express-async-handler'
 import passport from 'passport'
-import type { apiGoogleCallbackParams } from 'types/api/api'
+import type { apiGoogleCallbackParams } from 'types/api/callback'
 const google = Router()
 
 /**
@@ -25,7 +24,7 @@ const google = Router()
  */
 google.route('/').get(
   passport.authenticate('google', {
-    scope: ['email', 'profile'],
+    scope: ['profile'],
   })
 )
 

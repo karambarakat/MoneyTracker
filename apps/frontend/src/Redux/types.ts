@@ -1,6 +1,6 @@
-import { CatDoc } from 'src/types/category'
-import { LogDoc } from 'src/types/log'
-import { UserDoc } from 'src/types/user'
+import { Category as CatDoc } from 'types/schema'
+import { Log as LogDoc } from 'types/schema'
+import { Profile } from 'types/schema'
 import { actions } from './actions/types'
 import { dispatchSugarFunction, HelpersFns, ReduxFns } from './dispatch'
 import { ActionClearAll, ExtraActionsTypes } from './extra/clearData'
@@ -14,7 +14,7 @@ import { UserTypes } from './reducers/userReducer'
  */
 export interface UserState {
   onlineState: boolean
-  profile?: UserDoc
+  profile?: Profile
 }
 
 export type LogsState = LogDoc[]
@@ -104,18 +104,18 @@ export type dispatchFunction = (
 
 export type APIResponse =
   | {
-      error: {
-        status: number
-        message: string
-        name: string
-        details: any
-      }
-      data: undefined
+    error: {
+      status: number
+      message: string
+      name: string
+      details: any
     }
+    data: undefined
+  }
   | {
-      error: null
-      data: any
-    }
+    error: null
+    data: any
+  }
 
 export type APIResource<doc> = {
   data: doc

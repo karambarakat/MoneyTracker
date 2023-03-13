@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { apiCatCreate, CatDoc } from 'src/types/category'
+import { apiCatCreate, CatDoc } from 'types/schema'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'

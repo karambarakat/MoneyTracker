@@ -1,5 +1,5 @@
 import { dispatchSugarFunction } from '@redux/dispatch'
-import { apiGoogleCallbackParams } from 'src/types/user'
+import { apiGoogleCallbackParams } from 'types/api/callback'
 
 export type CallbackParams = apiGoogleCallbackParams
 

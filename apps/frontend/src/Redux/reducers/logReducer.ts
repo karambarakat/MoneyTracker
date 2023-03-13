@@ -1,6 +1,6 @@
 import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
 import moment from 'moment'
-import { LogDoc } from 'src/types/log'
+import { Log as LogDoc } from 'types/schema'
 import { reducerAction, LogsState, ActionsObjects } from './../types'
 const initialState: LogsState = []
 
@@ -9,21 +9,21 @@ const initialState: LogsState = []
  */
 export type LogsTypes =
   | {
-      type: 'LOG_ADD_ALL'
-      pl: { logs: LogDoc[] }
-    }
+    type: 'LOG_ADD_ALL'
+    pl: { logs: LogDoc[] }
+  }
   | {
-      type: 'LOG_ADD_ONE'
-      pl: { log: LogDoc }
-    }
+    type: 'LOG_ADD_ONE'
+    pl: { log: LogDoc }
+  }
   | {
-      type: 'LOG_UPDATE_ONE'
-      pl: { log: LogDoc }
-    }
+    type: 'LOG_UPDATE_ONE'
+    pl: { log: LogDoc }
+  }
   | {
-      type: 'LOG_DELETE_ONE'
-      pl: { id: string }
-    }
+    type: 'LOG_DELETE_ONE'
+    pl: { id: string }
+  }
 
 function logReducer(
   state: LogsState = initialState,

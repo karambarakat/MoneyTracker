@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 import Category from './Category'
 import { Log } from 'types/schema'
 
-export interface ILog<P extends boolean = true> extends Log<P> {
-  doc: () => Omit<ILog<P>, 'doc'>
+export interface ILog extends Log {
+  doc: () => Omit<ILog, 'doc'>
 }
 
-const LogSchema = new mongoose.Schema<ILog<true>>(
+const LogSchema = new mongoose.Schema<ILog>(
   {
     title: {
       type: String,
@@ -34,7 +34,7 @@ const LogSchema = new mongoose.Schema<ILog<true>>(
 /**
  * relation with category (validation)
  */
-LogSchema.pre('save', async function (next) {
+LogSchema.pre('save', async function (this, next) {
   if (!this.category) next()
 
   const category = await Category.findOne({
@@ -55,7 +55,7 @@ LogSchema.pre('save', async function (next) {
   }
 })
 
-LogSchema.pre('findOneAndUpdate', async function (next) {
+LogSchema.pre('findOneAndUpdate', async function (this, next) {
   // @ts-ignore
   const toUpdateTo = this._update.category
   if (!toUpdateTo) next()

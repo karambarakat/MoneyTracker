@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "pipeline": {},
+  "globalEnv": [
+    "PORT",
+    "SALT",
+    "JWT_SECRET",
+    "MONGO_STRING",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CLIENT_CALLBACK_URL_BACKEND",
+    "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND",
+    "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE"
+  ]
+}

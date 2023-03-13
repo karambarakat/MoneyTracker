@@ -1,7 +1,7 @@
 // @ts-check
 /* eslint-disable */
 const path = require('path')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 /**
  * @type {import("webpack").Configuration}
  */
@@ -18,22 +18,24 @@ const config = {
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: "ts-loader",
-      }
-    ]
+        use: 'ts-loader',
+      },
+    ],
   },
   target: 'node18',
   resolve: {
     plugins: [
       // @ts-ignore
-      new TsconfigPathsPlugin({})
+      new TsconfigPathsPlugin({}),
     ],
     extensions: ['.tsx', '.ts', '.js'],
   },
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.bundle.js'
-  }
+    sourceMapFilename: 'index.source.js',
+    filename: 'index.bundle.js',
+  },
 }
 
 module.exports = config

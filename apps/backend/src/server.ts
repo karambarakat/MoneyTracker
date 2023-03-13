@@ -3,7 +3,6 @@ import { Document } from 'mongoose'
 // libraries
 import express from 'express'
 import morgan from 'morgan'
-import cors from 'cors'
 
 import expressApp from '@utils/expressApp'
 
@@ -16,41 +15,29 @@ import categoryController from '@controllers/categoryController'
 import apiIsWorking from '@middlewares/apiIsWorking'
 
 
-import { HTTPErrorHandler } from '@httpErrors'
+import { HTTPErrorHandler } from '@utils/httpError'
 import {
   e404_ResourceNotFound as e404,
   e500_ServerError as e500,
   e400_MongooseValidation as e400_mongoose,
   e400_JsonError as e400_json,
-} from '@httpErrors/errMiddlewares'
+} from '@utils/httpError/errMiddlewares'
 
 //passport
 import passport from 'passport'
-import { useJWT } from '@passport/local'
-import { useGoogle } from '@passport/google'
-import PassportSerialization from '@passport/serialize'
+import { useJWT } from '@config/useJWT'
+import { useGoogle } from '@config/useGoogle'
+import PassportSerialization from '@config/PassportSerialize'
 import JSONReplacer from '@utils/JSONReplacer'
 import type { IProfile } from '@models/User'
 import type { ILog } from '@models/Log'
 import type { ICategory } from '@models/Category'
 
-declare module 'types/schema' {
-  type isPopulated<A, B> = A
-  type Doc = {
-    _id: string
-    __v: number
-  }
-  type T = {
-    createdAt: string
-    updatedAt: string
-  }
-}
-
 declare global {
   namespace Express {
     interface User extends Omit<IProfile, '_id'>, Document<any, any, IProfile> { }
     interface Request {
-      log?: ILog<true> & Document<any, any, ILog<true>>
+      log?: ILog & Document<any, any, ILog>
       category?: ICategory & Document<any, any, ICategory>
       getBasicToken: () => Record<'email' | 'password', string>
     }
@@ -105,7 +92,7 @@ import db_conn from '@config/db-conn'
 
 async function main() {
   await db_conn()
-  const PORT = process.env.PORT || 8811
+  const PORT = process.env.PORT || 8080
   app.listen(PORT, () => log('app', `listening at port ${PORT}`))
 }
 

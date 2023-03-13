@@ -1,6 +1,6 @@
 import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
 import { Middleware } from 'redux'
-import { UserDoc } from 'src/types/user'
+import { UserDoc } from 'types/schema'
 import { reducerAction, ActionsObjects, RootState, UserState } from './../types'
 
 const initialState: UserState = {
@@ -13,14 +13,14 @@ const initialState: UserState = {
  */
 export type UserTypes =
   | {
-      type: 'USER_ADD_PROFILE'
-      pl: {
-        profile: UserDoc
-      }
+    type: 'USER_ADD_PROFILE'
+    pl: {
+      profile: UserDoc
     }
+  }
   | {
-      type: 'USER_LOGOUT'
-    }
+    type: 'USER_LOGOUT'
+  }
   | { type: 'USER_GO_OFFLINE' }
   | { type: 'USER_GO_ONLINE' }
 

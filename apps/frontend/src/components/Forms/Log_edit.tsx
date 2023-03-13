@@ -14,13 +14,15 @@ import MyCategoryInput from '@components/Formik/ICategory'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { LogsState, RootState } from '@redux/types'
-import { LogDoc } from 'src/types/log'
+import { Log as LogDoc } from 'types/schema'
 import HttpError from 'src/utils/HttpError'
 
-type args = Omit<
-  LogDoc,
-  'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
-> & { category?: string }
+type args = Partial<
+  Omit<
+    LogDoc,
+    'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
+  > & { category?: string }
+>
 
 type Values = args
 

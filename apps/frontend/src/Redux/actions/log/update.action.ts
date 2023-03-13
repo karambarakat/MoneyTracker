@@ -1,4 +1,4 @@
-import { apiLogUpdate, LogDoc } from 'src/types/log'
+import { apiLogUpdate, LogDoc } from 'types/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 

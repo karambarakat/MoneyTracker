@@ -1,4 +1,4 @@
-import { apiUserSignup, UserDoc } from 'src/types/user'
+import { apiUserSignup, UserDoc } from 'types/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 

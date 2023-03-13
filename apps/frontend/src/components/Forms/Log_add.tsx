@@ -10,13 +10,16 @@ import MySimpleInput from '@components/Formik/ISimple'
 import MyAmountInput from '@components/Formik/IAmount'
 import MyTextarea from '@components/Formik/ITextarea'
 import MyCategoryInput from '@components/Formik/ICategory'
-import { LogDoc } from 'src/types/log'
+import { Log as LogDoc } from 'types/schema'
 import HttpError from 'src/utils/HttpError'
 
-type args = Omit<
-  LogDoc,
-  'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
-> & { category?: string }
+type args = Partial<
+  Omit<
+    LogDoc,
+    'category' | 'createdBy' | '__v' | '_id' | 'createdAt' | 'updatedAt'
+  > & { category?: string }
+>
+
 type Values = args
 
 function AddLog() {
@@ -24,8 +27,8 @@ function AddLog() {
   return (
     <Formik
       initialValues={{
-        title: '',
-        amount: 0,
+        title: undefined,
+        amount: undefined,
         category: undefined,
         note: undefined,
       }}

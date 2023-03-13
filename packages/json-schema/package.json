@@ -1,0 +1,13 @@
+{
+  "name": "json-schema",
+  "version": "1.0.0",
+  "description": "the schema of all the modules and api requests",
+  "main": "index.js",
+  "types": "types",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "author": "Karam Barakat",
+  "license": "MIT",
+  "devDependencies": {}
+}

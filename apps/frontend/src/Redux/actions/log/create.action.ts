@@ -1,4 +1,4 @@
-import { apiLogCreate, LogDoc } from 'src/types/log'
+import { apiLogCreate, LogDoc } from 'types/schema'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'

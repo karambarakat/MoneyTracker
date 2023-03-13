@@ -1,21 +1,19 @@
-import { store } from '@redux/index'
-import { APIResponse, ActionsObjects } from '@redux/types'
 import dispatch from '@redux/dispatch'
-import {
-  DefaultError,
-  GenericHttpError,
-  HttpErrorProps,
-} from 'src/types/httpErrors'
+import { GenericHttpError, HttpErrorProps } from 'types/httpErrors'
 import { pushNotification } from '@myHooks/notifications'
 
 export default class HttpError extends Error {
   isHttpError = false
-  info: GenericHttpError = DefaultError
+  info: GenericHttpError = {
+    status: 200,
+    message: 'generic',
+    details: {},
+    name: 'error',
+  }
 
-  constructor(payload: Partial<HttpErrorProps> | undefined) {
+  constructor(payload: HttpErrorProps) {
     super(payload?.message)
 
-    // @ts-ignore
     this.info = payload
 
     if (
@@ -23,7 +21,12 @@ export default class HttpError extends Error {
       typeof payload?.status !== 'number' ||
       typeof payload?.name !== 'string'
     ) {
-      this.info = DefaultError
+      this.info = {
+        status: 200,
+        message: 'generic',
+        details: {},
+        name: 'error',
+      }
       return
     }
 
@@ -40,9 +43,6 @@ export default class HttpError extends Error {
         })
       case 'ResourceWasNotFound':
         pushNotification({ message: 'holla' })
-      // case '':
-      // case '':
-      // case '':
     }
   }
 }

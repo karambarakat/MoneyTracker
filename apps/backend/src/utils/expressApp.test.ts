@@ -1,7 +1,7 @@
-import { HttpError } from '@httpErrors'
+import { HttpError } from '@utils/httpError'
 import { BasicToken } from './expressApp'
 import { Request } from 'express'
-import { BadBasicToken } from '@httpErrors/errTypes'
+import { BadBasicToken } from '@utils/httpError/errTypes'
 import '../../tests/helpers/initJest.js'
 
 

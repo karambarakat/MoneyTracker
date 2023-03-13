@@ -3,8 +3,8 @@ import {
   ResourceWasNotFound,
   ValidationError,
   BadJsonPayload,
-} from '@httpErrors/errTypes'
-import type { HttpError } from '@httpErrors'
+} from '@utils/httpError/errTypes'
+import type { HttpError } from '@utils/httpError'
 import { NextFunction, Request, Response } from 'express'
 import { UnknownServerErrorE } from 'types/httpErrors'
 

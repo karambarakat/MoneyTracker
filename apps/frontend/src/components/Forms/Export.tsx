@@ -10,7 +10,7 @@ import { store } from '@redux/index'
 import getDate from 'src/utils/getDate'
 
 interface Values {
-  range: Date[]
+  range: Date[] | Omit<any, any>
 }
 
 async function download(range: Date[]) {
@@ -28,9 +28,13 @@ async function download(range: Date[]) {
   const data = [
     'title,amount,category,created at,notes',
     ...raw.map((e) =>
-      [e.title, e.amount, e.category?.title || '', e.createdAt, e.note].join(
-        ','
-      )
+      [
+        e.title,
+        e.amount,
+        (e.category as Cat)?.title || '',
+        e.createdAt,
+        e.note,
+      ].join(',')
     ),
   ].join('\n')
 

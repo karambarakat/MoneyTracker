@@ -1,4 +1,4 @@
-import { HttpError } from '@httpErrors'
+import { HttpError } from '@utils/httpError'
 import grapOnly from '@utils/grapOnly'
 import isPlain from '@utils/isPlain'
 import clone from 'lodash/clone'

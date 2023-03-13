@@ -11,9 +11,9 @@ import MyColorInput from '@components/Formik/IColor'
 import MyIconInput from '@components/Formik/IIcon'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { CategoriesState, LogsState, RootState } from '@redux/types'
+import { CategoriesState, RootState } from '@redux/types'
 import dispatch from '@redux/dispatch'
-import { CatDoc } from 'src/types/category'
+import { Category as CatDoc } from 'types/schema'
 import HttpError from 'src/utils/HttpError'
 
 type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {

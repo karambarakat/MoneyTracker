@@ -34,20 +34,6 @@ const Setting = lazy(() => import('@routes/setting'))
 const RateUs = lazy(() => import('@routes/rateUs'))
 const E404 = lazy(() => import('@routes/_E404'))
 
-import 'types/schema'
-declare module 'types/schema' {
-  type isPopulated<A, B> = B
-  type Doc = {
-    _id: string
-    __v: number
-  }
-  type T = {
-    createdAt: string
-    updatedAt: string
-  }
-  type Optional<V> = V | undefined | null
-}
-
 function App() {
   return (
     <MantineSetUp>

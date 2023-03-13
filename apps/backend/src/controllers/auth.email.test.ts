@@ -1,7 +1,7 @@
 import '../../tests/helpers/initJest'
 import { app } from '../server'
 import request from 'supertest'
-import { BadBasicToken, EmailOrPasswordIncorrect, UserAlreadyExist, ValidationError } from '@httpErrors/errTypes'
+import { BadBasicToken, EmailOrPasswordIncorrect, UserAlreadyExist, ValidationError } from '@utils/httpError/errTypes'
 import { ProfileShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
 import mongoose from 'mongoose'

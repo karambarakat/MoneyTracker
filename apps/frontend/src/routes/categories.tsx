@@ -1,23 +1,11 @@
 import CategoryIcon from '@components/category/CategoryIcon'
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Grid,
-  Group,
-  Paper,
-  Stack,
-  Text,
-  ThemeIcon,
-  useMantineColorScheme,
-  useMantineTheme,
-} from '@mantine/core'
+import { Button, Stack, Text } from '@mantine/core'
 import dispatch from '@redux/dispatch'
 import { CategoriesState, LogsState, RootState } from '@redux/types'
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { Category, Plus, X } from 'tabler-icons-react'
-import { useDisclosure, useHover } from '@mantine/hooks'
+
+import { useDisclosure } from '@mantine/hooks'
 import MiddleRow from '@components/MiddleRow'
 import AddCategory from '@components/AddCategory'
 import Dismissible from '@components/Dissmasible'
@@ -25,7 +13,7 @@ import { Link } from '@components/ReactRoute/index'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
 import Amount from '@components/Amount'
-import { CatDoc } from 'src/types/category'
+import { Category as CatDoc } from 'types/schema'
 import EmptyCats from '@components/alternates/EmptyCats'
 
 function Categories_Page_Component() {

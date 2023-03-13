@@ -10,6 +10,7 @@ export interface profile_update {
 export interface updatePassword_nolocal {
   newPassword: string
 }
+
 export interface updatePassword_local {
   oldPassword: string
   newPassword: string

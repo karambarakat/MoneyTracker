@@ -9,21 +9,18 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
   rootDir: '.',
 
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     // modify ts.config.json also
-    '@lib/(.*)$': ['<rootDir>/src/lib/$1'],
     '@utils/(.*)$': ['<rootDir>/src/utils/$1'],
     '@middlewares/(.*)$': ['<rootDir>/src/middlewares/$1'],
     '@passport/(.*)$': ['<rootDir>/src/passport/$1'],
     '@controllers/(.*)$': ['<rootDir>/src/controllers/$1'],
     '@models/(.*)$': ['<rootDir>/src/models/$1'],
-    '@httpErrors/(.*)$': ['<rootDir>/src/httpErrors/$1'],
-    '@httpErrors': ['<rootDir>/src/httpErrors/index'],
     '@config/(.*)$': ['<rootDir>/src/config/$1'],
   },
 }

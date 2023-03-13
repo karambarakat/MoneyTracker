@@ -2,25 +2,17 @@ import {
   Box,
   BoxProps,
   createStyles,
-  MantineColor,
-  MantineGradient,
-  MantineNumberSize,
   Text,
   ThemeIcon,
   ThemeIconProps,
-  ThemeIconVariant,
   useMantineTheme,
 } from '@mantine/core'
-import { IconProps, User } from 'tabler-icons-react'
+import { IconProps } from 'tabler-icons-react'
 import * as allTablerIcon from './CategoryAllIcons'
 import allColors from './CategoryAllColors'
-import { CategoriesState, RootState } from '@redux/types'
 import React, { PropsWithChildren } from 'react'
-import { useSelector } from 'react-redux'
-import dispatch from '@redux/dispatch'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@components/category/CategoryAllIcons'
-import getLogs from '@redux/actions/getData/getLogs'
 import getCats from '@redux/actions/getData/getCats'
 
 function _Icon({ icon, props = {} }: { icon?: string; props?: IconProps }) {

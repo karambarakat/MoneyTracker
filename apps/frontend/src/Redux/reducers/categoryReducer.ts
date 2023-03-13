@@ -1,5 +1,5 @@
-import { CatDoc } from 'src/types/category'
-import { CategoriesState, reducerAction, ActionsObjects } from './../types'
+import { Category as CatDoc } from 'types/schema'
+import { CategoriesState, reducerAction } from './../types'
 const initialState: CategoriesState = []
 
 /**
@@ -7,21 +7,21 @@ const initialState: CategoriesState = []
  */
 export type CategoriesActionTypes =
   | {
-      type: 'CATEGORY_ADD_ALL'
-      pl: { categories: CatDoc[] }
-    }
+    type: 'CATEGORY_ADD_ALL'
+    pl: { categories: CatDoc[] }
+  }
   | {
-      type: 'CATEGORY_ADD_ONE'
-      pl: { category: CatDoc }
-    }
+    type: 'CATEGORY_ADD_ONE'
+    pl: { category: CatDoc }
+  }
   | {
-      type: 'CATEGORY_UPDATE_ONE'
-      pl: { category: CatDoc }
-    }
+    type: 'CATEGORY_UPDATE_ONE'
+    pl: { category: CatDoc }
+  }
   | {
-      type: 'CATEGORY_DELETE_ONE'
-      pl: { id: string }
-    }
+    type: 'CATEGORY_DELETE_ONE'
+    pl: { id: string }
+  }
 
 export default function categoryReducer(
   state: CategoriesState = initialState,

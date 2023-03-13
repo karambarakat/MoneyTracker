@@ -1,9 +1,5 @@
-import { store } from '@redux/index'
-import { ActionsObjects } from '@redux/types'
-import { CatDoc } from 'src/types/category'
-import HttpError from 'src/utils/HttpError'
+import { Category as CatDoc } from 'types/schema'
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
 const type = 'category:find'
 

@@ -1,7 +1,7 @@
 import '../../tests/helpers/initJest'
 import { app } from '../server'
 import request from 'supertest'
-import { FieldsRequired, TokenFailed } from '@httpErrors/errTypes'
+import { FieldsRequired, TokenFailed } from '@utils/httpError/errTypes'
 import { ProfileShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
 import mongoose from 'mongoose'

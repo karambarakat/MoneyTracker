@@ -1,7 +1,3 @@
-import { store } from '@redux/index'
-import { ActionsObjects } from '@redux/types'
-import { CatDoc } from 'src/types/category'
-import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -61,7 +57,7 @@ const action: actionModule<ActionType> = async function (
   { pushNoti, online, offline }
 ) {
   if (event.listenerCount('nav') === 0) {
-    console.error('can\'t connect to the app')
+    console.error("can't connect to the app")
     pushNoti({
       display: 'failure',
       message: 'error in navigating to ' + nav.to,
