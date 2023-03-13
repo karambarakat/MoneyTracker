@@ -1,5 +1,5 @@
-import { EmailOrPasswordIncorrect, PrivateRoute } from '@httpErrors/errTypes'
-import { requiredFieldsMiddleware } from '@httpErrors'
+import { EmailOrPasswordIncorrect, PrivateRoute } from '@utils/httpError/errTypes'
+import { requiredFieldsMiddleware } from '@utils/httpError'
 
 import bearerAuth from '@middlewares/bearerAuth'
 import User from '@models/User'

@@ -4,8 +4,8 @@ import {
   NoLog,
   PrivateRoute,
   ResourceWasNotFound,
-} from '@httpErrors/errTypes'
-import { requiredFieldsMiddleware } from '@httpErrors'
+} from '@utils/httpError/errTypes'
+import { requiredFieldsMiddleware } from '@utils/httpError'
 
 import bearerAuth from '@middlewares/bearerAuth'
 import Log, { ILog } from '@models/Log'

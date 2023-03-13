@@ -1,7 +1,7 @@
 import {
   EmailOrPasswordIncorrect,
   UserAlreadyExist,
-} from '@httpErrors/errTypes'
+} from '@utils/httpError/errTypes'
 import User from '@models/User'
 import of from '@utils/omitFalsy'
 import { NextFunction, Request, Response, Router } from 'express'

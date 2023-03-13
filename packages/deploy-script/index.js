@@ -16,9 +16,7 @@ async function main() {
   const working_dir_f = path.join(zip_dir, working_dir)
   test_if_tf_files_exist(working_dir_f)
 
-  const workspace = `tcicd-${organization}-${appName}-${env}-${v}`
-    .toLowerCase()
-    .replace('_', '-')
+  const workspace = `${appName}-${env}${v}`.toLowerCase().replace('_', '-')
 
   // look up the workspace id
   var res = await fetch(
@@ -54,7 +52,10 @@ async function main() {
       }
     )
 
-    console.log('created new workspace with id:', await res.get())
+    console.log(
+      'created new workspace with id:',
+      await res.get((r) => r?.data?.id)
+    )
   }
 
   const success = await res.get((v) => v?.success === false)

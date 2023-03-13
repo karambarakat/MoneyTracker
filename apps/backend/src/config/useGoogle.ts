@@ -1,9 +1,5 @@
 import User from '@models/User'
-import _ from 'express-async-handler'
-import { NextFunction, Request, Response } from 'express'
-import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
-import { addArrayElement } from '@utils/arrayElements'
 
 /**
  * authentication flow

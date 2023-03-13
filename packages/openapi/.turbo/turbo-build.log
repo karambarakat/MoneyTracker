@@ -1,7 +1,0 @@
-
-> openapi@1.0.0 build
-> node build.js
-
-generated openapi.yaml, openapi.json
-generated dir md-docs
-success

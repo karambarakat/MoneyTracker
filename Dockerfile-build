@@ -1,12 +1,14 @@
-FROM node:18-bullseye-slim as prune
+FROM node:18-buster-slim as prune
 ARG Package_name
 
 WORKDIR /app
+RUN npm i -g turbo
+
 COPY . .
-RUN npx turbo prune --scope ${Package_name} --docker
+RUN turbo prune --scope ${Package_name} --docker
 
 # npm install & build
-FROM node:18-bullseye-slim
+FROM node:18-buster-slim
 ARG Package_name
 
 WORKDIR /app
@@ -18,14 +20,17 @@ COPY --from=prune /app/out/full/ .
 RUN npm run build:base -w ${Package_name}
 
 # final image
-FROM gcr.io/distroless/nodejs:18
+FROM node:18-buster-slim
 ARG Package_name
-ARG Package_location = apps
+ARG Package_location="apps"
 ARG Package_dir=$Package_location/$Package_name
 
 WORKDIR /app
 COPY --from=1 /app/$Package_dir/dist .
-USER nonroot
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
 
 EXPOSE 3000
-CMD ["index.bundle.js"]
+CMD ["node", "index.bundle.js"]

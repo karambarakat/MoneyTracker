@@ -14,6 +14,7 @@
     },
     "deploy": {
       "dependsOn": ["build"],
+      "inputs": ["terraform/**"],
       "cache": false
     },
     "dev": {
