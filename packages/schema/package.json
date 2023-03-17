@@ -1,0 +1,30 @@
+{
+  "name": "schema",
+  "version": "1.0.0",
+  "description": "the schema of all the modules and api requests",
+  "main": "index.js",
+  "types": "types",
+  "type": "module",
+  "scripts": {
+    "start:direct": "babel-node --config-file babel.config.json index.js",
+    "start": "babel . -d dist && node dist/index.js",
+    "build": "node build.js"
+  },
+  "author": "Karam Barakat",
+  "license": "MIT",
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.21.0",
+    "@types/json-schema": "^7.0.11",
+    "babel-plugin-wildcard": "^7.0.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}

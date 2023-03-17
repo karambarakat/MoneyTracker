@@ -1,0 +1,18 @@
+{
+  "presets": [
+    // [
+    //   "@babel/preset-env",
+    //   {
+    //     "targets": {
+    //       "node": 18,
+    //       "esmodules": true
+    //     },
+    //     "modules": false,
+    //     "useBuiltIns": "usage",
+    //     "corejs": "3.22"
+    //   }
+    // ]
+  ],
+  "ignore": ["dist"],
+  "plugins": ["wildcard"]
+}
