@@ -1,3 +1,4 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
 /**
  * @type {import("json-schema").JSONSchema7}
@@ -20,4 +21,5 @@ export default {
       },
     },
   },
+  additionalProperties: false,
 }

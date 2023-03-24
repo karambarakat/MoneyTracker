@@ -1,3 +1,4 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
 /**
  * @type {import("json-schema").JSONSchema7}
@@ -12,6 +13,7 @@ export default {
     status: { type: 'number', default: 400 },
     name: { type: 'string', default: 'SomeFieldsRequired' },
     message: { type: 'string' },
-    details: { type: 'object' },
+    details: { type: 'null' },
   },
+  additionalProperties: false,
 }

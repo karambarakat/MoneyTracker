@@ -1,3 +1,4 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
 /**
  * @type {import("json-schema").JSONSchema7}
@@ -9,6 +10,7 @@ export default {
     document: {
       type: 'object',
       readOnly: true,
+      additionalProperties: false,
       properties: {
         _id: {
           type: 'string',
@@ -34,6 +36,7 @@ export default {
       type: 'object',
       readOnly: true,
       required: ['createdAt', 'updatedAt'],
+      additionalProperties: false,
       properties: {
         createdAt: {
           type: 'string',

@@ -1,3 +1,4 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
 /**
  * @type {(import("json-schema").JSONSchema7)}
@@ -6,11 +7,13 @@ export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
   $id: 'http://mypocket-schema.kenn.page/modules/log',
   allOf: [
-    { $ref: '/modules/helpers#definitions/document' },
-    { $ref: '/modules/helpers#definitions/timeStamped' },
+    { $ref: '/modules/helpers#/definitions/document' },
+    { $ref: '/modules/helpers#/definitions/timeStamped' },
     {
+      $id: '#base',
       type: 'object',
       required: ['title', 'amount', 'createdBy'],
+      additionalProperties: false,
       properties: {
         title: { type: 'string' },
         amount: { type: 'number' },
@@ -19,13 +22,12 @@ export default {
         category: {
           oneOf: [
             {
-              $ref: './category.yaml#/components/schemas/categoryPopulated',
+              $ref: '/modules/categorySimple',
             },
             {
-              // @ts-ignore: custom implementation
-              ['x-onWrite']: true,
+              writeOnly: true,
               type: 'string',
-              format: 'relation::category',
+              format: 'relation::<name>',
               description:
                 '`x-onWrite` is true: when creating the doc this field should be of this schema',
             },

@@ -1,3 +1,5 @@
-import log from './json-schema/requests/log.js'
+import myAjv from './json-schema/index.js'
 
-console.log(log.definitions.create)
+async function main() {}
+
+main()

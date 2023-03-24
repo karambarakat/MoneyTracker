@@ -1,6 +1,5 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
-import { partial, removeReadOnly } from '../../utils/manipulateSchema.js'
-
 /**
  * @type {import("json-schema").JSONSchema7}
  */

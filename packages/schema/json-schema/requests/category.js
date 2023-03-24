@@ -1,8 +1,7 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
-import ajv from 'ajv'
 import category from '../modules/category.js'
-import { partial, removeReadOnly } from '../../utils/manipulateSchema.js'
-
+import prune from '../../utils/prune.js'
 /**
  * @type {import("json-schema").JSONSchema7}
  */
@@ -12,11 +11,30 @@ export default {
   definitions: {
     create: {
       description: 'create new category',
-      ...removeReadOnly(category),
+      // $patch: {},
+      // 'x-remove_read_only': true,
+      $patch: {
+        source: { $ref: '/modules/log#base' },
+        with: [
+          {
+            op: 'remove',
+            path: '/required',
+          },
+        ],
+      },
     },
     update: {
       description: 'update the given category',
-      ...partial(removeReadOnly(category)),
+      // 'x-remove_read_only': true,
+      $patch: {
+        source: { $ref: '/modules/log#base' },
+        with: [
+          {
+            op: 'remove',
+            path: '/required',
+          },
+        ],
+      },
     },
   },
 }

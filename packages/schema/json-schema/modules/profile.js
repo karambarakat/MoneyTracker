@@ -1,3 +1,4 @@
+/// <reference path="../../index.d.ts" />
 // @ts-check
 /**
  * @type {import("json-schema").JSONSchema7}
@@ -6,11 +7,13 @@ export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
   $id: 'http://mypocket-schema.kenn.page/modules/profile',
   allOf: [
-    { $ref: '/modules/helpers#definitions/document' },
-    { $ref: '/modules/helpers#definitions/timeStamped' },
+    { $ref: '/modules/helpers#/definitions/document' },
+    { $ref: '/modules/helpers#/definitions/timeStamped' },
     {
+      $id: '#base',
       type: 'object',
       required: ['displayName', 'email', 'providers', 'token'],
+      additionalProperties: false,
       properties: {
         displayName: { type: 'string' },
         email: { type: 'string' },
@@ -29,4 +32,18 @@ export default {
       ],
     },
   ],
+}
+
+/**
+ * @type {import("json-schema").JSONSchema7}
+ */
+export const profile_providers = {
+  $schema: 'https://json-schema.org/draft/2020-12/schema',
+  $id: 'http://mypocket-schema.kenn.page/modules/profile#providers',
+  type: 'array',
+  items: {
+    type: 'string',
+    enum: ['local', 'google'],
+  },
+  examples: [['local', 'google'], ['google'], ['local']],
 }
