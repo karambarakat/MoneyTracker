@@ -1,9 +1,0 @@
-
-> backend@1.0.0 test
-> docker compose -f test-compose.yaml up --abort-on-container-exit --exit-code-from main-service
-
-unexpected character "/" in variable name near "// these are for myPocket_dev\r\nGOOGLE_CLIENT_ID = 567349561198-u6qhpbe9c63ealg46ous0h3et52crq4c.apps.googleusercontent.com\r\nGOOGLE_CLIENT_SECRET = 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\r\n\r\nGOOGLE_CLIENT_CALLBACK_URL_BACKEND = http://localhost:${PORT}/api/v1/auth/google/callback\r\nGOOGLE_CLIENT_CALLBACK_URL_FRONTEND = http://localhost:3000/auth/google/callback\r\nGOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE = http://localhost:3000/auth/google/failed"
-npm ERR! Lifecycle script `test` failed with error: 
-npm ERR! Error: command failed 
-npm ERR!   in workspace: backend@1.0.0 
-npm ERR!   at location: D:\Portfolio\myPocket\apps\backend 
