@@ -1,6 +1,6 @@
 //@ts-check
 
-// export module_ from './modules/_helpers.js'
+export * as module_ from './modules/_helpers.js'
 export * as module_category from './modules/category.js'
 export * as module_log from './modules/log.js'
 export * as module_profile from './modules/profile.js'

@@ -1,5 +1,3 @@
-import myAjv from './json-schema/index.js'
+import oapi from './open-api/index.js'
 
-async function main() {}
-
-main()
+console.log('oapi', oapi)

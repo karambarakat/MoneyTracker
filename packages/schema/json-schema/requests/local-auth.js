@@ -5,7 +5,7 @@
  */
 export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/requests/local-auth',
+  $id: 'http://ex.ample/requests/local-auth',
   definitions: {
     authenticate: {
       type: 'object',

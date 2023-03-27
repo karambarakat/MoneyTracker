@@ -5,7 +5,7 @@
  */
 export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/modules/log',
+  $id: 'http://ex.ample/modules/log',
   allOf: [
     { $ref: '/modules/helpers#/definitions/document' },
     { $ref: '/modules/helpers#/definitions/timeStamped' },
@@ -22,6 +22,7 @@ export default {
         category: {
           oneOf: [
             {
+              readOnly: true,
               $ref: '/modules/categorySimple',
             },
             {

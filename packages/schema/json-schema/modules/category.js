@@ -5,7 +5,7 @@
  */
 export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/modules/category',
+  $id: 'http://ex.ample/modules/category',
   allOf: [
     { $ref: '/modules/helpers#/definitions/document' },
     {
@@ -36,7 +36,7 @@ export default {
  */
 export const category_simple = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/modules/category#simple',
+  $id: 'http://ex.ample/modules/category#simple',
   type: 'object',
   required: ['_id', 'title', 'createdBy'],
   additionalProperties: false,

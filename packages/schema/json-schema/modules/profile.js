@@ -5,7 +5,7 @@
  */
 export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/modules/profile',
+  $id: 'http://ex.ample/modules/profile',
   allOf: [
     { $ref: '/modules/helpers#/definitions/document' },
     { $ref: '/modules/helpers#/definitions/timeStamped' },
@@ -16,9 +16,9 @@ export default {
       additionalProperties: false,
       properties: {
         displayName: { type: 'string' },
-        email: { type: 'string' },
+        email: { type: 'string', readOnly: true, format: 'email' },
         token: { type: 'string', readOnly: true },
-        providers: { $ref: '/modules/providers' },
+        providers: { $ref: '/modules/providers', readOnly: true },
         picture: { type: 'string' },
       },
       examples: [
@@ -39,7 +39,7 @@ export default {
  */
 export const profile_providers = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/modules/profile#providers',
+  $id: 'http://ex.ample/modules/profile#providers',
   type: 'array',
   items: {
     type: 'string',

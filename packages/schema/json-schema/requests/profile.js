@@ -5,9 +5,10 @@
  */
 export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/requests/profile',
+  $id: 'http://ex.ample/requests/profile',
   definitions: {
     email_status: {
+      $id: '#email_status',
       type: 'object',
       required: ['email'],
       description: `
@@ -18,25 +19,20 @@ export default {
       properties: {
         email: {
           type: 'string',
+          format: 'email',
           examples: ['joeDue@gmail.com'],
         },
       },
     },
     profile_update: {
-      type: 'object',
+      $id: '#profile_update',
       description: 'update profile information',
-      properties: {
-        displayName: {
-          type: 'string',
-          examples: ['Joe Doe'],
-        },
-        picture: {
-          type: 'string',
-          examples: ['https ://example.com/path/to/img'],
-        },
-      },
+      $ref: '/modules/profile#base',
+      'x-remove_read_only': true,
+      'x-partial': true,
     },
     updatePassword: {
+      $id: '#updatePassword',
       type: 'object',
       description: 'reset the password',
       required: ['newPassword'],
@@ -53,6 +49,7 @@ export default {
       },
     },
     updatePassword_nolocal: {
+      $id: '#updatePassword_nolocal',
       type: 'object',
       description: 'set a password',
       required: ['newPassword'],

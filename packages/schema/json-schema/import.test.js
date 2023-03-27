@@ -1,4 +1,4 @@
-import * as importAll from './importAll.js'
+import * as importAll from './import.js'
 import fs from 'fs/promises'
 import { get } from 'http'
 import path from 'path'
@@ -14,7 +14,7 @@ it('all files are imported', async function () {
         recursiveGetAll(path.join('.', 'json-schema', value.name))
       )
 
-      allFiles += arr.filter((path) => !path.includes('_')).length
+      allFiles += arr.length
     }
   }
 

@@ -5,7 +5,7 @@
  */
 export default {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'http://mypocket-schema.kenn.page/modules/helpers',
+  $id: 'http://ex.ample/modules/helpers',
   definitions: {
     document: {
       type: 'object',
