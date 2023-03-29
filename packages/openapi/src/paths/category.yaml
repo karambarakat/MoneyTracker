@@ -47,7 +47,7 @@ paths:
                   type: string
                   example: Fun_Face_Icon              
       responses:
-        200:
+        201:
           $ref: '../responses/category.yaml#/components/responses/category'
         400:
           $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
@@ -64,12 +64,10 @@ paths:
       tags:
         - "category"
       summary: get category
-      description: create new category for the current user
+      description: get category for the current user
       responses:
         200:
           $ref: '../responses/category.yaml#/components/responses/category'
-        400:
-          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
           $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
         404:
@@ -143,8 +141,6 @@ paths:
       responses:
         200:
           $ref: '../responses/logs.yaml#/components/responses/logs'
-        400:
-          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
         401:
           $ref: '../errors/TokenFailed.yaml#/components/responses/TokenFailed'
 

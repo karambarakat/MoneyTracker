@@ -1,4 +1,5 @@
-import * as importAll from './import.js'
+// @ts-check
+import schemas from './index.js'
 import fs from 'fs/promises'
 import { get } from 'http'
 import path from 'path'
@@ -14,11 +15,11 @@ it('all files are imported', async function () {
         recursiveGetAll(path.join('.', 'json-schema', value.name))
       )
 
+      console.log(arr)
       allFiles += arr.length
     }
   }
-
-  expect(Object.keys(importAll).length).toEqual(allFiles)
+  expect(schemas.length).toEqual(allFiles)
 })
 
 async function ArrayFromAsyncGen(gen) {
@@ -34,6 +35,7 @@ async function* recursiveGetAll(cd = '.') {
 
   for (const subP of s) {
     if (subP.isFile()) {
+      if (subP.name === 'index.js') continue
       yield path.join(cd, subP.name)
       continue
     }

@@ -1,33 +1,16 @@
 // @ts-check
-import paths from './paths/index.js'
-import { oapi_comp } from '../src/wrappers/openapi/openapi.js'
+import auth_local from './paths/auth_local.js'
+import category from './paths/category.js'
+import log from './paths/log.js'
+import profile from './paths/profile.js'
 
-/**
- * @type {import('openapi-types').OpenAPIV3.Document}
- */
-const oapi = {
-  openapi: '3.0.0',
-  info: {
-    title: 'myPocket',
-    version: '1.0.0',
-    description: 'API',
-  },
-  servers: [
-    {
-      url: 'https://localhost:{port}/api/{version}',
-      description: 'Development localhost server',
-      variables: {
-        port: {
-          default: '3000',
-        },
-        version: {
-          default: 'v1',
-        },
-      },
-    },
-  ],
-  paths,
-  components: oapi_comp,
-}
+import OpenApiDoc from '../src/wrappers/openapi/index.js'
 
-export default oapi
+const oapi_doc = new OpenApiDoc()
+
+auth_local(oapi_doc)
+profile(oapi_doc)
+category(oapi_doc)
+log(oapi_doc)
+
+export default () => JSON.parse(JSON.stringify(oapi_doc._doc))

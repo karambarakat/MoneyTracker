@@ -1,30 +1,78 @@
 //@ts-check
-import category from '../../json-schema/modules/category.js'
+/**
+ * @param {import('../../src/wrappers/openapi/index.js').default} _
+ *
+ */
+export default (_) => {
+  _.addPath('/category/', 'get', [
+    {
+      type: 'meta',
+      tag: 'category',
+      summary: 'list all categories',
+      description: 'list all categories for the current user',
+    },
+    { type: 'security', subType: 'bearer' },
+    { type: 'read', schema: '/modules/category', paged: true },
+  ])
 
-import _, { $ } from '../../src/wrappers/openapi/index.js'
+  _.addPath('/category/', 'post', [
+    {
+      type: 'meta',
+      tag: 'category',
+      summary: 'create new category',
+      description: 'create new category for the current user',
+    },
+    { type: 'security', subType: 'bearer' },
+    { type: 'request', schema: '/requests/category#create', required: true },
+    { type: 'create', schema: '/modules/category' },
+  ])
 
-export const get = _(
-  $.meta({
-    tag: 'category',
-    description: 'list all categories for the current user',
-    summary: 'list all categories',
-  }),
-  $.bearerToken(),
-  $.fetch({ data: category })
-)
+  _.addPath('/category/{id}/', 'get', [
+    {
+      type: 'meta',
+      tag: 'category',
+      summary: 'get category by id',
+      description: 'get category by id for the current user',
+    },
+    { type: 'byId' },
+    { type: 'security', subType: 'bearer' },
+    { type: 'read', schema: '/modules/category' },
+  ])
 
-export const post = _(
-  $.meta({
-    tag: 'category',
-    description: 'create a new category for the current user',
-    summary: 'create a new category',
-  }),
-  $.body({
-    description: 'properties like title, color and icon',
-    content: { $ref: 'http://ex.ample/modules/category#base' },
-    partial: false,
-    removeReadOnly: true,
-  }),
-  $.bearerToken(),
-  $.create({ data: category })
-)
+  _.addPath('/category/{id}/', 'put', [
+    {
+      type: 'meta',
+      tag: 'category',
+      summary: 'update category by id',
+      description: 'update category by id for the current user',
+    },
+    { type: 'byId' },
+    { type: 'security', subType: 'bearer' },
+    { type: 'update', schema: '/requests/category#update' },
+  ])
+
+  _.addPath('/category/{id}', 'delete', [
+    {
+      type: 'meta',
+      tag: 'category',
+      summary: 'delete category by id',
+      description: 'delete category by id for the current user',
+    },
+    { type: 'byId' },
+    { type: 'security', subType: 'bearer' },
+    { type: 'delete' },
+  ])
+
+  _.addPath('/category/{id}/logs', 'get', [
+    {
+      type: 'meta',
+      tag: 'log',
+      summary: 'get logs for category by id',
+      description: 'get logs for category by id for the current user',
+    },
+    { type: 'meta', tag: 'category' },
+    { type: 'byId' },
+    { type: 'security', subType: 'bearer' },
+    { type: 'read', schema: '/modules/logs', paged: true },
+  ])
+}

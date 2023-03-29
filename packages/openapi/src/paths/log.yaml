@@ -42,7 +42,7 @@ paths:
                   type: string
                   example: buy new TV
                 amount:
-                  type: string
+                  type: number
                   example: \#000000
                 notes:
                   type: string

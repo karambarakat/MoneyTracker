@@ -6,7 +6,7 @@ paths: {}
 components:
   responses:
     ResourceWasNotFound:
-      description: current resource doesn't exist
+      description: requested resource doesn't exist
       content:
         application/json:
           x-failed: true

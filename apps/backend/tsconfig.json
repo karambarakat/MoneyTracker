@@ -6,12 +6,12 @@
     "baseUrl": "./src",
     "paths": {
       // modify jest.config.js also
-      "@utils/*": ["utils/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@passport/*": ["passport/*"],
+      "@config/*": ["config/*"],
       "@controllers/*": ["controllers/*"],
+      "@middlewares/*": ["middlewares/*"],
       "@models/*": ["models/*"],
-      "@config/*": ["config/*"]
+      "@utils/*": ["utils/*"],
+      "@static/*": ["static/*"]
     }
   }
 }
