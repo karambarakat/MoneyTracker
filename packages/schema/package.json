@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "the schema of all the modules and api requests",
   "main": "index.js",
-  "types": "index.ts",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo I should add support for `assert` || node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "ts-node index.ts",
+    "test": "jest",
     "build": "echo to be implemented as node build.js"
   },
   "author": "Karam Barakat",
@@ -15,6 +14,7 @@
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
+    "deasync": "^0.1.28",
     "json-schema-traverse": "^1.0.0",
     "jsonschema": "^1.4.1",
     "lodash.isequal": "^4.5.0",
@@ -22,6 +22,7 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@types/deasync": "^0.1.2",
     "@types/jest": "^29.5.0",
     "@types/json-schema": "^7.0.11",
     "ajv-merge-patch": "^5.0.1",
@@ -30,6 +31,7 @@
     "lodash": "^4.17.21",
     "openapi-types": "^12.1.0",
     "ts-jest": "^29.1.0",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
   }
 }

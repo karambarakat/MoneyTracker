@@ -1,44 +1,51 @@
 import { OpenAPIV3 as v3 } from 'openapi-types'
-import * as errors from '../../../json-schema/restErrors/index'
+import schemas from '../../../json-schema'
+import type { schemas as schemaType, schema_r } from '../getSchema'
+import { docType } from '../proxy'
+import { getStatus } from '../../restError'
+
+type error<str> = str extends `/errors/${infer N}` ? N : never
 
 export type option = {
   type: 'mayThrow'
-  error: keyof typeof errors
+  error: error<schema_r>
 }
 
 function mayThrow(
   op: v3.OperationObject,
   options: option,
-  trap: { path: (string | number | Symbol)[]; rootDoc: v3.Document }
+  trap: { path: (string | number | Symbol)[]; rootDoc: docType }
 ) {
-  const error = errors[options.error]
+  const error = schemas.find(
+    (e) => e.$id === `http://ex.ample/errors/${options.error}`
+  )
 
-  if (!error)
-    throw new Error(
-      `openapiWrapper: Key ${String(options.error)} not found in errors`
-    )
+  if (!error) throw new Error('cannot fine error with name of ' + options.error)
 
-  const code = error.default['x-error'] || 400
+  if (!('description' in error)) {
+    // did you change the implementation of `lib\restError.ts`
+    throw new Error('this function might need to be reimplemented')
+  }
+  const errorId = 'error' + new URL(error.$id).pathname.replace(/\//g, '_')
 
-  if (!error)
-    throw new Error(
-      `openapiWrapper: Key ${String(options.error)} not found in responses`
-    )
+  const code = getStatus(error)
 
-  trap.rootDoc.components.responses[options.error] = {
-    description: error.default.description,
+  Reflect.deleteProperty(error, 'x-error')
+
+  // todo: addComponent
+  // syntax suggestion: op.parameters = _.build([{type: 'asComponent', value : {...}}])
+  trap.rootDoc.components.responses[errorId] = {
+    description: error.description,
     content: {
       'application/json': {
         // @ts-ignore
-        schema: error.default,
+        schema: error,
       },
     },
   }
 
-  // todo: addComponent
-  // syntax suggestion: op.parameters = _.build([{type: 'asComponent', value : {...}}])
   op.responses[code] = {
-    $ref: `#/components/responses/${options.error}`,
+    $ref: `#/components/responses/${errorId}`,
   }
 }
 

@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/requests/log',
+  $id: 'http://ex.ample/requests/log' as const,
   definitions: {
     create: {
       description: 'create new log',
@@ -16,4 +16,4 @@ export default {
       $ref: '/modules/log#base',
     },
   },
-} satisfies JSONSchema7 as { $id: string }
+} satisfies JSONSchema7

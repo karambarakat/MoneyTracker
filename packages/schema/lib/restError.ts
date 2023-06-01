@@ -11,8 +11,6 @@ export default function restError(
   }
 
   return {
-    $schema: 'http://json-schema.org/draft-07/schema#',
-    $id: 'http://ex.ample/restError/' + id,
     ['x-error']: status,
     type: 'object',
     required: ['status', 'name', 'message', 'details'],
@@ -25,4 +23,10 @@ export default function restError(
     description,
     additionalProperties: false,
   } satisfies JSONSchema7
+}
+
+export function getStatus(error: {
+  properties: { status: { default?: number } }
+}): number {
+  return error.properties.status.default || 400
 }

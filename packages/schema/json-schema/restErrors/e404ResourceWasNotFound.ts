@@ -4,9 +4,13 @@ import restError from '../../lib/restError'
 
 const status = 404
 
-export default restError(
-  status,
-  'ResourceWasNotFound',
-  "requested resource doesn't exist",
-  null
-) satisfies JSONSchema7
+export default {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  $id: 'http://ex.ample/errors/ResourceWasNotFound' as const,
+  ...restError(
+    status,
+    'ResourceWasNotFound',
+    "requested resource doesn't exist",
+    null
+  ),
+} satisfies JSONSchema7

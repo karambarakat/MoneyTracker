@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/requests/local-auth',
+  $id: 'http://ex.ample/requests/local-auth' as const,
   definitions: {
     authenticate: {
       type: 'object',
@@ -35,4 +35,4 @@ export default {
       ],
     },
   },
-} satisfies JSONSchema7 as { $id: string }
+} satisfies JSONSchema7

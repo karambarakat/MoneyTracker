@@ -7,9 +7,21 @@ import { default as read, option as readOptions } from './2xx_read'
 import { default as create, option as createOptions } from './2xx_create'
 import { default as update, option as updateOptions } from './2xx_update'
 import { default as delete_, option as deleteOptions } from './2xx_delete'
+const ops = {
+  meta,
+  security,
+  mayThrow,
+  request,
+  byId,
+  read,
+  create,
+  update,
+  delete: delete_,
+}
 
 import { OpenAPIV3 as v3 } from 'openapi-types'
 import required from '../../required'
+import { docType } from '../proxy'
 
 // see https://gist.github.com/karambarakat/b753999a9e7e3a34be137acb02ad01aa for more information
 // todo: include this type in `../builder.ts`, TypeScript doesn't support augmentation for types like they do for interface
@@ -27,19 +39,11 @@ export type OperationStep =
 export default function buildOperation(
   steps: OperationStep['op'][],
   path: (string | Symbol | number)[],
-  rootDoc: v3.Document
+  rootDoc: docType
 ) {
   const newOp = { responses: {} } // required({ responses: {} } as v3.OperationObject, def)
   steps.forEach((step) => {
-    step.type === 'meta' && meta(newOp, step, { path, rootDoc })
-    step.type === 'security' && security(newOp, step, { path, rootDoc })
-    step.type === 'mayThrow' && mayThrow(newOp, step, { path, rootDoc })
-    step.type === 'request' && request(newOp, step, { path, rootDoc })
-    step.type === 'byId' && byId(newOp, step, { path, rootDoc })
-    step.type === 'read' && read(newOp, step, { path, rootDoc })
-    step.type === 'create' && create(newOp, step, { path, rootDoc })
-    step.type === 'update' && update(newOp, step, { path, rootDoc })
-    step.type === 'delete' && delete_(newOp, step, { path, rootDoc })
+    ops[step.type](newOp, step as any, { path, rootDoc } as any)
   })
   return newOp
 }

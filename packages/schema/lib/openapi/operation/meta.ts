@@ -1,4 +1,5 @@
 import { OpenAPIV3 as v3 } from 'openapi-types'
+import { docType } from '../proxy'
 
 export type option = {
   type: 'meta'
@@ -10,12 +11,14 @@ export type option = {
 function meta(
   op: v3.OperationObject,
   options: option,
-  trap: { path: (string | number | Symbol)[]; rootDoc: v3.Document }
+  trap: { path: (string | number | Symbol)[]; rootDoc: docType }
 ) {
-  options.tag && !op.tags && (op.tags = [])
-  options.tag && !op.tags.includes(options.tag) && op.tags.push(options.tag)
-  options.description && (op.description = options.description)
-  options.summary && (op.summary = options.summary)
+  if (options.tag) {
+    if (!op.tags) op.tags = []
+    if (!op.tags.includes(options.tag)) op.tags.push(options.tag)
+  }
+  if (options.description) op.description = options.description
+  if (options.summary) op.summary = options.summary
 }
 
 export default meta

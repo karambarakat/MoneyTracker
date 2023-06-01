@@ -1,6 +1,7 @@
 import { OpenAPIV3 as v3 } from 'openapi-types'
 import parameter from './parameter'
 import mayThrow from './mayThrow'
+import { docType } from '../proxy'
 
 export type option = {
   type: 'security'
@@ -59,7 +60,7 @@ const securityObj = {
 function security(
   op: v3.OperationObject,
   options: option,
-  trap: { path: (string | number | Symbol)[]; rootDoc: v3.Document }
+  trap: { path: (string | number | Symbol)[]; rootDoc: docType }
 ) {
   // security
   !op.security && (op.security = [])
@@ -85,9 +86,7 @@ function security(
     {
       type: 'mayThrow',
       error:
-        options.subType === 'bearer'
-          ? 'e_401BearerTokenFailed'
-          : 'e_401BasicTokenFailed',
+        options.subType === 'bearer' ? 'BearerTokenFailed' : 'BasicTokenFailed',
     },
     trap
   )

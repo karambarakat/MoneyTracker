@@ -1,50 +1,33 @@
-// @ts-check
-import * as reqs from './requests/index'
-import * as modules from './modules/index'
-import * as errors from './restErrors/index'
-
-const dirs = {
-  reqs,
-  modules,
-  errors,
-}
-
 import ajv from 'ajv'
-import extendedSchema, { formats } from './extendedSchema'
+import extendedSchema, { formats } from '../lib/extension'
+import * as _requests from './requests/index'
+import * as _modules from './modules/index'
+import * as _errors from './restErrors/index'
 
-// this is just to valid the schemas
-// todo: test: check for unknown keywords
+const schemas = [
+  ...Object.values(_requests),
+  ...Object.values(_modules),
+  ...Object.values(_errors),
+]
+
+export default schemas
+
+const set = new Set()
+
 const isValid = new ajv({
   allowUnionTypes: true,
   formats,
 }).compile(extendedSchema)
 
-export default () => {
-  const set = new Set()
-  return Array.from(
-    (function* () {
-      for (const [_1, dir] of Object.entries(dirs)) {
-        for (const [_2, file] of Object.entries(dir)) {
-          for (const [_3, schema] of Object.entries(file)) {
-            if (!schema.$id) er('missing $id')
-            if (set.has(schema.$id)) er('duplicate id')
-            set.add(schema.$id)
-            if (!isValid(schema)) er('invalid schema', isValid.errors)
-            // console.log({ schema })
-            yield schema
+for (const schema of schemas) {
+  if (!schema.$id) throw new Error('missing $id')
 
-            function er(str, ...args) {
-              const err = new Error(
-                `json-schema: ${str} id ${schema.$id} for ${_1}/${_2}/${_3}`
-              )
-              // @ts-ignore
-              err.info = args
-              throw err
-            }
-          }
-        }
-      }
-    })()
-  )
+  if (set.has(schema.$id)) throw new Error('duplicate id')
+  set.add(schema.$id)
+
+  if (!isValid(schema)) {
+    // @ts-ignore
+    console.log(schema.$id, isValid.errors)
+    throw new Error('invalid schema')
+  }
 }
-export { reqs, modules, errors }

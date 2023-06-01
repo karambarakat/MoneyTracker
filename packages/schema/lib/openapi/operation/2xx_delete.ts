@@ -1,4 +1,5 @@
 import { OpenAPIV3 as v3 } from 'openapi-types'
+import { docType } from '../proxy'
 
 export type option = {
   type: 'delete'
@@ -7,7 +8,7 @@ export type option = {
 function delete_(
   op: v3.OperationObject,
   options: option,
-  trap: { path: (string | number | Symbol)[]; rootDoc: v3.Document }
+  trap: { path: (string | number | Symbol)[]; rootDoc: docType }
 ) {
   op.responses[204] = {
     description: 'no content',

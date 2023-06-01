@@ -2,6 +2,7 @@ import { OpenAPIV3 as v3 } from 'openapi-types'
 import _ from '../builder'
 import e404ResourceWasNotFound from '../../../json-schema/restErrors/e404ResourceWasNotFound'
 import mayThrow from './mayThrow'
+import { docType } from '../proxy'
 
 export type option = {
   type: 'byId'
@@ -10,9 +11,9 @@ export type option = {
 function byId(
   op: v3.OperationObject,
   options: option,
-  trap: { path: (string | number | Symbol)[]; rootDoc: v3.Document }
+  trap: { path: (string | number | Symbol)[]; rootDoc: docType }
 ) {
-  mayThrow(op, { type: 'mayThrow', error: 'e_404ResourceWasNotFound' }, trap)
+  mayThrow(op, { type: 'mayThrow', error: 'ResourceWasNotFound' }, trap)
 
   trap.rootDoc.components.parameters.id = {
     name: 'id',

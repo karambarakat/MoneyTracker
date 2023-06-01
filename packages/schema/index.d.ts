@@ -1,5 +1,4 @@
-/// <reference path="../../index.d.ts" />
-import { JSONSchema7 } from 'json-schema'
+import { JSONSchema7 } from 'json-schema' // imported to override/augment
 import 'openapi-types'
 import type { Operation } from 'fast-json-patch'
 
@@ -18,16 +17,15 @@ declare module 'json-schema' {
 
   export type XRelation =
     | {
-        $ref: string
-        key: JSONSchema7
-        default?: 'dereference'
-        patch: unknown
+        source: { $ref: string } | JSONSchema7
+        modify: {
+          partial?: boolean
+          removeReadOnly?: boolean
+          removeWriteOnly?: boolean
+          removeKey?: string[]
+        }
       }
-    | {
-        $ref: string
-        key: JSONSchema7
-        default?: 'dereference' | 'keepAsKey' | 'keepAsRef'
-      }
+    | { source: { $ref: string } | JSONSchema7; keepAsAKey: true }
 
   export interface JSONSchema7 {
     ['x-relation']?: XRelation

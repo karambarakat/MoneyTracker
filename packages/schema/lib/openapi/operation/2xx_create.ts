@@ -1,5 +1,6 @@
 import { OpenAPIV3 as v3 } from 'openapi-types'
 import _ from '../builder'
+import { docType } from '../proxy'
 
 export type option = {
   type: 'create'
@@ -9,7 +10,7 @@ export type option = {
 function create(
   op: v3.OperationObject,
   options: option,
-  trap: { path: (string | number | Symbol)[]; rootDoc: v3.Document }
+  trap: { path: (string | number | Symbol)[]; rootDoc: docType }
 ) {
   op.requestBody = {
     description: `create new ${options.schema} entity`,

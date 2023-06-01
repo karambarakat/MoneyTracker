@@ -1,5 +1,5 @@
 // @ts-check
-export * as m__helpers from './_helpers'
-export * as m_category from './category'
-export * as m_log from './log'
-export * as m_profile from './profile'
+export { default as _helpers } from './_helpers'
+export { default as category } from './category'
+export { default as log } from './log'
+export { default as profile } from './profile'

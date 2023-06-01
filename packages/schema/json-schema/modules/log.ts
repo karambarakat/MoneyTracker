@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/modules/log',
+  $id: 'http://ex.ample/modules/log' as const,
   allOf: [
     { $ref: '/modules/helpers#/definitions/document' },
     { $ref: '/modules/helpers#/definitions/timeStamped' },
@@ -17,23 +17,17 @@ export default {
         amount: { type: 'number' },
         createdBy: {
           ['x-relation']: {
-            $ref: '/modules/profile',
-            key: { type: 'string', readOnly: true },
-            default: 'keepAsKey',
+            source: { $ref: '/modules/profile' },
+            keepAsAKey: true,
           },
         },
         note: { type: 'string' },
         category: {
           ['x-relation']: {
-            $ref: '/modules/category',
-            key: { type: 'string' },
-            default: 'dereference',
-            patch: [
-              {
-                type: 'pick',
-                ignore: ['createdBy', '__v', 'createdAt', 'updatedAt'],
-              },
-            ],
+            source: { $ref: '/modules/category' },
+            modify: {
+              removeKey: ['__v', 'createdAt', 'updatedAt', 'createdBy'],
+            },
           },
         },
       },
@@ -47,4 +41,4 @@ export default {
       ],
     },
   ],
-} satisfies JSONSchema7 as { $id: string }
+} satisfies JSONSchema7

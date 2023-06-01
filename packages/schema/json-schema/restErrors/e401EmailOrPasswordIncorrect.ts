@@ -4,9 +4,13 @@ import restError from '../../lib/restError'
 
 const status = 401
 
-export default restError(
-  status,
-  'EmailOrPasswordIncorrect',
-  'email/password were/was wrong or not provided',
-  null
-) satisfies JSONSchema7
+export default {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  $id: 'http://ex.ample/errors/EmailOrPasswordIncorrect' as const,
+  ...restError(
+    status,
+    'EmailOrPasswordIncorrect',
+    'email/password were/was wrong or not provided',
+    null
+  ),
+} satisfies JSONSchema7

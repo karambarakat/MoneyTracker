@@ -1,5 +1,5 @@
 // @ts-check
-export * as r_local from './local-auth'
-export * as r_category from './category'
-export * as r_log from './log'
-export * as r_profile from './profile'
+export { default as local } from './local-auth'
+export { default as category } from './category'
+export { default as log } from './log'
+export { default as profile } from './profile'

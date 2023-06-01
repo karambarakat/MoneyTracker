@@ -2,8 +2,12 @@
 import { JSONSchema7 } from 'json-schema'
 import restError from '../../lib/restError'
 
-export default restError(
-  400,
-  'SomeFieldsRequired',
-  'email/password were/was wrong or not provided'
-) satisfies JSONSchema7
+export default {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  $id: 'http://ex.ample/errors/SomeFieldsRequired' as const,
+  ...restError(
+    400,
+    'SomeFieldsRequired',
+    "email/password combination doesn't exist"
+  ),
+} satisfies JSONSchema7

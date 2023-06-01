@@ -1,8 +1,9 @@
 // @ts-check
 // todo: stupid JavaScript: I cant use assert in testing
-import schema7 from 'ajv/lib/refs/json-schema-draft-07.json' assert { type: 'json' }
-import { jsonSchema as xError } from '../lib/schema/x-error.js'
-import { jsonSchema as xRelation } from '../lib/schema/x-relation.js'
+import schema7 from 'ajv/lib/refs/json-schema-draft-07.json'
+
+import { jsonSchema as xError } from './x-error'
+import { jsonSchema as xRelation } from './x-relation'
 
 export const formats = {
   email: /$/,

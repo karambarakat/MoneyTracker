@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/requests/profile',
+  $id: 'http://ex.ample/requests/profile' as const,
   definitions: {
     email_status: {
       $id: '#email_status',
@@ -57,4 +57,4 @@ export default {
       },
     },
   },
-} satisfies JSONSchema7 as { $id: string }
+} satisfies JSONSchema7

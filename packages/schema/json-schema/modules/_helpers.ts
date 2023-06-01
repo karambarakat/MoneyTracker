@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/modules/helpers',
+  $id: 'http://ex.ample/modules/helpers' as const,
   definitions: {
     document: {
       type: 'object',
@@ -48,4 +48,4 @@ export default {
       },
     },
   },
-} satisfies JSONSchema7 as { $id: string }
+} satisfies JSONSchema7

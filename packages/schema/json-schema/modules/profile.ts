@@ -3,7 +3,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export default {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/modules/profile',
+  $id: 'http://ex.ample/modules/profile' as const,
   allOf: [
     { $ref: '/modules/helpers#/definitions/document' },
     { $ref: '/modules/helpers#/definitions/timeStamped' },
@@ -16,7 +16,7 @@ export default {
         displayName: { type: 'string' },
         email: { type: 'string', readOnly: true, format: 'email' },
         token: { type: 'string', readOnly: true },
-        providers: { $ref: '/modules/providers', readOnly: true },
+        providers: { $ref: '#providers', readOnly: true },
         picture: { type: 'string' },
       },
       examples: [
@@ -30,15 +30,15 @@ export default {
       ],
     },
   ],
-} satisfies JSONSchema7 as { $id: string }
-
-export const providers = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'http://ex.ample/modules/profile#providers',
-  type: 'array',
-  items: {
-    type: 'string',
-    enum: ['local', 'google'],
+  definitions: {
+    providers: {
+      $id: '#providers',
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: ['local', 'google'],
+      },
+      examples: [['local', 'google'], ['google'], ['local']],
+    },
   },
-  examples: [['local', 'google'], ['google'], ['local']],
-} satisfies JSONSchema7 as { $id: string }
+} satisfies JSONSchema7
