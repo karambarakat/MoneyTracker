@@ -14,7 +14,7 @@
 
 name: 'Monorepo install (pnpm)'
 description: 'Run pnpm install with cache enabled'
-inputs:
+inputs: {}
 
 runs:
   using: 'composite'
@@ -42,4 +42,5 @@ runs:
           ${{ runner.os }}-pnpm-store-
 
     - name: 📥 Install dependencies
+      shell: bash
       run: pnpm install
