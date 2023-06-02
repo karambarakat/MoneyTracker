@@ -1,16 +1,16 @@
 {
-  "editor.tabSize": 2,
-  "cSpell.words": [
-    "cmnd",
-    "elems",
-    "hoverable",
-    "karam",
-    "karambarakat",
-    "localstorage",
-    "openapi",
-    "signup",
-    "tabler",
-    "TCICD",
-    "Turborepo"
-  ]
+	"cSpell.words": [
+		"cmnd",
+		"elems",
+		"hoverable",
+		"karam",
+		"karambarakat",
+		"localstorage",
+		"openapi",
+		"signup",
+		"tabler",
+		"TCICD",
+		"Turborepo",
+		"typecheck"
+	]
 }
