@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types'
+import { Category as CatDoc } from 'types/src/schema'
 import { actionModule } from '../../dispatch'
 
 const type = 'category:find'

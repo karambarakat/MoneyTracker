@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 import { generateToken } from '@utils/tokens'
-import { Profile } from 'types/schema'
+import { Profile } from 'types/src/schema'
 import type { Profile as PG } from 'passport-google-oauth20'
 
 export interface IProfile extends Profile {

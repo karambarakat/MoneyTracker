@@ -1,4 +1,5 @@
-import { apiLogUpdate, LogDoc } from 'types'
+import { Log_out } from 'types/src/schema'
+import { log_update } from 'types/src/api/routes/log'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -6,11 +7,11 @@ const type = 'log:update'
 
 export type ActionType = {
   type: typeof type
-  return: LogDoc
+  return: Log_out
 
   payload: {
-    id: LogDoc['_id']
-    doc: apiLogUpdate
+    id: Log_out['_id']
+    doc: log_update
   }
 }
 

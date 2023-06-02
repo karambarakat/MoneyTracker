@@ -4,8 +4,9 @@
   "description": "openapi specification for the project",
   "main": "dist/openapi.json",
   "scripts": {
-    "lint": "",
-    "build": "node build.js && openapi-generator-cli generate -g markdown -i dist/openapi.yaml -o dist/md-docs"
+    "lint": "node scripts/lint.js",
+    "build": "node scripts/build.js",
+    "build:md-docs": "node scripts/build.js && openapi-generator-cli generate -g markdown -i dist/openapi.yaml -o dist/md-docs"
   },
   "author": "Karam Barakat",
   "license": "MIT",

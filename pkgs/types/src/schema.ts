@@ -8,13 +8,11 @@ type Doc = {
   __v: number
 }
 
-type Optional<V> = V | null
-
 export interface Profile extends T, Doc {
   displayName: string
   email: string
   providers: ('local' | 'google')[]
-  picture: Optional<string>
+  picture?: string
   token: string
 }
 
@@ -22,18 +20,23 @@ export interface Log extends T, Doc {
   createdBy: Profile | string
   title: string
   amount: number
-  category: Optional<CategoryPopulated | string>
-  note: Optional<string>
+  category?: Category_out
+  note?: string
+}
+
+export type Log_out = Log
+
+export type Log_in = Omit<Log, 'category' | '_id' | '__v' | 'createdBy'> & {
+  category?: string
 }
 
 export interface Category extends Doc {
   createdBy: Profile | string
   title: string
-  color: Optional<string>
-  icon: Optional<string>
+  color?: string
+  icon?: string
 }
 
-export type CategoryPopulated = Pick<
-  Category,
-  '_id' | 'title' | 'color' | 'icon'
->
+export type Category_out = Category
+
+export type category_in = Omit<Category, '_id' | '__v' | 'createdBy'>

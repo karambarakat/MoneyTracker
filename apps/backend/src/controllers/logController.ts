@@ -13,7 +13,7 @@ import Log, { ILog } from '@models/Log'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
-import { log_create, log_update } from 'types/api/routes/log'
+import { log_create, log_update } from 'types/src/api/routes/log'
 import of from '@utils/omitFalsy'
 
 const router = Router()

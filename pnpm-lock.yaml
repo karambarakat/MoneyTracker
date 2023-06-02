@@ -200,6 +200,9 @@ importers:
       '@mantine/hooks':
         specifier: ^5.4.2
         version: 5.4.2(react@17.0.2)
+      '@mantine/styles':
+        specifier: ^6.0.13
+        version: 6.0.13(@emotion/react@11.11.0)(react-dom@17.0.2)(react@17.0.2)
       classnames:
         specifier: ^2.3.1
         version: 2.3.1
@@ -2606,6 +2609,23 @@ packages:
     resolution:
       {
         integrity: sha512-+JxUlkvfj3hoxaVFLJx/p8SZ6OR/AW2fiMyn0PuLB/U50k6xr2YaR1G5KB0WqmpcKMFkom3jR/LsWTaVoy8+0g==
+      }
+    peerDependencies:
+      '@emotion/react': '>=11.9.0'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@emotion/react': 11.11.0(@types/react@17.0.33)(react@17.0.2)
+      clsx: 1.1.1
+      csstype: 3.0.9
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+    dev: false
+
+  /@mantine/styles@6.0.13(@emotion/react@11.11.0)(react-dom@17.0.2)(react@17.0.2):
+    resolution:
+      {
+        integrity: sha512-+27oX8ObiBv8jHHDxXKjqe+7cfTJyaAV/Ie00T49EE4LuHuS6nL4vlXHmqamFtDCj2ypEWBV0sdXDev/DNAXSg==
       }
     peerDependencies:
       '@emotion/react': '>=11.9.0'

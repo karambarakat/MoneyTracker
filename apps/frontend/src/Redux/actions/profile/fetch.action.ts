@@ -1,7 +1,4 @@
-import { store } from '@redux/index'
-import { ActionsObjects } from '@redux/types'
-import { UserDoc } from 'types'
-import HttpError from 'src/utils/HttpError'
+import { Profile } from 'types/src/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -9,7 +6,7 @@ const type = 'profile:fetch'
 
 export type ActionType = {
   type: typeof type
-  return: UserDoc
+  return: Profile
 
   payload: {
     token?: string

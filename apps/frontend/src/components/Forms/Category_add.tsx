@@ -10,12 +10,10 @@ import dispatch from '@redux/dispatch'
 
 import MyColorInput from '@components/Formik/IColor'
 import MyIconInput from '@components/Formik/IIcon'
-import { Category as CatDoc } from 'types'
+import { Category as CatDoc } from 'types/src/schema'
 import HttpError from 'src/utils/HttpError'
 
-type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {
-  category?: string
-}
+type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'>
 type Values = args
 
 function AddCategory() {

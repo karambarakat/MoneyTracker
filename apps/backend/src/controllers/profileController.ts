@@ -14,7 +14,7 @@ import {
   profile_update,
   updatePassword_local,
   updatePassword_nolocal
-} from 'types/api/routes/profile'
+} from 'types/src/api/routes/profile'
 import of from '@utils/omitFalsy'
 
 const router = Router()

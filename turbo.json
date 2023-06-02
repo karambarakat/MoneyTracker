@@ -1,33 +1,33 @@
 {
-	"$schema": "https://turbo.build/schema.json",
-	"globalDependencies": ["**/.env.*local"],
-	"pipeline": {
-		"lint": {
-			"outputs": []
-		},
-		"typecheck": {},
-		"build": {
-			"dependsOn": [],
-			"outputs": ["dist/**", ".next/**"]
-		},
-		"test": {
-			"dependsOn": []
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		}
-	},
-	"globalEnv": [
-		"NODE_ENV",
-		"PORT",
-		"SALT",
-		"JWT_SECRET",
-		"MONGO_STRING",
-		"GOOGLE_CLIENT_ID",
-		"GOOGLE_CLIENT_SECRET",
-		"GOOGLE_CLIENT_CALLBACK_URL_BACKEND",
-		"GOOGLE_CLIENT_CALLBACK_URL_FRONTEND",
-		"GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE"
-	]
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "lint": {
+      "outputs": []
+    },
+    "typecheck": {},
+    "build": {
+      "dependsOn": [],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "test": {
+      "dependsOn": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  },
+  "globalEnv": [
+    "NODE_ENV",
+    "PORT",
+    "SALT",
+    "JWT_SECRET",
+    "MONGO_STRING",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CLIENT_CALLBACK_URL_BACKEND",
+    "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND",
+    "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE"
+  ]
 }

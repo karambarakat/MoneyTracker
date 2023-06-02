@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { CategoriesState, RootState } from '@redux/types'
 import dispatch from '@redux/dispatch'
-import { Category as CatDoc } from 'types'
+import { Category as CatDoc } from 'types/src/schema'
 import HttpError from 'src/utils/HttpError'
 
 type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {

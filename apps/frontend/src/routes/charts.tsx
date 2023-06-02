@@ -1,16 +1,9 @@
 import CategoryIcon from '@components/category/CategoryIcon'
 import PieChart from '@components/d3/PieChart'
 import MyPaper from '@components/MyPaper'
-import { Box, List, Progress, Stack, Text, ThemeIcon } from '@mantine/core'
-import dispatch from '@redux/dispatch'
+import { Box, Progress, Stack, Text, ThemeIcon } from '@mantine/core'
 import { setTitle } from '@components/ReactRoute/index'
-
-import { LogsState, RootState } from '@redux/types'
-import { schemeSpectral } from 'd3'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import AddSvg from '@public/undraw_charts.svg'
-
 import segregate from 'src/utils/segregate'
 import Amount from '@components/Amount'
 import getLogs from '@redux/actions/getData/getLogs'

@@ -1,14 +1,14 @@
-import { apiUserLogin, UserDoc } from 'types'
+import { Profile } from 'types/src/schema'
+import { auth_local_login } from 'types/src/api/routes/auth_local'
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
 const type = 'user:login'
 
 export type ActionType = {
   type: typeof type
-  return: UserDoc
+  return: Profile
 
-  payload: apiUserLogin
+  payload: auth_local_login
 }
 
 const action: actionModule<ActionType> = async function (

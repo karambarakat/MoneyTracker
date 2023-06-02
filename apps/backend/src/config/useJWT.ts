@@ -1,6 +1,6 @@
 import User from '@models/User'
 import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt'
-import { jwt_payload } from 'types/jwt'
+import { jwt_payload } from 'types/src/jwt'
 
 const useJWT = new jwtStrategy(
   {

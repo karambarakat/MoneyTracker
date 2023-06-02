@@ -12,7 +12,7 @@ import {
   UserAlreadyExistE,
   ValidationE,
   WrongRouteConfig
-} from 'types/httpErrors'
+} from 'types/src/httpErrors'
 import { HttpError } from '.'
 
 export function FieldsRequired(keys: string[]) {

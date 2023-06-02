@@ -1,8 +1,8 @@
 import CategoryIcon from '@components/category/CategoryIcon'
 import { Button, Stack, Text } from '@mantine/core'
 import dispatch from '@redux/dispatch'
-import { CategoriesState, LogsState, RootState } from '@redux/types'
-import React, { useRef } from 'react'
+import { LogsState, RootState } from '@redux/types'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { useDisclosure } from '@mantine/hooks'
@@ -13,7 +13,7 @@ import { Link } from '@components/ReactRoute/index'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
 import Amount from '@components/Amount'
-import { Category as CatDoc } from 'types'
+import { Category as CatDoc } from 'types/src/schema'
 import EmptyCats from '@components/alternates/EmptyCats'
 
 function Categories_Page_Component() {

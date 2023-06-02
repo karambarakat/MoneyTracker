@@ -5,13 +5,12 @@ const Parser = require('@apidevtools/swagger-parser')
 const YAML = require('yaml')
 const { writeFile, readFile } = require('fs/promises')
 
-const glob = require('glob')
 const merge = require('lodash.merge')
 const childProcess = require('child_process')
-const { yamlFiles: yamlFilesProm } = require('./_import')
+const { yaml: yaml } = require('./_import')
 
 async function main() {
-  const yamlFiles = await yamlFilesProm()
+  const yamlFiles = await yaml()
 
   const definitions = await Promise.all(
     yamlFiles.map(c => Parser.dereference(c))
@@ -72,5 +71,8 @@ async function main() {
 }
 
 main()
-  .then(() => console.log('success'))
-  .catch(e => console.log('Error:', e))
+  .then(() => console.log('openapi: build: done'))
+  .catch(e => {
+    console.log('openapi: build: Error:', e)
+    process.exit(1)
+  })

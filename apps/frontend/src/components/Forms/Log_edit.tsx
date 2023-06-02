@@ -14,7 +14,7 @@ import MyCategoryInput from '@components/Formik/ICategory'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { LogsState, RootState } from '@redux/types'
-import { Log as LogDoc } from 'types'
+import { Log as LogDoc } from 'types/src/schema'
 import HttpError from 'src/utils/HttpError'
 
 type args = Partial<

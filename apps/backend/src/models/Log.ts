@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import Category from './Category'
-import { Log } from 'types/schema'
+import { Log } from 'types/src/schema'
 
 export interface ILog extends Log {
   doc: () => Omit<ILog, 'doc'>

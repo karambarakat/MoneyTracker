@@ -1,16 +1,16 @@
-import { apiLogCreate, LogDoc } from 'types/schema'
-import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { log_create } from 'types/src/api/routes/log'
+import { Log_out } from 'types/src/schema'
 
 const type = 'log:create'
 
 export type ActionType = {
   type: typeof type
-  return: LogDoc
+  return: Log_out
 
   payload: {
-    doc: apiLogCreate
+    doc: log_create
   }
 }
 

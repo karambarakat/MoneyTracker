@@ -1,21 +1,16 @@
-import { store } from '@redux/index'
-import { ActionsObjects } from '@redux/types'
+import { Profile } from 'types/src/schema'
 import {
-  apiProfileUpdate_local,
-  apiProfileUpdate_nolocal,
-  UserDoc
-} from 'types'
-import HttpError from 'src/utils/HttpError'
+  updatePassword_local,
+  updatePassword_nolocal
+} from 'types/src/api/routes/profile'
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
 const type = 'profile:password'
 
 export type ActionType = {
   type: typeof type
-  return: UserDoc
-
-  payload: apiProfileUpdate_nolocal | apiProfileUpdate_local
+  return: Profile
+  payload: updatePassword_nolocal | updatePassword_local
 }
 
 const action: actionModule<ActionType> = async function (

@@ -1,0 +1,35 @@
+name: turborebo CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+    steps:
+      - name: ⚙️ Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: ⚙️ Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm.yaml
+
+      - name: 🧪 Test
+        run: turbo test
+
+      - name: 🏗 Build
+        run: turbo build

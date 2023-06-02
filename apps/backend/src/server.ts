@@ -16,10 +16,10 @@ import apiIsWorking from '@middlewares/apiIsWorking'
 
 import { HTTPErrorHandler } from '@utils/httpError'
 import {
-	e404_ResourceNotFound as e404,
-	e500_ServerError as e500,
-	e400_MongooseValidation as e400_mongoose,
-	e400_JsonError as e400_json
+  e404_ResourceNotFound as e404,
+  e500_ServerError as e500,
+  e400_MongooseValidation as e400_mongoose,
+  e400_JsonError as e400_json
 } from '@utils/httpError/errMiddlewares'
 
 //passport
@@ -33,16 +33,16 @@ import type { ILog } from '@models/Log'
 import type { ICategory } from '@models/Category'
 
 declare global {
-	namespace Express {
-		interface User
-			extends Omit<IProfile, '_id'>,
-				Document<any, any, IProfile> {}
-		interface Request {
-			log?: ILog & Document<any, any, ILog>
-			category?: ICategory & Document<any, any, ICategory>
-			getBasicToken: () => Record<'email' | 'password', string>
-		}
-	}
+  namespace Express {
+    interface User
+      extends Omit<IProfile, '_id'>,
+        Document<any, any, IProfile> {}
+    interface Request {
+      log?: ILog & Document<any, any, ILog>
+      category?: ICategory & Document<any, any, ICategory>
+      getBasicToken: () => Record<'email' | 'password', string>
+    }
+  }
 }
 
 const app = expressApp()
@@ -92,14 +92,14 @@ import log from '@utils/log'
 import db_conn from '@config/db-conn'
 
 async function main() {
-	await db_conn()
-	const PORT = process.env.PORT || 8080
-	app.listen(PORT, () => log('app', `listening at port ${PORT}`))
+  await db_conn()
+  const PORT = process.env.PORT || 8080
+  app.listen(PORT, () => log('app', `listening at port ${PORT}`))
 }
 
 if (module.id === '.' || (module.id as unknown as number) === 0) {
-	main().catch(error => {
-		console.error(error)
-		process.exit(1)
-	})
+  main().catch(error => {
+    console.error(error)
+    process.exit(1)
+  })
 }

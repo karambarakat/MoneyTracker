@@ -4,11 +4,6 @@
   "description": "",
   "main": "",
   "types": "./schema.d.ts",
-  "exports": {
-    ".": {
-      "import": "./src/**"
-    }
-  },
   "scripts": {},
   "author": "",
   "license": "ISC"

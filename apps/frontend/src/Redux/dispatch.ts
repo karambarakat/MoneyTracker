@@ -56,7 +56,7 @@ const modules = Object.entries(
   }, {})
 
 /*
-Syntactically Sugar To Invoke Actions:
+Syntactical Sugar To Invoke Actions:
 ex: to invoke action with this typing:
 
   type ActionType = {
@@ -77,7 +77,7 @@ const dispatch = async function <
   P extends actions['payload'] = Extract<actions, { type: S }>['payload'],
   R extends actions['return'] = Extract<actions, { type: S }>['return']
 >(type: S, payload: P): Promise<R> {
-  if (!(type in modules)) throw new Error("type doesn't exist")
+  if (!(type in modules)) throw new Error('type does not exist')
   const module = modules[type]
 
   // @ts-ignore

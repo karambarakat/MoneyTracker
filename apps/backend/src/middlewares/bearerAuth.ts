@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { Router } from 'express'
 import { TokenFailed } from '@utils/httpError/errTypes'
-import { TokenFailedE } from 'types/httpErrors'
+import { TokenFailedE } from 'types/src/httpErrors'
 
 const bearerAuth = Router()
 

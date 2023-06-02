@@ -14,6 +14,7 @@ import React, { PropsWithChildren } from 'react'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@components/category/CategoryAllIcons'
 import getCats from '@redux/actions/getData/getCats'
+import { Category, category_in } from 'types/src/schema'
 
 function _Icon({ icon, props = {} }: { icon?: string; props?: IconProps }) {
   const IconName = icon && icon in allTablerIcon ? icon : 'Category2'
@@ -44,12 +45,6 @@ const useHov = createStyles<
   }
 })
 
-interface CatInterface {
-  title?: string
-  color?: string
-  icon?: string
-}
-
 type _ThemeIconProps = Pick<
   ThemeIconProps,
   'size' | 'radius' | 'color' | 'gradient'
@@ -61,7 +56,7 @@ interface CategoryIconInterface extends Omit<_ThemeIconProps, 'children'> {
   hideIcon?: boolean
   size?: number
   on?: boolean
-  cat?: Omit<CatInterface, 'title'>
+  cat?: Omit<category_in, 'title'>
 }
 
 function CategoryIcon({
@@ -110,7 +105,7 @@ CategoryIcon.Hoverable = function ({
 CategoryIcon.WithTitle = function ({
   children,
   title
-}: PropsWithChildren<Pick<CatInterface, 'title'>>) {
+}: PropsWithChildren<Pick<Category, 'title'>>) {
   return (
     <Box
       sx={{

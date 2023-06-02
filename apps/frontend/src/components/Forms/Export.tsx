@@ -8,9 +8,10 @@ import { File } from 'tabler-icons-react'
 import { MyDateRangePicker } from '@components/Formik/IDateRange'
 import { store } from '@redux/index'
 import getDate from 'src/utils/getDate'
+import { category_in } from 'types/src/schema'
 
 interface Values {
-  range: Date[] | Omit<any, any>
+  range: Date[]
 }
 
 async function download(range: Date[]) {
@@ -31,7 +32,7 @@ async function download(range: Date[]) {
       [
         e.title,
         e.amount,
-        (e.category as Cat)?.title || '',
+        (e.category as category_in)?.title || '',
         e.createdAt,
         e.note
       ].join(',')

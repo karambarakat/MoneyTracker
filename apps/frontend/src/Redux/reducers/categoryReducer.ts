@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types'
+import { Category_out as CatDoc } from 'types/src/schema'
 import { CategoriesState, reducerAction } from './../types'
 const initialState: CategoriesState = []
 

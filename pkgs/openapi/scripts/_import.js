@@ -4,7 +4,7 @@ const glob = require('glob')
 /**
  * @type {() => Promise<string[]>}
  */
-const yamlFiles = () =>
+const yaml = () =>
   new Promise((res, rej) => {
     glob.glob('./src/**/*.yaml', function (e, files) {
       if (e) rej(e)
@@ -13,5 +13,5 @@ const yamlFiles = () =>
   })
 
 module.exports = {
-  yamlFiles
+  yaml
 }

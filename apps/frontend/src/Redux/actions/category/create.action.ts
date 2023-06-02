@@ -1,17 +1,16 @@
-import { store } from '@redux/index'
-import { apiCatCreate, CatDoc } from 'types'
-import HttpError from 'src/utils/HttpError'
+import { Category_out } from 'types/src/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { category_create } from 'types/src/api/routes/category'
 
 const type = 'category:create'
 
 export type ActionType = {
   type: typeof type
-  return: CatDoc
+  return: Category_out
 
   payload: {
-    doc: apiCatCreate
+    doc: category_create
   }
 }
 

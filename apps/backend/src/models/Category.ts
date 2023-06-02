@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Category } from 'types/schema'
+import { Category } from 'types/src/schema'
 
 export interface ICategory extends Category {
   doc: () => Omit<ICategory, 'doc'>

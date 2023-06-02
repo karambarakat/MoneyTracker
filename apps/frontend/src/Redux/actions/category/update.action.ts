@@ -1,19 +1,17 @@
-import { store } from '@redux/index'
-import { ActionsObjects } from '@redux/types'
-import { apiCatUpdate, CatDoc } from 'types'
-import HttpError from 'src/utils/HttpError'
+import { Category_out, category_in } from 'types/src/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { category_update } from 'types/src/api/routes/category'
 
 const type = 'category:update'
 
 export type ActionType = {
   type: typeof type
-  return: CatDoc
+  return: Category_out
 
   payload: {
-    id: CatDoc['_id']
-    doc: apiCatUpdate
+    id: Category_out['_id']
+    doc: category_update
   }
 }
 

@@ -10,7 +10,7 @@ import MySimpleInput from '@components/Formik/ISimple'
 import MyAmountInput from '@components/Formik/IAmount'
 import MyTextarea from '@components/Formik/ITextarea'
 import MyCategoryInput from '@components/Formik/ICategory'
-import { Log as LogDoc } from 'types'
+import { Log as LogDoc } from 'types/src/schema'
 import HttpError from 'src/utils/HttpError'
 
 type args = Partial<
@@ -37,6 +37,7 @@ function AddLog() {
         values: Values,
         { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
       ) => {
+        // @ts-ignore
         dispatch('log:create', { doc: values })
           .then(() => {
             goBack()

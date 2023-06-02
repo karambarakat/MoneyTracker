@@ -1,45 +1,45 @@
 {
-	"name": "my-pocket",
-	"version": "1.0.0",
-	"description": "Easy to use money wallet",
-	"private": true,
-	"workspaces": [
-		"apps/*",
-		"pkgs/*",
-		"conf/*"
-	],
-	"scripts": {
-		"commit": "turbo --version && git commit",
-		"build": "turbo run build",
-		"dev": "turbo run dev",
-		"lint": "npm run prettier && turbo run lint",
-		"typecheck": "turbo run typecheck",
-		"prettier": "prettier --write .",
-		"test": "turbo run test",
-		"prepare": "husky install"
-	},
-	"devDependencies": {
-		"husky": "^8.0.3",
-		"lint-staged": "^13.2.2",
-		"prettier": "latest",
-		"turbo": "latest"
-	},
-	"lint-staged": {
-		"**/*": "prettier --write --ignore-unknown"
-	},
-	"engines": {
-		"node": ">=14.0.0",
-		"pnpm": ">=8.6.0"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/karambarakat/MoneyTracker.git"
-	},
-	"author": "Karam Barakat",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/karambarakat/MoneyTracker/issues"
-	},
-	"homepage": "https://github.com/karambarakat/MoneyTracker#readme",
-	"packageManager": "pnpm@8.6.0"
+  "name": "my-pocket",
+  "version": "1.0.0",
+  "description": "Easy to use money wallet",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "pkgs/*",
+    "conf/*"
+  ],
+  "scripts": {
+    "commit": "turbo --version && git commit",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "npm run prettier && turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "prettier": "prettier --write .",
+    "test": "turbo run test",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "pnpm": ">=8.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karambarakat/MoneyTracker.git"
+  },
+  "author": "Karam Barakat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karambarakat/MoneyTracker/issues"
+  },
+  "homepage": "https://github.com/karambarakat/MoneyTracker#readme",
+  "packageManager": "pnpm@8.6.0"
 }
