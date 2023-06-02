@@ -14,13 +14,12 @@ import logController from '@controllers/logController'
 import categoryController from '@controllers/categoryController'
 import apiIsWorking from '@middlewares/apiIsWorking'
 
-
 import { HTTPErrorHandler } from '@utils/httpError'
 import {
   e404_ResourceNotFound as e404,
   e500_ServerError as e500,
   e400_MongooseValidation as e400_mongoose,
-  e400_JsonError as e400_json,
+  e400_JsonError as e400_json
 } from '@utils/httpError/errMiddlewares'
 
 //passport
@@ -35,7 +34,9 @@ import type { ICategory } from '@models/Category'
 
 declare global {
   namespace Express {
-    interface User extends Omit<IProfile, '_id'>, Document<any, any, IProfile> { }
+    interface User
+      extends Omit<IProfile, '_id'>,
+        Document<any, any, IProfile> {}
     interface Request {
       log?: ILog & Document<any, any, ILog>
       category?: ICategory & Document<any, any, ICategory>
@@ -97,7 +98,7 @@ async function main() {
 }
 
 if (module.id === '.' || (module.id as unknown as number) === 0) {
-  main().catch((error) => {
+  main().catch(error => {
     console.error(error)
     process.exit(1)
   })

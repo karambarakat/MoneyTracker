@@ -14,9 +14,7 @@
         "-r",
         "${cwd}/backend/node_modules/tsconfig-paths/register"
       ],
-      "args": [
-        "${cwd}/backend/src/server.ts"
-      ],
+      "args": ["${cwd}/backend/src/server.ts"],
       "cwd": "${workspaceFolder}/backend",
       // "protocol": "inspector",
       "env": {

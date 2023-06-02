@@ -5,7 +5,7 @@ import { X } from 'tabler-icons-react'
 function Dismissible({
   children,
   opened,
-  onclose,
+  onclose
 }: React.PropsWithChildren<{
   opened: boolean
   onclose?: () => void
@@ -25,11 +25,11 @@ function Dismissible({
     <Box
       p={12}
       mx={12}
-      sx={(th) => ({
+      sx={th => ({
         backgroundColor:
           th.colorScheme === 'light'
             ? th.colors?.gray[0] || 'gray'
-            : th.colors?.gray[9] || 'gray',
+            : th.colors?.gray[9] || 'gray'
       })}
     >
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>

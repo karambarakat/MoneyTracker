@@ -11,7 +11,7 @@ import {
   Modal,
   Stack,
   Text,
-  Title,
+  Title
 } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
 import { useState } from 'react'
@@ -28,15 +28,20 @@ const data = [
     stage: './google',
     color: 'blue',
     icon: <BrandGoogle />,
-    title: 'Use Google',
+    title: 'Use Google'
   },
-  { stage: './email', color: 'red', icon: <Mail />, title: 'Using Email' },
+  {
+    stage: './email',
+    color: 'red',
+    icon: <Mail />,
+    title: 'Using Email'
+  },
   {
     stage: './local',
     color: 'primaryColor',
     icon: <WifiOff />,
-    title: 'Continue Offline',
-  },
+    title: 'Continue Offline'
+  }
 ]
 
 export default function () {
@@ -57,19 +62,19 @@ export default function () {
               variant="filled"
               style={{ height: 48 }}
               onClick={() => {
-                (
+                ;(
                   window as unknown as OpenerFunctions
                 ).__$openerFunctionsContext = {
-                  callback: async (params) => {
+                  callback: async params => {
                     await dispatch('profile:fetch', {
-                      token: params.token,
+                      token: params.token
                     }).then(() => {
                       pushNotification({
-                        message: `welcome ${params.displayName}`,
+                        message: `welcome ${params.displayName}`
                       })
                       goBack()
                     })
-                  },
+                  }
                 }
 
                 window.open(
@@ -145,12 +150,12 @@ function Email() {
         <RegisterEmail />
       </NextStage>
       <Text pt={20} align="center">
-        {login ? 'You don\'t have an account, ' : 'You have an account, '}
+        {login ? "You don't have an account, " : 'You have an account, '}
         <Text
           component="span"
           color={'blue'}
           sx={{ cursor: 'pointer' }}
-          onClick={() => setLogin((o) => !o)}
+          onClick={() => setLogin(o => !o)}
         >
           {login ? 'sign up' : 'login'}
         </Text>

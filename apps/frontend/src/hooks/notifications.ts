@@ -24,9 +24,9 @@ export interface notification {
 // @ts-ignore
 interface notificationEvent extends EventEmitter {
   emit(type: 'pushNotification', noti: notification): boolean
-  on(type: 'pushNotification', callback: (noti: notification) => void): this
-
   emit(type: 'dismissNotification', noti: string): boolean
+
+  on(type: 'pushNotification', callback: (noti: notification) => void): this
   on(type: 'dismissNotification', callback: (id: string) => void): this
 }
 
@@ -59,7 +59,7 @@ class Listeners {
     )
   }
   remove() {
-    this.all.forEach((elem) => {
+    this.all.forEach(elem => {
       event.removeListener(elem.type, elem.cb)
     })
   }
@@ -81,15 +81,15 @@ export const useNotification = () => {
   useEffect(() => {
     const event = new Listeners()
 
-    event.on('dismissNotification', (id) => {
-      setState((old) => old.filter((_noti) => _noti.id !== id))
+    event.on('dismissNotification', id => {
+      setState(old => old.filter(_noti => _noti.id !== id))
     })
 
-    event.on('pushNotification', (noti) => {
+    event.on('pushNotification', noti => {
       const id = uuid()
-      setState((old) => [...old, { ...noti, id }])
+      setState(old => [...old, { ...noti, id }])
       setTimeout(() => {
-        setState((old) => old.filter((_noti) => _noti.id !== id))
+        setState(old => old.filter(_noti => _noti.id !== id))
       }, 7500)
     })
 

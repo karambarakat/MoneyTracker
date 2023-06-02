@@ -13,7 +13,7 @@ import { Link } from '@components/ReactRoute/index'
 import MyPaper from '@components/MyPaper'
 import { setTitle } from '@components/ReactRoute/index'
 import Amount from '@components/Amount'
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import EmptyCats from '@components/alternates/EmptyCats'
 
 function Categories_Page_Component() {
@@ -27,7 +27,7 @@ function Categories_Page_Component() {
 
     if (catId === '') return [0, undefined]
 
-    const catIndex: number = cats.findIndex((cat) => cat._id === catId)
+    const catIndex: number = cats.findIndex(cat => cat._id === catId)
     if (catIndex === -1) return [0, undefined]
 
     return [catIndex, cats[catIndex]]
@@ -36,7 +36,7 @@ function Categories_Page_Component() {
   const [opened, handles] = useDisclosure(false, {
     onClose: () => {
       __('')
-    },
+    }
   })
   const setSelected = (id: string) => {
     handles.open()
@@ -50,7 +50,7 @@ function Categories_Page_Component() {
       <MiddleRow index={cIndex}>
         <MiddleRow.Elems>
           {[
-            ...cats.map((cat) => (
+            ...cats.map(cat => (
               <div key={cat._id} onClick={() => setSelected(cat._id)}>
                 <CategoryIcon.Hoverable key={cat._id}>
                   <CategoryIcon.WithTitle title={cat.title}>
@@ -63,7 +63,7 @@ function Categories_Page_Component() {
                 </CategoryIcon.Hoverable>
               </div>
             )),
-            <AddCategory key={'Symbol()'} />,
+            <AddCategory key={'Symbol()'} />
           ]}
         </MiddleRow.Elems>
 
@@ -78,10 +78,10 @@ function Categories_Page_Component() {
 }
 
 function CatDetails({ cat, context }: { context: () => void; cat?: CatDoc }) {
-  const logs_ = useSelector<RootState, LogsState>((s) => s.logs)
+  const logs_ = useSelector<RootState, LogsState>(s => s.logs)
   const total = React.useMemo(() => {
     return logs_
-      .filter((log) => log.category?._id === cat?._id)
+      .filter(log => log.category?._id === cat?._id)
       .reduce((a, b) => a + b.amount, 0)
   }, [logs_, cat])
 
@@ -92,7 +92,7 @@ function CatDetails({ cat, context }: { context: () => void; cat?: CatDoc }) {
           sx={{
             flexDirection: 'row',
             // this is inside <Dismissible /> which have 30.8 px for the cancelation button
-            marginTop: '-30px',
+            marginTop: '-30px'
           }}
         >
           <CategoryIcon on cat={cat} />

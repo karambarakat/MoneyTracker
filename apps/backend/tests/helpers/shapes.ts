@@ -24,7 +24,7 @@ export const LogShape = {
     icon: ''
   },
   updatedAt: '',
-  createdAt: '',
+  createdAt: ''
 }
 
 export const CatShape = {

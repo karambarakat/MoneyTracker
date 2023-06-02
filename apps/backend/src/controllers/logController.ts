@@ -3,7 +3,7 @@ import {
   FieldsRequired,
   NoLog,
   PrivateRoute,
-  ResourceWasNotFound,
+  ResourceWasNotFound
 } from '@utils/httpError/errTypes'
 import { requiredFieldsMiddleware } from '@utils/httpError'
 
@@ -30,10 +30,10 @@ async function find(req: Request, res: Response, next: NextFunction) {
 
   const logs = await Log.find({
     // ...req.filterQuery,
-    createdBy: new ObjectId(req.user._id),
+    createdBy: new ObjectId(req.user._id)
   })
 
-  res.json({ data: logs.map((e) => e.doc()) })
+  res.json({ data: logs.map(e => e.doc()) })
 }
 
 /**
@@ -55,7 +55,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
     amount,
     category,
     note,
-    createdBy: req.user._id,
+    createdBy: req.user._id
   })
   res.status(201).json({ data: log.doc() })
 }
@@ -63,7 +63,8 @@ async function create(req: Request, res: Response, next: NextFunction) {
 /**
  * helper functions
  */
-const isIdHex = (str: unknown) => typeof str === 'string' && str.length === 24 && str.match(/(?![0-9a-fA-F])/g)
+const isIdHex = (str: unknown) =>
+  typeof str === 'string' && str.length === 24 && str.match(/(?![0-9a-fA-F])/g)
 async function findLog(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
 
@@ -73,7 +74,7 @@ async function findLog(req: Request, res: Response, next: NextFunction) {
 
   const foundLog = await Log.findOne({
     createdBy: new ObjectId(req.user._id),
-    _id: new ObjectId(req.params.id),
+    _id: new ObjectId(req.params.id)
   })
 
   if (foundLog) {
@@ -95,7 +96,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
   if (!req.log) throw NoLog()
 
   res.json({
-    data: req.log.doc(),
+    data: req.log.doc()
   })
 }
 
@@ -113,8 +114,9 @@ async function update(req: Request, res: Response, next: NextFunction) {
   const { title, amount, category, note } = of(req.body) as log_update
 
   req.log.title = title || req.log.title
-  req.log.amount = amount || req.log.amount;
-  (req.log.category as unknown as string) = category || (req.log.category as unknown as string)
+  req.log.amount = amount || req.log.amount
+  ;(req.log.category as unknown as string) =
+    category || (req.log.category as unknown as string)
   req.log.note = note || req.log.note
 
   await req.log.save()

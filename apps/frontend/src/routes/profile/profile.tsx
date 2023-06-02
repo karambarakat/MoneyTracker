@@ -9,7 +9,7 @@ import {
   useMantineTheme,
   Button,
   Stack,
-  Divider,
+  Divider
 } from '@mantine/core'
 import { store } from '@redux/index'
 
@@ -21,7 +21,7 @@ import { ReactElement } from 'react'
 import OnlineStateAction from '@components/OnlineStateAction'
 
 function Profile() {
-  const user = useSelector<RootState, UserState>((s) => s.user)
+  const user = useSelector<RootState, UserState>(s => s.user)
   const theme = useMantineTheme()
 
   if (!user.profile) {
@@ -47,7 +47,7 @@ function Profile() {
 }
 
 export function ProfileIndex() {
-  const user = useSelector<RootState, UserState>((s) => s.user)
+  const user = useSelector<RootState, UserState>(s => s.user)
   const exit = useRoutes()
 
   return (
@@ -72,7 +72,7 @@ export function ProfileIndex() {
         </Link>
       )}
       <OnlineStateAction>
-        {(text) => {
+        {text => {
           return (
             <Button
               style={{ width: '100%' }}

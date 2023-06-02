@@ -20,7 +20,7 @@ function ProfileUpdate() {
   return (
     <Formik
       initialValues={{
-        displayName: '',
+        displayName: ''
         // picture: '',
       }}
       v
@@ -32,7 +32,7 @@ function ProfileUpdate() {
           .then(() => {
             nav(-1)
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -45,7 +45,7 @@ function ProfileUpdate() {
       }}
       validationSchema={
         new yupObj({
-          displayName: yupStr(),
+          displayName: yupStr()
           // picture: yupStr().required(),
         })
       }

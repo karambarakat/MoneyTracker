@@ -1,5 +1,5 @@
 import { store } from '@redux/index'
-import { apiCatCreate, CatDoc } from 'types/schema'
+import { apiCatCreate, CatDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -22,14 +22,14 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  const category = await online((helpers) =>
+  const category = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/category', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token(),
+        Authorization: 'Bearer ' + helpers.token()
       },
-      body: JSON.stringify(doc),
+      body: JSON.stringify(doc)
     })
   )
 
@@ -38,24 +38,24 @@ const action: actionModule<ActionType> = async function (
     reactions: [
       {
         display: 'delete',
-        dispatch: __d((d) => d('category:delete', { id: category._id })),
-        style: { color: 'red' },
+        dispatch: __d(d => d('category:delete', { id: category._id })),
+        style: { color: 'red' }
       },
       {
         display: 'edit',
-        dispatch: __d((d) =>
+        dispatch: __d(d =>
           d('app:navigate', {
             to: '/editCategory/' + category._id,
-            asModal: true,
+            asModal: true
           })
-        ),
-      },
-    ],
+        )
+      }
+    ]
   })
 
   dispatch({
     type: 'CATEGORY_ADD_ONE',
-    pl: { category },
+    pl: { category }
   })
 
   return category

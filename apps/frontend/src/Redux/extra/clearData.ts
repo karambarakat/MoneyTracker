@@ -7,7 +7,7 @@ import { ActionsObjects } from '../types'
  * this will trigger another actin with `CLEAR_ALL` type when current action completes
  * other reducers have to apply the deleting logic by listening to `CLEAR_ALL` action type
  */
-const ClearDataMiddleware: Middleware = (store) => (next) => (action) => {
+const ClearDataMiddleware: Middleware = store => next => action => {
   let dispatchClearAllAction = false
 
   function dispatchExtra() {
@@ -22,8 +22,8 @@ const ClearDataMiddleware: Middleware = (store) => (next) => (action) => {
     fn: {
       clearData: () => {
         dispatchClearAllAction = true
-      },
-    },
+      }
+    }
   })
 
   const res = next(actionWithClearData)

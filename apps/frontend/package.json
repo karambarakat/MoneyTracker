@@ -5,14 +5,12 @@
   "scripts": {
     "dev": "vite",
     "lint": "eslint --fix .",
-    "build": "echo \"to be implemented as:\" || tsc && vite build",
-    "prestart": "npm link ../types",
-    "preview": "vite preview"
+    "build": "tsc && vite build"
   },
   "dependencies": {
-    "@mantine/core": "^5.2.5",
+    "@mantine/core": "^5.4.2",
     "@mantine/dates": "^5.4.2",
-    "@mantine/hooks": "^5.2.5",
+    "@mantine/hooks": "^5.4.2",
     "classnames": "^2.3.1",
     "d3": "^7.6.1",
     "events": "^3.3.0",
@@ -34,7 +32,8 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "types": "*",
+    "types": "workspace:*",
+    "eslint-config-custom": "workspace:*",
     "@types/d3": "^7.4.0",
     "@types/events": "^3.0.0",
     "@types/react": "^17.0.33",
@@ -47,7 +46,6 @@
     "sass": "^1.49.10",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
-    "eslint": "^8.35.0",
-    "eslint-config-custom": "*"
+    "eslint": "^8.35.0"
   }
 }

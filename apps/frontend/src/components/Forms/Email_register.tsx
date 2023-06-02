@@ -7,7 +7,7 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import {
   boolean as yupBool,
   ObjectSchema as yupObj,
-  string as yupStr,
+  string as yupStr
 } from 'yup'
 import AlertStatus from '@components/Formik/AlertStatus'
 import SubmitButton from '@components/Formik/SubmitButton'
@@ -37,7 +37,7 @@ function RegisterEmail() {
         email: '',
         password: '',
         repeatPassword: '',
-        checked: false,
+        checked: false
       }}
       onSubmit={(
         values: Values,
@@ -47,7 +47,7 @@ function RegisterEmail() {
           .then(() => {
             goBack()
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -63,13 +63,13 @@ function RegisterEmail() {
           email: yupStr().required(),
           password: yupStr().required(),
           repeatPassword: yupStr().required(),
-          checked: yupBool().isTrue(),
+          checked: yupBool().isTrue()
         })
       }
-      validate={(values) => {
+      validate={values => {
         const errors: any = {}
         if (values.password !== values.repeatPassword) {
-          errors.repeatPassword = 'passwords don\'t match'
+          errors.repeatPassword = "passwords don't match"
         }
         return errors
       }}

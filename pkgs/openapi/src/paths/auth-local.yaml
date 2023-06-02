@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths:
+  /auth/local/login/:
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - $ref: '../security/http.yaml#/components/parameters/emailPassword'
+      tags:
+        - 'local authorization'
+      summary: login
+      description: |
+        login using email and password using Basic Token Http Authorization
+      responses:
+        401:
+          $ref: '../errors/EmailOrPasswordIncorrect.yaml#/components/responses/EmailOrPasswordIncorrect'
+        200:
+          $ref: '../responses/profile.yaml#/components/responses/profile'
+  /auth/local/register/:
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - $ref: '../security/http.yaml#/components/parameters/emailPassword'
+      tags:
+        - 'local authorization'
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: 'joe Due'
+      description: |
+        make new account with a displayName
+      responses:
+        201:
+          $ref: '../responses/profile.yaml#/components/responses/profile'
+        400:
+          $ref: '../errors/SomeFieldsRequired.yaml#/components/responses/SomeFieldsRequired'
+        409:
+          $ref: '../errors/UserAlreadyExist.yaml#/components/responses/UserAlreadyExist'
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: '8811'

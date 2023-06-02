@@ -1,0 +1,34 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    SomeFieldsRequired:
+      description: |
+        some of the fields are missing
+        `these fields are required`
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 400
+              message:
+                description: in form of `these fields are required\:email`
+                type: string
+              name:
+                type: string
+                default: SomeFieldsRequired
+              details:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: |
+                      key value pair where key is properties
+                      name and value is more explanation

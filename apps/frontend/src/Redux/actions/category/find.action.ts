@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import { actionModule } from '../../dispatch'
 
 const type = 'category:find'
@@ -17,18 +17,18 @@ const action: actionModule<ActionType, CatDoc[]> = async function (
 ) {
   offline()
 
-  const categories = await online((helpers) =>
+  const categories = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/category', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + helpers.token(),
-      },
+        Authorization: 'Bearer ' + helpers.token()
+      }
     })
   )
 
   dispatch({
     type: 'CATEGORY_ADD_ALL',
-    pl: { categories },
+    pl: { categories }
   })
 
   return categories

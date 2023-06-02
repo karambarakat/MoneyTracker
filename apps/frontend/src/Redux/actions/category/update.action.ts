@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { ActionsObjects } from '@redux/types'
-import { apiCatUpdate, CatDoc } from 'types/schema'
+import { apiCatUpdate, CatDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -24,41 +24,41 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  const category = await online((helpers) =>
+  const category = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/category/' + id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token(),
+        Authorization: 'Bearer ' + helpers.token()
       },
-      body: JSON.stringify(doc),
+      body: JSON.stringify(doc)
     })
   )
 
-  const oldDoc = state().categories.find((c) => c._id === id)
+  const oldDoc = state().categories.find(c => c._id === id)
 
   pushNoti({
     message: 'category was updated',
     reactions: [
       oldDoc && {
         display: 'undo',
-        dispatch: __d((d) =>
+        dispatch: __d(d =>
           d('category:update', {
             doc: {
               color: oldDoc.color,
               icon: oldDoc.icon,
-              title: oldDoc.title,
+              title: oldDoc.title
             },
-            id,
+            id
           })
-        ),
-      },
-    ],
+        )
+      }
+    ]
   })
 
   dispatch({
     type: 'CATEGORY_UPDATE_ONE',
-    pl: { category },
+    pl: { category }
   })
 
   return category

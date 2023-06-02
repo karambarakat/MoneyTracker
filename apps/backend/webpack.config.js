@@ -11,31 +11,31 @@ const config = {
   node: {
     global: false,
     __dirname: true,
-    __filename: true,
+    __filename: true
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: 'ts-loader',
-      },
-    ],
+        use: 'ts-loader'
+      }
+    ]
   },
   target: 'node18',
   resolve: {
     plugins: [
       // @ts-ignore
-      new TsconfigPathsPlugin({}),
+      new TsconfigPathsPlugin({})
     ],
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js']
   },
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     sourceMapFilename: 'index.source.js',
-    filename: 'index.bundle.js',
-  },
+    filename: 'index.bundle.js'
+  }
 }
 
 module.exports = config

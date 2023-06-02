@@ -4,7 +4,7 @@ import {
   compose,
   Middleware,
   combineReducers,
-  Reducer,
+  Reducer
 } from 'redux'
 import { save, load } from 'redux-localstorage-simple'
 import ClearDataMiddleware from './extra/clearData'
@@ -17,14 +17,14 @@ import userReducer from './reducers/userReducer'
 import { ActionsObjects, RootState } from './types'
 
 const initialState = {
-  ...load({ namespace: 'VITE_REDUX_', states: ['user'] }),
+  ...load({ namespace: 'VITE_REDUX_', states: ['user'] })
 }
 
 const middleware: Middleware[] = [
   myThunk,
   save({ namespace: 'VITE_REDUX_', states: ['user'] }),
   ClearDataMiddleware,
-  LoggerMiddleware,
+  LoggerMiddleware
 ]
 
 // @ts-ignore
@@ -32,7 +32,7 @@ const rootReducer: Reducer<RootState, ActionsObjects> = combineReducers({
   user: userReducer,
   logs: logReducer,
   categories: categoryReducer,
-  meta: metaReducer,
+  meta: metaReducer
 })
 
 export const store = createStore(

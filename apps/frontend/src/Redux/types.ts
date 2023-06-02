@@ -35,13 +35,9 @@ export interface RootState {
 }
 
 // this is used in dispatch function like `store.dispatch<Actions>(XXXActionTypes)
-export type ActionsObjects = { type: string /**, pl: *SOMETHING* */ } & (
-  | UserTypes
-  | LogsTypes
-  | CategoriesTypes
-  | MetaTypes
-  | ExtraActionsTypes
-)
+export type ActionsObjects = {
+  type: string /**, pl: *SOMETHING* */
+} & (UserTypes | LogsTypes | CategoriesTypes | MetaTypes | ExtraActionsTypes)
 
 // this only used inside reducers
 export type reducerAction = ActionsObjects & {
@@ -104,18 +100,18 @@ export type dispatchFunction = (
 
 export type APIResponse =
   | {
-    error: {
-      status: number
-      message: string
-      name: string
-      details: any
+      error: {
+        status: number
+        message: string
+        name: string
+        details: any
+      }
+      data: undefined
     }
-    data: undefined
-  }
   | {
-    error: null
-    data: any
-  }
+      error: null
+      data: any
+    }
 
 export type APIResource<doc> = {
   data: doc

@@ -17,13 +17,13 @@ const action: actionModule<ActionType> = async function (
 ) {
   dispatch({ type: 'USER_GO_OFFLINE' })
   pushNoti({
-    message: 'you\'re offline now',
+    message: "you're offline now",
     reactions: [
       {
         display: 'go online',
-        dispatch: __d((d) => d('user:online', {})),
-      },
-    ],
+        dispatch: __d(d => d('user:online', {}))
+      }
+    ]
   })
 }
 

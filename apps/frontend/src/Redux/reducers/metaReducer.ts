@@ -3,7 +3,7 @@ import { reducerAction, MetaState, UserState } from '@redux/types'
 const initialState: MetaState = {
   title: 'Home',
   currency: '$/d',
-  rating: 5,
+  rating: 5
 }
 
 /**
@@ -31,17 +31,17 @@ export default function metaReducer(
     case 'META_SET_TITLE':
       return {
         ...state,
-        title: action.pl.title,
+        title: action.pl.title
       }
     case 'META_CURRENCY':
       return {
         ...state,
-        currency: action.pl.currency,
+        currency: action.pl.currency
       }
     case 'META_RATING':
       return {
         ...state,
-        rating: action.pl.rating,
+        rating: action.pl.rating
       }
     default:
       return state

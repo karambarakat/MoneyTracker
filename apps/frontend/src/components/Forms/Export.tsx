@@ -18,7 +18,7 @@ async function download(range: Date[]) {
   const from = getDate(range[0].toString()).getTime()
   const to = getDate(range[1].toString()).getTime()
 
-  const raw = store.getState().logs.filter((log) => {
+  const raw = store.getState().logs.filter(log => {
     const thisDay = getDate(log.createdAt).getTime()
 
     return !(thisDay <= from || thisDay >= to)
@@ -27,15 +27,15 @@ async function download(range: Date[]) {
   // 2nd
   const data = [
     'title,amount,category,created at,notes',
-    ...raw.map((e) =>
+    ...raw.map(e =>
       [
         e.title,
         e.amount,
         (e.category as Cat)?.title || '',
         e.createdAt,
-        e.note,
+        e.note
       ].join(',')
-    ),
+    )
   ].join('\n')
 
   // 3rd
@@ -46,7 +46,7 @@ async function download(range: Date[]) {
   a.download = 'logs from'
   document.body.appendChild(a)
   a.click()
-  await new Promise<void>((res) => setTimeout(() => res(), 0))
+  await new Promise<void>(res => setTimeout(() => res(), 0))
   document.body.removeChild(a)
   window.URL.revokeObjectURL(url)
 }
@@ -60,7 +60,7 @@ function Export() {
   return (
     <Formik
       initialValues={{
-        range: [from, to],
+        range: [from, to]
       }}
       // @ts-ignore
       onSubmit={(
@@ -69,7 +69,7 @@ function Export() {
       ) => {
         download(values.range)
           .then(() => goBack())
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             setStatus({ error: e.message })
           })
@@ -77,7 +77,7 @@ function Export() {
       }}
       validationSchema={
         new yupObj({
-          range: yupArray().of(yupDate()),
+          range: yupArray().of(yupDate())
         })
       }
     >
@@ -92,8 +92,8 @@ function Export() {
               styles={{
                 label: {
                   display: 'flex',
-                  gap: 12,
-                },
+                  gap: 12
+                }
               }}
             >
               <File />

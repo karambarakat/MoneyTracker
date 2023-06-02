@@ -6,13 +6,13 @@ services:
       context: ../../
       args:
         Package_name: backend
-    command: [ "npm", "run", "dev", "-w", "backend" ]
+    command: ['npm', 'run', 'dev', '-w', 'backend']
     env_file:
       - ./.env
     environment:
       - MONGO_STRING=mongodb://mongo:27017/testing
     ports:
-      - "8080:8081"
+      - '8080:8081'
     networks:
       - default
     depends_on:

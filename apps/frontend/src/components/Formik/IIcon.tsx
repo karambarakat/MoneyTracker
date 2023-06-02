@@ -45,7 +45,7 @@ function MyIconInput({ formikName, required, label, description }: Props) {
                     gridTemplateColumns: 'repeat(auto-fill, minmax(36px, 1fr))',
                     gap: '12px',
                     justifyItems: 'center',
-                    alignItems: 'center',
+                    alignItems: 'center'
                   }}
                 >
                   {CategoryIcon.collection.allIcons.map(({ key }) => {
@@ -63,7 +63,7 @@ function MyIconInput({ formikName, required, label, description }: Props) {
                             variant={field.value === key ? 'filled' : 'subtle'}
                             cat={{
                               icon: key,
-                              color: formikProps.values.color || 'gray',
+                              color: formikProps.values.color || 'gray'
                             }}
                           />
                         </CategoryIcon.Hoverable>

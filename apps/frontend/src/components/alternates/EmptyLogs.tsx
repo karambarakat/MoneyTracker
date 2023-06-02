@@ -10,7 +10,7 @@ function EmptyLogs() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem',
+        paddingTop: '3rem'
       }}
     >
       <img src={AddSvg} width="70%" />
@@ -20,7 +20,7 @@ function EmptyLogs() {
         color="#aaa"
         weight="bold"
       >
-        {'There\'s No Data Yet.'}
+        {"There's No Data Yet."}
       </Text>
       <Text color="#bbb">
         <div>
@@ -29,7 +29,10 @@ function EmptyLogs() {
             sx={{ display: 'inline', cursor: 'pointer' }}
             color={'blue'}
             onClick={() =>
-              dispatch('app:navigate', { to: '/addLog', asModal: true })
+              dispatch('app:navigate', {
+                to: '/addLog',
+                asModal: true
+              })
             }
           >
             add more logs

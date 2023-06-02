@@ -14,7 +14,7 @@ import MyCategoryInput from '@components/Formik/ICategory'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { LogsState, RootState } from '@redux/types'
-import { Log as LogDoc } from 'types/schema'
+import { Log as LogDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 
 type args = Partial<
@@ -28,9 +28,9 @@ type Values = args
 
 function EditLog() {
   const { id } = useParams()
-  const logs = useSelector<RootState, LogsState>((s) => s.logs)
+  const logs = useSelector<RootState, LogsState>(s => s.logs)
   const log = useMemo(
-    () => logs.find((log) => log._id === id) || ({} as LogDoc),
+    () => logs.find(log => log._id === id) || ({} as LogDoc),
     [logs]
   )
 
@@ -43,7 +43,7 @@ function EditLog() {
         title: log.title,
         amount: log.amount,
         category: log.category?._id,
-        note: log.note,
+        note: log.note
       }}
       // @ts-ignore
       onSubmit={(
@@ -54,7 +54,7 @@ function EditLog() {
           .then(() => {
             goBack()
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -70,7 +70,7 @@ function EditLog() {
           title: yupStr().required(),
           amount: yupNum().required(),
           category: yupStr(),
-          note: yupStr(),
+          note: yupStr()
         })
       }
     >

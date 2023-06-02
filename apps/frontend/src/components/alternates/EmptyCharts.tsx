@@ -10,7 +10,7 @@ function EmptyCharts() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem',
+        paddingTop: '3rem'
       }}
     >
       <img src={AddSvg} width="70%" />
@@ -20,7 +20,7 @@ function EmptyCharts() {
         color="#aaa"
         weight="bold"
       >
-        {'There\'s No Data Yet.'}
+        {"There's No Data Yet."}
       </Text>
       <Text color="#bbb">add more logs to see their statistics</Text>
     </Box>

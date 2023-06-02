@@ -18,9 +18,13 @@ describe('profile', () => {
   beforeAll(async () => {
     const res = await request(app)
       .post('/api/v1/auth/local/register')
-      .set('Authorization', 'Basic ' + Buffer.from(
-        ['e1profile@example.com', 'password']
-          .join(':')).toString('base64'))
+      .set(
+        'Authorization',
+        'Basic ' +
+          Buffer.from(['e1profile@example.com', 'password'].join(':')).toString(
+            'base64'
+          )
+      )
       .send()
 
     if (!res?.body?.data || !res?.body?.data.token) {
@@ -31,21 +35,19 @@ describe('profile', () => {
   })
 
   afterAll(() => {
-    const dbName = process.env.MONGO_STRING && new URL(process.env.MONGO_STRING).pathname.split('/')[2]
+    const dbName =
+      process.env.MONGO_STRING &&
+      new URL(process.env.MONGO_STRING).pathname.split('/')[2]
     const db = mongoose.connection.getClient().db(dbName)
-    return Promise.all([
-      db.dropCollection('users'),
-    ])
+    return Promise.all([db.dropCollection('users')])
   })
 
   describe('/profile/status', () => {
-    const req = () => request(app)
-      .get('/api/v1/profile/status')
+    const req = () => request(app).get('/api/v1/profile/status')
     const shape = ProfileShape
 
     test('2xx', async () => {
-      const res = await req()
-        .send({ email: 'e@g.com' })
+      const res = await req().send({ email: 'e@g.com' })
 
       expect(res.body.data).toEqual([])
 
@@ -54,8 +56,7 @@ describe('profile', () => {
         .set('Authorization', 'Basic ZUBnLmNvbTpwYXNzd29yZA==')
         .send()
 
-      const res2 = await req()
-        .send({ email: 'e@g.com' })
+      const res2 = await req().send({ email: 'e@g.com' })
 
       expect(res2.body.data).toEqual(['local'])
     })
@@ -70,10 +71,8 @@ describe('profile', () => {
     })
   })
 
-
   describe('/profile get', () => {
-    const req = () => request(app)
-      .get('/api/v1/profile')
+    const req = () => request(app).get('/api/v1/profile')
     const shape = ProfileShape
 
     test('401', async () => {
@@ -96,10 +95,8 @@ describe('profile', () => {
     })
   })
 
-
   describe('/profile put', () => {
-    const req = () => request(app)
-      .put('/api/v1/profile')
+    const req = () => request(app).put('/api/v1/profile')
     const shape = ProfileShape
 
     test('401', async () => {
@@ -136,10 +133,8 @@ describe('profile', () => {
     })
   })
 
-
   describe('/profile/password put', () => {
-    const req = () => request(app)
-      .put('/api/v1/profile/password')
+    const req = () => request(app).put('/api/v1/profile/password')
     const shape = ProfileShape
 
     test('401', async () => {
@@ -183,27 +178,33 @@ describe('profile', () => {
 
       await request(app)
         .post('/api/v1/auth/local/login')
-        .set('Authorization', 'Basic ' + Buffer.from(
-          ['e1profile@example.com', 'password']
-            .join(':')).toString('base64'))
+        .set(
+          'Authorization',
+          'Basic ' +
+            Buffer.from(
+              ['e1profile@example.com', 'password'].join(':')
+            ).toString('base64')
+        )
         .expect(401)
 
       await request(app)
         .post('/api/v1/auth/local/login')
-        .set('Authorization', 'Basic ' + Buffer.from(
-          ['e1profile@example.com', 'newPass']
-            .join(':')).toString('base64'))
+        .set(
+          'Authorization',
+          'Basic ' +
+            Buffer.from(
+              ['e1profile@example.com', 'newPass'].join(':')
+            ).toString('base64')
+        )
         .expect(200)
-
     })
   })
-
 })
 
 function Null<S>(Shape: S, nullify?: (keyof S)[], exclude?: (keyof S)[]) {
-  const newShape = clone(Shape) as ({
+  const newShape = clone(Shape) as {
     [K in keyof S]?: S[K] | null
-  })
+  }
   for (const i of nullify || []) {
     newShape[i] = null
   }

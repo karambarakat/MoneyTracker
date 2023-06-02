@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { CategoriesState, RootState } from '@redux/types'
 import dispatch from '@redux/dispatch'
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 
 type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {
@@ -23,9 +23,9 @@ type Values = args
 
 function AddCategory() {
   const { id } = useParams()
-  const cats = useSelector<RootState, CategoriesState>((s) => s.categories)
+  const cats = useSelector<RootState, CategoriesState>(s => s.categories)
   const cat = useMemo(
-    () => cats.find((cat) => cat._id === id) || ({} as CatDoc),
+    () => cats.find(cat => cat._id === id) || ({} as CatDoc),
     [cats]
   )
   if (!cat._id) return <div>Server Error</div>
@@ -37,7 +37,7 @@ function AddCategory() {
       initialValues={{
         title: cat.title,
         color: cat.color,
-        icon: cat.icon,
+        icon: cat.icon
       }}
       // @ts-ignore
       onSubmit={(
@@ -48,7 +48,7 @@ function AddCategory() {
           .then(() => {
             goBack()
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -63,7 +63,7 @@ function AddCategory() {
         new yupObj({
           title: yupStr().required(),
           color: yupStr(),
-          icon: yupStr(),
+          icon: yupStr()
         })
       }
     >

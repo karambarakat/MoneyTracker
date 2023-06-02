@@ -3,7 +3,7 @@ import React from 'react'
 
 function TextEllipsis({
   children,
-  width,
+  width
 }: React.PropsWithChildren<{ width?: number }>) {
   return (
     <Box
@@ -11,7 +11,7 @@ function TextEllipsis({
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
-        width: width ? width + 'px' : 'auto',
+        width: width ? width + 'px' : 'auto'
       }}
     >
       {children}

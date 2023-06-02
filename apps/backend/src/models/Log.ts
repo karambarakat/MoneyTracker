@@ -10,23 +10,23 @@ const LogSchema = new mongoose.Schema<ILog>(
   {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     amount: {
       type: Number,
-      required: true,
+      required: true
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
-      required: true,
+      required: true
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'category',
+      ref: 'category'
     },
     note: {
-      type: String,
-    },
+      type: String
+    }
   },
   { timestamps: true }
 )
@@ -39,15 +39,18 @@ LogSchema.pre('save', async function (this, next) {
 
   const category = await Category.findOne({
     _id: this.category,
-    createdBy: this.createdBy,
+    createdBy: this.createdBy
   })
 
   if (!category) {
-    const error = new Error('category doesn\'t exists')
+    const error = new Error("category doesn't exists")
     error.name = 'ValidationError'
     // @ts-ignore
     error.errors = {
-      category: { name: 'relationError', message: 'category doesn\'t exists' },
+      category: {
+        name: 'relationError',
+        message: "category doesn't exists"
+      }
     }
     next(error)
   } else {
@@ -67,15 +70,18 @@ LogSchema.pre('findOneAndUpdate', async function (this, next) {
 
     const category = await Category.findOne({
       _id: toUpdateTo,
-      createdBy: thisDoc.createdBy,
+      createdBy: thisDoc.createdBy
     })
 
     if (!category) {
-      const error = new Error('category doesn\'t exists')
+      const error = new Error("category doesn't exists")
       error.name = 'ValidationError'
       // @ts-ignore
       error.errors = {
-        category: { name: 'relationError', message: 'category doesn\'t exists' },
+        category: {
+          name: 'relationError',
+          message: "category doesn't exists"
+        }
       }
       next(error)
     } else {

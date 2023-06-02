@@ -1,9 +1,0 @@
-{
-  "extends": ["//"],
-  "pipeline": {
-    "build": {
-      "input": ["./src/*", "./index.js", "./package.json"],
-      "outputs": ["./src.zip"]
-    }
-  }
-}

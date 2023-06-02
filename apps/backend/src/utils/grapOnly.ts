@@ -1,9 +1,11 @@
 import { merge } from 'lodash'
 import isPlain from './isPlain'
 
-type filter = ({
-  [key: string]: true | filter
-}) | true
+type filter =
+  | {
+      [key: string]: true | filter
+    }
+  | true
 
 function* filter(obj: any, against: filter): any {
   if (typeof against === 'boolean') return yield obj
@@ -20,9 +22,7 @@ function* filter(obj: any, against: filter): any {
       yield { [key]: deep }
     }
   }
-
 }
 export default function grapOnly(obj: any, against: filter) {
-  return Array.from(filter(obj, against))
-    .reduce((acc, e) => merge(acc, e), {})
+  return Array.from(filter(obj, against)).reduce((acc, e) => merge(acc, e), {})
 }

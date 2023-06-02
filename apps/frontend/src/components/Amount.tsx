@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 function Amount({ a }: { a: number }) {
-  const { currency } = useSelector<RootState, MetaState>((s) => s.meta)
+  const { currency } = useSelector<RootState, MetaState>(s => s.meta)
   const content = React.useMemo(
     () => currency.replace('/d', a.toString()),
     [currency, a]

@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { ActionsObjects } from '@redux/types'
-import { apiProfileUpdate, UserDoc } from 'types/schema'
+import { apiProfileUpdate, UserDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -19,19 +19,19 @@ const action: actionModule<ActionType> = async function (
   { dispatch, state },
   { pushNoti, online, offline }
 ) {
-  const profile = await online((helpers) =>
+  const profile = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/profile', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token(),
+        Authorization: 'Bearer ' + helpers.token()
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify(values)
     })
   )
   dispatch({
     type: 'USER_ADD_PROFILE',
-    pl: { profile },
+    pl: { profile }
   })
 
   return profile

@@ -21,7 +21,7 @@ const action: actionModule<ActionType> = async function (
   try {
     synceData()
     pushNoti({
-      message: 'data has been synced',
+      message: 'data has been synced'
     })
   } catch (e) {
     pushNoti({
@@ -30,15 +30,15 @@ const action: actionModule<ActionType> = async function (
         {
           display: 'sign out',
           style: { color: 'red' },
-          dispatch: __d((d) => d('user:logout', {})),
+          dispatch: __d(d => d('user:logout', {}))
         },
         {
           display: 'back data',
-          dispatch: __d((d) =>
+          dispatch: __d(d =>
             d('app:navigate', { to: '/export', asModal: true })
-          ),
-        },
-      ],
+          )
+        }
+      ]
     })
   }
 }

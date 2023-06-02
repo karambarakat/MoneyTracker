@@ -1,4 +1,7 @@
-import { EmailOrPasswordIncorrect, PrivateRoute } from '@utils/httpError/errTypes'
+import {
+  EmailOrPasswordIncorrect,
+  PrivateRoute
+} from '@utils/httpError/errTypes'
 import { requiredFieldsMiddleware } from '@utils/httpError'
 
 import bearerAuth from '@middlewares/bearerAuth'
@@ -10,7 +13,7 @@ import {
   email_status,
   profile_update,
   updatePassword_local,
-  updatePassword_nolocal,
+  updatePassword_nolocal
 } from 'types/api/routes/profile'
 import of from '@utils/omitFalsy'
 

@@ -6,6 +6,7 @@ import { Outlet, useOutlet } from 'react-router-dom'
 
 type contextType = [string, React.Dispatch<React.SetStateAction<string>>]
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const context = createContext<contextType>(['', () => {}])
 
 function Page() {
@@ -21,7 +22,7 @@ export const title = Symbol('title')
 
 export function getTitle() {
   const [c] = useContext(context)
-  const s = useSelector<RootState, MetaState>((s) => s.meta).title
+  const s = useSelector<RootState, MetaState>(s => s.meta).title
 
   const title = c || s
 

@@ -12,15 +12,21 @@
     "test": {
       "dependsOn": []
     },
-    "deploy": {
-      "dependsOn": ["build"],
-      "inputs": ["terraform/**"],
-      "cache": false
-    },
     "dev": {
-      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalEnv": [
+    "NODE_ENV",
+    "PORT",
+    "SALT",
+    "JWT_SECRET",
+    "MONGO_STRING",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CLIENT_CALLBACK_URL_BACKEND",
+    "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND",
+    "GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE"
+  ]
 }

@@ -2,7 +2,7 @@ import {
   UnknownServerError,
   ResourceWasNotFound,
   ValidationError,
-  BadJsonPayload,
+  BadJsonPayload
 } from '@utils/httpError/errTypes'
 import type { HttpError } from '@utils/httpError'
 import { NextFunction, Request, Response } from 'express'
@@ -53,7 +53,8 @@ export function e400_MongooseValidation(
     const validationError = new Error(err._message)
 
     throw ValidationError({
-      msg: err._message, errors: Object.keys(err.errors).reduce(
+      msg: err._message,
+      errors: Object.keys(err.errors).reduce(
         (acc: Record<string, string>, key) => {
           acc[key] = err.errors[key].message
           return acc
@@ -77,6 +78,6 @@ export function e500_ServerError(
     status: UnknownServerError().status,
     message: UnknownServerError().message,
     name: UnknownServerError().name,
-    details: {},
+    details: {}
   })
 }

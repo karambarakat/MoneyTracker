@@ -8,14 +8,14 @@ import { useSelector } from 'react-redux'
 function Export_Page_Component() {
   setTitle('Rate Us')
 
-  const { rating } = useSelector<RootState, MetaState>((s) => s.meta)
+  const { rating } = useSelector<RootState, MetaState>(s => s.meta)
 
   return (
     <div>
       <Text pb={12}>How Do You Like This App</Text>
       <FiveStar
         value={rating}
-        onChange={(rating) =>
+        onChange={rating =>
           store.dispatch({ type: 'META_RATING', pl: { rating } })
         }
       />

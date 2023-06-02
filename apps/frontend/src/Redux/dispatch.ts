@@ -77,7 +77,7 @@ const dispatch = async function <
   P extends actions['payload'] = Extract<actions, { type: S }>['payload'],
   R extends actions['return'] = Extract<actions, { type: S }>['return']
 >(type: S, payload: P): Promise<R> {
-  if (!(type in modules)) throw new Error('type doesn\'t exist')
+  if (!(type in modules)) throw new Error("type doesn't exist")
   const module = modules[type]
 
   // @ts-ignore
@@ -98,7 +98,7 @@ type dispatchFnToTupleType = (
 ) => dispatchTupleArg
 
 // this is to provide better developer experience
-export const dispatchFnToTuple: dispatchFnToTupleType = (cb) => {
+export const dispatchFnToTuple: dispatchFnToTupleType = cb => {
   let rt: dispatchTupleArg
   // @ts-ignore
   cb((...args) => {

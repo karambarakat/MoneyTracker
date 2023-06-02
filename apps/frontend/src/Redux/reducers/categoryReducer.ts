@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import { CategoriesState, reducerAction } from './../types'
 const initialState: CategoriesState = []
 
@@ -7,21 +7,21 @@ const initialState: CategoriesState = []
  */
 export type CategoriesActionTypes =
   | {
-    type: 'CATEGORY_ADD_ALL'
-    pl: { categories: CatDoc[] }
-  }
+      type: 'CATEGORY_ADD_ALL'
+      pl: { categories: CatDoc[] }
+    }
   | {
-    type: 'CATEGORY_ADD_ONE'
-    pl: { category: CatDoc }
-  }
+      type: 'CATEGORY_ADD_ONE'
+      pl: { category: CatDoc }
+    }
   | {
-    type: 'CATEGORY_UPDATE_ONE'
-    pl: { category: CatDoc }
-  }
+      type: 'CATEGORY_UPDATE_ONE'
+      pl: { category: CatDoc }
+    }
   | {
-    type: 'CATEGORY_DELETE_ONE'
-    pl: { id: string }
-  }
+      type: 'CATEGORY_DELETE_ONE'
+      pl: { id: string }
+    }
 
 export default function categoryReducer(
   state: CategoriesState = initialState,
@@ -35,12 +35,12 @@ export default function categoryReducer(
     case 'CATEGORY_ADD_ONE':
       return [...state, action.pl.category]
     case 'CATEGORY_UPDATE_ONE':
-      return state.map((cat) => {
+      return state.map(cat => {
         if (cat._id === action.pl.category._id) return action.pl.category
         return cat
       })
     case 'CATEGORY_DELETE_ONE':
-      return state.filter((cat) => cat._id !== action.pl.id)
+      return state.filter(cat => cat._id !== action.pl.id)
 
     default:
       return state

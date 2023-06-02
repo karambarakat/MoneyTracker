@@ -1,4 +1,4 @@
-import { apiLogUpdate, LogDoc } from 'types/schema'
+import { apiLogUpdate, LogDoc } from 'types'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -21,42 +21,42 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  const log = await online((helpers) =>
+  const log = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/log/' + id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token(),
+        Authorization: 'Bearer ' + helpers.token()
       },
-      body: JSON.stringify(doc),
+      body: JSON.stringify(doc)
     })
   )
 
-  const oldDoc = state().logs.find((l) => l._id === id)
+  const oldDoc = state().logs.find(l => l._id === id)
 
   pushNoti({
     message: 'log was updated',
     reactions: [
       oldDoc && {
         display: 'undo',
-        dispatch: __d((d) =>
+        dispatch: __d(d =>
           d('log:update', {
             doc: {
               amount: oldDoc.amount,
               category: oldDoc.category?._id,
               note: oldDoc.note,
-              title: oldDoc.title,
+              title: oldDoc.title
             },
-            id,
+            id
           })
-        ),
-      },
-    ],
+        )
+      }
+    ]
   })
 
   dispatch({
     type: 'LOG_UPDATE_ONE',
-    pl: { log },
+    pl: { log }
   })
 
   return log

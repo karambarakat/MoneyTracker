@@ -21,7 +21,7 @@ function Profile_changePassword() {
     <Formik
       initialValues={{
         oldPassword: '',
-        newPassword: '',
+        newPassword: ''
       }}
       v
       onSubmit={(
@@ -32,7 +32,7 @@ function Profile_changePassword() {
           .then(() => {
             nav(-1)
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -46,7 +46,7 @@ function Profile_changePassword() {
       validationSchema={
         new yupObj({
           oldPassword: yupStr().required(),
-          newPassword: yupStr().required(),
+          newPassword: yupStr().required()
         })
       }
     >

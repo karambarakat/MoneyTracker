@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express'
 import { DefaultErrorE, HttpErrorProps } from 'types/httpErrors'
 import { FieldsRequired } from './errTypes'
 
-
 const DefaultError: DefaultErrorE = {
   details: null,
   message: 'UnspecifiedError',
@@ -31,8 +30,7 @@ export function HTTPErrorHandler(
   res: Response,
   next: NextFunction
 ) {
-
-  if (!(err[isHttpError])) next(err)
+  if (!err[isHttpError]) next(err)
   else {
     res.status(err.status).json({
       data: null,
@@ -40,18 +38,16 @@ export function HTTPErrorHandler(
         status: err.status,
         message: err.message,
         name: err.name,
-        details: err.details,
-      },
+        details: err.details
+      }
     })
   }
 }
 
 export function requiredFieldsMiddleware(object: Record<string, any>) {
-  if (
-    Object.values(object).some((e) => e === null || typeof e === 'undefined')
-  ) {
+  if (Object.values(object).some(e => e === null || typeof e === 'undefined')) {
     throw FieldsRequired(
-      Object.keys(object).filter((key) => {
+      Object.keys(object).filter(key => {
         const value = object[key]
         if (value === '' || value === null || typeof value === 'undefined')
           return true
@@ -72,7 +68,7 @@ export function throwQuickHttpError(
     message,
     status,
     details,
-    name: name || DefaultError.name,
+    name: name || DefaultError.name
   })
 
   throw CustomError

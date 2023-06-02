@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { ActionsObjects } from '@redux/types'
-import { Log as LogDoc } from 'types/schema'
+import { Log as LogDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -24,31 +24,31 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  await online((helpers) =>
+  await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/log/' + id, {
       method: 'DELETE',
       headers: {
-        Authorization: 'Bearer ' + helpers.token(),
-      },
+        Authorization: 'Bearer ' + helpers.token()
+      }
     })
   )
 
-  const log = state().logs.find((log) => log._id === id)
+  const log = state().logs.find(log => log._id === id)
 
   pushNoti({
     message: `log '${log?.title}' was deleted`,
     reactions: log && [
       {
         display: 'restore',
-        dispatch: __d((d) => d('log:undoDelete', { id: log._id })),
+        dispatch: __d(d => d('log:undoDelete', { id: log._id }))
         // style: { color: 'red' },
-      },
-    ],
+      }
+    ]
   })
 
   dispatch({
     type: 'LOG_DELETE_ONE',
-    pl: { id },
+    pl: { id }
   })
 }
 

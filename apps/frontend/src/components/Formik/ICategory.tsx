@@ -41,7 +41,7 @@ function MyCategoryInput({ formikName, required, label, description }: Props) {
                     maxHeight: '100%',
                     maxWidth: '100%',
                     display: 'block',
-                    margin: 'auto',
+                    margin: 'auto'
                   }}
                 />
               ) : (
@@ -57,10 +57,10 @@ function MyCategoryInput({ formikName, required, label, description }: Props) {
                         'repeat(auto-fill, minmax(46px, 1fr))',
                       gap: '12px',
                       justifyItems: 'center',
-                      alignItems: 'center',
+                      alignItems: 'center'
                     }}
                   >
-                    {cats.map((cat) => (
+                    {cats.map(cat => (
                       <div
                         key={cat._id}
                         onClick={() => {

@@ -9,17 +9,18 @@ import { IProfile } from '@models/User'
 import { jwt_payload } from 'types/jwt'
 import jwt from 'jsonwebtoken'
 
-
 const jwtParse = (token: string) => {
   try {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()) as jwt_payload
+    return JSON.parse(
+      Buffer.from(token.split('.')[1], 'base64').toString()
+    ) as jwt_payload
   } catch {
     return undefined
   }
 }
 
 const jwtGen = (payload: jwt_payload, secret?: string) => {
-  return jwt.sign(payload, secret || process.env.JWT_SECRET as string, {
+  return jwt.sign(payload, secret || (process.env.JWT_SECRET as string), {
     algorithm: 'HS256'
   })
 }
@@ -34,9 +35,13 @@ describe('bearer token', () => {
   beforeAll(async () => {
     const res = await request(app)
       .post('/api/v1/auth/local/register')
-      .set('Authorization', 'Basic ' + Buffer.from(
-        ['e1@example.com', 'password']
-          .join(':')).toString('base64'))
+      .set(
+        'Authorization',
+        'Basic ' +
+          Buffer.from(['e1@example.com', 'password'].join(':')).toString(
+            'base64'
+          )
+      )
       .send()
 
     if (!res?.body?.data || !res?.body?.data.token) {
@@ -46,17 +51,15 @@ describe('bearer token', () => {
     user = res.body.data
   })
 
-
   afterAll(() => {
-    const dbName = process.env.MONGO_STRING && new URL(process.env.MONGO_STRING).pathname.split('/')[2]
+    const dbName =
+      process.env.MONGO_STRING &&
+      new URL(process.env.MONGO_STRING).pathname.split('/')[2]
     const db = mongoose.connection.getClient().db(dbName)
-    return Promise.all([
-      db.dropCollection('users'),
-    ])
+    return Promise.all([db.dropCollection('users')])
   })
 
-  const req = () => request(app)
-    .get('/api/v1/profile')
+  const req = () => request(app).get('/api/v1/profile')
   const shape = ProfileShape
 
   test('pass', async () => {
@@ -68,8 +71,7 @@ describe('bearer token', () => {
   })
 
   test('NoTokenWasProvided', async () => {
-    const res = await req()
-      .send()
+    const res = await req().send()
 
     const expectedError = TokenFailed('NoTokenWasProvided')
 
@@ -79,7 +81,10 @@ describe('bearer token', () => {
   test('TokenExpiredError', async () => {
     const token = jwtParse(user.token) as jwt_payload
     const res = await req()
-      .set('Authorization', 'Bearer ' + jwtGen({ ...token, exp: new Date().getUTCSeconds() - 10 }))
+      .set(
+        'Authorization',
+        'Bearer ' + jwtGen({ ...token, exp: new Date().getUTCSeconds() - 10 })
+      )
       .send()
 
     const expectedError = TokenFailed('TokenExpiredError', ' ')

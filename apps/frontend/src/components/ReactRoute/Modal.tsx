@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import {
   useLocation,
   useNavigate,
-  Routes as NativeRoutes,
+  Routes as NativeRoutes
 } from 'react-router-dom'
 import { context } from './goBack'
 import { getTitle } from './Page'
@@ -19,10 +19,10 @@ export default function Routes({ children }: PropsWithChildren<any>) {
     onClose: () => {
       setTimeout(() => {
         navigate(location.state?.from?.pathname || '/', {
-          replace: true,
+          replace: true
         })
       }, 500)
-    },
+    }
   })
   const navigate = useNavigate()
   useEffect(() => {

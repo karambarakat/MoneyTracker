@@ -1,6 +1,6 @@
 import {
   EmailOrPasswordIncorrect,
-  UserAlreadyExist,
+  UserAlreadyExist
 } from '@utils/httpError/errTypes'
 import User from '@models/User'
 import of from '@utils/omitFalsy'
@@ -29,7 +29,7 @@ async function local_register(req: Request, res: Response, next: NextFunction) {
     displayName,
     email,
     password: password,
-    providers: ['local'],
+    providers: ['local']
   })
   res.status(201).json({ data: newUser.doc() })
 }

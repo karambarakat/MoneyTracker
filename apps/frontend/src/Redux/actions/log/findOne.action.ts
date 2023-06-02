@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { ActionsObjects } from '@redux/types'
-import { Log as LogDoc } from 'types/schema'
+import { Log as LogDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -23,18 +23,18 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  const log = await online((helpers) =>
+  const log = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/log/' + id, {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + helpers.token(),
-      },
+        Authorization: 'Bearer ' + helpers.token()
+      }
     })
   )
 
   dispatch({
     type: 'LOG_UPDATE_ONE',
-    pl: { log },
+    pl: { log }
   })
 
   return log

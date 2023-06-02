@@ -22,7 +22,7 @@ function LoginEmail() {
     <Formik
       initialValues={{
         email: '',
-        password: '',
+        password: ''
       }}
       onSubmit={(
         values: Values,
@@ -32,7 +32,7 @@ function LoginEmail() {
           .then(() => {
             goBack()
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -46,7 +46,7 @@ function LoginEmail() {
       validationSchema={
         new yupObj({
           email: yupStr().required(),
-          password: yupStr().required(),
+          password: yupStr().required()
         })
       }
     >

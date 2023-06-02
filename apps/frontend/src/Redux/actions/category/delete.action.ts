@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -20,31 +20,31 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  await online((helpers) =>
+  await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/category/' + id, {
       method: 'DELETE',
       headers: {
-        Authorization: 'Bearer ' + helpers.token(),
-      },
+        Authorization: 'Bearer ' + helpers.token()
+      }
     })
   )
 
-  const cat = state().categories.find((c) => c._id === id)
+  const cat = state().categories.find(c => c._id === id)
 
   pushNoti({
     message: `category '${cat?.title}' was deleted`,
     reactions: cat && [
       {
         display: 'restore',
-        dispatch: __d((d) => d('cat:undoDelete', { id: cat._id })),
+        dispatch: __d(d => d('cat:undoDelete', { id: cat._id }))
         // style: { color: 'red' },
-      },
-    ],
+      }
+    ]
   })
 
   dispatch({
     type: 'CATEGORY_DELETE_ONE',
-    pl: { id },
+    pl: { id }
   })
 
   return id

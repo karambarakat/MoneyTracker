@@ -2,7 +2,6 @@ import { BadBasicToken } from '@utils/httpError/errTypes'
 import express from 'express'
 import { Request } from 'express'
 
-
 export default function expressApp() {
   const app = express()
   app.use('static', express.static('static'))
@@ -12,7 +11,6 @@ export default function expressApp() {
   })
   return app
 }
-
 
 export function BasicToken(req: Request) {
   let basicToken

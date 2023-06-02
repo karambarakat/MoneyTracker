@@ -17,7 +17,7 @@ function MyUserInput({
   required,
   placeholder,
   label,
-  description,
+  description
 }: Props) {
   return (
     <Field name={formikName}>

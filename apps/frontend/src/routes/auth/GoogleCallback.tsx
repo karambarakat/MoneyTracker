@@ -10,7 +10,7 @@ function GoogleCallback() {
 
   useEffect(() => {
     const {
-      __$openerFunctionsContext: { callback },
+      __$openerFunctionsContext: { callback }
     } = window.opener as OpenerFunctions
 
     callback(params).then(() => {

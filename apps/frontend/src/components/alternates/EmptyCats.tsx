@@ -10,7 +10,7 @@ function EmptyCats() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem',
+        paddingTop: '3rem'
       }}
     >
       <img src={AddSvg} width="70%" />
@@ -28,7 +28,10 @@ function EmptyCats() {
           sx={{ display: 'inline', cursor: 'pointer' }}
           color="blue"
           onClick={() =>
-            dispatch('app:navigate', { to: '/addCategory', asModal: true })
+            dispatch('app:navigate', {
+              to: '/addCategory',
+              asModal: true
+            })
           }
         >
           add more categories

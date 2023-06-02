@@ -21,7 +21,7 @@ function Profile_setPassword() {
     <Formik
       initialValues={{
         oldPassword: '',
-        newPassword: '',
+        newPassword: ''
       }}
       v
       onSubmit={(
@@ -32,7 +32,7 @@ function Profile_setPassword() {
           .then(() => {
             nav(-1)
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -45,7 +45,7 @@ function Profile_setPassword() {
       }}
       validationSchema={
         new yupObj({
-          newPassword: yupStr().required(),
+          newPassword: yupStr().required()
         })
       }
     >

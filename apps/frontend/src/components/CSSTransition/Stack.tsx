@@ -8,7 +8,7 @@ interface Props {
 }
 function Stack({ children: chs }: Props) {
   const [children, setChildren] = useState(
-    () => new Map(chs.map((child) => [child.key, child]))
+    () => new Map(chs.map(child => [child.key, child]))
   )
 
   const [remove, setRemove] = useState(new Set<string | number | null>())
@@ -16,8 +16,8 @@ function Stack({ children: chs }: Props) {
   useEffect(() => {
     const remove = new Set<string | number | null>(children.keys())
 
-    setChildren((old) => {
-      chs.forEach((child) => {
+    setChildren(old => {
+      chs.forEach(child => {
         if (!old.has(child.key)) {
           old.set(child.key, child)
         } else {
@@ -33,15 +33,15 @@ function Stack({ children: chs }: Props) {
 
   return (
     <div className={s.root}>
-      {Array.from(children.values()).map((child) => (
+      {Array.from(children.values()).map(child => (
         <Inner
           keep={!remove.has(child.key)}
           onExited={() => {
-            setChildren((old) => {
+            setChildren(old => {
               old.delete(child.key)
               return old
             })
-            setRemove((old) => {
+            setRemove(old => {
               old.delete(child.key)
               return old
             })
@@ -64,14 +64,17 @@ interface InnerI {
 function Inner({ children, onExited, keep }: InnerI) {
   const [h, setH] = useState(0)
   const [w, setW] = useState(0)
-  const [rect, setRect] = useState<Partial<DOMRect>>({ bottom: 0, right: 0 })
+  const [rect, setRect] = useState<Partial<DOMRect>>({
+    bottom: 0,
+    right: 0
+  })
   return (
     <CssVars
       obj={{
         h: h.toFixed(2) + 'px',
         w: w.toFixed(2) + 'px',
         r1: (rect?.bottom?.toFixed(1) || 0) + 'px',
-        r2: (rect?.right?.toFixed(1) || 0) + 'px',
+        r2: (rect?.right?.toFixed(1) || 0) + 'px'
       }}
     >
       <CSSTransition
@@ -89,7 +92,7 @@ function Inner({ children, onExited, keep }: InnerI) {
 
           setRect({
             bottom: (parent?.bottom || 0) - child.bottom,
-            right: (parent?.right || 0) - child.right,
+            right: (parent?.right || 0) - child.right
           })
         }}
         onExited={onExited}

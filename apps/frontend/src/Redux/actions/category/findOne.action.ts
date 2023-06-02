@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -20,18 +20,18 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  const category = await online((helpers) =>
+  const category = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/category/' + id, {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + helpers.token,
-      },
+        Authorization: 'Bearer ' + helpers.token
+      }
     })
   )
 
   dispatch({
     type: 'CATEGORY_UPDATE_ONE',
-    pl: { category },
+    pl: { category }
   })
 
   return category

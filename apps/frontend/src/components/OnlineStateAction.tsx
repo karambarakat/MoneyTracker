@@ -4,11 +4,11 @@ import { RootState, UserState } from '@redux/types'
 import { useSelector } from 'react-redux'
 
 export default function OnlineStateAction({
-  children,
+  children
 }: {
   children: (t: string) => ReactElement
 }) {
-  const user = useSelector<RootState, UserState>((s) => s.user)
+  const user = useSelector<RootState, UserState>(s => s.user)
   return (
     <div
       onClick={() => {

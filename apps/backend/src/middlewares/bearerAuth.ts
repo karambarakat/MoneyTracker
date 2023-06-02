@@ -22,9 +22,10 @@ bearerAuth.all('*', function (req, res, next) {
   )(req, res, next)
 })
 
-type Info = { name: 'TokenExpiredError', message: never, expiredAt: string }
-  | { name: 'JsonWebTokenError', message: string, inner: unknown }
-  | { name: 'JsonWebTokenError', message: 'jwt malformed' }
+type Info =
+  | { name: 'TokenExpiredError'; message: never; expiredAt: string }
+  | { name: 'JsonWebTokenError'; message: string; inner: unknown }
+  | { name: 'JsonWebTokenError'; message: 'jwt malformed' }
 
 function handleJWTError(err: Error | false, info: Info) {
   // possible value of Info, from `jsonWebToken` lib (see https://github.com/auth0/node-jsonwebtoken/tree/74d5719bd03993fcf71e3b176621f133eb6138c0/lib)
@@ -42,10 +43,10 @@ function handleJWTError(err: Error | false, info: Info) {
       ? 'NoTokenWasProvided'
       : info?.name || 'UnspecifiedError'
 
-  const errorDate = info?.name === 'TokenExpiredError' && info?.expiredAt || null
+  const errorDate =
+    (info?.name === 'TokenExpiredError' && info?.expiredAt) || null
 
   throw TokenFailed(errorType, errorDate)
-
 }
 
 // router.get(bearerAuth, protectedRoute)

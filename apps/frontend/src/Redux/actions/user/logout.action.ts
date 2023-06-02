@@ -21,13 +21,13 @@ const action: actionModule<ActionType> = async function (
     reactions: [
       {
         display: 'login',
-        dispatch: __d((d) => d('app:navigate', { to: '/auth', asModal: true })),
-      },
-    ],
+        dispatch: __d(d => d('app:navigate', { to: '/auth', asModal: true }))
+      }
+    ]
   })
 
   dispatch({
-    type: 'USER_LOGOUT',
+    type: 'USER_LOGOUT'
   })
 
   _dispatch('app:navigate', { to: '/' })

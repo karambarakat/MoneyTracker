@@ -19,7 +19,7 @@ function Index_Page_Component() {
 
   setTitle('Home')
 
-  const user = useSelector<RootState, UserState>((s) => s.user)
+  const user = useSelector<RootState, UserState>(s => s.user)
 
   // separate logs by their days
   const logs_ = useMemo(() => {
@@ -28,10 +28,10 @@ function Index_Page_Component() {
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       ),
-      (log) => moment(log.createdAt).format('l')
+      log => moment(log.createdAt).format('l')
     )
 
-    return s.map((subList) => {
+    return s.map(subList => {
       if (!subList[0]) return { key: '', subList }
       const m = moment(subList[0].createdAt)
       const c = m.calendar()
@@ -39,7 +39,7 @@ function Index_Page_Component() {
 
       return {
         key: f1s.replace(/ (at \d).*/, '') + m.format(', MMM Do, YYYY'),
-        subList,
+        subList
       }
     })
   }, [logs])
@@ -63,14 +63,14 @@ function Index_Page_Component() {
                 styles={{
                   control: { padding: '16px' },
                   chevron: {
-                    display: 'none',
-                  },
+                    display: 'none'
+                  }
                 }}
                 variant="filled"
                 value={value}
-                onChange={(str) => setValue(str || '')}
+                onChange={str => setValue(str || '')}
               >
-                {logs__.subList.map((log) => (
+                {logs__.subList.map(log => (
                   <LogAccordion key={log._id} log={log} />
                 ))}
               </Accordion>

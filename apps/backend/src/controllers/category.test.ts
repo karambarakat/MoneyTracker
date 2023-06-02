@@ -1,7 +1,11 @@
 import '../../tests/helpers/initJest'
 import { app } from '../server'
 import request from 'supertest'
-import { FieldsRequired, ResourceWasNotFound, TokenFailed } from '@utils/httpError/errTypes'
+import {
+  FieldsRequired,
+  ResourceWasNotFound,
+  TokenFailed
+} from '@utils/httpError/errTypes'
 import { CatShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
 import mongoose from 'mongoose'
@@ -17,51 +21,60 @@ describe('category', () => {
 
   // @ts-ignore
   const data: {
-    first: ReturnType<IProfile['doc']>,
-    second: ReturnType<IProfile['doc']>,
+    first: ReturnType<IProfile['doc']>
+    second: ReturnType<IProfile['doc']>
     categories: ReturnType<ILog['doc']>[]
   } = { categories: [] }
 
   beforeAll(async () => {
-    data.first = (await request(app)
-      .post('/api/v1/auth/local/register')
-      .set('Authorization', 'Basic ' + Buffer.from(
-        ['e1cat@example.com', 'password']
-          .join(':')).toString('base64'))
-      .send()).body.data
+    data.first = (
+      await request(app)
+        .post('/api/v1/auth/local/register')
+        .set(
+          'Authorization',
+          'Basic ' +
+            Buffer.from(['e1cat@example.com', 'password'].join(':')).toString(
+              'base64'
+            )
+        )
+        .send()
+    ).body.data
 
-    data.second = (await request(app)
-      .post('/api/v1/auth/local/register')
-      .set('Authorization', 'Basic ' + Buffer.from(
-        ['e2cat@example.com', 'password']
-          .join(':')).toString('base64'))
-      .send()).body.data
+    data.second = (
+      await request(app)
+        .post('/api/v1/auth/local/register')
+        .set(
+          'Authorization',
+          'Basic ' +
+            Buffer.from(['e2cat@example.com', 'password'].join(':')).toString(
+              'base64'
+            )
+        )
+        .send()
+    ).body.data
 
-    if (
-      !data.first?._id ||
-      !data.second?._id
-    ) {
+    if (!data.first?._id || !data.second?._id) {
       console.error('failed to fetch data:', data)
       throw new Error('failed to fetch data:')
     }
   })
 
   afterAll(() => {
-    const dbName = process.env.MONGO_STRING && new URL(process.env.MONGO_STRING).pathname.split('/')[2]
+    const dbName =
+      process.env.MONGO_STRING &&
+      new URL(process.env.MONGO_STRING).pathname.split('/')[2]
     const db = mongoose.connection.getClient().db(dbName)
     return Promise.all([
       db.dropCollection('users'),
-      db.dropCollection('categories'),
+      db.dropCollection('categories')
     ])
   })
 
   describe('/category get', () => {
-    const req = () => request(app)
-      .get('/api/v1/category/')
+    const req = () => request(app).get('/api/v1/category/')
     const shape = CatShape
     test('401', async () => {
-      const res = await req()
-        .send({})
+      const res = await req().send({})
 
       const expectedError = TokenFailed('NoTokenWasProvided')
 
@@ -87,7 +100,7 @@ describe('category', () => {
           icon: 'SomeIcon'
         })
 
-      if (!cat.body.data?._id) throw new Error('couldn\'t fetch category')
+      if (!cat.body.data?._id) throw new Error("couldn't fetch category")
 
       data.categories.push(cat.body.data)
 
@@ -100,13 +113,11 @@ describe('category', () => {
   })
 
   describe('/category post', () => {
-    const req = () => request(app)
-      .post('/api/v1/category')
+    const req = () => request(app).post('/api/v1/category')
     const shape = CatShape
 
     test('401', async () => {
-      const res = await req()
-        .send({})
+      const res = await req().send({})
 
       const expectedError = TokenFailed('NoTokenWasProvided')
       // other more complete token test can be found at `/src/controllers/TokenFailedbearerAuth.test.ts`
@@ -116,8 +127,7 @@ describe('category', () => {
     })
 
     test('400', async () => {
-      const res = await req()
-        .set('Authorization', 'Bearer ' + data.first.token)
+      const res = await req().set('Authorization', 'Bearer ' + data.first.token)
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['title']))
       expect(res.statusCode).toBe(400)
@@ -127,10 +137,10 @@ describe('category', () => {
       const res = await req()
         .set('Authorization', 'Bearer ' + data.first.token)
         .send({
-          title: 'new entry',
+          title: 'new entry'
         })
 
-      expect(res.body.data).toBeInTheShapeOf(Null(shape, ['color', 'icon'],))
+      expect(res.body.data).toBeInTheShapeOf(Null(shape, ['color', 'icon']))
       expect(res.body.data?.title).toBe('new entry')
     })
 
@@ -153,13 +163,11 @@ describe('category', () => {
   })
 
   describe('/category/:id get', () => {
-    const req = (id: string) => request(app)
-      .get('/api/v1/category/' + id)
+    const req = (id: string) => request(app).get('/api/v1/category/' + id)
     const shape = CatShape
 
     test('401', async () => {
-      const res = await req('')
-        .send({})
+      const res = await req('').send({})
 
       const expectedError = TokenFailed('NoTokenWasProvided')
       // other more complete token test can be found at `/src/controllers/TokenFailedbearerAuth.test.ts`
@@ -169,16 +177,20 @@ describe('category', () => {
     })
 
     test('404', async () => {
-      const res = await req('63f86fa47822eec8d37b8469')
-        .set('Authorization', 'Bearer ' + data.first.token)
+      const res = await req('63f86fa47822eec8d37b8469').set(
+        'Authorization',
+        'Bearer ' + data.first.token
+      )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
       expect(res.statusCode).toBe(404)
     })
 
     test('400', async () => {
-      const res = await req('invalid')
-        .set('Authorization', 'Bearer ' + data.first.token)
+      const res = await req('invalid').set(
+        'Authorization',
+        'Bearer ' + data.first.token
+      )
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['_id']))
       expect(res.statusCode).toBe(400)
@@ -194,13 +206,11 @@ describe('category', () => {
   })
 
   describe('/category/:id put', () => {
-    const req = (id: string) => request(app)
-      .put('/api/v1/category/' + id)
+    const req = (id: string) => request(app).put('/api/v1/category/' + id)
     const shape = CatShape
 
     test('401', async () => {
-      const res = await req('63f86fa47822eec8d37b8469')
-        .send({})
+      const res = await req('63f86fa47822eec8d37b8469').send({})
 
       const expectedError = TokenFailed('NoTokenWasProvided')
       // other more complete token test can be found at `/src/controllers/TokenFailedbearerAuth.test.ts`
@@ -209,16 +219,20 @@ describe('category', () => {
     })
 
     test('404', async () => {
-      const res = await req('63f86fa47822eec8d37b8469')
-        .set('Authorization', 'Bearer ' + data.first.token)
+      const res = await req('63f86fa47822eec8d37b8469').set(
+        'Authorization',
+        'Bearer ' + data.first.token
+      )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
       expect(res.statusCode).toBe(404)
     })
 
     test('400', async () => {
-      const res = await req('invalid')
-        .set('Authorization', 'Bearer ' + data.first.token)
+      const res = await req('invalid').set(
+        'Authorization',
+        'Bearer ' + data.first.token
+      )
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['_id']))
       expect(res.statusCode).toBe(400)
@@ -233,26 +247,30 @@ describe('category', () => {
       expect(res.body.data).toLeastEqual(data.categories[1])
     })
 
-
-
     test('2xx', async () => {
       const res = await req(data.categories[1]._id)
         .set('Authorization', 'Bearer ' + data.first.token)
-        .send({ title: 'put request', color: 'putRequest', icon: 'put request' })
+        .send({
+          title: 'put request',
+          color: 'putRequest',
+          icon: 'put request'
+        })
 
       expect(res.body.data).toBeInTheShapeOf(shape)
-      expect(res.body.data).toLeastEqual({ title: 'put request', color: 'putRequest', icon: 'put request' })
+      expect(res.body.data).toLeastEqual({
+        title: 'put request',
+        color: 'putRequest',
+        icon: 'put request'
+      })
     })
   })
 
   describe('/category/:id delete', () => {
-    const req = (id: string) => request(app)
-      .delete('/api/v1/category/' + id)
+    const req = (id: string) => request(app).delete('/api/v1/category/' + id)
     const shape = CatShape
 
     test('401', async () => {
-      const res = await req('63f86fa47822eec8d37b8469')
-        .send({})
+      const res = await req('63f86fa47822eec8d37b8469').send({})
 
       const expectedError = TokenFailed('NoTokenWasProvided')
       // other more complete token test can be found at `/src/controllers/TokenFailedbearerAuth.test.ts`
@@ -262,8 +280,10 @@ describe('category', () => {
     })
 
     test('404', async () => {
-      const res = await req('63f86fa47822eec8d37b8469')
-        .set('Authorization', 'Bearer ' + data.first.token)
+      const res = await req('63f86fa47822eec8d37b8469').set(
+        'Authorization',
+        'Bearer ' + data.first.token
+      )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
       expect(res.statusCode).toBe(404)
@@ -281,15 +301,14 @@ describe('category', () => {
         .set('Authorization', 'Bearer ' + data.first.token)
         .send()
         .expect(404)
-
     })
   })
 })
 
 function Null<S>(Shape: S, nullify?: (keyof S)[], exclude?: (keyof S)[]) {
-  const newShape = clone(Shape) as ({
+  const newShape = clone(Shape) as {
     [K in keyof S]?: S[K] | null
-  })
+  }
   for (const i of nullify || []) {
     newShape[i] = null
   }

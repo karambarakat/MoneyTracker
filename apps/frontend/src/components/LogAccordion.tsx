@@ -5,12 +5,12 @@ import {
   Group,
   Spoiler,
   Stack,
-  Text,
+  Text
 } from '@mantine/core'
 import dispatch from '@redux/dispatch'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import { Log } from 'types/schema'
+import { Log } from 'types'
 import Amount from './Amount'
 import CategoryIcon from './category/CategoryIcon'
 import { Link } from './ReactRoute'

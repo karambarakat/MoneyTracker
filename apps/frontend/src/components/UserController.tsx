@@ -9,7 +9,7 @@ import {
   ChevronRight,
   Logout,
   PlugConnected,
-  User,
+  User
 } from 'tabler-icons-react'
 import MyButton from './Mantine/Button'
 import { Link } from './ReactRoute'
@@ -19,7 +19,7 @@ import OnlineStateAction from './OnlineStateAction'
 export function UserController() {
   const theme = useMantineTheme()
   const [opened, handlers] = useDisclosure(false)
-  const user = useSelector<RootState, UserState>((s) => s.user)
+  const user = useSelector<RootState, UserState>(s => s.user)
 
   if (!user.profile) {
     return (
@@ -60,7 +60,13 @@ export function UserController() {
           <MyButton>
             <Group sx={{ flexWrap: 'nowrap' }}>
               <Avatar src={user.profile.picture} radius="xl" />
-              <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
+              <Box
+                sx={{
+                  overflow: 'hidden',
+                  flexGrow: 1,
+                  flexShrink: 1
+                }}
+              >
                 <Text size="sm" weight={500}>
                   <TextEllipsis>{user.profile.displayName}</TextEllipsis>
                 </Text>
@@ -85,7 +91,7 @@ export function UserController() {
           <Menu.Item icon={<User size={14} />}>Profile</Menu.Item>
         </Link>
         <OnlineStateAction>
-          {(text) => {
+          {text => {
             return <Menu.Item icon={<Logout size={14} />}>{text}</Menu.Item>
           }}
         </OnlineStateAction>

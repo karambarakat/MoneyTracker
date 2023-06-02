@@ -5,7 +5,7 @@ import {
   Text,
   ThemeIcon,
   ThemeIconProps,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core'
 import { IconProps } from 'tabler-icons-react'
 import * as allTablerIcon from './CategoryAllIcons'
@@ -34,13 +34,13 @@ const useHov = createStyles<
     Parent: {
       ref: getRef('Parent'),
       cursor: 'pointer',
-      '&:active': { transform: 'translateY(1px)' },
+      '&:active': { transform: 'translateY(1px)' }
     },
     Child: {
       [`.${getRef('Parent')}:hover &`]: {
-        backgroundColor: bg,
-      },
-    },
+        backgroundColor: bg
+      }
+    }
   }
 })
 
@@ -53,7 +53,9 @@ interface CatInterface {
 type _ThemeIconProps = Pick<
   ThemeIconProps,
   'size' | 'radius' | 'color' | 'gradient'
-> & { variant?: ThemeIconProps['variant'] | 'subtle' }
+> & {
+  variant?: ThemeIconProps['variant'] | 'subtle'
+}
 
 interface CategoryIconInterface extends Omit<_ThemeIconProps, 'children'> {
   hideIcon?: boolean
@@ -71,9 +73,7 @@ function CategoryIcon({
 }: CategoryIconInterface) {
   const color = React.useMemo(
     () =>
-      cat?.color && allColors.some((c) => c === cat.color)
-        ? cat?.color
-        : 'gray',
+      cat?.color && allColors.some(c => c === cat.color) ? cat?.color : 'gray',
     [cat?.color]
   )
 
@@ -109,7 +109,7 @@ CategoryIcon.Hoverable = function ({
 
 CategoryIcon.WithTitle = function ({
   children,
-  title,
+  title
 }: PropsWithChildren<Pick<CatInterface, 'title'>>) {
   return (
     <Box
@@ -117,7 +117,7 @@ CategoryIcon.WithTitle = function ({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        gap: '12px',
+        gap: '12px'
       }}
     >
       {children}
@@ -139,7 +139,7 @@ const collectionAllColors = CategoryAllColors
 const collectionHexColor = () => {
   const theme = useMantineTheme()
   return (color: string) => {
-    const key = Object.keys(theme.colors).some((c) => c === color)
+    const key = Object.keys(theme.colors).some(c => c === color)
       ? color
       : 'gray'
     return theme.colors[key]
@@ -147,7 +147,7 @@ const collectionHexColor = () => {
 }
 
 const collectionAllIcons = () => {
-  return Object.keys(AllIcons).map((key) => {
+  return Object.keys(AllIcons).map(key => {
     // @ts-ignore
     const Icon: React.FC<IconProps> = AllIcons[key]
     return { Icon, key }
@@ -158,7 +158,7 @@ CategoryIcon.collection = {
   useAllCats: collectionAllCategories,
   useHexColors: collectionHexColor,
   allColors: collectionAllColors,
-  allIcons: collectionAllIcons(),
+  allIcons: collectionAllIcons()
 }
 
 export default CategoryIcon

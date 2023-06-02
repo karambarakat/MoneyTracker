@@ -7,7 +7,7 @@ import {
   Settings,
   Star,
   Sun,
-  TableExport,
+  TableExport
 } from 'tabler-icons-react'
 
 import {
@@ -25,7 +25,7 @@ import {
   ThemeIcon,
   Title,
   useMantineColorScheme,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core'
 import MyContainer from '@components/Mantine/Container'
 import { useState } from 'react'
@@ -49,8 +49,8 @@ export default function Main_Layout_Component() {
           background:
             theme.colorScheme === 'dark'
               ? theme.colors.dark[8]
-              : theme.colors.gray[0],
-        },
+              : theme.colors.gray[0]
+        }
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
@@ -130,9 +130,9 @@ function BrandNavbar() {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={theme => ({
         paddingLeft: theme.spacing.xs,
-        paddingRight: theme.spacing.xs,
+        paddingRight: theme.spacing.xs
       })}
     >
       <Group position="apart">
@@ -148,8 +148,8 @@ const data0 = [
     icon: <ChartPie2 size={16} />,
     color: 'blue',
     label: 'Charts',
-    link: '/charts',
-  },
+    link: '/charts'
+  }
 ]
 
 const data = [
@@ -157,42 +157,42 @@ const data = [
     icon: <LayoutGrid size={16} />,
     color: 'teal',
     label: 'Categories',
-    link: '/categories',
+    link: '/categories'
   },
   {
     icon: <TableExport size={16} />,
     color: 'violet',
     label: 'Export',
     link: '/export',
-    asModal: true,
+    asModal: true
   },
   {
     icon: <Settings size={16} />,
     color: 'grape',
     label: 'Setting',
     link: '/setting',
-    asModal: true,
+    asModal: true
   },
   {
     icon: <Star size={16} />,
     color: 'yellow',
     label: 'Rate Us',
     link: '/rate-us',
-    asModal: true,
+    asModal: true
   },
   {
     icon: <InfoCircle size={16} />,
     color: 'blue',
     label: 'About',
     link: '/about',
-    asModal: true,
-  },
+    asModal: true
+  }
 ]
 
 function ContentNavbar() {
   return (
     <>
-      {data0.map((element) => {
+      {data0.map(element => {
         return (
           <Link key={element.link} to={element.link}>
             <MyButton>
@@ -207,7 +207,7 @@ function ContentNavbar() {
         )
       })}
       <Divider my={10} />
-      {data.map((element) => {
+      {data.map(element => {
         return (
           <Link
             key={element.link}

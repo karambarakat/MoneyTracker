@@ -21,14 +21,14 @@ const action: actionModule<ActionType> = async function (
 ) {
   offline()
 
-  const log = await online((helpers) =>
+  const log = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/log', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token(),
+        Authorization: 'Bearer ' + helpers.token()
       },
-      body: JSON.stringify(doc),
+      body: JSON.stringify(doc)
     })
   )
 
@@ -37,16 +37,19 @@ const action: actionModule<ActionType> = async function (
     reactions: [
       {
         display: 'delete',
-        dispatch: __d((d) => d('log:delete', { id: log._id })),
-        style: { color: 'red' },
+        dispatch: __d(d => d('log:delete', { id: log._id })),
+        style: { color: 'red' }
       },
       {
         display: 'edit',
-        dispatch: __d((d) =>
-          d('app:navigate', { to: '/editLog/' + log._id, asModal: true })
-        ),
-      },
-    ],
+        dispatch: __d(d =>
+          d('app:navigate', {
+            to: '/editLog/' + log._id,
+            asModal: true
+          })
+        )
+      }
+    ]
   })
 
   dispatch({ type: 'LOG_ADD_ONE', pl: { log } })

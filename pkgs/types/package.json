@@ -1,0 +1,15 @@
+{
+  "name": "types",
+  "version": "5.0.0",
+  "description": "",
+  "main": "",
+  "types": "./schema.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/**"
+    }
+  },
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}

@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react'
 function MyButton({ children, ...props }: PropsWithChildren<any>) {
   return (
     <UnstyledButton
-      sx={(theme) => ({
+      sx={theme => ({
         display: 'block',
         width: '100%',
         padding: theme.spacing.xs,
@@ -16,8 +16,8 @@ function MyButton({ children, ...props }: PropsWithChildren<any>) {
           backgroundColor:
             theme.colorScheme === 'dark'
               ? theme.colors.dark[6]
-              : theme.colors.gray[1],
-        },
+              : theme.colors.gray[1]
+        }
       })}
       {...props}
     >

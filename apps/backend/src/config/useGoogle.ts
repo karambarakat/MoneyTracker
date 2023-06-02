@@ -26,14 +26,14 @@ const useGoogle = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID as string,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND as string,
+    callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL_BACKEND as string
   },
   async function (accessToken, refreshToken, profile, done) {
     const email = profile.emails?.[0]?.value
     if (!email) throw new Error()
 
     const existUser = await User.findOne({
-      email: email,
+      email: email
     })
 
     if (!existUser) {
@@ -45,8 +45,8 @@ const useGoogle = new GoogleStrategy(
         googleInfo: {
           accessToken,
           refreshToken,
-          profile: profile._json,
-        },
+          profile: profile._json
+        }
       })
       done(null, newUser)
       return
@@ -57,7 +57,7 @@ const useGoogle = new GoogleStrategy(
       existUser.googleInfo = {
         accessToken,
         refreshToken,
-        profile: profile._json,
+        profile: profile._json
       }
       await existUser.save()
 

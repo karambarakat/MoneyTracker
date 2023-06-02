@@ -8,8 +8,8 @@ function AlertStatus() {
       <Alert
         withCloseButton
         onClose={() => setStatus({ error: null })}
-        color='red'
-        title='error'
+        color="red"
+        title="error"
       >
         {status.error}
       </Alert>

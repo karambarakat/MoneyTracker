@@ -1,11 +1,11 @@
 import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
 import { Middleware } from 'redux'
-import { UserDoc } from 'types/schema'
+import { UserDoc } from 'types'
 import { reducerAction, ActionsObjects, RootState, UserState } from './../types'
 
 const initialState: UserState = {
   onlineState: false,
-  profile: undefined,
+  profile: undefined
 }
 
 /**
@@ -13,14 +13,14 @@ const initialState: UserState = {
  */
 export type UserTypes =
   | {
-    type: 'USER_ADD_PROFILE'
-    pl: {
-      profile: UserDoc
+      type: 'USER_ADD_PROFILE'
+      pl: {
+        profile: UserDoc
+      }
     }
-  }
   | {
-    type: 'USER_LOGOUT'
-  }
+      type: 'USER_LOGOUT'
+    }
   | { type: 'USER_GO_OFFLINE' }
   | { type: 'USER_GO_ONLINE' }
 
@@ -32,7 +32,7 @@ function userReducer(
     case 'USER_ADD_PROFILE':
       return {
         profile: action.pl.profile,
-        onlineState: true,
+        onlineState: true
       }
     case 'USER_LOGOUT':
       action.fn.clearData()

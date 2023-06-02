@@ -2,7 +2,7 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   Global,
-  MantineProvider,
+  MantineProvider
 } from '@mantine/core'
 import { useToggle } from '@mantine/hooks'
 import { PropsWithChildren, useState } from 'react'
@@ -34,13 +34,13 @@ function MantineSetUp({ children }: Props) {
               '#f6bd55', //'#ffc04d',
               '#f5b43c', //'#ffb733',
               '#f4aa24', //'#ffae1a',
-              '#f2a10c', //'#ffa500', // main
+              '#f2a10c' //'#ffa500', // main
               // '#e69500',
               // '#cc8400',
               // '#b37300',
               // '#996300',
-            ],
-          },
+            ]
+          }
         }}
       >
         <ColorSchemeProvider
@@ -48,20 +48,20 @@ function MantineSetUp({ children }: Props) {
           colorScheme={colorScheme}
         >
           <Global
-            styles={(theme) => ({
+            styles={theme => ({
               '*, *::before, *::after': {
                 boxSizing: 'border-box',
                 margin: 0,
-                padding: 0,
+                padding: 0
               },
               a: {
                 textDecoration: 'none',
-                color: 'inherit',
+                color: 'inherit'
               },
               '::selection': {
                 backgroundColor: theme.colors['theme-orange'][4],
-                color: theme.colors.gray[9],
-              },
+                color: theme.colors.gray[9]
+              }
             })}
           />
           {children}

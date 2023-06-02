@@ -10,7 +10,7 @@ import MySimpleInput from '@components/Formik/ISimple'
 import MyAmountInput from '@components/Formik/IAmount'
 import MyTextarea from '@components/Formik/ITextarea'
 import MyCategoryInput from '@components/Formik/ICategory'
-import { Log as LogDoc } from 'types/schema'
+import { Log as LogDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 
 type args = Partial<
@@ -30,7 +30,7 @@ function AddLog() {
         title: undefined,
         amount: undefined,
         category: undefined,
-        note: undefined,
+        note: undefined
       }}
       // @ts-ignore
       onSubmit={(
@@ -41,7 +41,7 @@ function AddLog() {
           .then(() => {
             goBack()
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -57,7 +57,7 @@ function AddLog() {
           title: yupStr().required(),
           amount: yupNum().required(),
           category: yupStr(),
-          note: yupStr(),
+          note: yupStr()
         })
       }
     >

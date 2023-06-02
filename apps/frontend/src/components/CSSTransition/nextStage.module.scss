@@ -1,11 +1,21 @@
 $transition: var(--transition, 700ms ease-in-out);
-@mixin transition($properties...){
-  $val: nth($list: $properties, $n: 1) + ' '  + $transition;
+@mixin transition($properties...) {
+  $val: nth(
+      $list: $properties,
+      $n: 1
+    ) + ' ' + $transition;
   @for $i from 1 to length($properties) {
-    $val: $val + ', ' + nth($list: $properties, $n: $i + 1) + ' ' + $transition;
+    $val: $val +
+      ', ' +
+      nth(
+        $list: $properties,
+        $n: $i + 1
+      ) +
+      ' ' +
+      $transition;
   }
   transition: $val;
-} 
+}
 
 /*
   setting css for the root element

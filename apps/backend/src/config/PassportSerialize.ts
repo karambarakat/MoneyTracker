@@ -11,6 +11,6 @@ export default function () {
       const user = await User.findById(id)
       user ? done(null, user) : done(null, false)
     }
-    main().catch((e) => done(e, false))
+    main().catch(e => done(e, false))
   })
 }

@@ -1,4 +1,4 @@
-import { apiUserSignup, UserDoc } from 'types/schema'
+import { apiUserSignup, UserDoc } from 'types'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
 
@@ -16,11 +16,11 @@ const action: actionModule<ActionType> = async function (
   { dispatch, state },
   { pushNoti, online, offline }
 ) {
-  const profile = await online((helpers) =>
+  const profile = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/auth/local/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values),
+      body: JSON.stringify(values)
     })
   )
 
@@ -28,7 +28,7 @@ const action: actionModule<ActionType> = async function (
 
   dispatch({
     type: 'USER_ADD_PROFILE',
-    pl: { profile },
+    pl: { profile }
   })
 
   return profile

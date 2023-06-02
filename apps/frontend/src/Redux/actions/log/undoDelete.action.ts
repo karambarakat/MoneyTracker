@@ -1,6 +1,6 @@
 import { store } from '@redux/index'
 import { ActionsObjects } from '@redux/types'
-import { Log as LogDoc } from 'types/schema'
+import { Log as LogDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@redux/dispatch'
@@ -23,7 +23,7 @@ const action: actionModule<ActionType> = async function (
 ) {
   pushNoti({
     message: 'this feature is not available for now.',
-    display: 'failure',
+    display: 'failure'
   })
 }
 

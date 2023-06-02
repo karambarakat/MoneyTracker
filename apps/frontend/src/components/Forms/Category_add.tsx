@@ -10,7 +10,7 @@ import dispatch from '@redux/dispatch'
 
 import MyColorInput from '@components/Formik/IColor'
 import MyIconInput from '@components/Formik/IIcon'
-import { Category as CatDoc } from 'types/schema'
+import { Category as CatDoc } from 'types'
 import HttpError from 'src/utils/HttpError'
 
 type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'> & {
@@ -25,7 +25,7 @@ function AddCategory() {
       initialValues={{
         title: '',
         color: '',
-        icon: '',
+        icon: ''
       }}
       // @ts-ignore
       onSubmit={(
@@ -37,7 +37,7 @@ function AddCategory() {
           .then(() => {
             goBack()
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
             if (e instanceof HttpError && e.isHttpError) {
               e.info.details?.errors && setErrors(e.info.details?.errors)
@@ -52,7 +52,7 @@ function AddCategory() {
         new yupObj({
           title: yupStr().required(),
           color: yupStr(),
-          icon: yupStr(),
+          icon: yupStr()
         })
       }
     >

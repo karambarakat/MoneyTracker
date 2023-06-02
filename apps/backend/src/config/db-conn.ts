@@ -7,7 +7,7 @@ async function db_conn() {
 
   const url = process.env.MONGO_STRING as string
 
-  await mongoose.connect(url).catch((err) => {
+  await mongoose.connect(url).catch(err => {
     log('database', 'failed', err)
     throw new Error('database failed to connect')
   })
