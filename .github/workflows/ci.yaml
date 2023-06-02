@@ -28,6 +28,10 @@ jobs:
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
+      - name: 📥 Install Turbo
+        shell: bash
+        run: pnpm i -g turbo
+
       - name: 🧪 Test
         run: turbo test
 
