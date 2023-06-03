@@ -1,6 +1,4 @@
 node_modules
-**/node_modules
-
 /.VSCodeCounter
 
 .env*
@@ -9,5 +7,5 @@ node_modules
 # turborepo
 **/.turbo
 
-*/*/dist/**/*
-*/*/.next/**/*
+*/*/dist
+*/*/.next

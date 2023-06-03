@@ -1,0 +1,6 @@
+packages:
+  - 'apps/**'
+  - 'pkgs/**'
+  - 'conf/**'
+  # exclude packages that are inside test directories
+  - '!**/test/**'

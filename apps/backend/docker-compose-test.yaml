@@ -2,7 +2,7 @@ version: '3'
 services:
   main-service:
     build:
-      dockerfile: Dockerfile
+      dockerfile: apps/backend/Dockerfile
       context: ../../
       args:
         Package_name: backend

@@ -1,0 +1,10 @@
+{
+  "name": "types",
+  "version": "5.0.0",
+  "description": "",
+  "main": "",
+  "types": "./schema.d.ts",
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}

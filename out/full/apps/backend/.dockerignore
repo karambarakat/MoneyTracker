@@ -1,0 +1,4 @@
+node_modules
+terraform
+id_rsa.*
+!id_rsa.*.pub

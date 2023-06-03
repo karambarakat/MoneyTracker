@@ -1,0 +1,29 @@
+version: '3'
+services:
+  main-service:
+    build:
+      dockerfile: apps/backend/Dockerfile
+      context: ../../
+      args:
+        Package_name: backend
+    command: ['npm', 'run', 'test:base', '-w', 'backend']
+    env_file:
+      - ./.env.test.local
+    environment:
+      - MONGO_STRING=mongodb://mongo:27017/testing
+    networks:
+      - default
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:3.6-xenial
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local

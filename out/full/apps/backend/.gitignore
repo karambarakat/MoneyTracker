@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.*.local
+!.env.README.md
+
+id_rsa.*
+!id_rsa.*.pub
+
+node_modules
+dist

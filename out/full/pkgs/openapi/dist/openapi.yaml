@@ -1,0 +1,3085 @@
+openapi: 3.0.0
+info:
+  title: myPocket
+  version: 1.0.0
+paths:
+  /auth/local/login/:
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: base64 email and password pair with colon as separator
+          required: true
+          schema:
+            type: string
+            x-sub-type: base64-email
+            example: Basic xxxxxxx=
+      tags:
+        - local authorization
+      summary: login
+      description: |
+        login using email and password using Basic Token Http Authorization
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - displayName
+                      - email
+                      - providers
+                      - token
+                    properties:
+                      _id:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      __v:
+                        type: number
+                        example: 0
+                        default: 0
+                      displayName:
+                        type: string
+                        example: joe Due
+                      email:
+                        type: string
+                        example: joeDue@gmail.com
+                      token:
+                        type: string
+                        example: eyJxxxx.xxxxx.xxxxxx
+                      providers:
+                        type: array
+                        example:
+                          - local
+                          - google
+                        items:
+                          type: string
+                          enum:
+                            - local
+                            - google
+                      picture:
+                        type: string
+                        example: https ://example.com/path/to/img
+        '401':
+          description: |
+            email/password were/was wrong or not provided
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: email/password were/was wrong or not provided
+                    type: string
+                  name:
+                    type: string
+                    default: EmailOrPasswordIncorrect
+                  details:
+                    type: object
+  /auth/local/register/:
+    post:
+      security:
+        - BasicToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: base64 email and password pair with colon as separator
+          required: true
+          schema:
+            type: string
+            x-sub-type: base64-email
+            example: Basic xxxxxxx=
+      tags:
+        - local authorization
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: joe Due
+      description: |
+        make new account with a displayName
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - displayName
+                      - email
+                      - providers
+                      - token
+                    properties:
+                      _id:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      __v:
+                        type: number
+                        example: 0
+                        default: 0
+                      displayName:
+                        type: string
+                        example: joe Due
+                      email:
+                        type: string
+                        example: joeDue@gmail.com
+                      token:
+                        type: string
+                        example: eyJxxxx.xxxxx.xxxxxx
+                      providers:
+                        type: array
+                        example:
+                          - local
+                          - google
+                        items:
+                          type: string
+                          enum:
+                            - local
+                            - google
+                      picture:
+                        type: string
+                        example: https ://example.com/path/to/img
+        '400':
+          description: |
+            some of the fields are missing
+            `these fields are required`
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 400
+                  message:
+                    description: in form of `these fields are required\:email`
+                    type: string
+                  name:
+                    type: string
+                    default: SomeFieldsRequired
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        description: |
+                          key value pair where key is properties
+                          name and value is more explanation
+        '409':
+          description: User already exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 409
+                  message:
+                    example: User already exist
+                    type: string
+                  name:
+                    type: string
+                    default: UserAlreadyExist
+                  details:
+                    type: object
+  /category/:
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - category
+      summary: list all categories
+      description: list all categories for the current user
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              x-paged: true
+              examples:
+                basic:
+                  description: basic example
+                  value:
+                    - _id: 626819066b8ac48b612dda69
+                      __v: 0
+                      title: Entertainment
+                      color: '#333'
+                      icon: Fun_Face_Icon
+                      createdBy: 63da2a0a643dd3aa49f5c6b1
+                no data:
+                  description: empty data
+                  value: []
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - type: object
+                      required:
+                        - _id
+                        - __v
+                      properties:
+                        _id:
+                          type: string
+                          example: 626819066b8ac48b612dda69
+                        __v:
+                          oneOf:
+                            - type: string
+                              enum:
+                                - offline
+                            - type: number
+                              enum:
+                                - 0
+                          example: 0
+                          default: 0
+                          enum:
+                            - 0
+                            - offline
+                    - type: object
+                      required:
+                        - title
+                        - createdBy
+                      properties:
+                        title:
+                          type: string
+                          example: Entertainment
+                        color:
+                          type: string
+                          example: '#333'
+                        icon:
+                          type: string
+                          example: Fun_Face_Icon
+                        createdBy:
+                          type: string
+                          example: 63da2a0a643dd3aa49f5c6b1
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+    post:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - category
+      summary: create new category
+      description: create new category for the current user
+      requestBody:
+        required: true
+        description: properties like title, color and icon
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: Entertainment
+                color:
+                  type: string
+                  example: '#333'
+                icon:
+                  type: string
+                  example: Fun_Face_Icon
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - title
+                      - createdBy
+                    properties:
+                      title:
+                        type: string
+                        example: Entertainment
+                      color:
+                        type: string
+                        example: '#333'
+                      icon:
+                        type: string
+                        example: Fun_Face_Icon
+                      createdBy:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+        '400':
+          description: |
+            some of the fields are missing
+            `these fields are required`
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 400
+                  message:
+                    description: in form of `these fields are required\:email`
+                    type: string
+                  name:
+                    type: string
+                    default: SomeFieldsRequired
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        description: |
+                          key value pair where key is properties
+                          name and value is more explanation
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+  '/category/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: grap entry by its id, should be place in path as in `to/path/:id/etc`
+        required: true
+        schema:
+          type: string
+          example: 63da2a0a643dd3aa49f5c6b1
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - category
+      summary: get category
+      description: get category for the current user
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - title
+                      - createdBy
+                    properties:
+                      title:
+                        type: string
+                        example: Entertainment
+                      color:
+                        type: string
+                        example: '#333'
+                      icon:
+                        type: string
+                        example: Fun_Face_Icon
+                      createdBy:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+        '404':
+          description: requested resource doesn't exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 404
+                  message:
+                    type: string
+                    default: couldn't find the target
+                  name:
+                    type: string
+                    default: ResourceWasNotFound
+                  details:
+                    type: object
+    put:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      requestBody:
+        required: true
+        description: properties like title, color and icon
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Entertainment
+                color:
+                  type: string
+                  example: '#333'
+                icon:
+                  type: string
+                  example: Fun_Face_Icon
+      tags:
+        - category
+      summary: update category
+      description: update category by id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - title
+                      - createdBy
+                    properties:
+                      title:
+                        type: string
+                        example: Entertainment
+                      color:
+                        type: string
+                        example: '#333'
+                      icon:
+                        type: string
+                        example: Fun_Face_Icon
+                      createdBy:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+        '404':
+          description: requested resource doesn't exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 404
+                  message:
+                    type: string
+                    default: couldn't find the target
+                  name:
+                    type: string
+                    default: ResourceWasNotFound
+                  details:
+                    type: object
+    delete:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - category
+      summary: delete category
+      description: delete category by id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema: {}
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+        '404':
+          description: requested resource doesn't exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 404
+                  message:
+                    type: string
+                    default: couldn't find the target
+                  name:
+                    type: string
+                    default: ResourceWasNotFound
+                  details:
+                    type: object
+  '/category/{id}/logs':
+    parameters:
+      - name: id
+        in: path
+        description: grap entry by its id, should be place in path as in `to/path/:id/etc`
+        required: true
+        schema:
+          type: string
+          example: 63da2a0a643dd3aa49f5c6b1
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - category
+      summary: get all logs
+      description: get all logs associated by this category for the current user
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              x-paged: true
+              examples:
+                basic:
+                  description: basic example
+                  value:
+                    - _id: 626819066b8ac48b612dda69
+                      __v: 0
+                      createdAt: 2022-04-26T16:08:38.276Z
+                      updatedAt: 2022-04-26T16:08:38.276Z
+                      title: buy new TV
+                      amount: 400
+                      createdBy: 63da2a0a643dd3aa49f5c6b1
+                      note: new 40" plasma tv from flea market
+                      category:
+                        _id: 63da2a0a643dd3aa49f5c6b1
+                        title: Entertainment
+                        color: '#333'
+                        icon: Fun_Face_Icon
+                no data:
+                  description: empty data
+                  value: []
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - type: object
+                      required:
+                        - _id
+                        - __v
+                      properties:
+                        _id:
+                          type: string
+                          example: 626819066b8ac48b612dda69
+                        __v:
+                          oneOf:
+                            - type: string
+                              enum:
+                                - offline
+                            - type: number
+                              enum:
+                                - 0
+                          example: 0
+                          default: 0
+                          enum:
+                            - 0
+                            - offline
+                    - type: object
+                      required:
+                        - createdAt
+                        - updatedAt
+                      properties:
+                        createdAt:
+                          type: string
+                          example: 2022-04-26T16:08:38.276Z
+                        updatedAt:
+                          type: string
+                          example: 2022-04-26T16:08:38.276Z
+                    - type: object
+                      required:
+                        - title
+                        - amount
+                        - createdBy
+                      properties:
+                        title:
+                          type: string
+                          example: buy new TV
+                        amount:
+                          type: number
+                          example: 400
+                        createdBy:
+                          type: string
+                          example: 63da2a0a643dd3aa49f5c6b1
+                        note:
+                          type: string
+                          example: new 40" plasma tv from flea market
+                        category:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                              example: 63da2a0a643dd3aa49f5c6b1
+                            title:
+                              type: string
+                              example: Entertainment
+                            color:
+                              type: string
+                              example: '#333'
+                            icon:
+                              type: string
+                              example: Fun_Face_Icon
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+  /log/:
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - log
+      summary: list all logs
+      description: list all logs for the current user
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              x-paged: true
+              examples:
+                basic:
+                  description: basic example
+                  value:
+                    - _id: 626819066b8ac48b612dda69
+                      __v: 0
+                      createdAt: 2022-04-26T16:08:38.276Z
+                      updatedAt: 2022-04-26T16:08:38.276Z
+                      title: buy new TV
+                      amount: 400
+                      createdBy: 63da2a0a643dd3aa49f5c6b1
+                      note: new 40" plasma tv from flea market
+                      category:
+                        _id: 63da2a0a643dd3aa49f5c6b1
+                        title: Entertainment
+                        color: '#333'
+                        icon: Fun_Face_Icon
+                no data:
+                  description: empty data
+                  value: []
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - type: object
+                      required:
+                        - _id
+                        - __v
+                      properties:
+                        _id:
+                          type: string
+                          example: 626819066b8ac48b612dda69
+                        __v:
+                          oneOf:
+                            - type: string
+                              enum:
+                                - offline
+                            - type: number
+                              enum:
+                                - 0
+                          example: 0
+                          default: 0
+                          enum:
+                            - 0
+                            - offline
+                    - type: object
+                      required:
+                        - createdAt
+                        - updatedAt
+                      properties:
+                        createdAt:
+                          type: string
+                          example: 2022-04-26T16:08:38.276Z
+                        updatedAt:
+                          type: string
+                          example: 2022-04-26T16:08:38.276Z
+                    - type: object
+                      required:
+                        - title
+                        - amount
+                        - createdBy
+                      properties:
+                        title:
+                          type: string
+                          example: buy new TV
+                        amount:
+                          type: number
+                          example: 400
+                        createdBy:
+                          type: string
+                          example: 63da2a0a643dd3aa49f5c6b1
+                        note:
+                          type: string
+                          example: new 40" plasma tv from flea market
+                        category:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                              example: 63da2a0a643dd3aa49f5c6b1
+                            title:
+                              type: string
+                              example: Entertainment
+                            color:
+                              type: string
+                              example: '#333'
+                            icon:
+                              type: string
+                              example: Fun_Face_Icon
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+    post:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - log
+      summary: create new log
+      description: create new log for the current user
+      requestBody:
+        required: true
+        description: properties like title, amount, category and note
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - amount
+              properties:
+                title:
+                  type: string
+                  example: buy new TV
+                amount:
+                  type: number
+                  example: \#000000
+                notes:
+                  type: string
+                  example: New_Icon
+                category:
+                  type: string
+                  example: 63da2a0a643dd3aa49f5c6b1
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - title
+                      - amount
+                      - createdBy
+                    properties:
+                      title:
+                        type: string
+                        example: buy new TV
+                      amount:
+                        type: number
+                        example: 400
+                      createdBy:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      note:
+                        type: string
+                        example: new 40" plasma tv from flea market
+                      category:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            example: 63da2a0a643dd3aa49f5c6b1
+                          title:
+                            type: string
+                            example: Entertainment
+                          color:
+                            type: string
+                            example: '#333'
+                          icon:
+                            type: string
+                            example: Fun_Face_Icon
+        '400':
+          description: |
+            some of the fields are missing
+            `these fields are required`
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 400
+                  message:
+                    description: in form of `these fields are required\:email`
+                    type: string
+                  name:
+                    type: string
+                    default: SomeFieldsRequired
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        description: |
+                          key value pair where key is properties
+                          name and value is more explanation
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+  '/log/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: grap entry by its id, should be place in path as in `to/path/:id/etc`
+        required: true
+        schema:
+          type: string
+          example: 63da2a0a643dd3aa49f5c6b1
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - log
+      summary: get log
+      description: create new log for the current user
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - title
+                      - amount
+                      - createdBy
+                    properties:
+                      title:
+                        type: string
+                        example: buy new TV
+                      amount:
+                        type: number
+                        example: 400
+                      createdBy:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      note:
+                        type: string
+                        example: new 40" plasma tv from flea market
+                      category:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            example: 63da2a0a643dd3aa49f5c6b1
+                          title:
+                            type: string
+                            example: Entertainment
+                          color:
+                            type: string
+                            example: '#333'
+                          icon:
+                            type: string
+                            example: Fun_Face_Icon
+        '400':
+          description: |
+            some of the fields are missing
+            `these fields are required`
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 400
+                  message:
+                    description: in form of `these fields are required\:email`
+                    type: string
+                  name:
+                    type: string
+                    default: SomeFieldsRequired
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        description: |
+                          key value pair where key is properties
+                          name and value is more explanation
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+        '404':
+          description: requested resource doesn't exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 404
+                  message:
+                    type: string
+                    default: couldn't find the target
+                  name:
+                    type: string
+                    default: ResourceWasNotFound
+                  details:
+                    type: object
+    put:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      requestBody:
+        required: true
+        description: properties like title, amount, category and note
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: buy new TV
+                amount:
+                  type: string
+                  example: \#000000
+                notes:
+                  type: string
+                  example: New_Icon
+                category:
+                  type: string
+                  example: 63da2a0a643dd3aa49f5c6b1
+      tags:
+        - log
+      summary: update log
+      description: update log by id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - title
+                      - amount
+                      - createdBy
+                    properties:
+                      title:
+                        type: string
+                        example: buy new TV
+                      amount:
+                        type: number
+                        example: 400
+                      createdBy:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      note:
+                        type: string
+                        example: new 40" plasma tv from flea market
+                      category:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            example: 63da2a0a643dd3aa49f5c6b1
+                          title:
+                            type: string
+                            example: Entertainment
+                          color:
+                            type: string
+                            example: '#333'
+                          icon:
+                            type: string
+                            example: Fun_Face_Icon
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+        '404':
+          description: requested resource doesn't exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 404
+                  message:
+                    type: string
+                    default: couldn't find the target
+                  name:
+                    type: string
+                    default: ResourceWasNotFound
+                  details:
+                    type: object
+    delete:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - log
+      summary: delete log
+      description: delete log by id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema: {}
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+        '404':
+          description: requested resource doesn't exist
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 404
+                  message:
+                    type: string
+                    default: couldn't find the target
+                  name:
+                    type: string
+                    default: ResourceWasNotFound
+                  details:
+                    type: object
+  /profile/status/:
+    get:
+      tags:
+        - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: joeDue@gmail.com
+      summary: authentication status
+      description: |
+        when provided with email, this will resolve to
+        all available authentication methods for given email
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              examples:
+                singed up:
+                  description: singed up with multiple authentication methods
+                  value:
+                    - local
+                    - google
+                not signed up:
+                  description: email is not signed up
+                  value: []
+              schema:
+                type: array
+                items:
+                  type: string
+                  example:
+                    - local
+                    - google
+                  enum:
+                    - local
+                    - google
+        '400':
+          description: |
+            some of the fields are missing
+            `these fields are required`
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 400
+                  message:
+                    description: in form of `these fields are required\:email`
+                    type: string
+                  name:
+                    type: string
+                    default: SomeFieldsRequired
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        description: |
+                          key value pair where key is properties
+                          name and value is more explanation
+  /profile/:
+    get:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      tags:
+        - profile
+      summary: get profile
+      description: retrieve profile info
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - displayName
+                      - email
+                      - providers
+                      - token
+                    properties:
+                      _id:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      __v:
+                        type: number
+                        example: 0
+                        default: 0
+                      displayName:
+                        type: string
+                        example: joe Due
+                      email:
+                        type: string
+                        example: joeDue@gmail.com
+                      token:
+                        type: string
+                        example: eyJxxxx.xxxxx.xxxxxx
+                      providers:
+                        type: array
+                        example:
+                          - local
+                          - google
+                        items:
+                          type: string
+                          enum:
+                            - local
+                            - google
+                      picture:
+                        type: string
+                        example: https ://example.com/path/to/img
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+    put:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      requestBody:
+        description: fields to update
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                  example: Joe Doe
+                picture:
+                  type: string
+                  example: https ://example.com/path/to/img"
+      tags:
+        - profile
+      summary: update profile
+      description: update profile information
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - displayName
+                      - email
+                      - providers
+                      - token
+                    properties:
+                      _id:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      __v:
+                        type: number
+                        example: 0
+                        default: 0
+                      displayName:
+                        type: string
+                        example: joe Due
+                      email:
+                        type: string
+                        example: joeDue@gmail.com
+                      token:
+                        type: string
+                        example: eyJxxxx.xxxxx.xxxxxx
+                      providers:
+                        type: array
+                        example:
+                          - local
+                          - google
+                        items:
+                          type: string
+                          enum:
+                            - local
+                            - google
+                      picture:
+                        type: string
+                        example: https ://example.com/path/to/img
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+  /profile/password/:
+    put:
+      security:
+        - BearerToken: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+          required: true
+          schema:
+            type: string
+            example: Bearer xxxxxxx=
+      requestBody:
+        description: update the password
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newPassword
+              properties:
+                oldPassword:
+                  description: may be required if `local` authenticate is provided
+                  type: string
+                  example: 12345567
+                newPassword:
+                  type: string
+                  example: 12345567differentPassword
+      tags:
+        - profile
+      summary: (re)set password
+      description: update users password
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              x-success: true
+              schema:
+                allOf:
+                  - type: object
+                    required:
+                      - _id
+                      - __v
+                    properties:
+                      _id:
+                        type: string
+                        example: 626819066b8ac48b612dda69
+                      __v:
+                        oneOf:
+                          - type: string
+                            enum:
+                              - offline
+                          - type: number
+                            enum:
+                              - 0
+                        example: 0
+                        default: 0
+                        enum:
+                          - 0
+                          - offline
+                  - type: object
+                    required:
+                      - createdAt
+                      - updatedAt
+                    properties:
+                      createdAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                      updatedAt:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+                  - type: object
+                    required:
+                      - displayName
+                      - email
+                      - providers
+                      - token
+                    properties:
+                      _id:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      __v:
+                        type: number
+                        example: 0
+                        default: 0
+                      displayName:
+                        type: string
+                        example: joe Due
+                      email:
+                        type: string
+                        example: joeDue@gmail.com
+                      token:
+                        type: string
+                        example: eyJxxxx.xxxxx.xxxxxx
+                      providers:
+                        type: array
+                        example:
+                          - local
+                          - google
+                        items:
+                          type: string
+                          enum:
+                            - local
+                            - google
+                      picture:
+                        type: string
+                        example: https ://example.com/path/to/img
+        '400':
+          description: |
+            some of the fields are missing
+            `these fields are required`
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 400
+                  message:
+                    description: in form of `these fields are required\:email`
+                    type: string
+                  name:
+                    type: string
+                    default: SomeFieldsRequired
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        description: |
+                          key value pair where key is properties
+                          name and value is more explanation
+        '401':
+          description: authentication via bearer token has failed
+          content:
+            application/json:
+              x-failed: true
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    default: 401
+                  message:
+                    description: more details
+                    example: authentication failed
+                    type: string
+                  name:
+                    type: string
+                    default: TokenFailed
+                  details:
+                    type: object
+                    required:
+                      - type
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - JsonWebTokenError
+                          - TokenExpiredError
+                          - NoTokenWasProvided
+                          - UnspecifiedError
+                        example: TokenExpiredError
+                      date:
+                        type: string
+                        example: 2022-04-26T16:08:38.276Z
+components:
+  responses:
+    EmailOrPasswordIncorrect:
+      description: |
+        email/password were/was wrong or not provided
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 401
+              message:
+                description: more details
+                example: email/password were/was wrong or not provided
+                type: string
+              name:
+                type: string
+                default: EmailOrPasswordIncorrect
+              details:
+                type: object
+    MalformedToken:
+      description: token is corrupt
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 442
+                enum:
+                  - 401
+                  - 442
+              message:
+                description: more details
+                example: the token is either corrupted or invalid
+                type: string
+              name:
+                type: string
+                default: MalformedToken
+              details:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    default: JsonWebTokenError
+                  message:
+                    type: string
+                    default: invalid signature
+    ResourceWasNotFound:
+      description: requested resource doesn't exist
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 404
+              message:
+                type: string
+                default: couldn't find the target
+              name:
+                type: string
+                default: ResourceWasNotFound
+              details:
+                type: object
+    SessionEnded:
+      description: the token/session has expired, login again
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                  - 401
+                  - 441
+                default: 441
+              message:
+                description: session has ended
+                example: session has ended
+                type: string
+              name:
+                type: string
+                default: SessionEnded
+              details:
+                type: object
+                properties:
+                  expiredAt:
+                    type: string
+                    example: 2023-02-03T09:06:50.000Z
+    SomeFieldsRequired:
+      description: |
+        some of the fields are missing
+        `these fields are required`
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 400
+              message:
+                description: in form of `these fields are required\:email`
+                type: string
+              name:
+                type: string
+                default: SomeFieldsRequired
+              details:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: |
+                      key value pair where key is properties
+                      name and value is more explanation
+    TokenFailed:
+      description: authentication via bearer token has failed
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 401
+              message:
+                description: more details
+                example: authentication failed
+                type: string
+              name:
+                type: string
+                default: TokenFailed
+              details:
+                type: object
+                required:
+                  - type
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - JsonWebTokenError
+                      - TokenExpiredError
+                      - NoTokenWasProvided
+                      - UnspecifiedError
+                    example: TokenExpiredError
+                  date:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+    UnAuthorized:
+      description: authentication failed, Authorization is required
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 442
+                enum:
+                  - 401
+                  - 442
+              message:
+                description: more details
+                example: authentication failed
+                type: string
+              name:
+                type: string
+                default: UnAuthorized
+              details:
+                type: object
+    UserAlreadyExist:
+      description: User already exist
+      content:
+        application/json:
+          x-failed: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                default: 409
+              message:
+                example: User already exist
+                type: string
+              name:
+                type: string
+                default: UserAlreadyExist
+              details:
+                type: object
+    categories:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          x-paged: true
+          examples:
+            basic:
+              description: basic example
+              value:
+                - _id: 626819066b8ac48b612dda69
+                  __v: 0
+                  title: Entertainment
+                  color: '#333'
+                  icon: Fun_Face_Icon
+                  createdBy: 63da2a0a643dd3aa49f5c6b1
+            no data:
+              description: empty data
+              value: []
+          schema:
+            type: array
+            items:
+              allOf:
+                - type: object
+                  required:
+                    - _id
+                    - __v
+                  properties:
+                    _id:
+                      type: string
+                      example: 626819066b8ac48b612dda69
+                    __v:
+                      oneOf:
+                        - type: string
+                          enum:
+                            - offline
+                        - type: number
+                          enum:
+                            - 0
+                      example: 0
+                      default: 0
+                      enum:
+                        - 0
+                        - offline
+                - type: object
+                  required:
+                    - title
+                    - createdBy
+                  properties:
+                    title:
+                      type: string
+                      example: Entertainment
+                    color:
+                      type: string
+                      example: '#333'
+                    icon:
+                      type: string
+                      example: Fun_Face_Icon
+                    createdBy:
+                      type: string
+                      example: 63da2a0a643dd3aa49f5c6b1
+    category:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          schema:
+            allOf:
+              - type: object
+                required:
+                  - _id
+                  - __v
+                properties:
+                  _id:
+                    type: string
+                    example: 626819066b8ac48b612dda69
+                  __v:
+                    oneOf:
+                      - type: string
+                        enum:
+                          - offline
+                      - type: number
+                        enum:
+                          - 0
+                    example: 0
+                    default: 0
+                    enum:
+                      - 0
+                      - offline
+              - type: object
+                required:
+                  - title
+                  - createdBy
+                properties:
+                  title:
+                    type: string
+                    example: Entertainment
+                  color:
+                    type: string
+                    example: '#333'
+                  icon:
+                    type: string
+                    example: Fun_Face_Icon
+                  createdBy:
+                    type: string
+                    example: 63da2a0a643dd3aa49f5c6b1
+    log:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          schema:
+            allOf:
+              - type: object
+                required:
+                  - _id
+                  - __v
+                properties:
+                  _id:
+                    type: string
+                    example: 626819066b8ac48b612dda69
+                  __v:
+                    oneOf:
+                      - type: string
+                        enum:
+                          - offline
+                      - type: number
+                        enum:
+                          - 0
+                    example: 0
+                    default: 0
+                    enum:
+                      - 0
+                      - offline
+              - type: object
+                required:
+                  - createdAt
+                  - updatedAt
+                properties:
+                  createdAt:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+                  updatedAt:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+              - type: object
+                required:
+                  - title
+                  - amount
+                  - createdBy
+                properties:
+                  title:
+                    type: string
+                    example: buy new TV
+                  amount:
+                    type: number
+                    example: 400
+                  createdBy:
+                    type: string
+                    example: 63da2a0a643dd3aa49f5c6b1
+                  note:
+                    type: string
+                    example: new 40" plasma tv from flea market
+                  category:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 63da2a0a643dd3aa49f5c6b1
+                      title:
+                        type: string
+                        example: Entertainment
+                      color:
+                        type: string
+                        example: '#333'
+                      icon:
+                        type: string
+                        example: Fun_Face_Icon
+    logs:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          x-paged: true
+          examples:
+            basic:
+              description: basic example
+              value:
+                - _id: 626819066b8ac48b612dda69
+                  __v: 0
+                  createdAt: 2022-04-26T16:08:38.276Z
+                  updatedAt: 2022-04-26T16:08:38.276Z
+                  title: buy new TV
+                  amount: 400
+                  createdBy: 63da2a0a643dd3aa49f5c6b1
+                  note: new 40" plasma tv from flea market
+                  category:
+                    _id: 63da2a0a643dd3aa49f5c6b1
+                    title: Entertainment
+                    color: '#333'
+                    icon: Fun_Face_Icon
+            no data:
+              description: empty data
+              value: []
+          schema:
+            type: array
+            items:
+              allOf:
+                - type: object
+                  required:
+                    - _id
+                    - __v
+                  properties:
+                    _id:
+                      type: string
+                      example: 626819066b8ac48b612dda69
+                    __v:
+                      oneOf:
+                        - type: string
+                          enum:
+                            - offline
+                        - type: number
+                          enum:
+                            - 0
+                      example: 0
+                      default: 0
+                      enum:
+                        - 0
+                        - offline
+                - type: object
+                  required:
+                    - createdAt
+                    - updatedAt
+                  properties:
+                    createdAt:
+                      type: string
+                      example: 2022-04-26T16:08:38.276Z
+                    updatedAt:
+                      type: string
+                      example: 2022-04-26T16:08:38.276Z
+                - type: object
+                  required:
+                    - title
+                    - amount
+                    - createdBy
+                  properties:
+                    title:
+                      type: string
+                      example: buy new TV
+                    amount:
+                      type: number
+                      example: 400
+                    createdBy:
+                      type: string
+                      example: 63da2a0a643dd3aa49f5c6b1
+                    note:
+                      type: string
+                      example: new 40" plasma tv from flea market
+                    category:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 63da2a0a643dd3aa49f5c6b1
+                        title:
+                          type: string
+                          example: Entertainment
+                        color:
+                          type: string
+                          example: '#333'
+                        icon:
+                          type: string
+                          example: Fun_Face_Icon
+    profile:
+      description: Ok
+      content:
+        application/json:
+          x-success: true
+          schema:
+            allOf:
+              - type: object
+                required:
+                  - _id
+                  - __v
+                properties:
+                  _id:
+                    type: string
+                    example: 626819066b8ac48b612dda69
+                  __v:
+                    oneOf:
+                      - type: string
+                        enum:
+                          - offline
+                      - type: number
+                        enum:
+                          - 0
+                    example: 0
+                    default: 0
+                    enum:
+                      - 0
+                      - offline
+              - type: object
+                required:
+                  - createdAt
+                  - updatedAt
+                properties:
+                  createdAt:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+                  updatedAt:
+                    type: string
+                    example: 2022-04-26T16:08:38.276Z
+              - type: object
+                required:
+                  - displayName
+                  - email
+                  - providers
+                  - token
+                properties:
+                  _id:
+                    type: string
+                    example: 63da2a0a643dd3aa49f5c6b1
+                  __v:
+                    type: number
+                    example: 0
+                    default: 0
+                  displayName:
+                    type: string
+                    example: joe Due
+                  email:
+                    type: string
+                    example: joeDue@gmail.com
+                  token:
+                    type: string
+                    example: eyJxxxx.xxxxx.xxxxxx
+                  providers:
+                    type: array
+                    example:
+                      - local
+                      - google
+                    items:
+                      type: string
+                      enum:
+                        - local
+                        - google
+                  picture:
+                    type: string
+                    example: https ://example.com/path/to/img
+  schemas:
+    category:
+      allOf:
+        - type: object
+          required:
+            - _id
+            - __v
+          properties:
+            _id:
+              type: string
+              example: 626819066b8ac48b612dda69
+            __v:
+              oneOf:
+                - type: string
+                  enum:
+                    - offline
+                - type: number
+                  enum:
+                    - 0
+              example: 0
+              default: 0
+              enum:
+                - 0
+                - offline
+        - type: object
+          required:
+            - title
+            - createdBy
+          properties:
+            title:
+              type: string
+              example: Entertainment
+            color:
+              type: string
+              example: '#333'
+            icon:
+              type: string
+              example: Fun_Face_Icon
+            createdBy:
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
+    log:
+      allOf:
+        - type: object
+          required:
+            - _id
+            - __v
+          properties:
+            _id:
+              type: string
+              example: 626819066b8ac48b612dda69
+            __v:
+              oneOf:
+                - type: string
+                  enum:
+                    - offline
+                - type: number
+                  enum:
+                    - 0
+              example: 0
+              default: 0
+              enum:
+                - 0
+                - offline
+        - type: object
+          required:
+            - createdAt
+            - updatedAt
+          properties:
+            createdAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+            updatedAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+        - type: object
+          required:
+            - title
+            - amount
+            - createdBy
+          properties:
+            title:
+              type: string
+              example: buy new TV
+            amount:
+              type: number
+              example: 400
+            createdBy:
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
+            note:
+              type: string
+              example: new 40" plasma tv from flea market
+            category:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: 63da2a0a643dd3aa49f5c6b1
+                title:
+                  type: string
+                  example: Entertainment
+                color:
+                  type: string
+                  example: '#333'
+                icon:
+                  type: string
+                  example: Fun_Face_Icon
+    profile:
+      allOf:
+        - type: object
+          required:
+            - _id
+            - __v
+          properties:
+            _id:
+              type: string
+              example: 626819066b8ac48b612dda69
+            __v:
+              oneOf:
+                - type: string
+                  enum:
+                    - offline
+                - type: number
+                  enum:
+                    - 0
+              example: 0
+              default: 0
+              enum:
+                - 0
+                - offline
+        - type: object
+          required:
+            - createdAt
+            - updatedAt
+          properties:
+            createdAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+            updatedAt:
+              type: string
+              example: 2022-04-26T16:08:38.276Z
+        - type: object
+          required:
+            - displayName
+            - email
+            - providers
+            - token
+          properties:
+            _id:
+              type: string
+              example: 63da2a0a643dd3aa49f5c6b1
+            __v:
+              type: number
+              example: 0
+              default: 0
+            displayName:
+              type: string
+              example: joe Due
+            email:
+              type: string
+              example: joeDue@gmail.com
+            token:
+              type: string
+              example: eyJxxxx.xxxxx.xxxxxx
+            providers:
+              type: array
+              example:
+                - local
+                - google
+              items:
+                type: string
+                enum:
+                  - local
+                  - google
+            picture:
+              type: string
+              example: https ://example.com/path/to/img
+    categoryPopulated:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 63da2a0a643dd3aa49f5c6b1
+        title:
+          type: string
+          example: Entertainment
+        color:
+          type: string
+          example: '#333'
+        icon:
+          type: string
+          example: Fun_Face_Icon
+    mongoDoc:
+      type: object
+      required:
+        - _id
+        - __v
+      properties:
+        _id:
+          type: string
+          example: 626819066b8ac48b612dda69
+        __v:
+          oneOf:
+            - type: string
+              enum:
+                - offline
+            - type: number
+              enum:
+                - 0
+          example: 0
+          default: 0
+          enum:
+            - 0
+            - offline
+    mongoTime:
+      type: object
+      required:
+        - createdAt
+        - updatedAt
+      properties:
+        createdAt:
+          type: string
+          example: 2022-04-26T16:08:38.276Z
+        updatedAt:
+          type: string
+          example: 2022-04-26T16:08:38.276Z
+    providers:
+      type: array
+      items:
+        type: string
+        example:
+          - local
+          - google
+        enum:
+          - local
+          - google
+  securitySchemes:
+    BasicToken:
+      type: http
+      scheme: basic
+      description: |
+        use email and password to gain
+        user's profile along with the
+        token.
+        ```
+        curl 'http://exmaple:0000/api/path/to' \
+          --H 'Authorization: Basic ZGtAZy5jOjEyMw==' \
+        ```
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: |
+        this is the standard way to authenticate
+        requests, such a token can be obtained via
+        emailAuth or googleAuth
+        ```
+        curl 'http://exmaple:0000/api/path/to' \
+          --H 'Authorization: Bearer eyxxx.xxx.xxx' \
+        ```
+  parameters:
+    byId:
+      name: id
+      in: path
+      description: grap entry by its id, should be place in path as in `to/path/:id/etc`
+      required: true
+      schema:
+        type: string
+        example: 63da2a0a643dd3aa49f5c6b1
+    emailPassword:
+      name: Authorization
+      in: header
+      description: base64 email and password pair with colon as separator
+      required: true
+      schema:
+        type: string
+        x-sub-type: base64-email
+        example: Basic xxxxxxx=
+    bearer:
+      name: Authorization
+      in: header
+      description: can be obtained by `auth/*/*`, in form of eyxxx.xxx.xxx
+      required: true
+      schema:
+        type: string
+        example: Bearer xxxxxxx=
+servers:
+  - url: https://localhost:{port}/api/{version}
+    description: development localhost servers
+    variables:
+      version:
+        default: v1
+      port:
+        default: '8811'
+tags: []

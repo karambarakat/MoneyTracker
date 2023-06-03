@@ -17,7 +17,7 @@
     "dev:docker": "echo deprecated || docker compose -f dev-compose.yaml up",
     "test:watch": "npm run test:base -- --watch",
     "test:base": "dotenv -c test -- jest --runInBand",
-    "test": "docker compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from main-service",
+    "test": "docker compose -f test-compose.yaml up --abort-on-container-exit --exit-code-from main-service",
     "test:force-build": "npm run test -- --build",
     "build:base": "webpack",
     "build:docker": "echo deprecated || docker build -t registry.digitalocean.com/mypocket/backend -f ../../Dockerfile-build --build-arg Package_name=backend ../../ && echo $DO_token | docker login registry.digitalocean.com && docker push registry.digitalocean.com/mypocket/backend",
