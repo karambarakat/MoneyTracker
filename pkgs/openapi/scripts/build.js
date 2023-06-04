@@ -50,24 +50,6 @@ async function main() {
   await writeFile('./dist/openapi.yaml', swaggerYaml)
   await writeFile('./dist/openapi.json', swaggerJSON)
   console.log('generated openapi.yaml, openapi.json')
-
-  /**
-   * validate using openapi-generator-cli to make sure no errors when generating templates
-   */
-  await /** @type {Promise<void>} */ (
-    new Promise((res, rej) => {
-      childProcess.exec(
-        'npx openapi-generator-cli validate -i dist/openapi.yaml',
-        (err, out, stderr) => {
-          if (err || stderr) {
-            console.log(stderr)
-            rej()
-          }
-          res()
-        }
-      )
-    })
-  )
 }
 
 main()

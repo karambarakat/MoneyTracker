@@ -1,0 +1,37 @@
+{
+  "name": "ui",
+  "private": true,
+  "version": "0.0.1",
+  "description": "UI for the app",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build"
+  },
+  "dependencies": {
+    "@mantine/core": "^5.4.2",
+    "@mantine/dates": "^5.4.2",
+    "@mantine/hooks": "^5.4.2",
+    "@mantine/styles": "^6.0.13",
+    "classnames": "^2.3.1",
+    "d3": "^7.6.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-query": "^3.34.19",
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
+    "react-transition-group": "^4.4.2"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "7.0.18",
+    "@storybook/addon-interactions": "7.0.18",
+    "@storybook/addon-links": "7.0.18",
+    "@storybook/blocks": "7.0.18",
+    "@storybook/react": "7.0.18",
+    "@storybook/react-vite": "7.0.18",
+    "@storybook/testing-library": "0.0.14-next.2",
+    "eslint-plugin-storybook": "^0.6.12",
+    "eslint-config-custom": "workspace:*",
+    "prop-types": "15.8.1",
+    "storybook": "7.0.18"
+  }
+}
