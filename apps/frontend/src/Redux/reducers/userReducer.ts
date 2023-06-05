@@ -1,4 +1,4 @@
-import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
+import invalidStateReducerEnhancer from '@src/redux/extra/invalidStateReducerEnhancer'
 import { Profile } from 'types/src/schema'
 import { reducerAction, UserState } from './../types'
 

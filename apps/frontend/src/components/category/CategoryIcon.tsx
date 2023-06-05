@@ -12,8 +12,8 @@ import * as allTablerIcon from './CategoryAllIcons'
 import allColors from './CategoryAllColors'
 import React, { PropsWithChildren } from 'react'
 import CategoryAllColors from './CategoryAllColors'
-import * as AllIcons from '@components/category/CategoryAllIcons'
-import getCats from '@redux/actions/getData/getCats'
+import * as AllIcons from '@src/components/category/CategoryAllIcons'
+import getCats from '@src/redux/actions/getData/getCats'
 import { Category, category_in } from 'types/src/schema'
 
 function _Icon({ icon, props = {} }: { icon?: string; props?: IconProps }) {

@@ -2,7 +2,7 @@ import s from './nextStage.module.scss'
 import _ from 'classnames'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import CssVars from '@components/CssVars'
+import CssVars from '@src/components/CssVars'
 
 interface Props {
   /**

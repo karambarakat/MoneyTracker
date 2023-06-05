@@ -1,4 +1,4 @@
-import invalidStateReducerEnhancer from '@redux/extra/invalidStateReducerEnhancer'
+import invalidStateReducerEnhancer from '@src/redux/extra/invalidStateReducerEnhancer'
 import moment from 'moment'
 import { Log as LogDoc } from 'types/src/schema'
 import { reducerAction, LogsState, ActionsObjects } from './../types'

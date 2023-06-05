@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
-import NextStage from '@components/CSSTransition/NextStage'
-import LoginEmail from '@components/Forms/Email_login'
-import RegisterEmail from '@components/Forms/Email_register'
-import { ActionsObjects, RootState, UserState } from '@redux/types'
+import NextStage from '@src/components/CSSTransition/NextStage'
+import LoginEmail from '@src/components/Forms/Email_login'
+import RegisterEmail from '@src/components/Forms/Email_register'
+import { ActionsObjects, RootState, UserState } from '@src/redux/types'
 import {
   ActionIcon,
   Box,
@@ -17,11 +17,14 @@ import { useLocalStorage } from '@mantine/hooks'
 import { useState } from 'react'
 import { ArrowBackUp, BrandGoogle, Mail, WifiOff } from 'tabler-icons-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setTitle, useRoutes as useGoBack } from '@components/ReactRoute/index'
+import {
+  setTitle,
+  useRoutes as useGoBack
+} from '@src/components/ReactRoute/index'
 import { OpenerFunctions } from 'src/utils/googleSigninTypes'
-import dispatch from '@redux/dispatch'
-import { store } from '@redux/index'
-import { pushNotification } from '@myHooks/notifications'
+import dispatch from '@src/redux/dispatch'
+import { store } from '@src/redux/index'
+import { pushNotification } from '@src/hooks/notifications'
 
 const data = [
   {

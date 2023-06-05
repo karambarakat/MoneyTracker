@@ -1,11 +1,11 @@
 import { Stack } from '@mantine/core'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { ObjectSchema as yupObj, string as yupStr } from 'yup'
-import SubmitButton from '@components/Formik/SubmitButton'
-import AlertStatus from '@components/Formik/AlertStatus'
+import SubmitButton from '@src/components/Formik/SubmitButton'
+import AlertStatus from '@src/components/Formik/AlertStatus'
 import { useNavigate } from 'react-router-dom'
-import dispatch from '@redux/dispatch'
-import MyUserInput from '@components/Formik/IUser'
+import dispatch from '@src/redux/dispatch'
+import MyUserInput from '@src/components/Formik/IUser'
 import HttpError from 'src/utils/HttpError'
 
 type args = {

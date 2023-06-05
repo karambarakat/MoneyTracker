@@ -1,4 +1,4 @@
-import CssVars from '@components/CssVars'
+import CssVars from '@src/components/CssVars'
 import { useEffect, useState, ReactElement } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import s from './Stack.module.scss'

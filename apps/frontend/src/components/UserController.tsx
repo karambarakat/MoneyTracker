@@ -1,9 +1,9 @@
 import { Avatar, Box, Group, Menu, Text, useMantineTheme } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
-import { RootState, UserState } from '@redux/types'
+import { RootState, UserState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
-import dispatch from '@redux/dispatch'
+import dispatch from '@src/redux/dispatch'
 import {
   ChevronLeft,
   ChevronRight,

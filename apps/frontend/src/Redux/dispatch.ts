@@ -1,4 +1,4 @@
-import { notification, pushNotification } from '@myHooks/notifications'
+import { notification, pushNotification } from '@src/hooks/notifications'
 import { actions } from './actions/types'
 import { store } from './index'
 import { ActionsObjects, dispatchFunction, RootState } from './types'

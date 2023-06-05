@@ -1,5 +1,5 @@
-import Export from '@components/Forms/Export'
-import { setTitle } from '@components/ReactRoute'
+import Export from '@src/components/Forms/Export'
+import { setTitle } from '@src/components/ReactRoute'
 
 function Export_Page_Component() {
   setTitle('Export')

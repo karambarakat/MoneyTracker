@@ -1,15 +1,15 @@
 import { Group, Stack } from '@mantine/core'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { ObjectSchema as yupObj, string as yupStr } from 'yup'
-import SubmitButton from '@components/Formik/SubmitButton'
-import AlertStatus from '@components/Formik/AlertStatus'
-import { useRoutes } from '@components/ReactRoute/index'
+import SubmitButton from '@src/components/Formik/SubmitButton'
+import AlertStatus from '@src/components/Formik/AlertStatus'
+import { useRoutes } from '@src/components/ReactRoute/index'
 
-import MySimpleInput from '@components/Formik/ISimple'
-import dispatch from '@redux/dispatch'
+import MySimpleInput from '@src/components/Formik/ISimple'
+import dispatch from '@src/redux/dispatch'
 
-import MyColorInput from '@components/Formik/IColor'
-import MyIconInput from '@components/Formik/IIcon'
+import MyColorInput from '@src/components/Formik/IColor'
+import MyIconInput from '@src/components/Formik/IIcon'
 import { Category as CatDoc } from 'types/src/schema'
 import HttpError from 'src/utils/HttpError'
 

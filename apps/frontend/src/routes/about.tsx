@@ -1,4 +1,4 @@
-import { setTitle } from '@components/ReactRoute/index'
+import { setTitle } from '@src/components/ReactRoute/index'
 import { Text } from '@mantine/core'
 import { Link } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 import _dispatch from '../../dispatch'
 
 const type = 'user:logout'

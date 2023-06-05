@@ -1,5 +1,5 @@
 import { Text } from '@mantine/core'
-import { pushNotification } from '@myHooks/notifications'
+import { pushNotification } from '@src/hooks/notifications'
 import { useEffect } from 'react'
 import { CallbackParams, OpenerFunctions } from 'src/utils/googleSigninTypes'
 

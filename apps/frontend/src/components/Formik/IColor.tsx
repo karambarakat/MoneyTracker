@@ -1,5 +1,5 @@
-import CategoryAllColors from '@components/category/CategoryAllColors'
-import CategoryIcon from '@components/category/CategoryIcon'
+import CategoryAllColors from '@src/components/category/CategoryAllColors'
+import CategoryIcon from '@src/components/category/CategoryIcon'
 import { ActionIcon, Box, Input } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
 import { Blur, Circle } from 'tabler-icons-react'

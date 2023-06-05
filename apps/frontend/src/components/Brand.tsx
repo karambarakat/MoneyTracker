@@ -1,5 +1,5 @@
 import { Box, Text } from '@mantine/core'
-import LogoPng from '@public/logo.png'
+import LogoPng from '@src/public/logo.png'
 import { Link } from 'react-router-dom'
 
 function Brand() {

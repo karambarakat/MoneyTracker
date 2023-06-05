@@ -3,36 +3,36 @@ import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
-import MainLayout from '@routes/_Layout'
-import MantineSetUp from '@components/MantineSetUp'
+import MainLayout from '@src/routes/_Layout'
+import MantineSetUp from '@src/components/MantineSetUp'
 import { Provider as Redux } from 'react-redux'
-import { store } from '@redux/index'
-import GoogleCallback from '@routes/auth/GoogleCallback'
-import { Routes as ModalRoutes } from '@components/ReactRoute/index'
+import { store } from '@src/redux/index'
+import GoogleCallback from '@src/routes/auth/GoogleCallback'
+import { Routes as ModalRoutes } from '@src/components/ReactRoute/index'
 
-import Auth from '@routes/auth/Auth'
-import Profile, { ProfileIndex } from '@routes/profile/profile'
-import ProfileUpdate from '@components/Forms/Profile_update'
-import Profile_SetPassword from '@components/Forms/Profile_SetPassword'
-import Profile_ChangePassword from '@components/Forms/Profile_changePassword'
-import { Page } from '@components/ReactRoute/index'
+import Auth from '@src/routes/auth/Auth'
+import Profile, { ProfileIndex } from '@src/routes/profile/profile'
+import ProfileUpdate from '@src/components/Forms/Profile_update'
+import Profile_SetPassword from '@src/components/Forms/Profile_SetPassword'
+import Profile_ChangePassword from '@src/components/Forms/Profile_changePassword'
+import { Page } from '@src/components/ReactRoute/index'
 
-import Notification from '@components/Notifications'
-import { NavigateController } from '@redux/actions/app/navigate.action'
+import Notification from '@src/components/Notifications'
+import { NavigateController } from '@src/redux/actions/app/navigate.action'
 
-const AddLog = lazy(() => import('@components/Forms/Log_add'))
-const EditLog = lazy(() => import('@components/Forms/Log_edit'))
-const AddCategory = lazy(() => import('@components/Forms/Category_add'))
-const EditCategory = lazy(() => import('@components/Forms/Category_edit'))
+const AddLog = lazy(() => import('@src/components/Forms/Log_add'))
+const EditLog = lazy(() => import('@src/components/Forms/Log_edit'))
+const AddCategory = lazy(() => import('@src/components/Forms/Category_add'))
+const EditCategory = lazy(() => import('@src/components/Forms/Category_edit'))
 
-const Index = lazy(() => import('@routes/index'))
-const Categories = lazy(() => import('@routes/categories'))
-const Charts = lazy(() => import('@routes/charts'))
-const About = lazy(() => import('@routes/about'))
-const Export = lazy(() => import('@routes/export'))
-const Setting = lazy(() => import('@routes/setting'))
-const RateUs = lazy(() => import('@routes/rateUs'))
-const E404 = lazy(() => import('@routes/_E404'))
+const Index = lazy(() => import('@src/routes/index'))
+const Categories = lazy(() => import('@src/routes/categories'))
+const Charts = lazy(() => import('@src/routes/charts'))
+const About = lazy(() => import('@src/routes/about'))
+const Export = lazy(() => import('@src/routes/export'))
+const Setting = lazy(() => import('@src/routes/setting'))
+const RateUs = lazy(() => import('@src/routes/rateUs'))
+const E404 = lazy(() => import('@src/routes/_E404'))
 
 function App() {
   return (

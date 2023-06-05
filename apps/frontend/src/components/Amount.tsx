@@ -1,4 +1,4 @@
-import { MetaState, RootState } from '@redux/types'
+import { MetaState, RootState } from '@src/redux/types'
 import React from 'react'
 import { useSelector } from 'react-redux'
 

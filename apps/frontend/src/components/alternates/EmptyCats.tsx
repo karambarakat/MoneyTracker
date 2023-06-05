@@ -1,7 +1,7 @@
 import React from 'react'
-import AddSvg from '@public/undraw_add.svg'
+import AddSvg from '@src/public/undraw_add.svg'
 import { Box, Text } from '@mantine/core'
-import dispatch from '@redux/dispatch'
+import dispatch from '@src/redux/dispatch'
 
 function EmptyCats() {
   return (

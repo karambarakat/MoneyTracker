@@ -1,9 +1,9 @@
 import { ActionIcon, Box, Input, ScrollArea } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
-import * as AllIcons from '@components/category/CategoryAllIcons'
+import * as AllIcons from '@src/components/category/CategoryAllIcons'
 
 import { IconProps } from 'tabler-icons-react'
-import CategoryIcon from '@components/category/CategoryIcon'
+import CategoryIcon from '@src/components/category/CategoryIcon'
 
 interface Props {
   /**

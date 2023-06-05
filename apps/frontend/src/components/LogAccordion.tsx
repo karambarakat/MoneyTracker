@@ -7,7 +7,7 @@ import {
   Stack,
   Text
 } from '@mantine/core'
-import dispatch from '@redux/dispatch'
+import dispatch from '@src/redux/dispatch'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import { Log } from 'types/src/schema'

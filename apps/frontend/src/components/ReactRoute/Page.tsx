@@ -1,5 +1,5 @@
-import { store } from '@redux/index'
-import { MetaState, ActionsObjects, RootState } from '@redux/types'
+import { store } from '@src/redux/index'
+import { MetaState, ActionsObjects, RootState } from '@src/redux/types'
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useOutlet } from 'react-router-dom'

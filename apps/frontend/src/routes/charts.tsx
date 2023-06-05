@@ -1,13 +1,13 @@
-import CategoryIcon from '@components/category/CategoryIcon'
-import PieChart from '@components/d3/PieChart'
-import MyPaper from '@components/MyPaper'
+import CategoryIcon from '@src/components/category/CategoryIcon'
+import PieChart from '@src/components/d3/PieChart'
+import MyPaper from '@src/components/MyPaper'
 import { Box, Progress, Stack, Text, ThemeIcon } from '@mantine/core'
-import { setTitle } from '@components/ReactRoute/index'
+import { setTitle } from '@src/components/ReactRoute/index'
 import React from 'react'
 import segregate from 'src/utils/segregate'
-import Amount from '@components/Amount'
-import getLogs from '@redux/actions/getData/getLogs'
-import EmptyCharts from '@components/alternates/EmptyCharts'
+import Amount from '@src/components/Amount'
+import getLogs from '@src/redux/actions/getData/getLogs'
+import EmptyCharts from '@src/components/alternates/EmptyCharts'
 
 function Charts_Page_Component() {
   setTitle('Charts')

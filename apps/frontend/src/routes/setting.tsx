@@ -1,7 +1,7 @@
-import { setTitle } from '@components/ReactRoute'
+import { setTitle } from '@src/components/ReactRoute'
 import { Box, Select, Stack, Text } from '@mantine/core'
-import { store } from '@redux/index'
-import { MetaState, RootState } from '@redux/types'
+import { store } from '@src/redux/index'
+import { MetaState, RootState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 
 function Export_Page_Component() {

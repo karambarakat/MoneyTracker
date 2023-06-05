@@ -5,6 +5,7 @@
   "description": "shared typescript configuration accross all apps",
   "files": [
     "base.json",
+    "ui.json",
     "backend.json"
   ]
 }

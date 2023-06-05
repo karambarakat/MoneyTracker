@@ -1,6 +1,6 @@
-import dispatch from '@redux/dispatch'
+import dispatch from '@src/redux/dispatch'
 import { GenericHttpError, HttpErrorProps } from 'types/src/httpErrors'
-import { pushNotification } from '@myHooks/notifications'
+import { pushNotification } from '@src/hooks/notifications'
 
 export default class HttpError extends Error {
   isHttpError = false

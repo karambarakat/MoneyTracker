@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
-import events, { Listener } from 'events'
+import events from 'events'
 import type { EventEmitter } from 'events'
 import { v4 as uuid } from 'uuid'
-import { dispatchTupleArg } from '@redux/dispatch'
+import { dispatchTupleArg } from '@src/redux/dispatch'
+
+// import { Listener } from 'events'
 
 export interface ReactionI {
   display: string
@@ -49,8 +51,11 @@ export const dismissNotification = (id: string) =>
  * helper class to use inside useEffect>useNotification
  */
 class Listeners {
-  all: Array<{ cb: Listener; type: string }> = []
-  on: notificationEvent['on'] = (type: string, cb: Listener) => {
+  all: Array<{ cb: (...args: any[]) => void; type: string }> = []
+  on: notificationEvent['on'] = (
+    type: string,
+    cb: (...args: any[]) => void
+  ) => {
     this.all.push({ cb, type })
     return event.on(
       // @ts-ignore

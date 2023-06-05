@@ -1,8 +1,8 @@
-import FiveStar from '@components/FiveStar'
-import { setTitle } from '@components/ReactRoute'
+import FiveStar from '@src/components/FiveStar'
+import { setTitle } from '@src/components/ReactRoute'
 import { Text } from '@mantine/core'
-import { store } from '@redux/index'
-import { MetaState, RootState } from '@redux/types'
+import { store } from '@src/redux/index'
+import { MetaState, RootState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 
 function Export_Page_Component() {

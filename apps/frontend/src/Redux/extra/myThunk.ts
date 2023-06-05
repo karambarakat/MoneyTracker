@@ -1,6 +1,6 @@
-import { notification, pushNotification } from '@myHooks/notifications'
-import { dispatchFnToTuple as _d } from '@redux/dispatch'
-import { dispatchFunction, RootState } from '@redux/types'
+import { notification, pushNotification } from '@src/hooks/notifications'
+import { dispatchFnToTuple as _d } from '@src/redux/dispatch'
+import { dispatchFunction, RootState } from '@src/redux/types'
 
 import { Middleware } from 'redux'
 import HttpError from 'src/utils/HttpError'

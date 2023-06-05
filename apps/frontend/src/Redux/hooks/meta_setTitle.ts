@@ -1,4 +1,4 @@
-import { ActionsObjects } from '@redux/types'
+import { ActionsObjects } from '@src/redux/types'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 

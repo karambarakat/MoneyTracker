@@ -1,4 +1,4 @@
-import Brand from '@components/Brand'
+import Brand from '@src/components/Brand'
 import {
   ChartPie2,
   InfoCircle,
@@ -27,17 +27,17 @@ import {
   useMantineColorScheme,
   useMantineTheme
 } from '@mantine/core'
-import MyContainer from '@components/Mantine/Container'
+import MyContainer from '@src/components/Mantine/Container'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import MyButton from '@components/Mantine/Button'
+import MyButton from '@src/components/Mantine/Button'
 
-import { getTitle, Link } from '@components/ReactRoute/index'
+import { getTitle, Link } from '@src/components/ReactRoute/index'
 
-import { UserController } from '@components/UserController'
-import ToggleColorScheme from '@components/ToggleColorScheme'
+import { UserController } from '@src/components/UserController'
+import ToggleColorScheme from '@src/components/ToggleColorScheme'
 import { useSelector } from 'react-redux'
-import { MetaState, RootState } from '@redux/types'
+import { MetaState, RootState } from '@src/redux/types'
 
 export default function Main_Layout_Component() {
   const theme = useMantineTheme()

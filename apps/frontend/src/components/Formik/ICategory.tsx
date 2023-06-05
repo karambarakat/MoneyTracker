@@ -1,8 +1,8 @@
 import { Box, Input, ScrollArea } from '@mantine/core'
 import { Field, FieldProps, useFormikContext } from 'formik'
-import CategoryIcon from '@components/category/CategoryIcon'
-import EmptyCats from '@components/alternates/EmptyCats'
-import AddSvg from '@public/undraw_add.svg'
+import CategoryIcon from '@src/components/category/CategoryIcon'
+import EmptyCats from '@src/components/alternates/EmptyCats'
+import AddSvg from '@src/public/undraw_add.svg'
 
 interface Props {
   /**

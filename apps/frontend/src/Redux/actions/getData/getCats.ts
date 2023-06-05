@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
-import dispatch from '@redux/dispatch'
-import { CategoriesState, LogsState, RootState } from '@redux/types'
+import dispatch from '@src/redux/dispatch'
+import { CategoriesState, LogsState, RootState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 
 export default function getCats() {

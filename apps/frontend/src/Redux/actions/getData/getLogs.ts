@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
-import dispatch from '@redux/dispatch'
-import { LogsState, RootState } from '@redux/types'
+import dispatch from '@src/redux/dispatch'
+import { LogsState, RootState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 
 export default function getLogs() {

@@ -1,5 +1,5 @@
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 
 import { useEffect } from 'react'
 import {
@@ -9,7 +9,7 @@ import {
   useNavigate
 } from 'react-router-dom'
 import events from 'events'
-import { ModalLocation } from '@components/ReactRoute/_type'
+import { ModalLocation } from '@src/components/ReactRoute/_type'
 
 const type = 'app:navigate'
 

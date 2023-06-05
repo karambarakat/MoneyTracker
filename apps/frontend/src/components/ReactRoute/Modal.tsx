@@ -1,6 +1,6 @@
 import { Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { MetaState, RootState } from '@redux/types'
+import { MetaState, RootState } from '@src/redux/types'
 import { PropsWithChildren, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import {

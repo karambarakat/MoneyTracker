@@ -1,7 +1,7 @@
-import MyEmailInput from '@components/Formik/IEmail'
-import MyPasswordInput from '@components/Formik/IPassword'
-import MyUserInput from '@components/Formik/IUser'
-import MyCheckbox from '@components/Formik/ICheckbox'
+import MyEmailInput from '@src/components/Formik/IEmail'
+import MyPasswordInput from '@src/components/Formik/IPassword'
+import MyUserInput from '@src/components/Formik/IUser'
+import MyCheckbox from '@src/components/Formik/ICheckbox'
 import { Stack } from '@mantine/core'
 import { Form, Formik, FormikHelpers } from 'formik'
 import {
@@ -9,10 +9,10 @@ import {
   ObjectSchema as yupObj,
   string as yupStr
 } from 'yup'
-import AlertStatus from '@components/Formik/AlertStatus'
-import SubmitButton from '@components/Formik/SubmitButton'
-import dispatch from '@redux/dispatch'
-import { useRoutes } from '@components/ReactRoute/index'
+import AlertStatus from '@src/components/Formik/AlertStatus'
+import SubmitButton from '@src/components/Formik/SubmitButton'
+import dispatch from '@src/redux/dispatch'
+import { useRoutes } from '@src/components/ReactRoute/index'
 import HttpError from 'src/utils/HttpError'
 
 type args = {

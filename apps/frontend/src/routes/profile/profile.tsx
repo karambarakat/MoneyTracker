@@ -1,5 +1,5 @@
-import { Link, useRoutes } from '@components/ReactRoute/index'
-import TextEllipsis from '@components/TextEllipsis'
+import { Link, useRoutes } from '@src/components/ReactRoute/index'
+import TextEllipsis from '@src/components/TextEllipsis'
 
 import {
   Box,
@@ -11,14 +11,14 @@ import {
   Stack,
   Divider
 } from '@mantine/core'
-import { store } from '@redux/index'
+import { store } from '@src/redux/index'
 
-import { ActionsObjects, RootState, UserState } from '@redux/types'
+import { ActionsObjects, RootState, UserState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import dispatch from '@redux/dispatch'
+import dispatch from '@src/redux/dispatch'
 import { ReactElement } from 'react'
-import OnlineStateAction from '@components/OnlineStateAction'
+import OnlineStateAction from '@src/components/OnlineStateAction'
 
 function Profile() {
   const user = useSelector<RootState, UserState>(s => s.user)

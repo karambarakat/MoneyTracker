@@ -1,6 +1,6 @@
 import { Profile } from 'types/src/schema'
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 
 const type = 'profile:fetch'
 

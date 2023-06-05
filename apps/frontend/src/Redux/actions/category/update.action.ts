@@ -1,6 +1,6 @@
 import { Category_out, category_in } from 'types/src/schema'
 import { actionModule } from '../../dispatch'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
+import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 import { category_update } from 'types/src/api/routes/category'
 
 const type = 'category:update'

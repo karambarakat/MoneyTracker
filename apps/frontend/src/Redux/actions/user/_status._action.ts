@@ -1,5 +1,5 @@
-// import { UserDoc } from '@redux/types'
-import { dispatchFnToTuple as __d } from '@redux/dispatch'
+// import { UserDoc } from '@src/redux/types'
+import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 
 const type = 'user:status'
 

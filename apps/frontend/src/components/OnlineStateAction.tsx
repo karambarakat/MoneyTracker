@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
-import dispatch from '@redux/dispatch'
-import { RootState, UserState } from '@redux/types'
+import dispatch from '@src/redux/dispatch'
+import { RootState, UserState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 
 export default function OnlineStateAction({

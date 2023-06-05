@@ -1,4 +1,4 @@
-import { reducerAction, MetaState, UserState } from '@redux/types'
+import { reducerAction, MetaState, UserState } from '@src/redux/types'
 
 const initialState: MetaState = {
   title: 'Home',
