@@ -12,7 +12,7 @@ import {
 
 import {
   ActionIcon,
-  AppShell,
+  AppShell as AppShel_deprecated,
   Box,
   Burger,
   Divider,
@@ -38,12 +38,23 @@ import { UserController } from '@src/components/UserController'
 import ToggleColorScheme from '@src/components/ToggleColorScheme'
 import { useSelector } from 'react-redux'
 import { MetaState, RootState } from '@src/redux/types'
+import AppShell from 'ui/src/components/AppShell'
 
+// export function Main_Layout_Component() {
 export default function Main_Layout_Component() {
+  return (
+    <AppShell SideBar={<Navbar_Custom opened={true} />}>
+      <Outlet />
+    </AppShell>
+  )
+}
+
+export function Main_Layout_Component_Deprecated() {
+  // export default function Main_Layout_Component_Deprecated() {
   const theme = useMantineTheme()
 
   return (
-    <AppShell
+    <AppShel_deprecated
       styles={{
         main: {
           background:
@@ -61,7 +72,7 @@ export default function Main_Layout_Component() {
         <Content_Header />
         <Outlet />
       </MyContainer>
-    </AppShell>
+    </AppShel_deprecated>
   )
 }
 

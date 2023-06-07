@@ -1,6 +1,10 @@
 {
   "extends": "tsconfig/ui.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
     "types": ["./modules.d.ts"]
   }
 }

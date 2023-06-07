@@ -1,27 +1,25 @@
-import type { Meta, StoryObj } from '@storybook/react'
-
+import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import { default as component } from './Button'
 
-const meta: Meta<typeof component> = {
+const meta = {
   title: 'Example/component',
   component,
   tags: ['autodocs'],
   args: {
     children: 'hi'
   }
-}
+} satisfies _m<typeof component>
 
 export default meta
-type Story = StoryObj<typeof component>
 
-export const Primary = {} satisfies Story
-
-export const Secondary = {
+export const Blue = {
   args: {
-    variant: 'outline'
+    color: 'blue'
   }
-} satisfies Story
+} satisfies _s<typeof component>
 
-export const Large = {} satisfies Story
-
-export const Small = {} satisfies Story
+export const Red = {
+  args: {
+    color: 'red'
+  }
+} satisfies _s<typeof component>

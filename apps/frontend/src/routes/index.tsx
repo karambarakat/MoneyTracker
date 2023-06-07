@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import AddLogButton from '@src/components/AddLogButton'
-import { Accordion, Card, Divider, Stack, Text } from '@mantine/core'
+import { Accordion, Divider, Stack } from '@mantine/core'
 import dispatch from '@src/redux/dispatch'
 import { useEffect, useRef, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'

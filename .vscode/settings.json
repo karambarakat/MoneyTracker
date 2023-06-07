@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "autodocs",
     "cmnd",
     "elems",
     "hoverable",
@@ -11,6 +12,7 @@
     "tabler",
     "TCICD",
     "Turborepo",
-    "typecheck"
+    "typecheck",
+    "viewports"
   ]
 }

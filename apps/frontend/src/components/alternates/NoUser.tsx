@@ -1,8 +1,5 @@
-import React from 'react'
 import AddSvg from '@src/public/undraw_login.svg'
 import { Box, Text } from '@mantine/core'
-import { useSelector } from 'react-redux'
-import { RootState, UserState } from '@src/redux/types'
 
 function NoUser() {
   return (

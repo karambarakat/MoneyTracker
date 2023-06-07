@@ -5,13 +5,14 @@
   "description": "UI for the app",
   "scripts": {
     "dev": "storybook dev -p 6006",
+    "test": "test-storybook",
     "build": "storybook build"
   },
   "dependencies": {
-    "@mantine/core": "^5.4.2",
-    "@mantine/dates": "^5.4.2",
+    "@emotion/css": "^11.11.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@mantine/hooks": "^5.4.2",
-    "@mantine/styles": "^6.0.13",
     "classnames": "^2.3.1",
     "d3": "^7.6.1",
     "react": "^17.0.2",
@@ -19,15 +20,21 @@
     "react-query": "^3.34.19",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",
-    "react-transition-group": "^4.4.2"
+    "react-transition-group": "^4.4.2",
+    "tabler-icons-react": "^1.54.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@storybook/addon-essentials": "7.0.18",
     "@storybook/addon-interactions": "7.0.18",
     "@storybook/addon-links": "7.0.18",
+    "@storybook/addon-styling": "^1.0.8",
+    "@storybook/addons": "^7.0.18",
     "@storybook/blocks": "7.0.18",
+    "@storybook/jest": "^0.1.0",
     "@storybook/react": "7.0.18",
     "@storybook/react-vite": "7.0.18",
+    "@storybook/test-runner": "^0.10.0",
     "@storybook/testing-library": "0.0.14-next.2",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
@@ -44,6 +51,7 @@
     "postcss": "^8.4.24",
     "prop-types": "15.8.1",
     "storybook": "7.0.18",
+    "storybook-dark-mode": "^3.0.0",
     "tailwindcss": "^3.3.2",
     "tsconfig": "workspace:*"
   }

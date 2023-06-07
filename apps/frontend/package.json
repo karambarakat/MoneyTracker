@@ -13,6 +13,7 @@
     "@mantine/dates": "^5.4.2",
     "@mantine/hooks": "^5.4.2",
     "@mantine/styles": "^6.0.13",
+    "ui": "workspace:*",
     "classnames": "^2.3.1",
     "d3": "^7.6.1",
     "events": "^3.3.0",
