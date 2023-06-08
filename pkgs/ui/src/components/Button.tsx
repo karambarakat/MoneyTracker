@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react'
+import 'twin.macro'
 
 interface Props {
   color?: 'red' | 'blue'

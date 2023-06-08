@@ -21,7 +21,7 @@ import { Page } from '@src/components/ReactRoute/index'
 
 import Notification from '@src/components/Notifications'
 import { NavigateController } from '@src/redux/actions/app/navigate.action'
-import GlobalStyles from './GlobalStyles'
+import GlobalStyles from 'ui/src/GlobalStyles'
 
 const AddLog = lazy(() => import('@src/components/Forms/Log_add'))
 const EditLog = lazy(() => import('@src/components/Forms/Log_edit'))

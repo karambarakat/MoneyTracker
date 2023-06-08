@@ -1,10 +1,13 @@
 {
   "extends": "tsconfig/ui.json",
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": false,
+    "skipLibCheck": true,
+
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"]
     },
-    "types": ["./modules.d.ts"]
+    "types": ["./types/modules.d.ts", "./types/twin.d.ts"]
   }
 }
