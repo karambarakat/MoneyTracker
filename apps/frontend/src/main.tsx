@@ -1,6 +1,7 @@
 import 'ui/src/tailwind.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import 'twin.macro'
 
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -20,6 +21,7 @@ import { Page } from '@src/components/ReactRoute/index'
 
 import Notification from '@src/components/Notifications'
 import { NavigateController } from '@src/redux/actions/app/navigate.action'
+import GlobalStyles from './GlobalStyles'
 
 const AddLog = lazy(() => import('@src/components/Forms/Log_add'))
 const EditLog = lazy(() => import('@src/components/Forms/Log_edit'))
@@ -88,7 +90,9 @@ function App() {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <div tw="text-blue-500">hello</div>
+    {/* <App /> */}
+    <GlobalStyles />
   </React.StrictMode>,
   document.getElementById('root')
 )

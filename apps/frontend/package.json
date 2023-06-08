@@ -9,11 +9,12 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@mantine/core": "^5.4.2",
     "@mantine/dates": "^5.4.2",
     "@mantine/hooks": "^5.4.2",
     "@mantine/styles": "^6.0.13",
-    "ui": "workspace:*",
     "classnames": "^2.3.1",
     "d3": "^7.6.1",
     "events": "^3.3.0",
@@ -29,12 +30,15 @@
     "redux": "^4.1.2",
     "redux-localstorage-simple": "^2.4.1",
     "tabler-icons-react": "^1.54.0",
+    "ui": "workspace:*",
     "usehooks-ts": "^2.6.0",
     "uuid": "^9.0.0",
     "vite-tsconfig-paths": "^3.4.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.22.3",
+    "@emotion/babel-plugin-jsx-pragmatic": "^0.2.1",
     "@types/d3": "^7.4.0",
     "@types/events": "^3.0.0",
     "@types/react": "^17.0.33",
@@ -45,7 +49,7 @@
     "@types/uuid": "^8.3.4",
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.14",
-    "tsconfig": "workspace:*",
+    "babel-plugin-macros": "^3.1.0",
     "eslint": "^8.35.0",
     "eslint-config-custom": "workspace:*",
     "install": "^0.13.0",
@@ -53,6 +57,8 @@
     "postcss": "^8.4.24",
     "sass": "^1.49.10",
     "tailwindcss": "^3.3.2",
+    "tsconfig": "workspace:*",
+    "twin.macro": "^3.3.1",
     "types": "workspace:*",
     "typescript": "^4.5.4",
     "vite": "^2.8.0"
