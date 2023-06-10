@@ -16,7 +16,7 @@ export default function Link({
           ? location.state.from
           : as_modal
           ? location
-          : undefined
+          : undefined,
       }}
       {...props}
     >

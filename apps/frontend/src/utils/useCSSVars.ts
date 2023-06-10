@@ -7,6 +7,6 @@ export default (obj: Record<any, string>) => {
         acc['--' + key] = obj[key]
         return acc
       }, {}),
-    [obj]
+    [obj],
   )
 }

@@ -21,7 +21,7 @@ function NextStage({
   children,
   nextStage,
   duration = 750,
-  gap = '0px'
+  gap = '0px',
 }: Props) {
   const ref_1 = useRef<HTMLDivElement>(null)
   const ref_2 = useRef<HTMLDivElement>(null)
@@ -43,7 +43,7 @@ function NextStage({
             }
           })
         : null,
-    []
+    [],
   )
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function NextStage({
         gap,
         transition: duration + 'ms ease-in-out',
         height: heights[0] + 'px',
-        height2: heights[1] + 'px'
+        height2: heights[1] + 'px',
       }}
     >
       <CSSTransition

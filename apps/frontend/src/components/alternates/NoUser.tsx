@@ -8,7 +8,7 @@ function NoUser() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem'
+        paddingTop: '3rem',
       }}
     >
       <img src={AddSvg} width="70%" />
@@ -18,7 +18,7 @@ function NoUser() {
         color="#aaa"
         weight="bold"
       >
-        {"You're not signed in"}
+        {'You\'re not signed in'}
       </Text>
       {/* <Text color='#bbb'>{props.body || ''}</Text> */}
     </Box>

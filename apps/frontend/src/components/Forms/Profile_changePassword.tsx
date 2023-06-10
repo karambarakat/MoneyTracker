@@ -21,12 +21,12 @@ function Profile_changePassword() {
     <Formik
       initialValues={{
         oldPassword: '',
-        newPassword: ''
+        newPassword: '',
       }}
       v
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         dispatch('profile:password', values)
           .then(() => {
@@ -46,7 +46,7 @@ function Profile_changePassword() {
       validationSchema={
         new yupObj({
           oldPassword: yupStr().required(),
-          newPassword: yupStr().required()
+          newPassword: yupStr().required(),
         })
       }
     >

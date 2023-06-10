@@ -22,11 +22,11 @@ function LoginEmail() {
     <Formik
       initialValues={{
         email: '',
-        password: ''
+        password: '',
       }}
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         dispatch('user:login', values)
           .then(() => {
@@ -46,7 +46,7 @@ function LoginEmail() {
       validationSchema={
         new yupObj({
           email: yupStr().required(),
-          password: yupStr().required()
+          password: yupStr().required(),
         })
       }
     >

@@ -22,6 +22,6 @@ export default function segregate<T, D = any>(arr: T[], cb: (element: T) => D) {
       }
       return acc
     },
-    [[]]
+    [[]],
   )
 }

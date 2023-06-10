@@ -6,7 +6,7 @@ function invalidStateReducerEnhancer<
 >(
   reducer: Reducer<S, A>,
   condition: (state: S) => boolean,
-  initialState: S
+  initialState: S,
 ): Reducer<S, A> {
   // return reducer
   return (state = initialState, action) => {
@@ -14,7 +14,7 @@ function invalidStateReducerEnhancer<
     const newState = reducer(state, action)
     if (newState !== oldState && !condition(newState)) {
       console.error(
-        `Invalid State, the previous action ${action.type} didn't take place`
+        `Invalid State, the previous action ${action.type} didn't take place`,
       )
       return oldState
     }

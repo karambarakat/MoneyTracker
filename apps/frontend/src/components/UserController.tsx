@@ -9,7 +9,7 @@ import {
   ChevronRight,
   Logout,
   PlugConnected,
-  User
+  User,
 } from 'tabler-icons-react'
 import MyButton from './Mantine/Button'
 import { Link } from './ReactRoute'
@@ -64,7 +64,7 @@ export function UserController() {
                 sx={{
                   overflow: 'hidden',
                   flexGrow: 1,
-                  flexShrink: 1
+                  flexShrink: 1,
                 }}
               >
                 <Text size="sm" weight={500}>

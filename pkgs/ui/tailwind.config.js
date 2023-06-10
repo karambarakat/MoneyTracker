@@ -24,9 +24,9 @@ export const theme = {
     // other
     print: { raw: 'print' },
     portrait: { raw: '(orientation: portrait)' },
-    landscape: { raw: '(orientation: landscape)' }
+    landscape: { raw: '(orientation: landscape)' },
   },
-  extend: {}
+  extend: {},
 }
 
 export const plugins = []

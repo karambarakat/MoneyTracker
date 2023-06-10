@@ -4,7 +4,7 @@ import request from 'supertest'
 import {
   FieldsRequired,
   ResourceWasNotFound,
-  TokenFailed
+  TokenFailed,
 } from '@utils/httpError/errTypes'
 import { LogShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
@@ -35,8 +35,8 @@ describe('log', () => {
           'Authorization',
           'Basic ' +
             Buffer.from(['e1log@example.com', 'password'].join(':')).toString(
-              'base64'
-            )
+              'base64',
+            ),
         )
         .send()
     ).body.data
@@ -48,8 +48,8 @@ describe('log', () => {
           'Authorization',
           'Basic ' +
             Buffer.from(['e2log@example.com', 'password'].join(':')).toString(
-              'base64'
-            )
+              'base64',
+            ),
         )
         .send()
     ).body.data
@@ -61,7 +61,7 @@ describe('log', () => {
         .send({
           title: 'new Entery',
           color: 'sdf',
-          icon: 'sdf'
+          icon: 'sdf',
         })
     ).body.data
 
@@ -79,7 +79,7 @@ describe('log', () => {
     return Promise.all([
       db.dropCollection('users'),
       db.dropCollection('categories'),
-      db.dropCollection('logs')
+      db.dropCollection('logs'),
     ])
   })
 
@@ -111,10 +111,10 @@ describe('log', () => {
           title: 'new entry',
           amount: 12,
           category: data.category._id,
-          note: 'some notes'
+          note: 'some notes',
         })
 
-      if (!log.body.data?._id) throw new Error("couldn't fetch category")
+      if (!log.body.data?._id) throw new Error('couldn\'t fetch category')
 
       data.logs.push(log.body.data)
 
@@ -144,7 +144,7 @@ describe('log', () => {
       const res = await req().set('Authorization', 'Bearer ' + data.first.token)
 
       expect(res.body.error).toMatchHttpError(
-        FieldsRequired(['title', 'amount'])
+        FieldsRequired(['title', 'amount']),
       )
       expect(res.statusCode).toBe(400)
     })
@@ -154,7 +154,7 @@ describe('log', () => {
         .set('Authorization', 'Bearer ' + data.first.token)
         .send({
           title: 'new entry',
-          amount: 12
+          amount: 12,
         })
 
       expect(res.body.data).toBeInTheShapeOf(Null(shape, ['category', 'note']))
@@ -169,7 +169,7 @@ describe('log', () => {
           title: 'new entry',
           amount: 12,
           note: 'notes',
-          category: data.category._id
+          category: data.category._id,
         })
 
       expect(res.body.data).toBeInTheShapeOf(shape)
@@ -199,7 +199,7 @@ describe('log', () => {
     test('404', async () => {
       const res = await req('63f86fa47822eec8d37b8469').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
@@ -209,7 +209,7 @@ describe('log', () => {
     test('400', async () => {
       const res = await req('invalid').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['_id']))
@@ -241,7 +241,7 @@ describe('log', () => {
     test('404', async () => {
       const res = await req('63f86fa47822eec8d37b8469').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
@@ -251,7 +251,7 @@ describe('log', () => {
     test('400', async () => {
       const res = await req('invalid').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['_id']))
@@ -273,14 +273,14 @@ describe('log', () => {
         .send({
           title: 'put request',
           amount: 99,
-          note: 'put request'
+          note: 'put request',
         })
 
       expect(res.body.data).toBeInTheShapeOf(shape)
       expect(res.body.data).toLeastEqual({
         title: 'put request',
         amount: 99,
-        note: 'put request'
+        note: 'put request',
       })
     })
   })
@@ -302,7 +302,7 @@ describe('log', () => {
     test('404', async () => {
       const res = await req('63f86fa47822eec8d37b8469').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())

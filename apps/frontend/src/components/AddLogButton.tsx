@@ -10,7 +10,7 @@ function AddLogButton() {
           position: 'fixed',
           bottom: '2rem',
           right: '2rem',
-          zIndex: '100'
+          zIndex: '100',
         }}
       >
         <ActionIcon variant="filled" color={'orange'} radius={'xl'} size="xl">

@@ -9,7 +9,7 @@ export default function getTitle$$(title: string) {
   useEffect(() => {
     dispatch<ActionsObjects>({
       type: 'META_SET_TITLE',
-      pl: { title }
+      pl: { title },
     })
   }, [])
 }

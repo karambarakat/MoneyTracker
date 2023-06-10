@@ -19,7 +19,7 @@ import {
   e404_ResourceNotFound as e404,
   e500_ServerError as e500,
   e400_MongooseValidation as e400_mongoose,
-  e400_JsonError as e400_json
+  e400_JsonError as e400_json,
 } from '@utils/httpError/errMiddlewares'
 
 //passport

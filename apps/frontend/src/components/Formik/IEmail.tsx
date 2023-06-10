@@ -18,7 +18,7 @@ function MyEmailInput({
   required,
   placeholder,
   label,
-  description
+  description,
 }: Props) {
   return (
     <Field

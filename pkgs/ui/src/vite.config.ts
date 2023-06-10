@@ -4,12 +4,12 @@ import react from '@vitejs/plugin-react'
 export const config = {
   optimizeDeps: {
     esbuildOptions: {
-      target: 'es2020'
-    }
+      target: 'es2020',
+    },
   },
   esbuild: {
     // https://github.com/vitejs/vite/issues/8644#issuecomment-1159308803
-    logOverride: { 'this-is-undefined-in-esm': 'silent' as const }
+    logOverride: { 'this-is-undefined-in-esm': 'silent' as const },
   },
   plugins: [
     react({
@@ -21,18 +21,18 @@ export const config = {
             {
               export: 'jsx',
               import: '__cssprop',
-              module: '@emotion/react'
-            }
+              module: '@emotion/react',
+            },
           ],
           [
             '@babel/plugin-transform-react-jsx',
             { pragma: '__cssprop' },
-            'twin.macro'
-          ]
-        ]
-      }
-    })
-  ]
+            'twin.macro',
+          ],
+        ],
+      },
+    }),
+  ],
 }
 // https://vitejs.dev/config/
 export default defineConfig(config)

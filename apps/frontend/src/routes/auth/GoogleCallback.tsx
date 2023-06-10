@@ -5,12 +5,12 @@ import { CallbackParams, OpenerFunctions } from 'src/utils/googleSigninTypes'
 
 function GoogleCallback() {
   const params = Object.fromEntries<string>(
-    new URLSearchParams(window.location.search).entries()
+    new URLSearchParams(window.location.search).entries(),
   ) as unknown as CallbackParams
 
   useEffect(() => {
     const {
-      __$openerFunctionsContext: { callback }
+      __$openerFunctionsContext: { callback },
     } = window.opener as OpenerFunctions
 
     callback(params).then(() => {

@@ -19,11 +19,11 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   { id },
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   pushNoti({
     message: 'this feature is not available for now.',
-    display: 'failure'
+    display: 'failure',
   })
 }
 

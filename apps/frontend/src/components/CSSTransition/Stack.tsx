@@ -8,7 +8,7 @@ interface Props {
 }
 function Stack({ children: chs }: Props) {
   const [children, setChildren] = useState(
-    () => new Map(chs.map(child => [child.key, child]))
+    () => new Map(chs.map(child => [child.key, child])),
   )
 
   const [remove, setRemove] = useState(new Set<string | number | null>())
@@ -66,7 +66,7 @@ function Inner({ children, onExited, keep }: InnerI) {
   const [w, setW] = useState(0)
   const [rect, setRect] = useState<Partial<DOMRect>>({
     bottom: 0,
-    right: 0
+    right: 0,
   })
   return (
     <CssVars
@@ -74,7 +74,7 @@ function Inner({ children, onExited, keep }: InnerI) {
         h: h.toFixed(2) + 'px',
         w: w.toFixed(2) + 'px',
         r1: (rect?.bottom?.toFixed(1) || 0) + 'px',
-        r2: (rect?.right?.toFixed(1) || 0) + 'px'
+        r2: (rect?.right?.toFixed(1) || 0) + 'px',
       }}
     >
       <CSSTransition
@@ -92,7 +92,7 @@ function Inner({ children, onExited, keep }: InnerI) {
 
           setRect({
             bottom: (parent?.bottom || 0) - child.bottom,
-            right: (parent?.right || 0) - child.right
+            right: (parent?.right || 0) - child.right,
           })
         }}
         onExited={onExited}

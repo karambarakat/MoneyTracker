@@ -5,7 +5,7 @@ import {
   BadBasicToken,
   EmailOrPasswordIncorrect,
   UserAlreadyExist,
-  ValidationError
+  ValidationError,
 } from '@utils/httpError/errTypes'
 import { ProfileShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
@@ -42,14 +42,14 @@ describe('auth email', () => {
       const token =
         'Basic ' +
         Buffer.from(['auth@example.com', 'password'].join(':')).toString(
-          'base64'
+          'base64',
         )
 
       const res = await req().set('Authorization', token).send()
 
       expect(res.body.data).toBeInTheShapeOf(Null(shape, [], ['picture']))
       expect(res.body.data).toLeastEqual({
-        email: 'auth@example.com'
+        email: 'auth@example.com',
       })
     })
 
@@ -65,7 +65,7 @@ describe('auth email', () => {
       expect(res.body.data).toBeInTheShapeOf(Null(shape, [], ['picture']))
       expect(res.body.data).toLeastEqual({
         email: 'e2@example.com',
-        displayName: 'Karam'
+        displayName: 'Karam',
       })
     })
 
@@ -81,7 +81,7 @@ describe('auth email', () => {
       expect(res.body.data).toBeInTheShapeOf(Null(shape, [], ['picture']))
       expect(res.body.data).toLeastEqual({
         email: 'e3@example.com',
-        displayName: '1234'
+        displayName: '1234',
       })
     })
 
@@ -94,7 +94,7 @@ describe('auth email', () => {
 
       const expectedError = ValidationError({
         msg: '',
-        errors: { email: '' }
+        errors: { email: '' },
       })
 
       expect(res.body.error).toMatchHttpError(expectedError)
@@ -105,7 +105,7 @@ describe('auth email', () => {
       const token =
         'Basic ' +
         Buffer.from(['auth@example.com', 'password'].join(':')).toString(
-          'base64'
+          'base64',
         )
 
       await req().set('Authorization', token).send()
@@ -132,7 +132,7 @@ describe('auth email', () => {
       const token =
         'Basic ' +
         Buffer.from(['auth@example.com', 'password'].join(':')).toString(
-          'base64'
+          'base64',
         )
 
       const res = await req().set('Authorization', token)
@@ -144,7 +144,7 @@ describe('auth email', () => {
       const token =
         'Basic ' +
         Buffer.from(['auth@example.com', 'WrongPassword'].join(':')).toString(
-          'base64'
+          'base64',
         )
 
       const res = await req().set('Authorization', token)

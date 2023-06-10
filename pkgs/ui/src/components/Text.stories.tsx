@@ -10,11 +10,11 @@ export default {
   title: 'Text',
   component,
   argTypes: {
-    children: { control: 'text' }
+    children: { control: 'text' },
   },
   args: {
-    children: (fakerEN.seed(1), fakerEN.lorem.paragraph())
-  }
+    children: (fakerEN.seed(1), fakerEN.lorem.paragraph()),
+  },
 } satisfies _m<typeof component>
 
 export const Basic = {} satisfies _s<typeof component>

@@ -7,7 +7,7 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import {
   boolean as yupBool,
   ObjectSchema as yupObj,
-  string as yupStr
+  string as yupStr,
 } from 'yup'
 import AlertStatus from '@src/components/Formik/AlertStatus'
 import SubmitButton from '@src/components/Formik/SubmitButton'
@@ -37,11 +37,11 @@ function RegisterEmail() {
         email: '',
         password: '',
         repeatPassword: '',
-        checked: false
+        checked: false,
       }}
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         dispatch('user:signup', values)
           .then(() => {
@@ -63,13 +63,13 @@ function RegisterEmail() {
           email: yupStr().required(),
           password: yupStr().required(),
           repeatPassword: yupStr().required(),
-          checked: yupBool().isTrue()
+          checked: yupBool().isTrue(),
         })
       }
       validate={values => {
         const errors: any = {}
         if (values.password !== values.repeatPassword) {
-          errors.repeatPassword = "passwords don't match"
+          errors.repeatPassword = 'passwords don\'t match'
         }
         return errors
       }}

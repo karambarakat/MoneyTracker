@@ -11,18 +11,18 @@ export default {
   component,
   argTypes: {
     width: { control: 'number' },
-    children: { control: 'text' }
+    children: { control: 'text' },
   },
   args: {
-    children: (fakerEN.seed(1), fakerEN.lorem.paragraph())
+    children: (fakerEN.seed(1), fakerEN.lorem.paragraph()),
   },
   decorators: [
     Story => (
       <div tw="border-2 max-w-full w-[fit-content]">
         <Story />
       </div>
-    )
-  ]
+    ),
+  ],
 } satisfies _m<typeof component>
 
 export const Basic = {} satisfies _s<typeof component>

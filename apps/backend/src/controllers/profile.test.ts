@@ -22,8 +22,8 @@ describe('profile', () => {
         'Authorization',
         'Basic ' +
           Buffer.from(['e1profile@example.com', 'password'].join(':')).toString(
-            'base64'
-          )
+            'base64',
+          ),
       )
       .send()
 
@@ -123,7 +123,7 @@ describe('profile', () => {
         .set('Authorization', 'Bearer ' + user.token)
         .send({
           displayName: 'newDisplayName',
-          picture: 'newPicture'
+          picture: 'newPicture',
         })
 
       expect(res.statusCode).toEqual(200)
@@ -182,8 +182,8 @@ describe('profile', () => {
           'Authorization',
           'Basic ' +
             Buffer.from(
-              ['e1profile@example.com', 'password'].join(':')
-            ).toString('base64')
+              ['e1profile@example.com', 'password'].join(':'),
+            ).toString('base64'),
         )
         .expect(401)
 
@@ -193,8 +193,8 @@ describe('profile', () => {
           'Authorization',
           'Basic ' +
             Buffer.from(
-              ['e1profile@example.com', 'newPass'].join(':')
-            ).toString('base64')
+              ['e1profile@example.com', 'newPass'].join(':'),
+            ).toString('base64'),
         )
         .expect(200)
     })

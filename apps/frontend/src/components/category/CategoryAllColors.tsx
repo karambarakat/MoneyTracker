@@ -17,7 +17,7 @@ const CategoryAllColors: MantineColor[] = [
   'lime',
   'yellow',
   'orange',
-  'teal'
+  'teal',
 ]
 
 export default CategoryAllColors

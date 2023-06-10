@@ -9,11 +9,11 @@ const customStyles = css({
   body: {
     WebkitTapHighlightColor: theme`colors.purple.500`,
     ...tw`antialiased`,
-    ...tw`bg-slate-50`
+    ...tw`bg-slate-50`,
   },
   '.dark body': {
-    ...tw`bg-slate-700 text-white`
-  }
+    ...tw`bg-slate-700 text-white`,
+  },
 })
 
 const GlobalStyles = () => (

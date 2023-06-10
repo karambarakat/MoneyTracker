@@ -12,6 +12,16 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
+    'comma-dangle': [
+      'warn',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'always-multiline'
+      }
+    ],
     '@typescript-eslint/no-namespace': 'off',
     '@next/next/no-html-link-for-pages': 'off',
     semi: ['warn', 'never'],

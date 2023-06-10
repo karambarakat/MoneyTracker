@@ -20,7 +20,7 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   { id },
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   offline()
 
@@ -28,9 +28,9 @@ const action: actionModule<ActionType> = async function (
     fetch(import.meta.env.VITE_BACKEND_API + '/log/' + id, {
       method: 'DELETE',
       headers: {
-        Authorization: 'Bearer ' + helpers.token()
-      }
-    })
+        Authorization: 'Bearer ' + helpers.token(),
+      },
+    }),
   )
 
   const log = state().logs.find(log => log._id === id)
@@ -40,15 +40,15 @@ const action: actionModule<ActionType> = async function (
     reactions: log && [
       {
         display: 'restore',
-        dispatch: __d(d => d('log:undoDelete', { id: log._id }))
+        dispatch: __d(d => d('log:undoDelete', { id: log._id })),
         // style: { color: 'red' },
-      }
-    ]
+      },
+    ],
   })
 
   dispatch({
     type: 'LOG_DELETE_ONE',
-    pl: { id }
+    pl: { id },
   })
 }
 

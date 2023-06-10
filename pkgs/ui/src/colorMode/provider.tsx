@@ -6,7 +6,7 @@ const _context = createContext<[mode, (m: mode | 'system') => void]>([
   'light',
   () => {
     throw new Error('no context provided')
-  }
+  },
 ])
 
 // see [Supporting system preference and manual selection](https://tailwindcss.com/docs/dark-mode#:~:text=Supporting%20system%20preference%20and%20manual%20selection)
@@ -43,7 +43,7 @@ const head = () => {
 
 export function ColorModeProvider({
   children,
-  mode
+  mode,
 }: PropsWithChildren<{ mode: mode }>) {
   const [_mode, _setMode] = useState<mode>(mode)
 

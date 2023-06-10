@@ -2,7 +2,7 @@ export function toggleArrayElement<T>(arr: T[], element: T): T[] {
   if (arr.some(e => e === element)) {
     arr.splice(
       arr.findIndex(e => e === element),
-      1
+      1,
     )
     return arr
   } else {
@@ -24,7 +24,7 @@ export function removeArrayElement<T>(arr: T[], element: T): T[] {
   if (arr.some(e => e === element)) {
     arr.splice(
       arr.findIndex(e => e === element),
-      1
+      1,
     )
     return arr
   } else {

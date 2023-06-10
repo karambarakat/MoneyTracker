@@ -26,7 +26,7 @@ function AddCategory() {
   const cats = useSelector<RootState, CategoriesState>(s => s.categories)
   const cat = useMemo(
     () => cats.find(cat => cat._id === id) || ({} as CatDoc),
-    [cats]
+    [cats],
   )
   if (!cat._id) return <div>Server Error</div>
 
@@ -37,12 +37,12 @@ function AddCategory() {
       initialValues={{
         title: cat.title,
         color: cat.color,
-        icon: cat.icon
+        icon: cat.icon,
       }}
       // @ts-ignore
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         dispatch('category:update', { doc: values, id: cat._id })
           .then(() => {
@@ -63,7 +63,7 @@ function AddCategory() {
         new yupObj({
           title: yupStr().required(),
           color: yupStr(),
-          icon: yupStr()
+          icon: yupStr(),
         })
       }
     >

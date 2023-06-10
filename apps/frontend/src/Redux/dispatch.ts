@@ -27,7 +27,7 @@ export type actionModule<
  *  import all action and throw error if there is any typing error or duplicate names
  */
 const modules = Object.entries(
-  import.meta.globEager('./actions/**/*.action.ts(x)?')
+  import.meta.globEager('./actions/**/*.action.ts(x)?'),
 )
   .map(([fileName, module]) => {
     const moduleName = fileName.slice(2, -3)
@@ -83,7 +83,7 @@ const dispatch = async function <
   // @ts-ignore
   const result = await store.dispatch<dispatchFunction>((redux, helpers) =>
     // @ts-ignore
-    module(payload, redux, helpers)
+    module(payload, redux, helpers),
   )
   // @ts-ignore
   return result

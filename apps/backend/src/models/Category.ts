@@ -8,13 +8,13 @@ export interface ICategory extends Category {
 const CategorySchema = new mongoose.Schema<ICategory>({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   color: {
-    type: String
+    type: String,
   },
   icon: { type: String },
-  createdBy: { type: mongoose.Types.ObjectId }
+  createdBy: { type: mongoose.Types.ObjectId },
 })
 
 CategorySchema.methods.doc = function () {

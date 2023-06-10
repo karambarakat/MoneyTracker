@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema<IProfile>(
       type: String,
       default: function () {
         return 'user-' + uuidv4().split('-')[0]
-      }
+      },
     },
     email: {
       type: String,
@@ -43,10 +43,10 @@ const UserSchema = new mongoose.Schema<IProfile>(
         validator: function (email: string): boolean {
           return /^\S+@\S+\.\S+$/.test(email)
         },
-        message: 'not a valid email'
+        message: 'not a valid email',
       },
       index: true,
-      unique: true
+      unique: true,
     },
     // @ts-ignore
     providers: {
@@ -55,40 +55,40 @@ const UserSchema = new mongoose.Schema<IProfile>(
       validate: {
         validator: function (providers: string[]): boolean {
           return !providers.some(
-            provider => provider !== 'google' && provider !== 'local'
+            provider => provider !== 'google' && provider !== 'local',
           )
         },
-        message: 'either google or local'
-      }
+        message: 'either google or local',
+      },
     },
     googleInfo: {
-      type: mongoose.Schema.Types.Mixed
+      type: mongoose.Schema.Types.Mixed,
     },
     password: {
-      type: String
+      type: String,
     },
     picture: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 )
 
 UserSchema.pre('save', async function (next) {
   if (this.providers.some((provider: string) => provider === 'local')) {
     if (!this.password) {
       const error = new Error(
-        'user validation failed: password is required field'
+        'user validation failed: password is required field',
       )
       error.name = 'ValidationError'
       // @ts-ignore
       error.errors = {
         password: {
           name: 'validatorError',
-          message: 'password is required field'
-        }
+          message: 'password is required field',
+        },
       }
       next(error)
     } else next()
@@ -104,7 +104,7 @@ UserSchema.methods.doc = function () {
 
   return {
     ...this._doc,
-    token: generateToken(this._id, this.email)
+    token: generateToken(this._id, this.email),
   }
 }
 

@@ -20,13 +20,13 @@ function ProfileUpdate() {
   return (
     <Formik
       initialValues={{
-        displayName: ''
+        displayName: '',
         // picture: '',
       }}
       v
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         dispatch('profile:update', values)
           .then(() => {
@@ -45,7 +45,7 @@ function ProfileUpdate() {
       }}
       validationSchema={
         new yupObj({
-          displayName: yupStr()
+          displayName: yupStr(),
           // picture: yupStr().required(),
         })
       }

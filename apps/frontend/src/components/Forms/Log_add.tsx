@@ -30,12 +30,12 @@ function AddLog() {
         title: undefined,
         amount: undefined,
         category: undefined,
-        note: undefined
+        note: undefined,
       }}
       // @ts-ignore
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         // @ts-ignore
         dispatch('log:create', { doc: values })
@@ -58,7 +58,7 @@ function AddLog() {
           title: yupStr().required(),
           amount: yupNum().required(),
           category: yupStr(),
-          note: yupStr()
+          note: yupStr(),
         })
       }
     >

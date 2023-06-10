@@ -16,7 +16,7 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   { id },
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   offline()
 
@@ -24,14 +24,14 @@ const action: actionModule<ActionType> = async function (
     fetch(import.meta.env.VITE_BACKEND_API + '/category/' + id, {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + helpers.token
-      }
-    })
+        Authorization: 'Bearer ' + helpers.token,
+      },
+    }),
   )
 
   dispatch({
     type: 'CATEGORY_UPDATE_ONE',
-    pl: { category }
+    pl: { category },
   })
 
   return category

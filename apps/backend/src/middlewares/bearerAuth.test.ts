@@ -12,7 +12,7 @@ import jwt from 'jsonwebtoken'
 const jwtParse = (token: string) => {
   try {
     return JSON.parse(
-      Buffer.from(token.split('.')[1], 'base64').toString()
+      Buffer.from(token.split('.')[1], 'base64').toString(),
     ) as jwt_payload
   } catch {
     return undefined
@@ -21,7 +21,7 @@ const jwtParse = (token: string) => {
 
 const jwtGen = (payload: jwt_payload, secret?: string) => {
   return jwt.sign(payload, secret || (process.env.JWT_SECRET as string), {
-    algorithm: 'HS256'
+    algorithm: 'HS256',
   })
 }
 
@@ -39,8 +39,8 @@ describe('bearer token', () => {
         'Authorization',
         'Basic ' +
           Buffer.from(['e1@example.com', 'password'].join(':')).toString(
-            'base64'
-          )
+            'base64',
+          ),
       )
       .send()
 
@@ -83,7 +83,7 @@ describe('bearer token', () => {
     const res = await req()
       .set(
         'Authorization',
-        'Bearer ' + jwtGen({ ...token, exp: new Date().getUTCSeconds() - 10 })
+        'Bearer ' + jwtGen({ ...token, exp: new Date().getUTCSeconds() - 10 }),
       )
       .send()
 

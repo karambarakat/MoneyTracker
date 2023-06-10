@@ -4,7 +4,7 @@ import { reducerAction, UserState } from './../types'
 
 const initialState: UserState = {
   onlineState: false,
-  profile: undefined
+  profile: undefined,
 }
 
 /**
@@ -25,13 +25,13 @@ export type UserTypes =
 
 function userReducer(
   state: UserState = initialState,
-  action: reducerAction
+  action: reducerAction,
 ): UserState {
   switch (action.type) {
     case 'USER_ADD_PROFILE':
       return {
         profile: action.pl.profile,
-        onlineState: true
+        onlineState: true,
       }
     case 'USER_LOGOUT':
       action.fn.clearData()

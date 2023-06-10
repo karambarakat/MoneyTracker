@@ -21,7 +21,7 @@ const helpers = {
 
   SideBarItem: ({
     slot1,
-    children
+    children,
   }: {
     children: React.ReactNode
     slot1?: React.ReactNode
@@ -36,7 +36,7 @@ const helpers = {
         </div>
       </div>
     )
-  }
+  },
 }
 
 export const Children = (

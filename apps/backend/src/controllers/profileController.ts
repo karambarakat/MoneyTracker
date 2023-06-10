@@ -1,6 +1,6 @@
 import {
   EmailOrPasswordIncorrect,
-  PrivateRoute
+  PrivateRoute,
 } from '@utils/httpError/errTypes'
 import { requiredFieldsMiddleware } from '@utils/httpError'
 
@@ -13,7 +13,7 @@ import {
   email_status,
   profile_update,
   updatePassword_local,
-  updatePassword_nolocal
+  updatePassword_nolocal,
 } from 'types/src/api/routes/profile'
 import of from '@utils/omitFalsy'
 
@@ -30,7 +30,7 @@ const router = Router()
 async function emailProvidersStatus(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const { email } = of(req.body) as email_status
 
@@ -62,7 +62,7 @@ async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
 async function updateCurrentUser(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   if (!req.user) throw PrivateRoute()
 

@@ -36,7 +36,7 @@ function Categories_Page_Component() {
   const [opened, handles] = useDisclosure(false, {
     onClose: () => {
       __('')
-    }
+    },
   })
   const setSelected = (id: string) => {
     handles.open()
@@ -63,7 +63,7 @@ function Categories_Page_Component() {
                 </CategoryIcon.Hoverable>
               </div>
             )),
-            <AddCategory key={'Symbol()'} />
+            <AddCategory key={'Symbol()'} />,
           ]}
         </MiddleRow.Elems>
 
@@ -92,7 +92,7 @@ function CatDetails({ cat, context }: { context: () => void; cat?: CatDoc }) {
           sx={{
             flexDirection: 'row',
             // this is inside <Dismissible /> which have 30.8 px for the cancelation button
-            marginTop: '-30px'
+            marginTop: '-30px',
           }}
         >
           <CategoryIcon on cat={cat} />

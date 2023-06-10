@@ -10,7 +10,7 @@ export default function setTitle$$(title: string) {
   useEffect(() => {
     dispatch<ActionsObjects>({
       type: 'META_SET_TITLE',
-      pl: { title }
+      pl: { title },
     })
   }, [])
 }

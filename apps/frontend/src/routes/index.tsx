@@ -26,9 +26,9 @@ function Index_Page_Component() {
     const s = segregate(
       logs.sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       ),
-      log => moment(log.createdAt).format('l')
+      log => moment(log.createdAt).format('l'),
     )
 
     return s.map(subList => {
@@ -39,7 +39,7 @@ function Index_Page_Component() {
 
       return {
         key: f1s.replace(/ (at \d).*/, '') + m.format(', MMM Do, YYYY'),
-        subList
+        subList,
       }
     })
   }, [logs])
@@ -63,8 +63,8 @@ function Index_Page_Component() {
                 styles={{
                   control: { padding: '16px' },
                   chevron: {
-                    display: 'none'
-                  }
+                    display: 'none',
+                  },
                 }}
                 variant="filled"
                 value={value}

@@ -14,21 +14,21 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   values,
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   const profile = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/profile', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token()
+        Authorization: 'Bearer ' + helpers.token(),
       },
-      body: JSON.stringify(values)
-    })
+      body: JSON.stringify(values),
+    }),
   )
   dispatch({
     type: 'USER_ADD_PROFILE',
-    pl: { profile }
+    pl: { profile },
   })
 
   return profile

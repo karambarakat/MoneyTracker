@@ -34,9 +34,9 @@ async function download(range: Date[]) {
         e.amount,
         (e.category as category_in)?.title || '',
         e.createdAt,
-        e.note
-      ].join(',')
-    )
+        e.note,
+      ].join(','),
+    ),
   ].join('\n')
 
   // 3rd
@@ -61,12 +61,12 @@ function Export() {
   return (
     <Formik
       initialValues={{
-        range: [from, to]
+        range: [from, to],
       }}
       // @ts-ignore
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         download(values.range)
           .then(() => goBack())
@@ -78,7 +78,7 @@ function Export() {
       }}
       validationSchema={
         new yupObj({
-          range: yupArray().of(yupDate())
+          range: yupArray().of(yupDate()),
         })
       }
     >
@@ -93,8 +93,8 @@ function Export() {
               styles={{
                 label: {
                   display: 'flex',
-                  gap: 12
-                }
+                  gap: 12,
+                },
               }}
             >
               <File />

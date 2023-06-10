@@ -40,7 +40,7 @@ function MyColorInput({ formikName, required, label, description }: Props) {
                   gridTemplateColumns: 'repeat(auto-fill, minmax(36px, 1fr))',
                   gap: '12px',
                   justifyItems: 'center',
-                  alignItems: 'center'
+                  alignItems: 'center',
                 }}
               >
                 {CategoryIcon.collection.allColors.map(color => {
@@ -58,7 +58,7 @@ function MyColorInput({ formikName, required, label, description }: Props) {
                           variant={field.value === color ? 'light' : 'subtle'}
                           cat={{
                             color,
-                            icon: field.value !== color ? 'Circle' : 'Blur'
+                            icon: field.value !== color ? 'Circle' : 'Blur',
                           }}
                         />
                       </CategoryIcon.Hoverable>

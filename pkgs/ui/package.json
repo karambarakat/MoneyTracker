@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "test": "test-storybook",
-    "build": "storybook build"
+    "build": "storybook build",
+    "lint": "eslint --fix ."
   },
   "dependencies": {
     "@emotion/css": "^11.11.0",

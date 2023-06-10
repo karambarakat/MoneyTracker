@@ -18,7 +18,7 @@ bearerAuth.all('*', function (req, res, next) {
       // 2. fail {err: false, user: null, info: Info}
       // 3. fail {err: {...}, user: null, info: unknown}
       handleJWTError(err, info)
-    }
+    },
   )(req, res, next)
 })
 

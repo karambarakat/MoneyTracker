@@ -4,7 +4,7 @@ import { Star, StarHalf, StarOff } from 'tabler-icons-react'
 
 function FiveStar({
   onChange,
-  value
+  value,
 }: {
   value: number
   onChange: (v: number) => void

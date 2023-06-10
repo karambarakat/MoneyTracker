@@ -18,7 +18,7 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   { doc, id },
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   offline()
 
@@ -27,10 +27,10 @@ const action: actionModule<ActionType> = async function (
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token()
+        Authorization: 'Bearer ' + helpers.token(),
       },
-      body: JSON.stringify(doc)
-    })
+      body: JSON.stringify(doc),
+    }),
   )
 
   const oldDoc = state().logs.find(l => l._id === id)
@@ -46,18 +46,18 @@ const action: actionModule<ActionType> = async function (
               amount: oldDoc.amount,
               category: oldDoc.category?._id,
               note: oldDoc.note,
-              title: oldDoc.title
+              title: oldDoc.title,
             },
-            id
-          })
-        )
-      }
-    ]
+            id,
+          }),
+        ),
+      },
+    ],
   })
 
   dispatch({
     type: 'LOG_UPDATE_ONE',
-    pl: { log }
+    pl: { log },
   })
 
   return log

@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
-  useRef
+  useRef,
 } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -17,18 +17,18 @@ interface IContext {
 
 const initialValues: IContext = {
   elems: [],
-  middle: null
+  middle: null,
 }
 
 const context = createContext<Dispatch<SetStateAction<Partial<IContext>>>>(
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  () => {}
+  () => {},
 )
 
 function MiddleRow({
   children: callUseEffects,
   index,
-  minWidth = '96px'
+  minWidth = '96px',
 }: PropsWithChildren<{ index: number; minWidth?: string }>) {
   const [ref, rect] = useResizeObserver()
   const [cols, setCols] = React.useState(0)
@@ -54,11 +54,11 @@ function MiddleRow({
           rowGap: '24px',
           justifyItems: 'center',
           '> *': {
-            order: 1
+            order: 1,
           },
           '> .cutInHalf, > .cutInHalf ~ *': {
-            order: 3
-          }
+            order: 3,
+          },
         }}
         ref={ref}
       >
@@ -66,7 +66,7 @@ function MiddleRow({
           style={{
             order: 2,
             gridColumn: `1 / span ${cols}`,
-            justifySelf: 'stretch'
+            justifySelf: 'stretch',
           }}
         >
           {children.middle}

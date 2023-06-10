@@ -7,7 +7,7 @@ export const ProfileShape = {
   providers: [''],
   updatedAt: '',
   createdAt: '',
-  token: ''
+  token: '',
 }
 
 export const LogShape = {
@@ -21,10 +21,10 @@ export const LogShape = {
     _id: '',
     title: '',
     color: '',
-    icon: ''
+    icon: '',
   },
   updatedAt: '',
-  createdAt: ''
+  createdAt: '',
 }
 
 export const CatShape = {
@@ -33,5 +33,5 @@ export const CatShape = {
   title: '',
   createdBy: '',
   color: '',
-  icon: ''
+  icon: '',
 }

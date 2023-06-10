@@ -6,7 +6,7 @@ function Amount({ a }: { a: number }) {
   const { currency } = useSelector<RootState, MetaState>(s => s.meta)
   const content = React.useMemo(
     () => currency.replace('/d', a.toString()),
-    [currency, a]
+    [currency, a],
   )
 
   return <span>{content}</span>

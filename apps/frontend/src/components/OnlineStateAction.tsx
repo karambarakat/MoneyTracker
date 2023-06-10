@@ -4,7 +4,7 @@ import { RootState, UserState } from '@src/redux/types'
 import { useSelector } from 'react-redux'
 
 export default function OnlineStateAction({
-  children
+  children,
 }: {
   children: (t: string) => ReactElement
 }) {

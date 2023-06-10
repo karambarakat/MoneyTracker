@@ -5,7 +5,7 @@ import {
   Text,
   ThemeIcon,
   ThemeIconProps,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core'
 import { IconProps } from 'tabler-icons-react'
 import * as allTablerIcon from './CategoryAllIcons'
@@ -35,13 +35,13 @@ const useHov = createStyles<
     Parent: {
       ref: getRef('Parent'),
       cursor: 'pointer',
-      '&:active': { transform: 'translateY(1px)' }
+      '&:active': { transform: 'translateY(1px)' },
     },
     Child: {
       [`.${getRef('Parent')}:hover &`]: {
-        backgroundColor: bg
-      }
-    }
+        backgroundColor: bg,
+      },
+    },
   }
 })
 
@@ -69,7 +69,7 @@ function CategoryIcon({
   const color = React.useMemo(
     () =>
       cat?.color && allColors.some(c => c === cat.color) ? cat?.color : 'gray',
-    [cat?.color]
+    [cat?.color],
   )
 
   const styles = useHov({ color, on })
@@ -104,7 +104,7 @@ CategoryIcon.Hoverable = function ({
 
 CategoryIcon.WithTitle = function ({
   children,
-  title
+  title,
 }: PropsWithChildren<Pick<Category, 'title'>>) {
   return (
     <Box
@@ -112,7 +112,7 @@ CategoryIcon.WithTitle = function ({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        gap: '12px'
+        gap: '12px',
       }}
     >
       {children}
@@ -153,7 +153,7 @@ CategoryIcon.collection = {
   useAllCats: collectionAllCategories,
   useHexColors: collectionHexColor,
   allColors: collectionAllColors,
-  allIcons: collectionAllIcons()
+  allIcons: collectionAllIcons(),
 }
 
 export default CategoryIcon

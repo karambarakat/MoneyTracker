@@ -5,7 +5,7 @@ import {
   Group,
   Spoiler,
   Stack,
-  Text
+  Text,
 } from '@mantine/core'
 import dispatch from '@src/redux/dispatch'
 import moment from 'moment'

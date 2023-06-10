@@ -9,7 +9,7 @@ import {
   useMantineTheme,
   Button,
   Stack,
-  Divider
+  Divider,
 } from '@mantine/core'
 import { store } from '@src/redux/index'
 

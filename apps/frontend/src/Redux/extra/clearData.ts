@@ -22,8 +22,8 @@ const ClearDataMiddleware: Middleware = store => next => action => {
     fn: {
       clearData: () => {
         dispatchClearAllAction = true
-      }
-    }
+      },
+    },
   })
 
   const res = next(actionWithClearData)

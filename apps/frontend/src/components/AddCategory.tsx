@@ -8,16 +8,16 @@ function AddCategory() {
       <Box
         sx={{
           ':hover': {
-            cursor: 'pointer'
+            cursor: 'pointer',
           },
 
           ':active': {
-            transform: 'translateY(1px)'
+            transform: 'translateY(1px)',
           },
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          gap: '12px'
+          gap: '12px',
         }}
       >
         <ThemeIcon

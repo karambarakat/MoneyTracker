@@ -23,7 +23,7 @@ const colors = {
   BGblue: '\x1b[44m',
   BGmagenta: '\x1b[45m',
   BGcyan: '\x1b[46m',
-  BGwhite: '\x1b[47m'
+  BGwhite: '\x1b[47m',
 }
 
 const prebuilt: Record<
@@ -32,7 +32,7 @@ const prebuilt: Record<
 > = {
   app: 'yellow',
   database: 'magenta',
-  environment: 'cyan'
+  environment: 'cyan',
 }
 
 type types =
@@ -48,6 +48,6 @@ export default function log(type: types, ...args: any[]) {
       `${color}%s\x1b[0m`,
       `[${typeof type === 'string' ? type : type.name}]`,
       '--',
-      ...args
+      ...args,
     )
 }

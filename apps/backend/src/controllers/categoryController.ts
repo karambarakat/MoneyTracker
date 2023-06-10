@@ -3,7 +3,7 @@ import {
   FieldsRequired,
   NoCategory,
   PrivateRoute,
-  ResourceWasNotFound
+  ResourceWasNotFound,
 } from '@utils/httpError/errTypes'
 import { requiredFieldsMiddleware } from '@utils/httpError'
 
@@ -29,7 +29,7 @@ async function find(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
 
   const categories = await Category.find({
-    createdBy: new ObjectId(req.user._id)
+    createdBy: new ObjectId(req.user._id),
   })
 
   res.json({ data: categories.map(e => e.doc()) })
@@ -54,7 +54,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
     title,
     color,
     icon,
-    createdBy: req.user._id
+    createdBy: req.user._id,
   })
   res.status(201).json({ data: category.doc() })
 }
@@ -73,7 +73,7 @@ async function findCategory(req: Request, res: Response, next: NextFunction) {
 
   const found = await Category.findOne({
     createdBy: new ObjectId(req.user._id),
-    _id: new ObjectId(req.params.id)
+    _id: new ObjectId(req.params.id),
   })
 
   if (found) {
@@ -95,7 +95,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
   if (!req.category) throw NoCategory()
 
   res.json({
-    data: req.category.doc()
+    data: req.category.doc(),
   })
 }
 
@@ -112,11 +112,11 @@ async function findAllLogs(req: Request, res: Response, next: NextFunction) {
 
   const logs = await Log.find({
     category: req.category._id,
-    createdBy: req.user._id
+    createdBy: req.user._id,
   })
 
   res.json({
-    data: logs.map(e => e.doc())
+    data: logs.map(e => e.doc()),
   })
 }
 

@@ -10,137 +10,137 @@ const meta = {
   tags: ['autodocs'],
   args: {
     children: 'Button, Click me!',
-    color: 'green'
+    color: 'green',
   },
   argTypes: {
     variant: {
       options: ['filled', 'light', 'outline', 'subtle'],
       control: {
-        type: 'select'
-      }
+        type: 'select',
+      },
     },
     onClick: {
       action: 'clicked',
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     color: {
       defaultValue: 'green',
       options: colors,
       control: {
-        type: 'select'
-      }
+        type: 'select',
+      },
     },
     size: {
       options: ['sm', 'md', 'lg'],
       control: {
-        type: 'select'
-      }
+        type: 'select',
+      },
     },
     disabled: {
       control: {
-        type: 'boolean'
-      }
-    }
-  }
+        type: 'boolean',
+      },
+    },
+  },
 } satisfies _m<typeof component>
 
 export default meta
 
 export const Normal = {
   args: {
-    color: 'green'
-  }
+    color: 'green',
+  },
 } satisfies _s<typeof component>
 
 export const Sky = {
   args: {
-    color: 'sky'
-  }
+    color: 'sky',
+  },
 } satisfies _s<typeof component>
 
 export const Slate = {
   args: {
-    color: 'slate'
-  }
+    color: 'slate',
+  },
 } satisfies _s<typeof component>
 
 export const Red = {
   args: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 } satisfies _s<typeof component>
 
 export const Filled = {
   args: {
-    variant: 'filled'
-  }
+    variant: 'filled',
+  },
 } satisfies _s<typeof component>
 
 export const Light = {
   args: {
-    variant: 'light'
-  }
+    variant: 'light',
+  },
 } satisfies _s<typeof component>
 
 export const Outline = {
   args: {
-    variant: 'outline'
-  }
+    variant: 'outline',
+  },
 } satisfies _s<typeof component>
 
 export const Subtle = {
   args: {
-    variant: 'subtle'
-  }
+    variant: 'subtle',
+  },
 } satisfies _s<typeof component>
 
 export const Disabled_Filled = {
   args: {
     variant: 'filled',
-    disabled: true
-  }
+    disabled: true,
+  },
 } satisfies _s<typeof component>
 
 export const Disabled_Light = {
   args: {
     variant: 'light',
-    disabled: true
-  }
+    disabled: true,
+  },
 } satisfies _s<typeof component>
 
 export const Disabled_Outline = {
   args: {
     variant: 'outline',
-    disabled: true
-  }
+    disabled: true,
+  },
 } satisfies _s<typeof component>
 
 export const Disabled_Subtle = {
   args: {
     variant: 'subtle',
-    disabled: true
-  }
+    disabled: true,
+  },
 } satisfies _s<typeof component>
 
 export const Small = {
   args: {
     size: 'sm',
-    variant: 'filled'
-  }
+    variant: 'filled',
+  },
 } satisfies _s<typeof component>
 
 export const Medium = {
   args: {
     size: 'md',
-    variant: 'filled'
-  }
+    variant: 'filled',
+  },
 } satisfies _s<typeof component>
 
 export const Large = {
   args: {
     size: 'lg',
-    variant: 'filled'
-  }
+    variant: 'filled',
+  },
 } satisfies _s<typeof component>

@@ -10,7 +10,7 @@ function EmptyCats() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '3rem'
+        paddingTop: '3rem',
       }}
     >
       <img src={AddSvg} width="70%" />
@@ -30,7 +30,7 @@ function EmptyCats() {
           onClick={() =>
             dispatch('app:navigate', {
               to: '/addCategory',
-              asModal: true
+              asModal: true,
             })
           }
         >

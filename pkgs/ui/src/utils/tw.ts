@@ -13,7 +13,7 @@ export const colors = {
     '700': '#f5b43c',
     '800': '#f4aa24',
     '900': '#f2a10c',
-    '950': '#d18a00'
+    '950': '#d18a00',
   },
   inherit: tw_colors.inherit,
   transparent: tw_colors.transparent,
@@ -40,7 +40,7 @@ export const colors = {
   purple: tw_colors.purple,
   fuchsia: tw_colors.fuchsia,
   pink: tw_colors.pink,
-  rose: tw_colors.rose
+  rose: tw_colors.rose,
 }
 
 export const spacing = {
@@ -78,5 +78,5 @@ export const spacing = {
   64: '16rem', // 256px
   72: '18rem', // 288px
   80: '20rem', // 320px
-  96: '24rem' // 384px
+  96: '24rem', // 384px
 }

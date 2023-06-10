@@ -4,7 +4,7 @@ import {
   useContext,
   useEffect,
   useState,
-  createContext
+  createContext,
 } from 'react'
 import { useMediaQuery } from '@mantine/hooks'
 import tw from 'twin.macro'
@@ -49,13 +49,13 @@ const context = createContext<AppShell_sideBar_Context>({
   toggleExpand: () => console.log('no context provider'),
   width: 'lg',
   sm: false,
-  md: false
+  md: false,
 })
 
 export const useAppShellContext = () => useContext(context)
 
 function useCreateContext(
-  p: Pick<Props, 'bp_1st' | 'bp_2nd'>
+  p: Pick<Props, 'bp_1st' | 'bp_2nd'>,
 ): AppShell_sideBar_Context {
   const md = useMediaQuery(`(max-width: ${p.bp_2nd}px)`)
   const sm = useMediaQuery(`(max-width: ${p.bp_1st}px)`)
@@ -86,7 +86,7 @@ function useCreateContext(
       if (disabled) return
       setExpand(s => !s)
     },
-    width
+    width,
   }
 }
 
@@ -130,7 +130,7 @@ export default function AppShell({
             css={[
               tw`z-30 transition-all duration-300 flex-[0_0_0] `,
               sm && tw`-translate-x-[56px]`,
-              open && tw`translate-x-0`
+              open && tw`translate-x-0`,
             ]}
           >
             <div
@@ -138,7 +138,7 @@ export default function AppShell({
                 tw`transition-all duration-300`,
                 tw`h-full min-w-[40px] w-[200px]`,
                 md && !expand && tw`!w-[40px]`,
-                sm && tw`!w-[40px]`
+                sm && tw`!w-[40px]`,
               ]}
             >
               <div
@@ -146,7 +146,7 @@ export default function AppShell({
                   tw`transition-all duration-300 w-full`,
                   open && tw`!w-[200px]`,
                   open && md ? tw`shadow-2xl` : tw`shadow-none`,
-                  tw`relative h-full`
+                  tw`relative h-full`,
                 ]}
               >
                 {SideBar}
@@ -160,7 +160,7 @@ export default function AppShell({
           <div
             css={[
               open && sm ? tw`opacity-50 pointer-events-auto` : tw`opacity-0`,
-              tw`bg-black absolute z-10 transition-[opacity] pointer-events-none top-0 left-0 w-full h-full`
+              tw`bg-black absolute z-10 transition-[opacity] pointer-events-none top-0 left-0 w-full h-full`,
             ]}
             onClick={() => setOpen(false)}
           />
@@ -169,7 +169,7 @@ export default function AppShell({
             {/* 544 = 600 - 54 (sidebar -translate-x) */}
             <div
               css={[
-                tw`min-h-screen max-w-[800px] m-auto `
+                tw`min-h-screen max-w-[800px] m-auto `,
                 // todo (animation): translate-x-[24px] then translate-x-0
               ]}
             >
@@ -186,7 +186,7 @@ export const Default_Expand = ({ disabled }: { disabled: boolean }) => {
   return (
     <span
       css={[
-        tw`overflow-hidden absolute bottom-[20px] right-0 translate-x-[8px] w-[16px] h-[16px]`
+        tw`overflow-hidden absolute bottom-[20px] right-0 translate-x-[8px] w-[16px] h-[16px]`,
       ]}
     >
       <span
@@ -194,7 +194,7 @@ export const Default_Expand = ({ disabled }: { disabled: boolean }) => {
           tw`transition-[translate] duration-300 transform`,
           tw`bg-slate-500 cursor-pointer rounded-full border-black`,
           tw`w-full h-full block`,
-          disabled && tw`translate-y-[36px]`
+          disabled && tw`translate-y-[36px]`,
         ]}
       ></span>
     </span>

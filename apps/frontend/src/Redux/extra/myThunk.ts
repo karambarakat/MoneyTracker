@@ -25,7 +25,7 @@ const myThunk: Middleware = store => next => async (action: typeFn) => {
           offline_ = true
         },
         online: async function online(
-          fetch: (helpers: { token: () => string }) => Promise<Response>
+          fetch: (helpers: { token: () => string }) => Promise<Response>,
         ) {
           if (
             offline_ &&
@@ -39,16 +39,16 @@ const myThunk: Middleware = store => next => async (action: typeFn) => {
                 reactions: [
                   {
                     display: 'go online',
-                    dispatch: _d(d => d('user:online', {}))
-                  }
-                ]
+                    dispatch: _d(d => d('user:online', {})),
+                  },
+                ],
               })
             }
           }
 
           const token = () => {
             const token_ = JSON.parse(
-              localStorage.getItem('VITE_REDUX__user') || '{}'
+              localStorage.getItem('VITE_REDUX__user') || '{}',
             )?.profile?.token
 
             if (!token_) {
@@ -66,7 +66,7 @@ const myThunk: Middleware = store => next => async (action: typeFn) => {
               //     ],
               //   })
               throw new Error(
-                'you cannot preform this action offline; this feature is not available yet. please sing in'
+                'you cannot preform this action offline; this feature is not available yet. please sing in',
               )
             }
 
@@ -82,8 +82,8 @@ const myThunk: Middleware = store => next => async (action: typeFn) => {
           }
 
           return result.data
-        }
-      }
+        },
+      },
     )
 
     notis.forEach(noti => {

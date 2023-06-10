@@ -4,7 +4,7 @@ import request from 'supertest'
 import {
   FieldsRequired,
   ResourceWasNotFound,
-  TokenFailed
+  TokenFailed,
 } from '@utils/httpError/errTypes'
 import { CatShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
@@ -34,8 +34,8 @@ describe('category', () => {
           'Authorization',
           'Basic ' +
             Buffer.from(['e1cat@example.com', 'password'].join(':')).toString(
-              'base64'
-            )
+              'base64',
+            ),
         )
         .send()
     ).body.data
@@ -47,8 +47,8 @@ describe('category', () => {
           'Authorization',
           'Basic ' +
             Buffer.from(['e2cat@example.com', 'password'].join(':')).toString(
-              'base64'
-            )
+              'base64',
+            ),
         )
         .send()
     ).body.data
@@ -66,7 +66,7 @@ describe('category', () => {
     const db = mongoose.connection.getClient().db(dbName)
     return Promise.all([
       db.dropCollection('users'),
-      db.dropCollection('categories')
+      db.dropCollection('categories'),
     ])
   })
 
@@ -97,10 +97,10 @@ describe('category', () => {
         .send({
           title: 'new entry',
           color: '#eee',
-          icon: 'SomeIcon'
+          icon: 'SomeIcon',
         })
 
-      if (!cat.body.data?._id) throw new Error("couldn't fetch category")
+      if (!cat.body.data?._id) throw new Error('couldn\'t fetch category')
 
       data.categories.push(cat.body.data)
 
@@ -137,7 +137,7 @@ describe('category', () => {
       const res = await req()
         .set('Authorization', 'Bearer ' + data.first.token)
         .send({
-          title: 'new entry'
+          title: 'new entry',
         })
 
       expect(res.body.data).toBeInTheShapeOf(Null(shape, ['color', 'icon']))
@@ -150,7 +150,7 @@ describe('category', () => {
         .send({
           title: 'new entry',
           color: '#eee',
-          icon: 'SomeIcon'
+          icon: 'SomeIcon',
         })
 
       expect(res.body.data).toBeInTheShapeOf(shape)
@@ -179,7 +179,7 @@ describe('category', () => {
     test('404', async () => {
       const res = await req('63f86fa47822eec8d37b8469').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
@@ -189,7 +189,7 @@ describe('category', () => {
     test('400', async () => {
       const res = await req('invalid').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['_id']))
@@ -221,7 +221,7 @@ describe('category', () => {
     test('404', async () => {
       const res = await req('63f86fa47822eec8d37b8469').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())
@@ -231,7 +231,7 @@ describe('category', () => {
     test('400', async () => {
       const res = await req('invalid').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(FieldsRequired(['_id']))
@@ -253,14 +253,14 @@ describe('category', () => {
         .send({
           title: 'put request',
           color: 'putRequest',
-          icon: 'put request'
+          icon: 'put request',
         })
 
       expect(res.body.data).toBeInTheShapeOf(shape)
       expect(res.body.data).toLeastEqual({
         title: 'put request',
         color: 'putRequest',
-        icon: 'put request'
+        icon: 'put request',
       })
     })
   })
@@ -282,7 +282,7 @@ describe('category', () => {
     test('404', async () => {
       const res = await req('63f86fa47822eec8d37b8469').set(
         'Authorization',
-        'Bearer ' + data.first.token
+        'Bearer ' + data.first.token,
       )
 
       expect(res.body.error).toMatchHttpError(ResourceWasNotFound())

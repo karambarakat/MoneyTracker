@@ -6,7 +6,7 @@ const DefaultError: DefaultErrorE = {
   details: null,
   message: 'UnspecifiedError',
   name: 'UnspecifiedError',
-  status: 500
+  status: 500,
 }
 
 export const isHttpError = Symbol('HttpError')
@@ -28,7 +28,7 @@ export function HTTPErrorHandler(
   err: HttpError<any>,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   if (!err[isHttpError]) next(err)
   else {
@@ -38,8 +38,8 @@ export function HTTPErrorHandler(
         status: err.status,
         message: err.message,
         name: err.name,
-        details: err.details
-      }
+        details: err.details,
+      },
     })
   }
 }
@@ -53,7 +53,7 @@ export function requiredFieldsMiddleware(object: Record<string, any>) {
           return true
 
         return false
-      })
+      }),
     )
   }
 }
@@ -62,13 +62,13 @@ export function throwQuickHttpError(
   status: number,
   message: string,
   name?: string,
-  details?: any
+  details?: any,
 ): void {
   const CustomError = new HttpError({
     message,
     status,
     details,
-    name: name || DefaultError.name
+    name: name || DefaultError.name,
   })
 
   throw CustomError

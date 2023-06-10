@@ -3,7 +3,7 @@ import {
   FieldsRequired,
   NoLog,
   PrivateRoute,
-  ResourceWasNotFound
+  ResourceWasNotFound,
 } from '@utils/httpError/errTypes'
 import { requiredFieldsMiddleware } from '@utils/httpError'
 
@@ -30,7 +30,7 @@ async function find(req: Request, res: Response, next: NextFunction) {
 
   const logs = await Log.find({
     // ...req.filterQuery,
-    createdBy: new ObjectId(req.user._id)
+    createdBy: new ObjectId(req.user._id),
   })
 
   res.json({ data: logs.map(e => e.doc()) })
@@ -55,7 +55,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
     amount,
     category,
     note,
-    createdBy: req.user._id
+    createdBy: req.user._id,
   })
   res.status(201).json({ data: log.doc() })
 }
@@ -74,7 +74,7 @@ async function findLog(req: Request, res: Response, next: NextFunction) {
 
   const foundLog = await Log.findOne({
     createdBy: new ObjectId(req.user._id),
-    _id: new ObjectId(req.params.id)
+    _id: new ObjectId(req.params.id),
   })
 
   if (foundLog) {
@@ -96,7 +96,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
   if (!req.log) throw NoLog()
 
   res.json({
-    data: req.log.doc()
+    data: req.log.doc(),
   })
 }
 

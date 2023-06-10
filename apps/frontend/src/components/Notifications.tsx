@@ -3,7 +3,7 @@ import {
   dismissNotification,
   pushNotification,
   ReactionI,
-  useNotification
+  useNotification,
 } from '@src/hooks/notifications'
 import dispatch, { dispatchTuple } from '@src/redux/dispatch'
 import Stack from './CSSTransition/Stack'
@@ -19,7 +19,7 @@ function Notifications$() {
         zIndex: 1000,
         position: 'fixed',
         bottom: '1rem',
-        right: '1rem'
+        right: '1rem',
       }}
     >
       <Stack>
@@ -33,15 +33,15 @@ function Notifications$() {
                     display: 'flex',
                     gap: '0.7rem',
                     alignItems: 'baseline',
-                    flexWrap: 'nowrap'
-                  }
+                    flexWrap: 'nowrap',
+                  },
                 }}
                 onClose={() => dismissNotification(noti.id)}
               >
                 <TextEllipsis>{noti.message}</TextEllipsis>
                 {noti.reactions?.map(
                   (react, index) =>
-                    react && <Reaction key={index} react={react} />
+                    react && <Reaction key={index} react={react} />,
                 )}
               </Notification>
             </Box>
@@ -62,7 +62,7 @@ function Reaction({ react }: { react: ReactionI }) {
       }}
       sx={{
         cursor: !triggered ? 'pointer' : 'default',
-        userSelect: triggered ? 'none' : 'initial'
+        userSelect: triggered ? 'none' : 'initial',
       }}
       color={triggered ? 'gray' : react.style?.color || 'blue'}
     >

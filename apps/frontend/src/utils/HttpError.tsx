@@ -8,7 +8,7 @@ export default class HttpError extends Error {
     status: 200,
     message: 'generic',
     details: {},
-    name: 'error'
+    name: 'error',
   }
 
   constructor(payload: HttpErrorProps) {
@@ -25,7 +25,7 @@ export default class HttpError extends Error {
         status: 200,
         message: 'generic',
         details: {},
-        name: 'error'
+        name: 'error',
       }
       return
     }
@@ -39,7 +39,7 @@ export default class HttpError extends Error {
         dispatch('user:logout', {})
         pushNotification({
           message: this.info.message,
-          display: 'failure'
+          display: 'failure',
         })
         break
       case 'ResourceWasNotFound':

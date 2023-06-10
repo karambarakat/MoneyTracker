@@ -54,13 +54,13 @@ class Listeners {
   all: Array<{ cb: (...args: any[]) => void; type: string }> = []
   on: notificationEvent['on'] = (
     type: string,
-    cb: (...args: any[]) => void
+    cb: (...args: any[]) => void,
   ) => {
     this.all.push({ cb, type })
     return event.on(
       // @ts-ignore
       type,
-      cb
+      cb,
     )
   }
   remove() {

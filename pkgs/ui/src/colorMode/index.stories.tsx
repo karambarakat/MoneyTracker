@@ -11,7 +11,7 @@ import { UPDATE_DARK_MODE_EVENT_NAME } from 'storybook-dark-mode'
 
 export default {
   title: 'colorMode',
-  component
+  component,
 } satisfies _m<typeof component>
 
 export const Mode = {
@@ -31,7 +31,7 @@ export const Mode = {
 
     // return to normal
     userEvent.click(canvas.getByText(change(''), { exact: false }))
-  }
+  },
 } satisfies _s<typeof component>
 
 function current(m: string) {

@@ -2,7 +2,7 @@ import {
   UnknownServerError,
   ResourceWasNotFound,
   ValidationError,
-  BadJsonPayload
+  BadJsonPayload,
 } from '@utils/httpError/errTypes'
 import type { HttpError } from '@utils/httpError'
 import { NextFunction, Request, Response } from 'express'
@@ -12,7 +12,7 @@ export function e400_JsonError(
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   if (
     err.name === 'SyntaxError' &&
@@ -47,7 +47,7 @@ export function e400_MongooseValidation(
   err: mongooseValidationError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   if (err.name === 'ValidationError' && err.errors) {
     const validationError = new Error(err._message)
@@ -59,8 +59,8 @@ export function e400_MongooseValidation(
           acc[key] = err.errors[key].message
           return acc
         },
-        {}
-      )
+        {},
+      ),
     })
   } else {
     next(err)
@@ -71,13 +71,13 @@ export function e500_ServerError(
   err: HttpError<UnknownServerErrorE>,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   console.error('unhandled error', err)
   res.status(UnknownServerError().status).json({
     status: UnknownServerError().status,
     message: UnknownServerError().message,
     name: UnknownServerError().name,
-    details: {}
+    details: {},
   })
 }

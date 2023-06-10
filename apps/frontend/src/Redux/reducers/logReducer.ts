@@ -27,7 +27,7 @@ export type LogsTypes =
 
 function logReducer(
   state: LogsState = initialState,
-  action: reducerAction
+  action: reducerAction,
 ): LogsState {
   switch (action.type) {
     case 'CLEAR_ALL':
@@ -36,7 +36,7 @@ function logReducer(
       return action.pl.logs.sort(
         (prev, next) =>
           new Date(next.createdAt).getTime() -
-          new Date(prev.createdAt).getTime()
+          new Date(prev.createdAt).getTime(),
       )
     case 'LOG_ADD_ONE':
       return [action.pl.log, ...state]

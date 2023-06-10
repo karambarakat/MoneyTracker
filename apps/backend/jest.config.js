@@ -11,6 +11,6 @@ module.exports = {
     '@middlewares/(.*)$': ['<rootDir>/src/middlewares/$1'],
     '@models/(.*)$': ['<rootDir>/src/models/$1'],
     '@utils/(.*)$': ['<rootDir>/src/utils/$1'],
-    '@static/(.*)$': ['<rootDir>/src/static/$1']
-  }
+    '@static/(.*)$': ['<rootDir>/src/static/$1'],
+  },
 }

@@ -11,7 +11,7 @@ import {
   Modal,
   Stack,
   Text,
-  Title
+  Title,
 } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
 import { useState } from 'react'
@@ -19,7 +19,7 @@ import { ArrowBackUp, BrandGoogle, Mail, WifiOff } from 'tabler-icons-react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setTitle,
-  useRoutes as useGoBack
+  useRoutes as useGoBack,
 } from '@src/components/ReactRoute/index'
 import { OpenerFunctions } from 'src/utils/googleSigninTypes'
 import dispatch from '@src/redux/dispatch'
@@ -31,20 +31,20 @@ const data = [
     stage: './google',
     color: 'blue',
     icon: <BrandGoogle />,
-    title: 'Use Google'
+    title: 'Use Google',
   },
   {
     stage: './email',
     color: 'red',
     icon: <Mail />,
-    title: 'Using Email'
+    title: 'Using Email',
   },
   {
     stage: './local',
     color: 'primaryColor',
     icon: <WifiOff />,
-    title: 'Continue Offline'
-  }
+    title: 'Continue Offline',
+  },
 ]
 
 export default function () {
@@ -65,19 +65,19 @@ export default function () {
               variant="filled"
               style={{ height: 48 }}
               onClick={() => {
-                ;(
+                (
                   window as unknown as OpenerFunctions
                 ).__$openerFunctionsContext = {
                   callback: async params => {
                     await dispatch('profile:fetch', {
-                      token: params.token
+                      token: params.token,
                     }).then(() => {
                       pushNotification({
-                        message: `welcome ${params.displayName}`
+                        message: `welcome ${params.displayName}`,
                       })
                       goBack()
                     })
-                  }
+                  },
                 }
 
                 window.open(
@@ -85,7 +85,7 @@ export default function () {
                     import.meta.env.VITE_BACKEND_URL
                   }/api/v1/auth/google`,
                   '_blank',
-                  'popup=yes,width=550,height:650'
+                  'popup=yes,width=550,height:650',
                 )
               }}
             >
@@ -153,7 +153,7 @@ function Email() {
         <RegisterEmail />
       </NextStage>
       <Text pt={20} align="center">
-        {login ? "You don't have an account, " : 'You have an account, '}
+        {login ? 'You don\'t have an account, ' : 'You have an account, '}
         <Text
           component="span"
           color={'blue'}

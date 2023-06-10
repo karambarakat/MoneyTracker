@@ -7,7 +7,7 @@ import {
   scaleBand,
   scaleLinear,
   scaleOrdinal,
-  select
+  select,
 } from 'd3'
 import { Box } from '@mantine/core'
 
@@ -20,7 +20,7 @@ const Cs = {
   height: 100,
   paddings: 20,
   padAngle: (0 * Math.PI) / 180,
-  innerRadius: 80
+  innerRadius: 80,
 }
 
 function PieChart({ data }: PieChart) {
@@ -47,7 +47,7 @@ function Pie({ data, padAngle = (0 * Math.PI) / 180 }: IPie) {
   const { angles, arc } = useMemo(() => {
     return {
       angles: d3pie().padAngle(padAngle).sort(null),
-      arc: d3arc().innerRadius(30).outerRadius(50)
+      arc: d3arc().innerRadius(30).outerRadius(50),
     }
   }, [])
 
@@ -68,7 +68,7 @@ function Pie({ data, padAngle = (0 * Math.PI) / 180 }: IPie) {
   return (
     <g
       style={{
-        transform: 'translate(50px,50px)'
+        transform: 'translate(50px,50px)',
       }}
       ref={G}
     ></g>

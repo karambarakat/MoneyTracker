@@ -1,7 +1,7 @@
 import { Profile } from 'types/src/schema'
 import {
   updatePassword_local,
-  updatePassword_nolocal
+  updatePassword_nolocal,
 } from 'types/src/api/routes/profile'
 import { actionModule } from '../../dispatch'
 
@@ -16,21 +16,21 @@ export type ActionType = {
 const action: actionModule<ActionType> = async function (
   values,
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   const profile = await online(helpers =>
     fetch(import.meta.env.VITE_BACKEND_API + '/profile/password', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + helpers.token()
+        Authorization: 'Bearer ' + helpers.token(),
       },
-      body: JSON.stringify(values)
-    })
+      body: JSON.stringify(values),
+    }),
   )
   dispatch({
     type: 'USER_ADD_PROFILE',
-    pl: { profile }
+    pl: { profile },
   })
 
   return profile

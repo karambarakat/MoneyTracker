@@ -41,13 +41,13 @@ expect.extend({
   toBeInTheShapeOf,
   toMatchHttpError,
   toLeastEqual,
-  toCatch
+  toCatch,
 })
 
 function toLeastEqual(
   this: jest.MatcherContext,
   ex: any,
-  toBe: any
+  toBe: any,
 ): jest.CustomMatcherResult {
   function __(toBe: any): any {
     const cloned = clone(toBe)
@@ -98,11 +98,11 @@ function toBeInTheShapeOf(this: jest.MatcherContext, first: any, second: any) {
 function toMatchHttpError(
   this: jest.MatcherContext,
   error: unknown,
-  to: HttpError<any>
+  to: HttpError<any>,
 ) {
   const pass = {
     pass: true,
-    message: () => 'function threw an error'
+    message: () => 'function threw an error',
   }
   if (!error) {
     return { pass: false, message: () => 'not of type HttpError' }
@@ -117,13 +117,13 @@ function toMatchHttpError(
 function toCatch(
   this: jest.MatcherContext,
   expectCB: unknown,
-  afterThrowingCB: (e: Error) => void
+  afterThrowingCB: (e: Error) => void,
 ) {
   if (!(typeof expectCB === 'function')) {
     return {
       pass: false,
       message: () =>
-        'fn in `expect(fn).afterThrowing(...)` is not of type function'
+        'fn in `expect(fn).afterThrowing(...)` is not of type function',
     }
   }
   if (
@@ -133,7 +133,7 @@ function toCatch(
     return {
       pass: false,
       message: () =>
-        'fn in `expect(...).afterThrowing(fn)` is not of type function'
+        'fn in `expect(...).afterThrowing(fn)` is not of type function',
     }
   }
 
@@ -150,7 +150,7 @@ function toCatch(
     ? { pass: true, message: () => 'function threw an error' }
     : {
         pass: false,
-        message: () => 'function didn`t throw any error'
+        message: () => 'function didn`t throw any error',
       }
 }
 

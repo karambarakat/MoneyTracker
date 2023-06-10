@@ -25,7 +25,7 @@ export type CategoriesActionTypes =
 
 export default function categoryReducer(
   state: CategoriesState = initialState,
-  action: reducerAction
+  action: reducerAction,
 ): CategoriesState {
   switch (action.type) {
     case 'CLEAR_ALL':

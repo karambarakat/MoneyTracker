@@ -23,12 +23,12 @@ function AddCategory() {
       initialValues={{
         title: '',
         color: '',
-        icon: ''
+        icon: '',
       }}
       // @ts-ignore
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         // dispatch('category:create', {doc: {}})
         dispatch('category:create', { doc: values })
@@ -50,7 +50,7 @@ function AddCategory() {
         new yupObj({
           title: yupStr().required(),
           color: yupStr(),
-          icon: yupStr()
+          icon: yupStr(),
         })
       }
     >

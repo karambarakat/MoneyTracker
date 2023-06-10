@@ -31,7 +31,7 @@ function EditLog() {
   const logs = useSelector<RootState, LogsState>(s => s.logs)
   const log = useMemo(
     () => logs.find(log => log._id === id) || ({} as LogDoc),
-    [logs]
+    [logs],
   )
 
   if (!log._id) return <div>Server Error</div>
@@ -43,12 +43,12 @@ function EditLog() {
         title: log.title,
         amount: log.amount,
         category: log.category?._id,
-        note: log.note
+        note: log.note,
       }}
       // @ts-ignore
       onSubmit={(
         values: Values,
-        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>
+        { setSubmitting, setErrors, setStatus }: FormikHelpers<Values>,
       ) => {
         dispatch('log:update', { doc: values, id: log._id })
           .then(() => {
@@ -70,7 +70,7 @@ function EditLog() {
           title: yupStr().required(),
           amount: yupNum().required(),
           category: yupStr(),
-          note: yupStr()
+          note: yupStr(),
         })
       }
     >

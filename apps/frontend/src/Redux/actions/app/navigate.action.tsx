@@ -6,7 +6,7 @@ import {
   NavigateFunction,
   NavigateOptions,
   useLocation,
-  useNavigate
+  useNavigate,
 } from 'react-router-dom'
 import events from 'events'
 import { ModalLocation } from '@src/components/ReactRoute/_type'
@@ -37,8 +37,8 @@ export function NavigateController() {
             ? location.state.from
             : asModal
             ? location
-            : undefined
-        }
+            : undefined,
+        },
       })
     }
     event.on('nav', fn)
@@ -54,13 +54,13 @@ export function NavigateController() {
 const action: actionModule<ActionType> = async function (
   { asModal, ...nav },
   { dispatch, state },
-  { pushNoti, online, offline }
+  { pushNoti, online, offline },
 ) {
   if (event.listenerCount('nav') === 0) {
-    console.error("can't connect to the app")
+    console.error('can\'t connect to the app')
     pushNoti({
       display: 'failure',
-      message: 'error in navigating to ' + nav.to
+      message: 'error in navigating to ' + nav.to,
     })
     return false
   }

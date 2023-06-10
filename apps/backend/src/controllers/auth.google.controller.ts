@@ -24,8 +24,8 @@ const google = Router()
  */
 google.route('/').get(
   passport.authenticate('google', {
-    scope: ['profile']
-  })
+    scope: ['profile'],
+  }),
 )
 
 /**
@@ -52,8 +52,8 @@ const callbackRouter = Router()
 // step 1
 callbackRouter.use(
   passport.authenticate('google', {
-    failureRedirect: process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE
-  })
+    failureRedirect: process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND_FAILURE,
+  }),
 )
 
 // step 2
@@ -74,7 +74,7 @@ callbackRouter.use('/', (req: Request, res: Response) => {
   const params: apiGoogleCallbackParams = {
     _id: profile._id,
     token: profile.token,
-    displayName: profile.displayName
+    displayName: profile.displayName,
   }
 
   // @ts-ignore
@@ -88,7 +88,7 @@ callbackRouter.use(function (
   error: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   console.error(error)
   res.send('error with google authentication')

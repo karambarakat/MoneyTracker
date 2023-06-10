@@ -17,15 +17,15 @@ function Charts_Page_Component() {
   const cats = React.useMemo(() => {
     const lists = segregate(
       logs.sort((a, b) =>
-        (a.category?._id || '').localeCompare(b.category?._id || '')
+        (a.category?._id || '').localeCompare(b.category?._id || ''),
       ),
-      log => log.category?._id
+      log => log.category?._id,
     )
       .map(subList => ({
         key: subList[0]?.category?._id || '',
         title: subList[0]?.category?.title || 'Not Categorized',
         total: subList.reduce((acc, e) => acc + e.amount, 0),
-        cat: subList[0]?.category
+        cat: subList[0]?.category,
       }))
       .sort((a, b) => b.total - a.total)
 
@@ -41,7 +41,7 @@ function Charts_Page_Component() {
         key: 'others',
         title: 'Others',
         total: a.total + b.total,
-        cat: undefined
+        cat: undefined,
       }))
 
       clipped_[end - 1] = nth
@@ -53,13 +53,13 @@ function Charts_Page_Component() {
         return {
           color: ['#e25a3e', '#eac271', '#d88436', '#435023', '#dadbd3'][I],
           label: e.title,
-          value: e.total
+          value: e.total,
         }
       }),
       max: clipped_.reduce((a, b) => (a.total > b.total ? a : b), {
-        total: 0
+        total: 0,
       }).total,
-      end
+      end,
     }
   }, [cats])
 
@@ -72,7 +72,7 @@ function Charts_Page_Component() {
           sx={{
             display: 'grid',
             gap: '2rem',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
           }}
         >
           <Box sx={{ minWidth: '230px', justifySelf: 'center' }}>
@@ -87,7 +87,7 @@ function Charts_Page_Component() {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 12
+                    gap: 12,
                   }}
                 >
                   <ThemeIcon color={e.color} size={28}>

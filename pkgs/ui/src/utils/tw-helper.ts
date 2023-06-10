@@ -6,7 +6,7 @@ export type color = typeof colors_config extends Record<infer K, unknown>
   : never
 
 export const colors = Object.keys(colors_config).filter(
-  k => !exec.includes(k as (typeof exec)[number])
+  k => !exec.includes(k as (typeof exec)[number]),
 ) as color[]
 
 /**
@@ -15,7 +15,7 @@ export const colors = Object.keys(colors_config).filter(
 export const pickColor = (
   color: color,
   grade: 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950,
-  options?: { o?: number; p?: string; s?: string }
+  options?: { o?: number; p?: string; s?: string },
 ) => {
   // @ts-ignore
   let c = colors[color][grade]
@@ -60,5 +60,5 @@ export const screens = {
   sm_max: `(max-width: ${bp[1] - 1}px)`,
   md_max: `(max-width: ${bp[2] - 1}px)`,
   sm_exact: `(min-width: ${bp[0]}px) and (max-width: ${bp[1] - 1}px)`,
-  md_exact: `(min-width: ${bp[1]}px) and (max-width: ${bp[2] - 1}px)`
+  md_exact: `(min-width: ${bp[1]}px) and (max-width: ${bp[2] - 1}px)`,
 }

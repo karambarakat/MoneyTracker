@@ -14,7 +14,7 @@ function Export_Page_Component() {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
         <Text>Currency</Text>
@@ -24,13 +24,13 @@ function Export_Page_Component() {
           onChange={c =>
             store.dispatch({
               type: 'META_CURRENCY',
-              pl: { currency: c || '/d' }
+              pl: { currency: c || '/d' },
             })
           }
           value={currency}
           data={[
             { value: '$/d', label: 'United State Dollar' },
-            { value: '/d €', label: 'Euro' }
+            { value: '/d €', label: 'Euro' },
           ]}
         />
       </Box>

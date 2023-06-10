@@ -1,6 +1,6 @@
 /* eslint-env node */
 module.exports = {
   twin: {
-    preset: 'emotion'
-  }
+    preset: 'emotion',
+  },
 }
