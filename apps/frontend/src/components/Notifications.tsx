@@ -7,7 +7,7 @@ import {
 } from '@src/hooks/notifications'
 import dispatch, { dispatchTuple } from '@src/redux/dispatch'
 import Stack from './CSSTransition/Stack'
-import TextEllipsis from './TextEllipsis'
+import TextEllipsis from 'ui/src/components/TextEllipsis'
 import { useState } from 'react'
 
 function Notifications$() {

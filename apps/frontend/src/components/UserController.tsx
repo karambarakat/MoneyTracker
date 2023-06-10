@@ -13,7 +13,7 @@ import {
 } from 'tabler-icons-react'
 import MyButton from './Mantine/Button'
 import { Link } from './ReactRoute'
-import TextEllipsis from './TextEllipsis'
+import TextEllipsis from 'ui/src/components/TextEllipsis'
 import OnlineStateAction from './OnlineStateAction'
 
 export function UserController() {

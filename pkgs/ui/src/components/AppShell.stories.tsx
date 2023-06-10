@@ -1,11 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from 'react'
+
 import { StoryObj as _s, Meta as _m } from '@storybook/react'
-import {
-  Default_Expand,
-  default as component,
-  useAppShellContext
-} from './AppShell'
-import { fakerEN } from '@faker-js/faker'
-import c from 'classnames'
+import { Default_Expand, default as component } from './AppShell'
 import { within } from '@storybook/testing-library'
 import { expect } from '@storybook/jest'
 import {

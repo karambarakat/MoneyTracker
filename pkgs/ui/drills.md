@@ -1,12 +1,19 @@
 creating new story:
 
 ```ts
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from 'react'
+import 'twin.macro'
 import { StoryObj as _s, Meta as _m } from '@storybook/react'
-import { Provider as component } from './provider'
+import { Provider as component } from './path_to_module'
+import { fakerEN } from '@faker-js/faker'
 
 export default {
-  title: 'to/dir/index.stories.tsx',
-  component
+  title: 'path_to_module',
+  component,
+  args: {
+    children: (fakerEN.seed(1), fakerEN.lorem.paragraph())
+  }
 } satisfies _m<typeof component>
 
 export const Primary = {} satisfies _s<typeof component>

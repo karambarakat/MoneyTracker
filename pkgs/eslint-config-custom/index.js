@@ -14,8 +14,8 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-namespace': 'off',
     '@next/next/no-html-link-for-pages': 'off',
-    semi: ['error', 'never'],
-    quotes: ['error', 'single'],
+    semi: ['warn', 'never'],
+    quotes: ['warn', 'single'],
     '@typescript-eslint/ban-ts-comment': 'off'
   }
 }

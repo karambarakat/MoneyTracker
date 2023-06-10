@@ -1,5 +1,5 @@
 import { Link, useRoutes } from '@src/components/ReactRoute/index'
-import TextEllipsis from '@src/components/TextEllipsis'
+import TextEllipsis from 'ui/src/components/TextEllipsis'
 
 import {
   Box,

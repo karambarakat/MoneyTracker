@@ -3,7 +3,6 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": false,
     "skipLibCheck": true,
-
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"]

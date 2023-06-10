@@ -1,3 +1,4 @@
+import 'twin.macro'
 import {
   PropsWithChildren,
   useContext,
@@ -6,7 +7,7 @@ import {
   createContext
 } from 'react'
 import { useMediaQuery } from '@mantine/hooks'
-import c from 'classnames'
+import tw from 'twin.macro'
 
 export interface AppShell_sideBar_Context {
   /**
@@ -43,9 +44,9 @@ export interface AppShell_sideBar_Context {
 
 const context = createContext<AppShell_sideBar_Context>({
   open: false,
-  setOpen: () => {},
+  setOpen: () => console.log('no context provider'),
   expand: 0,
-  toggleExpand: () => {},
+  toggleExpand: () => console.log('no context provider'),
   width: 'lg',
   sm: false,
   md: false
@@ -97,7 +98,7 @@ interface Props {
   /**
    * Background for the main content
    */
-  Back?: (p: PropsWithChildren<{}>) => JSX.Element
+  Back?: (p: PropsWithChildren<object>) => JSX.Element
   /**
    * UI toggle for the sidebar expansion
    */
@@ -124,29 +125,29 @@ export default function AppShell({
   return (
     <context.Provider value={useContext}>
       <Back>
-        <div className="flex min-h-screen">
+        <div tw="flex min-h-screen">
           <div
-            className={c(
-              'z-30 transition-all duration-300 flex-[0_0_0] ',
-              sm && '-translate-x-[56px]',
-              open && 'translate-x-0'
-            )}
+            css={[
+              tw`z-30 transition-all duration-300 flex-[0_0_0] `,
+              sm && tw`-translate-x-[56px]`,
+              open && tw`translate-x-0`
+            ]}
           >
             <div
-              className={c(
-                'transition-all duration-300',
-                'h-full min-w-[40px] w-[200px]',
-                md && !expand && '!w-[40px]',
-                sm && '!w-[40px]'
-              )}
+              css={[
+                tw`transition-all duration-300`,
+                tw`h-full min-w-[40px] w-[200px]`,
+                md && !expand && tw`!w-[40px]`,
+                sm && tw`!w-[40px]`
+              ]}
             >
               <div
-                className={c(
-                  'transition-all duration-300 w-full',
-                  open && '!w-[200px]',
-                  open && md ? 'shadow-2xl' : 'shadow-none',
-                  'relative h-full '
-                )}
+                css={[
+                  tw`transition-all duration-300 w-full`,
+                  open && tw`!w-[200px]`,
+                  open && md ? tw`shadow-2xl` : tw`shadow-none`,
+                  tw`relative h-full`
+                ]}
               >
                 {SideBar}
                 <span onClick={() => !sm && toggleExpand()}>
@@ -157,22 +158,22 @@ export default function AppShell({
           </div>
 
           <div
-            className={c(
-              open && sm ? 'opacity-50 pointer-events-auto' : 'opacity-0',
-              'bg-black absolute z-10 transition-[opacity] pointer-events-none top-0 left-0 w-full h-full'
-            )}
+            css={[
+              open && sm ? tw`opacity-50 pointer-events-auto` : tw`opacity-0`,
+              tw`bg-black absolute z-10 transition-[opacity] pointer-events-none top-0 left-0 w-full h-full`
+            ]}
             onClick={() => setOpen(false)}
           />
 
-          <div className={c('w-full z-0', sm && '-ml-[40px]')}>
+          <div css={[tw`w-full z-0`, sm && tw`-ml-[40px]`]}>
             {/* 544 = 600 - 54 (sidebar -translate-x) */}
             <div
-              className={c(
-                'min-h-screen max-w-[800px] m-auto '
+              css={[
+                tw`min-h-screen max-w-[800px] m-auto `
                 // todo (animation): translate-x-[24px] then translate-x-0
-              )}
+              ]}
             >
-              <div className={c(sm && 'm-auto max-w-[540px]')}>{children}</div>
+              <div css={[sm && tw`m-auto max-w-[540px]`]}>{children}</div>
             </div>
           </div>
         </div>
@@ -184,20 +185,22 @@ export default function AppShell({
 export const Default_Expand = ({ disabled }: { disabled: boolean }) => {
   return (
     <span
-      className={c(
-        'overflow-hidden absolute bottom-[20px] right-0 translate-x-[8px] w-[16px] h-[16px]'
-      )}
+      css={[
+        tw`overflow-hidden absolute bottom-[20px] right-0 translate-x-[8px] w-[16px] h-[16px]`
+      ]}
     >
       <span
-        className={c(
-          'transition-[translate] duration-300 transform',
-          'bg-slate-500 cursor-pointer rounded-full border-black-1',
-          'w-full h-full block',
-          disabled && 'translate-y-[36px]'
-        )}
+        css={[
+          tw`transition-[translate] duration-300 transform`,
+          tw`bg-slate-500 cursor-pointer rounded-full border-black`,
+          tw`w-full h-full block`,
+          disabled && tw`translate-y-[36px]`
+        ]}
       ></span>
     </span>
   )
 }
 
-const Defaults_Back = ({ children }: PropsWithChildren<{}>) => <>{children}</>
+const Defaults_Back = ({ children }: PropsWithChildren<object>) => (
+  <>{children}</>
+)
