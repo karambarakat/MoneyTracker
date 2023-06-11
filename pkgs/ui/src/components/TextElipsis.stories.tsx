@@ -25,5 +25,5 @@ export default {
   ],
 } satisfies _m<typeof component>
 
-export const Basic = {} satisfies _s<typeof component>
+export const WithBasicConfiguration = {} satisfies _s<typeof component>
 export const Short = { args: { width: 170 } } satisfies _s<typeof component>

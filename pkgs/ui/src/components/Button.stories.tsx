@@ -2,7 +2,7 @@
 import React from 'react'
 import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import { default as component } from './Button'
-import { colors } from '@src/utils/tw-helper'
+import { colors } from '../utils/tw-helper'
 
 const meta = {
   title: 'Button',

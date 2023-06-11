@@ -3,10 +3,6 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": false,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": ["./src/*"]
-    },
     "types": ["./types/modules.d.ts", "./types/twin.d.ts"]
   }
 }

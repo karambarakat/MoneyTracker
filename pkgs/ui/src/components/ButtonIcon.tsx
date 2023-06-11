@@ -1,6 +1,7 @@
+import React from 'react'
 import { PropsOf } from '@emotion/react'
 import ButtonBase from './Button'
-import tw, { css } from 'twin.macro'
+import tw from 'twin.macro'
 
 const sizes = {
   sm: tw`w-[18px] h-[18px] min-h-[18px] min-w-[18px] p-[4px]`,

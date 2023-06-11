@@ -1,3 +1,4 @@
+import React from 'react'
 import 'twin.macro'
 import {
   PropsWithChildren,
@@ -8,10 +9,10 @@ import {
   useRef,
 } from 'react'
 import { useHover, useId, useMediaQuery } from '@mantine/hooks'
-import tw from 'twin.macro'
-import { css } from '@emotion/react'
-import media from '@src/utils/mediaCss'
-import useHoverInOut from '@src/hooks/useHoverInOut'
+import tw, { css } from 'twin.macro'
+import media from '../utils/mediaCss'
+import useHoverInOut from '../hooks/useHoverInOut'
+import { Empty } from '../utils/Empty'
 
 export interface ContextInput {
   /**
@@ -79,11 +80,21 @@ interface Props extends ContextInput {
   /**
    * Background for the main content
    */
-  Back?: (p: PropsWithChildren<object>) => JSX.Element
+  Back?: (p: PropsWithChildren<Empty>) => JSX.Element
   /**
    * UI toggle for the sidebar expansion
    */
   Expand?: ({ disabled }: { disabled: boolean }) => JSX.Element
+  /**
+   * size of unexpanded sidebar
+   * @default 40px
+   */
+  size_sm?: string
+  /**
+   * size of expanded or opened sidebar
+   * @default 200px
+   */
+  size_md?: string
 }
 
 const context = createContext<AppShell_sideBar_Context>({
@@ -116,15 +127,14 @@ function useCreateContext(p: ContextInput): AppShell_sideBar_Context {
     setOpen(false)
   }, [sm])
   useEffect(() => {
+    if (width === 'lg') setOpen(true)
+  }, [width, open])
+  useEffect(() => {
     if (expand) setOpen(false)
   }, [expand])
   useEffect(() => {
     if (expand && open) {
       console.error('cannot expand and open at the same time')
-      setOpen(false)
-    }
-    if (open && width === 'lg') {
-      console.error('cannot open at lg')
       setOpen(false)
     }
   }, [open])
@@ -150,6 +160,8 @@ export default function AppShell({
   SideBar,
   Expand = Default_Expand,
   Back = Defaults_Back,
+  size_sm = '40px',
+  size_md = '200px',
   ...contextProp
 }: PropsWithChildren<Props>) {
   const useContext = useCreateContext(contextProp)
@@ -176,25 +188,53 @@ export default function AppShell({
             ref={ref}
             css={[
               tw`z-30 transition-transform duration-300 flex-[0_0_0]`,
-              media(sm_query, tw`-translate-x-[56px]`),
+              media(
+                sm_query,
+                css`
+                  transform: translateX(-${size_sm});
+                `,
+              ),
               open && tw`!translate-x-0`,
             ]}
           >
             <div
               css={[
-                tw`transition-[min-width,width] duration-300`,
-                tw`h-full min-w-[40px] w-[40px]`,
-                expand === 1 && media(md_query, tw`w-[200px]`),
-                media(sm_query, tw`w-[40px]`),
-                expand === 1 && tw`w-[200px]!`,
-                expand === 'disabled' && tw`w-[200px]`,
+                tw`transition-[min-width,width] duration-300 h-full`,
+                // tw`min-w-[40px] w-[40px]`,
+                // media(sm_query, tw`w-[40px]`),
+                css`
+                  min-width: ${size_sm};
+                  width: ${size_sm};
+                  @media ${sm_query} {
+                    width: ${size_sm};
+                  }
+                `,
+
+                // expand === 1 && media(md_query, tw`w-[200px]`),
+                // expand === 1 && tw`w-[200px]!`,
+                expand === 1 &&
+                  css`
+                    width: ${size_md} !important;
+                    @media ${md_query} {
+                      width: ${size_md};
+                    }
+                  `,
+                // expand === 'disabled' && tw`w-[200px]`,
+                expand === 'disabled' &&
+                  css`
+                    width: ${size_md};
+                  `,
               ]}
             >
               <div
                 css={[
                   tw`transition-[box-shadow,width] duration-300 w-full`,
                   tw`sticky top-0`,
-                  open && tw`w-[200px]!`,
+                  // open && tw`w-[200px]!`,
+                  open &&
+                    css`
+                      width: ${size_md} !important;
+                    `,
                   tw`shadow-none`,
                   open && media(md_query, tw`shadow-2xl`),
 
@@ -211,9 +251,12 @@ export default function AppShell({
 
           <div
             css={[
-              open && media(sm_query, tw`opacity-50 pointer-events-auto`),
-              !open && tw`opacity-0 pointer-events-none`,
-              tw`bg-black/50 fixed z-10 transition-[opacity] top-0 left-0 w-full h-full`,
+              // open && media(md_query)
+              tw`pointer-events-none`,
+              open &&
+                media(md_query, tw`bg-black/50 opacity-50 pointer-events-auto`),
+              !open && media(md_query, tw`opacity-0`),
+              tw`fixed z-10 transition-[opacity] top-0 left-0 w-full h-full`,
             ]}
             onClick={() => setOpen(false)}
           />
@@ -262,6 +305,6 @@ export const Default_Expand = ({ disabled }: { disabled: boolean }) => {
   )
 }
 
-const Defaults_Back = ({ children }: PropsWithChildren<object>) => (
+const Defaults_Back = ({ children }: PropsWithChildren<Empty>) => (
   <>{children}</>
 )

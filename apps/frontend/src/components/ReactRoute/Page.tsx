@@ -1,8 +1,8 @@
 import { store } from '@src/redux/index'
-import { MetaState, ActionsObjects, RootState } from '@src/redux/types'
+import { MetaState, RootState } from '@src/redux/types'
 import React, { createContext, useState, useContext, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Outlet, useOutlet } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Outlet } from 'react-router-dom'
 
 type contextType = [string, React.Dispatch<React.SetStateAction<string>>]
 

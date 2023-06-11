@@ -1,5 +1,5 @@
-import { colors } from '@src/utils/tw'
-import { color } from '@src/utils/tw-helper'
+import { colors } from '../utils/tw'
+import { color } from '../utils/tw-helper'
 import { useMemo } from 'react'
 import 'twin.macro'
 import tw, { css } from 'twin.macro'
@@ -47,7 +47,10 @@ function Button({
 }
 
 // syntax I wish I could use:
-// twx`bg-transparent hover:text-$color-700 dark:text-$color-200 dark:hover:bg-$color-500/40`
+// twx`
+//  bg-transparent text-$color-700 hover:bg-$color-50
+//  dark:(text-$color-200 hover:bg-$color-500/40)
+// `
 const subtle = (c: color) => css`
   background-color: transparent;
   color: ${colors[c][700]};

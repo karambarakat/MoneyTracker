@@ -1,0 +1,13 @@
+{
+  "name": "twx",
+  "version": "0.0.1",
+  "description": "tailwind-inspired for modern web apps",
+  "main": "src/index.ts",
+  "scripts": {},
+  "author": {
+    "name": "Karam Barakat",
+    "email": "k99.barakat@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {}
+}

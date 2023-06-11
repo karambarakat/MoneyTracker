@@ -16,31 +16,35 @@ const preview: Preview = {
     viewport: {
       viewports: {
         xs: {
+          // 16:9 portrait
           name: 'xs',
           styles: {
             width: '440px',
-            height: '480px',
+            height: '824px',
           },
         },
         sm: {
+          // 16:9 portrait, sm breakpoint
           name: 'sm',
           styles: {
-            width: '670px',
-            height: '824px',
+            width: '640px',
+            height: '1140px',
           },
         },
         md: {
+          // 16:9 landscape, md breakpoint
           name: 'md',
           styles: {
-            width: '790px',
-            height: '824px',
+            width: '768px',
+            height: '432px',
           },
         },
         lg: {
+          // 16:9 landscape, lg breakpoint
           name: 'lg',
           styles: {
-            width: '1030px',
-            height: '670px',
+            width: '1024px',
+            height: '576px',
           },
         },
       },

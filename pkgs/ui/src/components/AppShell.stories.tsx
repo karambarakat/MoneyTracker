@@ -76,13 +76,13 @@ export default {
     SideBar: SideBar,
     children: Children,
     Expand: Default_Expand,
-    bp_1st: 600,
-    bp_2nd: 800,
+    bp_1st: 639,
+    bp_2nd: 767,
   },
   component,
 } satisfies _m<typeof component>
 
-export const Normal = {} satisfies _s<typeof component>
+export const WithBasicConfiguration = {} satisfies _s<typeof component>
 
 export const ExtraSmallView = {
   parameters: {

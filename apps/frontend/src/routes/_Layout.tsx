@@ -1,9 +1,14 @@
+import React from 'react'
+import Button from 'ui/src/components/Button'
+import LogoPng from '@src/public/logo.png'
+
 import Brand from '@src/components/Brand'
 import {
   ChartPie2,
   InfoCircle,
   LayoutGrid,
   MoonStars,
+  PlugConnected,
   Settings,
   Star,
   Sun,
@@ -21,7 +26,6 @@ import {
   MediaQuery,
   Navbar,
   ScrollArea,
-  Text,
   ThemeIcon,
   Title,
   useMantineColorScheme,
@@ -29,22 +33,38 @@ import {
 } from '@mantine/core'
 import MyContainer from '@src/components/Mantine/Container'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import MyButton from '@src/components/Mantine/Button'
+import { Outlet, Link } from 'react-router-dom'
+// import MyButton from '@src/components/Mantine/Button'
 
-import { getTitle, Link } from '@src/components/ReactRoute/index'
+// import { getTitle, Link } from '@src/components/ReactRoute/index'
 
 import { UserController } from '@src/components/UserController'
 import ToggleColorScheme from '@src/components/ToggleColorScheme'
-import { useSelector } from 'react-redux'
-import { MetaState, RootState } from '@src/redux/types'
-import AppShell from 'ui/src/components/AppShell'
+import AppShell, { useAppShellContext } from 'ui/src/components/AppShell'
+import tw from 'twin.macro'
+import TextEllipsis from 'ui/src/components/TextEllipsis'
+import { color } from 'ui/src/utils/tw-helper'
+import Text from 'ui/src/components/Text'
 
 // export function Main_Layout_Component() {
 export default function Main_Layout_Component() {
   return (
-    <AppShell SideBar={<Navbar_Custom opened={true} />}>
-      <Outlet />
+    <AppShell
+      bp_1st={639}
+      bp_2nd={767}
+      size_sm="64px" // icon 16px + button padding 10px * 2 + navbar padding 8px * 2
+      size_md="200px"
+      SideBar={
+        <div tw="h-full bg-slate-100">
+          <Navbar_ />
+          {/* <Navbar_Custom opened={true} /> */}
+        </div>
+      }
+    >
+      <div tw="dark:bg-slate-900">
+        <Content_Header />
+        <Outlet />
+      </div>
     </AppShell>
   )
 }
@@ -68,17 +88,16 @@ export function Main_Layout_Component_Deprecated() {
       fixed
       navbar={<Navbar_Custom opened={true} />}
     >
-      <MyContainer>
-        <Content_Header />
-        <Outlet />
-      </MyContainer>
+      {/* <MyContainer> */}
+      <Outlet />
+      {/* </MyContainer> */}
     </AppShel_deprecated>
   )
 }
 
 function Content_Header() {
   const [opened, setOpened] = useState(false)
-  const title = getTitle()
+  const title = '' //getTitle()
   return (
     <Group position="apart">
       <Text color={'theme-orange'}>
@@ -106,6 +125,115 @@ function Content_Header() {
         </div>
       </MediaQuery>
     </Group>
+  )
+}
+
+function Navbar_item({
+  icon,
+  color,
+  label,
+}: {
+  icon: JSX.Element
+  color: color
+  label: string
+}) {
+  const { open, expand } = useAppShellContext()
+  return (
+    <Button
+      tw="w-full flex items-center justify-stretch gap-5"
+      variant="subtle"
+      color={color}
+    >
+      <span>{icon}</span>
+      <Text
+        size="md"
+        css={[
+          tw`flex-1 overflow-hidden opacity-0 translate-y-2 transition-[opacity,transform]`,
+          expand === 1 || open
+            ? tw`opacity-100 translate-y-0 delay-100 -skew-y-0`
+            : tw`-skew-y-3`,
+        ]}
+      >
+        <TextEllipsis tw="text-left">{label}</TextEllipsis>
+      </Text>
+    </Button>
+  )
+}
+
+function Navbar_() {
+  const { open, expand } = useAppShellContext()
+
+  return (
+    <div tw="flex flex-col gap-2 p-2 h-full max-h-full overflow-hidden">
+      <div tw="flex gap-3 p-3 pb-2">
+        <Link to={'/'}>
+          <div
+            css={[
+              tw`transition-[width,height] duration-300`,
+              expand === 1 || open
+                ? tw`w-[40px] h-[40px]`
+                : tw`w-[24px] h-[40px]`,
+            ]}
+          >
+            <img src={LogoPng} />
+          </div>
+        </Link>
+      </div>
+      {[
+        {
+          icon: <LayoutGrid />,
+          color: 'teal' as const,
+          label: 'Categories',
+          link: '/categories',
+        },
+        {
+          icon: <TableExport />,
+          color: 'sky' as const,
+          label: 'Export',
+          link: '/export',
+          asModal: true,
+        },
+        {
+          icon: <Settings />,
+          color: 'red' as const,
+          label: 'Setting',
+          link: '/setting',
+          asModal: true,
+        },
+        {
+          icon: <Star />,
+          color: 'yellow' as const,
+          label: 'Rate Us',
+          link: '/rate-us',
+          asModal: true,
+        },
+        {
+          icon: <InfoCircle />,
+          color: 'blue' as const,
+          label: 'About',
+          link: '/about',
+          asModal: true,
+        },
+      ].map(element => {
+        return (
+          <Link to={element.link} key={element.link}>
+            <Navbar_item
+              icon={element.icon}
+              color={element.color}
+              label={element.label}
+            />
+          </Link>
+        )
+      })}
+      <span tw="flex-1" />
+      <Link to="/auth">
+        <Navbar_item
+          icon={<PlugConnected />}
+          color={'indigo'}
+          label={'Sign In or Log In to Sync'}
+        />
+      </Link>
+    </div>
   )
 }
 
@@ -156,8 +284,8 @@ function BrandNavbar() {
 
 const data0 = [
   {
-    icon: <ChartPie2 size={16} />,
-    color: 'blue',
+    icon: <ChartPie2 />,
+    color: 'blue' as const,
     label: 'Charts',
     link: '/charts',
   },
@@ -165,35 +293,35 @@ const data0 = [
 
 const data = [
   {
-    icon: <LayoutGrid size={16} />,
-    color: 'teal',
+    icon: <LayoutGrid />,
+    color: 'teal' as const,
     label: 'Categories',
     link: '/categories',
   },
   {
-    icon: <TableExport size={16} />,
-    color: 'violet',
+    icon: <TableExport />,
+    color: 'violet' as const,
     label: 'Export',
     link: '/export',
     asModal: true,
   },
   {
-    icon: <Settings size={16} />,
-    color: 'grape',
+    icon: <Settings />,
+    color: 'grape' as const,
     label: 'Setting',
     link: '/setting',
     asModal: true,
   },
   {
-    icon: <Star size={16} />,
-    color: 'yellow',
+    icon: <Star />,
+    color: 'yellow' as const,
     label: 'Rate Us',
     link: '/rate-us',
     asModal: true,
   },
   {
-    icon: <InfoCircle size={16} />,
-    color: 'blue',
+    icon: <InfoCircle />,
+    color: 'blue' as const,
     label: 'About',
     link: '/about',
     asModal: true,

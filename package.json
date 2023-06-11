@@ -20,8 +20,13 @@
   },
   "devDependencies": {
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
     "prettier": "latest",
     "turbo": "latest"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown",
+    "**/*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "engines": {
     "node": ">=14.0.0",

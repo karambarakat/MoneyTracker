@@ -5,7 +5,7 @@ creating new story:
 import React from 'react'
 import 'twin.macro'
 import { StoryObj as _s, Meta as _m } from '@storybook/react'
-import { Provider as component } from './path_to_module'
+import { default as component } from './path_to_module'
 import { fakerEN } from '@faker-js/faker'
 
 export default {
@@ -17,6 +17,27 @@ export default {
 } satisfies _m<typeof component>
 
 export const Primary = {} satisfies _s<typeof component>
+```
+
+creating new component:
+
+```ts
+import React from 'react'
+import { PropsOf } from '@emotion/react'
+import ButtonBase from './Button'
+import tw from 'twin.macro'
+
+const sizes = {
+  sm: tw`w-[18px] h-[18px] min-h-[18px] min-w-[18px] p-[4px]`,
+  md: tw`w-[30px] h-[30px] min-h-[30px] min-w-[30px] p-[4px]`,
+  lg: tw`w-[44px] h-[44px] min-h-[44px] min-w-[36px] p-[6px]`,
+}
+
+const base = tw`flex items-center justify-center`
+
+export default function Button(props: PropsOf<typeof ButtonBase>) {
+  return <ButtonBase css={[base, sizes[props.size || 'md']]} {...props} />
+}
 ```
 
 decorators:
