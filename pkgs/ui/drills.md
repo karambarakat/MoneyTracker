@@ -12,8 +12,8 @@ export default {
   title: 'path_to_module',
   component,
   args: {
-    children: (fakerEN.seed(1), fakerEN.lorem.paragraph())
-  }
+    children: (fakerEN.seed(1), fakerEN.lorem.paragraph()),
+  },
 } satisfies _m<typeof component>
 
 export const Primary = {} satisfies _s<typeof component>

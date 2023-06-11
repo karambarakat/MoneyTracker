@@ -11,14 +11,14 @@ export type HelpersFns<R> = {
   pushNoti: (noti: notification) => void
   offline: () => void
   online: (
-    callBack: (helpers: { token: () => string }) => Promise<Response>
+    callBack: (helpers: { token: () => string }) => Promise<Response>,
   ) => Promise<R>
 }
 
 export type actionModule<
   A extends { type: string; return: unknown; payload: unknown } = any,
   R = A['return'],
-  P = A['payload']
+  P = A['payload'],
 > = ((args: P, reduxFns: ReduxFns, myFns: HelpersFns<R>) => Promise<R>) & {
   type: string
 }
@@ -75,7 +75,7 @@ dispatch('action:fire', 100) // returns Promise<'100'>
 const dispatch = async function <
   S extends actions['type'],
   P extends actions['payload'] = Extract<actions, { type: S }>['payload'],
-  R extends actions['return'] = Extract<actions, { type: S }>['return']
+  R extends actions['return'] = Extract<actions, { type: S }>['return'],
 >(type: S, payload: P): Promise<R> {
   if (!(type in modules)) throw new Error('type does not exist')
   const module = modules[type]
@@ -94,7 +94,7 @@ export default dispatch
 export type dispatchSugarFunction = typeof dispatch
 
 type dispatchFnToTupleType = (
-  cb: (d: dispatchSugarFunction) => void
+  cb: (d: dispatchSugarFunction) => void,
 ) => dispatchTupleArg
 
 // this is to provide better developer experience

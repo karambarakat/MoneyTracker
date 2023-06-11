@@ -2,7 +2,7 @@ import { Action, AnyAction, Reducer } from 'redux'
 
 function invalidStateReducerEnhancer<
   S = any,
-  A extends Action<any> = AnyAction
+  A extends Action<any> = AnyAction,
 >(
   reducer: Reducer<S, A>,
   condition: (state: S) => boolean,

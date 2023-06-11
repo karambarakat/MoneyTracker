@@ -15,7 +15,7 @@ async function main() {
             rej(stderr)
           }
           res()
-        }
+        },
       )
     })
   )

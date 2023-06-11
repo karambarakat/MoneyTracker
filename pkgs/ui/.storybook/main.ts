@@ -3,7 +3,7 @@ const config: StorybookConfig = {
   stories: [
     '../src/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx)',
-    '../../../apps/frontend/src/**/*.stories.@(js|jsx|ts|tsx)'
+    '../../../apps/frontend/src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
     '@storybook/addon-links',
@@ -13,16 +13,16 @@ const config: StorybookConfig = {
     {
       name: '@storybook/addon-styling',
       options: {
-        postCss: true
-      }
-    }
+        postCss: true,
+      },
+    },
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {}
+    options: {},
   },
   docs: {
-    autodocs: 'tag'
-  }
+    autodocs: 'tag',
+  },
 }
 export default config

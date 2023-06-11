@@ -157,7 +157,7 @@ export const FailedToDelete = () =>
 
 export const TokenFailed: (
   type: TokenFailedE['details']['type'],
-  date?: string | null | false
+  date?: string | null | false,
 ) => HttpError<TokenFailedE> = (type, date) =>
   new HttpError({
     status: 401,

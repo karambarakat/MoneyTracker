@@ -13,5 +13,5 @@ const yaml = () =>
   })
 
 module.exports = {
-  yaml
+  yaml,
 }

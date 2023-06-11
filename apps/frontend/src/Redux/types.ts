@@ -47,7 +47,7 @@ export type dispatchAction = (action: ActionsObjects) => ActionsObjects
 export type dispatchSugar = dispatchSugarFunction
 export type dispatchFunction = (
   reduxFns: ReduxFns,
-  myFns: HelpersFns<any>
+  myFns: HelpersFns<any>,
 ) => Promise<any>
 
 /**

@@ -14,8 +14,8 @@ doc.use(
   '/docs',
   redoc({
     title: 'API Docs',
-    specUrl
-  })
+    specUrl,
+  }),
 )
 
 export { doc }

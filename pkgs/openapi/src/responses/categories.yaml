@@ -22,8 +22,8 @@ components:
                     title: 'Entertainment',
                     color: '#333',
                     icon: 'Fun_Face_Icon',
-                    createdBy: '63da2a0a643dd3aa49f5c6b1'
-                  }
+                    createdBy: '63da2a0a643dd3aa49f5c6b1',
+                  },
                 ]
             no data:
               description: empty data

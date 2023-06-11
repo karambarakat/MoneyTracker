@@ -3,7 +3,8 @@
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "lint": {
-      "outputs": []
+      "outputs": [],
+      "cache": false
     },
     "typecheck": {},
     "build": {

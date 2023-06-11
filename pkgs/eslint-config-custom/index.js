@@ -5,11 +5,11 @@ module.exports = {
     'turbo',
     'prettier',
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   rules: {
     'comma-dangle': [
@@ -19,13 +19,13 @@ module.exports = {
         objects: 'always-multiline',
         imports: 'always-multiline',
         exports: 'always-multiline',
-        functions: 'always-multiline'
-      }
+        functions: 'always-multiline',
+      },
     ],
     '@typescript-eslint/no-namespace': 'off',
     '@next/next/no-html-link-for-pages': 'off',
     semi: ['warn', 'never'],
     quotes: ['warn', 'single'],
-    '@typescript-eslint/ban-ts-comment': 'off'
-  }
+    '@typescript-eslint/ban-ts-comment': 'off',
+  },
 }

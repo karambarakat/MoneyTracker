@@ -3,6 +3,7 @@ frontend: very important / bugs -----------------------------------------------
 - [x] Chart page
 
 - [x] export page
+
 - [x] setting page + rate us + about
 
 - [ ] offline users

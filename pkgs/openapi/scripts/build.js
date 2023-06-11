@@ -13,7 +13,7 @@ async function main() {
   const yamlFiles = await yaml()
 
   const definitions = await Promise.all(
-    yamlFiles.map(c => Parser.dereference(c))
+    yamlFiles.map(c => Parser.dereference(c)),
   ).catch(e => {
     console.error('Error: failed to bundle all openapi/**/*.yaml files')
     throw new Error(e)
@@ -30,17 +30,17 @@ async function main() {
    * }}
    */
   const basicDef = YAML.parse(
-    (await readFile('./src/info.yaml').catch(r => '')).toString('utf-8')
+    (await readFile('./src/info.yaml').catch(r => '')).toString('utf-8'),
   )
 
   const definition = merge(
     definitions.reduce((acc, next) => merge(acc, next), {}),
-    basicDef
+    basicDef,
   )
 
   const options = {
     definition,
-    apis: ['./src/**/*.ts'] // files containing block annotations @openapi or @swagger
+    apis: ['./src/**/*.ts'], // files containing block annotations @openapi or @swagger
   }
 
   const specification = swaggerJsdoc(options)

@@ -1,14 +1,14 @@
 @mixin will-change($properties...) {
   $val: nth(
     $list: $properties,
-    $n: 1
+    $n: 1,
   );
   @for $i from 1 to length($properties) {
     $val: $val +
       ', ' +
       nth(
         $list: $properties,
-        $n: $i + 1
+        $n: $i + 1,
       );
   }
   will-change: $val;
