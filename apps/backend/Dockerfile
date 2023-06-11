@@ -31,4 +31,4 @@ USER nodejs
 
 EXPOSE 8080
 
-CMD ["sleep", "infinity"]
+CMD ["pnpm", "-F", "backend", "start"]
