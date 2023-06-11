@@ -5,7 +5,9 @@ import { fakerEN } from '@faker-js/faker'
 const helpers = {
   SideBarAvailable: ({ children }: { children: React.ReactNode }) => {
     const { sm } = useAppShellContext()
-    return <div css={[tw`transition`, !sm && tw`opacity-0`]}>{children}</div>
+    return (
+      <div css={[tw`transition-opacity`, !sm && tw`opacity-0`]}>{children}</div>
+    )
   },
   ToggleSidebar: ({ children }: { children: React.ReactNode }) => {
     const { setOpen, sm } = useAppShellContext()
@@ -47,7 +49,7 @@ export const Children = (
       </helpers.ToggleSidebar>
     </div>
     {(fakerEN.seed(2), fakerEN.lorem.lines(5).split('\n')).map((_, i) => (
-      <div tw="bg-slate-200 rounded px-5" key={i}>
+      <div tw="dark:bg-slate-700 bg-slate-200 rounded px-5" key={i}>
         {_}
       </div>
     ))}
@@ -62,15 +64,29 @@ export const Children_long = (
       </helpers.ToggleSidebar>
     </div>
     {(fakerEN.seed(2), fakerEN.lorem.lines(50).split('\n')).map((_, i) => (
-      <div tw="bg-slate-200 rounded px-5" key={i}>
+      <div tw="dark:bg-slate-700 bg-slate-200 rounded px-5" key={i}>
         {_}
       </div>
     ))}
   </div>
 )
 
+export const SideBar_long = (
+  <div tw="dark:bg-slate-700 bg-slate-200 flex flex-col gap-3 h-full">
+    {(fakerEN.seed(2), fakerEN.lorem.lines(50).split('\n')).map((_, i) => {
+      return (
+        <helpers.SideBarItem key={i} slot1={_}>
+          {i}
+        </helpers.SideBarItem>
+      )
+    })}
+    <div tw="flex-1"></div>
+    <helpers.SideBarItem slot1="more content">···</helpers.SideBarItem>
+  </div>
+)
+
 export const SideBar = (
-  <div tw="bg-slate-200 flex flex-col gap-3 h-full">
+  <div tw="dark:bg-slate-700 bg-slate-200 flex flex-col gap-3 h-full">
     {(fakerEN.seed(2), fakerEN.lorem.lines(5).split('\n')).map((_, i) => {
       return (
         <helpers.SideBarItem key={i} slot1={_}>
@@ -84,23 +100,36 @@ export const SideBar = (
 )
 
 export const Back_normal = ({ children }: any) => {
-  return <div tw="bg-slate-50">{children}</div>
+  return <div tw="bg-slate-50 dark:bg-slate-950">{children}</div>
 }
 
 export const Back_debug = ({ children }: any) => {
   const Debug = () => {
-    const { setOpen, width, expand, open, sm, md } = useAppShellContext()
+    const { setOpen, width, expand, open, sm, md, toggleExpand } =
+      useAppShellContext()
     return (
-      <pre tw="fixed bg-slate-300/50 z-50 right-0 bottom-0 p-2 m-2 border-2">
+      <pre tw="fixed bg-slate-300/50 dark:bg-slate-600/50 z-50 right-0 bottom-0 p-2 m-2 border-2">
         <em tw="text-gray-400">
           debug: <br />
         </em>
-        width: {width} (<span css={!sm && tw`text-gray-300`}>1st_bp</span>{' '}
-        <span css={!md && tw`text-gray-300`}>2nd_bp</span>)
+        width: {width} (
+        <span css={!sm && tw`text-gray-300 dark:text-gray-600`}>1st_bp</span>{' '}
+        <span css={!md && tw`text-gray-300 dark:text-gray-600`}>2nd_bp</span>)
         <br />
-        expand: {expand} <br />
+        expand: {expand}
         <button
-          tw="bg-teal-800 text-white px-1"
+          css={[
+            tw`bg-teal-800 text-white px-1 m-1`,
+            expand === 'disabled' && tw`bg-gray-300/20 opacity-20`,
+          ]}
+          onClick={() => toggleExpand()}
+          disabled={expand === 'disabled'}
+        >
+          toggle
+        </button>
+        <br />
+        <button
+          tw="bg-teal-800 text-white px-1 m-1"
           onClick={() => setOpen(s => !s)}
         >
           sidebar: {open ? 'opened' : 'closed'}
@@ -109,7 +138,7 @@ export const Back_debug = ({ children }: any) => {
     )
   }
   return (
-    <div tw="bg-slate-50">
+    <div tw="bg-slate-50 dark:bg-slate-950">
       {children}
       <Debug />
     </div>

@@ -11,6 +11,8 @@ const meta = {
   args: {
     children: 'Button, Click me!',
     color: 'green',
+    variant: 'light',
+    size: 'md',
   },
   argTypes: {
     variant: {
@@ -48,7 +50,7 @@ const meta = {
 
 export default meta
 
-export const Normal = {
+export const Green = {
   args: {
     color: 'green',
   },
@@ -71,6 +73,18 @@ export const Red = {
     color: 'red',
   },
 } satisfies _s<typeof component>
+
+export const Yellow = {
+  args: {
+    color: 'yellow',
+  },
+} satisfies _s<typeof component>
+
+export const Teal = {
+  args: {
+    color: 'teal',
+  },
+}
 
 export const Filled = {
   args: {
@@ -127,20 +141,17 @@ export const Disabled_Subtle = {
 export const Small = {
   args: {
     size: 'sm',
-    variant: 'filled',
   },
 } satisfies _s<typeof component>
 
 export const Medium = {
   args: {
     size: 'md',
-    variant: 'filled',
   },
 } satisfies _s<typeof component>
 
 export const Large = {
   args: {
     size: 'lg',
-    variant: 'filled',
   },
 } satisfies _s<typeof component>

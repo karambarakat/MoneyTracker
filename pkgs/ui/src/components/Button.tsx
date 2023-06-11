@@ -1,8 +1,9 @@
 import { colors } from '@src/utils/tw'
 import { color } from '@src/utils/tw-helper'
-// import { color } from '@src/utils/tw-helper'
+import { useMemo } from 'react'
 import 'twin.macro'
-import tw, { styled } from 'twin.macro'
+import tw, { css } from 'twin.macro'
+import { fontSizes } from './Text'
 
 interface Props {
   color?: color
@@ -11,98 +12,126 @@ interface Props {
   disabled?: boolean
 }
 
-const Button = styled.button<Props>`
-  ${tw`rounded-md px-4 py-2 active:translate-y-[1px] font-medium`}
+function Button({
+  color = 'primary',
+  variant = 'light',
+  size = 'md',
+  disabled: _disabled = false,
+  ...props
+}: JSX.IntrinsicElements['button'] & Props) {
+  const variantCss = useMemo(() => {
+    switch (variant) {
+      case 'subtle':
+        return subtle(color)
+      case 'filled':
+        return filled(color)
+      case 'light':
+        return light(color)
+      case 'outline':
+        return outline(color)
+    }
+  }, [variant, color])
+  return (
+    <button
+      {...props}
+      disabled={_disabled}
+      css={[
+        base,
+        variantCss,
+        sizes[size],
+        fontSizes[size],
+        _disabled && disabled,
+      ]}
+    />
+  )
+}
 
-  ${({ size = 'md' }) =>
-    size === 'sm'
-      ? tw`px-2 py-1 text-sm`
-      : size === 'md'
-      ? ''
-      : size === 'lg'
-      ? tw`px-5 py-3 text-lg`
-      : ''}
+// syntax I wish I could use:
+// twx`bg-transparent hover:text-$color-700 dark:text-$color-200 dark:hover:bg-$color-500/40`
+const subtle = (c: color) => css`
+  background-color: transparent;
+  color: ${colors[c][700]};
 
-  ${({ disabled }) =>
-    disabled &&
-    `
-      cursor: normal;
-      opacity: 0.5;
-      pointer-events: none;
-      transform: none !important;
-    `}
+  &:enabled:hover {
+    background-color: ${colors[c][50]};
+  }
 
-  ${({ color = 'primary', variant = 'subtle', disabled }) =>
-    variant === 'subtle' &&
-    `
-      background-color: transparent;
-      color: ${colors[color][700]};
-      .dark & { color: ${colors[color][100]} };
-      ${
-        !disabled &&
-        `
-        &:hover {
-          background-color: ${colors[color][50]};
-          .dark & { background-color: ${colors[color][700] + 20} };
-        }
-      `
-      }
-    `}
+  .dark & {
+    color: ${colors[c][200]};
+  }
 
-  ${({ color = 'primary', variant, disabled }) =>
-    variant === 'filled' &&
-    `
-      background-color: ${colors[color][600]};
-      color: ${colors[color][50]};
-      ${
-        !disabled &&
-        `
-        &:hover {
-          background-color: ${colors[color][700]};
-          .dark & { background-color: ${colors[color][700]} };
-        }
-      `
-      }
-    `}
+  .dark &:enabled:hover {
+    background-color: ${colors[c][500] + '40'};
+  }
+`
 
-  ${({ color = 'primary', variant, disabled }) =>
-    variant === 'light' &&
-    `
-      color: ${colors[color][900]};
-      background-color: ${colors[color][50]};
-      .dark & { color: ${colors[color][100]} };
-      .dark & { background-color: ${colors[color][200] + '20'} };
-      ${
-        !disabled &&
-        `
-        &:hover {
-          background-color: ${colors[color][100]};
-          .dark & { background-color: ${colors[color][100] + '30'} };
-        }
-      `
-      };
-    `}
+const filled = (c: color) => css`
+  background-color: ${colors[c][600]};
+  color: ${colors[c][50]};
 
-  ${({ color = 'primary', variant, disabled }) =>
-    variant === 'outline' &&
-    `
-      ${tw`bg-transparent outline outline-1`};
-      outline-style: solid;
-      outline-width: 1px;
-      outline-color: ${colors[color][700]};
-      color: ${colors[color][700]};
-      .dark & { color: ${colors[color][400]} };
-      .dark & { outline-color: ${colors[color][400]} };
-      ${
-        !disabled &&
-        `
-        &:hover {
-          background-color: ${colors[color][100]};
-          .dark & { background-color: ${colors[color][50] + '10'};
-        }
-      `
-      };
-    `}
+  &:enabled:hover {
+    background-color: ${colors[c][700]};
+  }
+
+  .dark &:enabled:hover {
+    background-color: ${colors[c][700]};
+  }
+`
+
+const light = (c: color) => css`
+  color: ${colors[c][900]};
+  background-color: ${colors[c][100]};
+
+  &:enabled:hover {
+    background-color: ${colors[c][200]};
+  }
+
+  .dark & {
+    color: ${colors[c][100]};
+    background-color: ${colors[c][200] + '20'};
+  }
+
+  .dark &:enabled:hover {
+    background-color: ${colors[c][100] + '30'};
+  }
+`
+
+const outline = (c: color) => css`
+  ${tw`bg-transparent outline outline-1`};
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: ${colors[c][700]};
+  color: ${colors[c][700]};
+
+  &:enabled:hover {
+    background-color: ${colors[c][100]};
+  }
+
+  .dark & {
+    color: ${colors[c][400]};
+    outline-color: ${colors[c][400]};
+  }
+
+  .dark &:enabled:hover {
+    background-color: ${colors[c][50] + '10'};
+  }
+`
+
+const base = tw`rounded-md active:translate-y-[1px] font-medium`
+
+const sizes = {
+  sm: tw`px-[0.5rem] py-[0.20rem]`,
+  md: tw`px-[0.75rem] py-[0.375rem]`,
+  lg: tw`px-[1rem] py-[0.5rem]`,
+}
+
+// x * 16 = 19, x = 1.1875
+
+const disabled = css`
+  cursor: normal;
+  opacity: 0.5;
+  pointer-events: none;
+  transform: none !important;
 `
 
 export default Button

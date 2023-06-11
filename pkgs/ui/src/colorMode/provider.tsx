@@ -48,8 +48,6 @@ export function ColorModeProvider({
   const [_mode, _setMode] = useState<mode>(mode)
 
   const setMode = (m: mode | 'system') => {
-    // setModeOnBrowser(m)
-
     const mode =
       m === 'system'
         ? window.matchMedia('(prefers-color-scheme: dark)').matches

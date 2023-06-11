@@ -4,6 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { ActionIcon } from '@mantine/core'
 import GlobalStyles from './GlobalStyles'
+import { Edit, Icons } from 'tabler-icons-react'
 
 // import { lazy, Suspense } from 'react'
 // import { BrowserRouter, Route } from 'react-router-dom'
@@ -103,8 +104,8 @@ function Test() {
   return (
     <div tw="bg-slate-200 min-h-screen grid place-items-center">
       <div>
-        <ActionIcon tw="h-auto w-auto px-2" variant="outline" color="indigo">
-          Button sd
+        <ActionIcon size={'lg'} variant="outline" color="indigo">
+          <Edit />
         </ActionIcon>
       </div>
     </div>

@@ -75,6 +75,10 @@ function useCreateContext(
       console.error('cannot expand and open at the same time')
       setOpen(false)
     }
+    if (open && width === 'lg') {
+      console.error('cannot open at lg')
+      setOpen(false)
+    }
   }, [open])
   return {
     open,
@@ -128,25 +132,27 @@ export default function AppShell({
         <div tw="flex min-h-screen">
           <div
             css={[
-              tw`z-30 transition-all duration-300 flex-[0_0_0] `,
+              tw`z-30 transition-transform duration-300 flex-[0_0_0]`,
               sm && tw`-translate-x-[56px]`,
               open && tw`translate-x-0`,
             ]}
           >
             <div
               css={[
-                tw`transition-all duration-300`,
-                tw`h-full min-w-[40px] w-[200px]`,
-                md && !expand && tw`!w-[40px]`,
-                sm && tw`!w-[40px]`,
+                tw`transition-[min-width,width] duration-300`,
+                tw`h-full min-w-[40px] `,
+                md && tw`w-[40px]`,
+                expand === 1 && tw`w-[200px]`,
+                sm && tw`w-[40px]`,
               ]}
             >
               <div
                 css={[
-                  tw`transition-all duration-300 w-full`,
-                  open && tw`!w-[200px]`,
+                  tw`transition-[box-shadow,width] duration-300 w-full`,
+                  tw`sticky top-0`,
+                  open && tw`w-[200px]`,
                   open && md ? tw`shadow-2xl` : tw`shadow-none`,
-                  tw`relative h-full`,
+                  tw`h-full max-h-screen`,
                 ]}
               >
                 {SideBar}
@@ -159,23 +165,31 @@ export default function AppShell({
 
           <div
             css={[
-              open && sm ? tw`opacity-50 pointer-events-auto` : tw`opacity-0`,
-              tw`bg-black absolute z-10 transition-[opacity] pointer-events-none top-0 left-0 w-full h-full`,
+              open && sm
+                ? tw`opacity-50 pointer-events-auto`
+                : tw`opacity-0 pointer-events-none`,
+              tw`bg-black fixed z-10 transition-[opacity] top-0 left-0 w-full h-full`,
             ]}
             onClick={() => setOpen(false)}
           />
 
-          <div css={[tw`w-full z-0`, sm && tw`-ml-[40px]`]}>
+          <main
+            css={[
+              tw`w-full z-0`,
+              sm && tw`-ml-[40px]`,
+              open && tw`overflow-hidden h-screen`,
+            ]}
+          >
             {/* 544 = 600 - 54 (sidebar -translate-x) */}
             <div
               css={[
-                tw`min-h-screen max-w-[800px] m-auto `,
+                tw`min-h-screen max-w-[800px] m-auto`,
                 // todo (animation): translate-x-[24px] then translate-x-0
               ]}
             >
               <div css={[sm && tw`m-auto max-w-[540px]`]}>{children}</div>
             </div>
-          </div>
+          </main>
         </div>
       </Back>
     </context.Provider>
