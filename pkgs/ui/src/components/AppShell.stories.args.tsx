@@ -1,19 +1,31 @@
-import tw from 'twin.macro'
+import tw, { css } from 'twin.macro'
 import { useAppShellContext } from './AppShell'
 import { fakerEN } from '@faker-js/faker'
+import media from '@src/utils/mediaCss'
+import { PropsWithChildren } from 'react'
 
 const helpers = {
   SideBarAvailable: ({ children }: { children: React.ReactNode }) => {
-    const { sm } = useAppShellContext()
+    const { sm_query } = useAppShellContext()
     return (
-      <div css={[tw`transition-opacity`, !sm && tw`opacity-0`]}>{children}</div>
+      <div
+        css={[
+          tw`transition-opacity opacity-0`,
+          media(sm_query, tw`opacity-100`),
+        ]}
+      >
+        {children}
+      </div>
     )
   },
   ToggleSidebar: ({ children }: { children: React.ReactNode }) => {
-    const { setOpen, sm } = useAppShellContext()
+    const { setOpen, sm_query } = useAppShellContext()
     return (
       <button
-        css={[!sm && tw`cursor-not-allowed`]}
+        css={[
+          tw`cursor-not-allowed pointer-events-none`,
+          media(sm_query, tw`cursor-pointer pointer-events-auto`),
+        ]}
         onClick={() => setOpen(s => !s)}
       >
         {children}
@@ -99,25 +111,41 @@ export const SideBar = (
   </div>
 )
 
-export const Back_normal = ({ children }: any) => {
+export const Back_normal = ({ children }: PropsWithChildren<unknown>) => {
   return <div tw="bg-slate-50 dark:bg-slate-950">{children}</div>
 }
 
-export const Back_debug = ({ children }: any) => {
+export const Back_debug = ({ children }: PropsWithChildren<unknown>) => {
   const Debug = () => {
-    const { setOpen, width, expand, open, sm, md, toggleExpand } =
-      useAppShellContext()
+    const {
+      setOpen,
+      width,
+      expand,
+      open,
+      sm,
+      md,
+      toggleExpand,
+      sm_query,
+      md_query,
+    } = useAppShellContext()
     return (
       <pre tw="fixed bg-slate-300/50 dark:bg-slate-600/50 z-50 right-0 bottom-0 p-2 m-2 border-2">
         <em tw="text-gray-400">
           debug: <br />
         </em>
         width: {width} (
-        <span css={!sm && tw`text-gray-300 dark:text-gray-600`}>1st_bp</span>{' '}
-        <span css={!md && tw`text-gray-300 dark:text-gray-600`}>2nd_bp</span>)
+        <div tw="text-gray-300 dark:text-gray-600">
+          <span css={media(sm_query, tw`text-gray-700 dark:text-gray-100`)}>
+            1st_bp
+          </span>{' '}
+          <span css={media(md_query, tw`text-gray-700 dark:text-gray-100`)}>
+            2nd_bp
+          </span>
+          )
+        </div>
         <br />
-        expand: {expand}
         <button
+          id="toggleExpand"
           css={[
             tw`bg-teal-800 text-white px-1 m-1`,
             expand === 'disabled' && tw`bg-gray-300/20 opacity-20`,
@@ -125,10 +153,11 @@ export const Back_debug = ({ children }: any) => {
           onClick={() => toggleExpand()}
           disabled={expand === 'disabled'}
         >
-          toggle
+          expand: {expand}
         </button>
         <br />
         <button
+          id="toggleSidebar"
           tw="bg-teal-800 text-white px-1 m-1"
           onClick={() => setOpen(s => !s)}
         >

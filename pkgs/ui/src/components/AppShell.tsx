@@ -5,15 +5,34 @@ import {
   useEffect,
   useState,
   createContext,
+  useRef,
 } from 'react'
-import { useMediaQuery } from '@mantine/hooks'
+import { useHover, useId, useMediaQuery } from '@mantine/hooks'
 import tw from 'twin.macro'
+import { css } from '@emotion/react'
+import media from '@src/utils/mediaCss'
+import useHoverInOut from '@src/hooks/useHoverInOut'
+
+export interface ContextInput {
+  /**
+   * breakpoint at which the sidebar is slidable
+   */
+  bp_1st: number
+  /**
+   * breakpoint at which the sidebar is expandable
+   */
+  bp_2nd: number
+}
 
 export interface AppShell_sideBar_Context {
   /**
    * whether the sidebar is overlayed on the main content
    */
   open: boolean
+  /**
+   * the id of the root element
+   */
+  rootId: string
   /**
    * open or close the sidebar
    */
@@ -40,9 +59,37 @@ export interface AppShell_sideBar_Context {
    * max-width: <second breakpoint>
    */
   md: boolean
+  /**
+   * the same query used by the AppShell component returned as string
+   * max-width: <first breakpoint>
+   */
+  sm_query: string
+  /**
+   * the same query used by the AppShell component returned as string
+   * max-width: <second breakpoint>
+   */
+  md_query: string
+}
+
+interface Props extends ContextInput {
+  /**
+   * the sidebar
+   */
+  SideBar: JSX.Element
+  /**
+   * Background for the main content
+   */
+  Back?: (p: PropsWithChildren<object>) => JSX.Element
+  /**
+   * UI toggle for the sidebar expansion
+   */
+  Expand?: ({ disabled }: { disabled: boolean }) => JSX.Element
 }
 
 const context = createContext<AppShell_sideBar_Context>({
+  md_query: '',
+  sm_query: '',
+  rootId: '',
   open: false,
   setOpen: () => console.log('no context provider'),
   expand: 0,
@@ -54,11 +101,12 @@ const context = createContext<AppShell_sideBar_Context>({
 
 export const useAppShellContext = () => useContext(context)
 
-function useCreateContext(
-  p: Pick<Props, 'bp_1st' | 'bp_2nd'>,
-): AppShell_sideBar_Context {
-  const md = useMediaQuery(`(max-width: ${p.bp_2nd}px)`)
-  const sm = useMediaQuery(`(max-width: ${p.bp_1st}px)`)
+function useCreateContext(p: ContextInput): AppShell_sideBar_Context {
+  const md_query = `(max-width: ${p.bp_2nd}px)`
+  const sm_query = `(max-width: ${p.bp_1st}px)`
+  const rootId = 'AppShell-' + useId()
+  const md = useMediaQuery(md_query)
+  const sm = useMediaQuery(sm_query)
   const width = md && sm ? 'sm' : md && !sm ? 'md' : 'lg'
   const [expand, setExpand] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
@@ -81,6 +129,9 @@ function useCreateContext(
     }
   }, [open])
   return {
+    md_query,
+    sm_query,
+    rootId,
     open,
     sm,
     md,
@@ -94,29 +145,6 @@ function useCreateContext(
   }
 }
 
-interface Props {
-  /**
-   * the sidebar
-   */
-  SideBar: JSX.Element
-  /**
-   * Background for the main content
-   */
-  Back?: (p: PropsWithChildren<object>) => JSX.Element
-  /**
-   * UI toggle for the sidebar expansion
-   */
-  Expand?: ({ disabled }: { disabled: boolean }) => JSX.Element
-  /**
-   * breakpoint at which the sidebar is slidable
-   */
-  bp_1st: number
-  /**
-   * breakpoint at which the sidebar is expandable
-   */
-  bp_2nd: number
-}
-
 export default function AppShell({
   children,
   SideBar,
@@ -125,33 +153,51 @@ export default function AppShell({
   ...contextProp
 }: PropsWithChildren<Props>) {
   const useContext = useCreateContext(contextProp)
-  const { expand, open, setOpen, toggleExpand, width, md, sm } = useContext
+  const {
+    expand,
+    open,
+    setOpen,
+    toggleExpand,
+    width,
+    rootId,
+    md,
+    sm,
+    sm_query,
+    md_query,
+  } = useContext
+  const [_, ref] = useHoverInOut(500, s => {
+    s === 'in' ? setOpen(true) : s === 'out' && setOpen(false)
+  })
   return (
     <context.Provider value={useContext}>
       <Back>
-        <div tw="flex min-h-screen">
+        <div id={rootId} tw="flex min-h-screen">
           <div
+            ref={ref}
             css={[
               tw`z-30 transition-transform duration-300 flex-[0_0_0]`,
-              sm && tw`-translate-x-[56px]`,
-              open && tw`translate-x-0`,
+              media(sm_query, tw`-translate-x-[56px]`),
+              open && tw`!translate-x-0`,
             ]}
           >
             <div
               css={[
                 tw`transition-[min-width,width] duration-300`,
-                tw`h-full min-w-[40px] `,
-                md && tw`w-[40px]`,
-                expand === 1 && tw`w-[200px]`,
-                sm && tw`w-[40px]`,
+                tw`h-full min-w-[40px] w-[40px]`,
+                expand === 1 && media(md_query, tw`w-[200px]`),
+                media(sm_query, tw`w-[40px]`),
+                expand === 1 && tw`w-[200px]!`,
+                expand === 'disabled' && tw`w-[200px]`,
               ]}
             >
               <div
                 css={[
                   tw`transition-[box-shadow,width] duration-300 w-full`,
                   tw`sticky top-0`,
-                  open && tw`w-[200px]`,
-                  open && md ? tw`shadow-2xl` : tw`shadow-none`,
+                  open && tw`w-[200px]!`,
+                  tw`shadow-none`,
+                  open && media(md_query, tw`shadow-2xl`),
+
                   tw`h-full max-h-screen`,
                 ]}
               >
@@ -165,10 +211,9 @@ export default function AppShell({
 
           <div
             css={[
-              open && sm
-                ? tw`opacity-50 pointer-events-auto`
-                : tw`opacity-0 pointer-events-none`,
-              tw`bg-black fixed z-10 transition-[opacity] top-0 left-0 w-full h-full`,
+              open && media(sm_query, tw`opacity-50 pointer-events-auto`),
+              !open && tw`opacity-0 pointer-events-none`,
+              tw`bg-black/50 fixed z-10 transition-[opacity] top-0 left-0 w-full h-full`,
             ]}
             onClick={() => setOpen(false)}
           />
@@ -176,7 +221,7 @@ export default function AppShell({
           <main
             css={[
               tw`w-full z-0`,
-              sm && tw`-ml-[40px]`,
+              media(sm_query, tw`-ml-[40px]`),
               open && tw`overflow-hidden h-screen`,
             ]}
           >
@@ -187,7 +232,9 @@ export default function AppShell({
                 // todo (animation): translate-x-[24px] then translate-x-0
               ]}
             >
-              <div css={[sm && tw`m-auto max-w-[540px]`]}>{children}</div>
+              <div css={[media(sm_query, tw`m-auto max-w-[540px]`)]}>
+                {children}
+              </div>
             </div>
           </main>
         </div>
