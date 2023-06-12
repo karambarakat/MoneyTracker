@@ -4,9 +4,11 @@
   "version": "0.0.1",
   "description": "UI for the app",
   "scripts": {
+    "start": "storybook start",
     "dev": "storybook dev -p 6006",
-    "test": "test-storybook",
-    "build": "storybook build",
+    "test:base": "test-storybook",
+    "test": "pnpm run build && concurrently -n \"sb,test\" -c \"bgBlue,green\" --kill-others -s last \"http-server dist -p 6006 --silent\" \"wait-on http://127.0.0.1:6006 && test-storybook --url http://127.0.0.1:6006\"",
+    "build": "storybook build -o dist",
     "lint": "eslint --fix ."
   },
   "dependencies": {
@@ -51,8 +53,10 @@
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.14",
     "babel-plugin-macros": "^3.1.0",
+    "concurrently": "^8.2.0",
     "eslint-config-custom": "workspace:*",
     "eslint-plugin-storybook": "^0.6.12",
+    "http-server": "^14.1.1",
     "install": "^0.13.0",
     "npm": "^9.6.7",
     "postcss": "^8.4.24",
@@ -63,6 +67,7 @@
     "tsconfig": "workspace:*",
     "twin.macro": "^3.3.1",
     "vite": "^4.3.9",
-    "vite-tsconfig-paths": "^3.4.1"
+    "vite-tsconfig-paths": "^3.4.1",
+    "wait-on": "^7.0.1"
   }
 }

@@ -22,7 +22,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store/v3\
   pnpm install --frozen-lockfile
 
 COPY --from=prune /monorepo/out/full .
-RUN pnpm --filter strapi run build
+RUN pnpm --filter backend run build
 
 
 RUN addgroup --system --gid 1001 nodejs
