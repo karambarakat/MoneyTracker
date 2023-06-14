@@ -1,9 +1,8 @@
-import tw, { css } from 'twin.macro'
+import tw from 'twin.macro'
 import { useAppShellContext } from './AppShell'
 import { fakerEN } from '@faker-js/faker'
 import media from '../utils/mediaCss'
-import { PropsWithChildren } from 'react'
-import { Empty } from '../utils/Empty'
+import { WithChildren } from '../utils/WithChildren'
 
 const helpers = {
   SideBarAvailable: ({ children }: { children: React.ReactNode }) => {
@@ -112,11 +111,11 @@ export const SideBar = (
   </div>
 )
 
-export const Back_normal = ({ children }: PropsWithChildren<Empty>) => {
+export const Back_normal = ({ children }: WithChildren) => {
   return <div tw="bg-slate-50 dark:bg-slate-950">{children}</div>
 }
 
-export const Back_debug = ({ children }: PropsWithChildren<Empty>) => {
+export const Back_debug = ({ children }: WithChildren) => {
   const Debug = () => {
     const {
       setOpen,

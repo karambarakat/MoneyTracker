@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import 'twin.macro'
 import {
   PropsWithChildren,
@@ -13,6 +13,7 @@ import tw, { css } from 'twin.macro'
 import media from '../utils/mediaCss'
 import useHoverInOut from '../hooks/useHoverInOut'
 import { Empty } from '../utils/Empty'
+import { WithChildren } from '../utils/WithChildren'
 
 export interface ContextInput {
   /**
@@ -80,7 +81,7 @@ interface Props extends ContextInput {
   /**
    * Background for the main content
    */
-  Back?: (p: PropsWithChildren<Empty>) => JSX.Element
+  Back?: (p: WithChildren) => JSX.Element
   /**
    * UI toggle for the sidebar expansion
    */
@@ -163,7 +164,7 @@ export default function AppShell({
   size_sm = '40px',
   size_md = '200px',
   ...contextProp
-}: PropsWithChildren<Props>) {
+}: WithChildren<Props>) {
   const useContext = useCreateContext(contextProp)
   const {
     expand,
@@ -200,8 +201,6 @@ export default function AppShell({
             <div
               css={[
                 tw`transition-[min-width,width] duration-300 h-full`,
-                // tw`min-w-[40px] w-[40px]`,
-                // media(sm_query, tw`w-[40px]`),
                 css`
                   min-width: ${size_sm};
                   width: ${size_sm};
@@ -210,8 +209,6 @@ export default function AppShell({
                   }
                 `,
 
-                // expand === 1 && media(md_query, tw`w-[200px]`),
-                // expand === 1 && tw`w-[200px]!`,
                 expand === 1 &&
                   css`
                     width: ${size_md} !important;
@@ -219,7 +216,6 @@ export default function AppShell({
                       width: ${size_md};
                     }
                   `,
-                // expand === 'disabled' && tw`w-[200px]`,
                 expand === 'disabled' &&
                   css`
                     width: ${size_md};
@@ -230,7 +226,6 @@ export default function AppShell({
                 css={[
                   tw`transition-[box-shadow,width] duration-300 w-full`,
                   tw`sticky top-0`,
-                  // open && tw`w-[200px]!`,
                   open &&
                     css`
                       width: ${size_md} !important;
@@ -251,7 +246,6 @@ export default function AppShell({
 
           <div
             css={[
-              // open && media(md_query)
               tw`pointer-events-none`,
               open &&
                 media(md_query, tw`bg-black/50 opacity-50 pointer-events-auto`),
@@ -264,18 +258,25 @@ export default function AppShell({
           <main
             css={[
               tw`w-full z-0`,
-              media(sm_query, tw`-ml-[40px]`),
+              css`
+                @media ${sm_query} {
+                  margin-left: -${size_sm};
+                }
+              `,
               open && tw`overflow-hidden h-screen`,
             ]}
           >
-            {/* 544 = 600 - 54 (sidebar -translate-x) */}
-            <div
-              css={[
-                tw`min-h-screen max-w-[800px] m-auto`,
-                // todo (animation): translate-x-[24px] then translate-x-0
-              ]}
-            >
-              <div css={[media(sm_query, tw`m-auto max-w-[540px]`)]}>
+            <div css={[tw`min-h-screen max-w-[800px] m-auto`]}>
+              <div
+                css={[
+                  css`
+                    @media ${sm_query} {
+                      margin: auto;
+                      max-width: calc(${contextProp.bp_1st}px - ${size_sm});
+                    }
+                  `,
+                ]}
+              >
                 {children}
               </div>
             </div>
@@ -305,6 +306,4 @@ export const Default_Expand = ({ disabled }: { disabled: boolean }) => {
   )
 }
 
-const Defaults_Back = ({ children }: PropsWithChildren<Empty>) => (
-  <>{children}</>
-)
+const Defaults_Back = ({ children }: WithChildren) => <>{children}</>

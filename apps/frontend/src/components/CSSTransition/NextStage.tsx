@@ -32,12 +32,7 @@ function NextStage({
     () =>
       typeof window !== 'undefined'
         ? new ResizeObserver(entries => {
-            if (
-              entries.length === 2
-              // &&
-              // entries[0].contentRect.height !== 0 &&
-              // entries[1].contentRect.height !== 0
-            ) {
+            if (entries.length === 2) {
               setHeights(entries.map(v => Math.round(v.contentRect.height)))
               observer?.disconnect()
             }

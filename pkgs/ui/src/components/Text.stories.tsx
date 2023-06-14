@@ -37,11 +37,11 @@ export const H2 = {
   },
 } satisfies _s<typeof component>
 
-export const H3 = {
-  args: {
-    size: 'h3',
-  },
-} satisfies _s<typeof component>
+// export const H3 = {
+//   args: {
+//     size: 'h3',
+//   },
+// } satisfies _s<typeof component>
 
 export const Large = {
   args: {

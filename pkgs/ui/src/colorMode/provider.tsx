@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import type { PropsWithChildren } from 'react'
+import { WithChildren } from '../utils/WithChildren'
 
 type mode = 'light' | 'dark'
 const _context = createContext<[mode, (m: mode | 'system') => void]>([
@@ -44,7 +44,7 @@ const head = () => {
 export function ColorModeProvider({
   children,
   mode,
-}: PropsWithChildren<{ mode: mode }>) {
+}: WithChildren<{ mode: mode }>) {
   const [_mode, _setMode] = useState<mode>(mode)
 
   const setMode = (m: mode | 'system') => {

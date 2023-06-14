@@ -22,6 +22,7 @@ import { Page } from '@src/components/ReactRoute/index'
 import Notification from '@src/components/Notifications'
 import { NavigateController } from '@src/redux/actions/app/navigate.action'
 import GlobalStyles from 'ui/src/GlobalStyles'
+import { ColorModeProvider } from 'ui/src/colorMode/provider'
 
 const AddLog = lazy(() => import('@src/components/Forms/Log_add'))
 const EditLog = lazy(() => import('@src/components/Forms/Log_edit'))
@@ -40,50 +41,55 @@ const E404 = lazy(() => import('@src/routes/_E404'))
 function App() {
   return (
     <MantineSetUp>
-      <Redux store={store}>
-        <BrowserRouter>
-          {/* <NavigateController /> */}
-          <Suspense fallback={<>waiting</>}>
-            <ModalRoutes>
-              <Route element={<Page />}>
-                <Route element={<MainLayout />}>
-                  <Route index element={<Index />} />
-                  <Route path="charts" element={<Charts />} />
-                  <Route path="categories" element={<Categories />} />
-                </Route>
+      <ColorModeProvider mode="light">
+        <Redux store={store}>
+          <BrowserRouter>
+            {/* <NavigateController /> */}
+            <Suspense fallback={<>waiting</>}>
+              <ModalRoutes>
+                <Route element={<Page />}>
+                  <Route element={<MainLayout />}>
+                    <Route index element={<Index />} />
+                    <Route path="charts" element={<Charts />} />
+                    <Route path="categories" element={<Categories />} />
+                  </Route>
 
-                <Route path="about" element={<About />} />
-                <Route path="export" element={<Export />} />
-                <Route path="setting" element={<Setting />} />
-                <Route path="rate-us" element={<RateUs />} />
-                <Route path="addLog" element={<AddLog />} />
-                <Route path="editLog/:id" element={<EditLog />} />
-                <Route path="addCategory" element={<AddCategory />} />
-                <Route path="editCategory/:id" element={<EditCategory />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="export" element={<Export />} />
+                  <Route path="setting" element={<Setting />} />
+                  <Route path="rate-us" element={<RateUs />} />
+                  <Route path="addLog" element={<AddLog />} />
+                  <Route path="editLog/:id" element={<EditLog />} />
+                  <Route path="addCategory" element={<AddCategory />} />
+                  <Route path="editCategory/:id" element={<EditCategory />} />
 
-                <Route path="profile" element={<Profile />}>
-                  <Route index element={<ProfileIndex />} />
-                  <Route path="update" element={<ProfileUpdate />} />
-                  <Route path="setPassword" element={<Profile_SetPassword />} />
+                  <Route path="profile" element={<Profile />}>
+                    <Route index element={<ProfileIndex />} />
+                    <Route path="update" element={<ProfileUpdate />} />
+                    <Route
+                      path="setPassword"
+                      element={<Profile_SetPassword />}
+                    />
+                    <Route
+                      path="changePassword"
+                      element={<Profile_ChangePassword />}
+                    />
+                  </Route>
+
+                  <Route path="/auth" element={<Auth />} />
                   <Route
-                    path="changePassword"
-                    element={<Profile_ChangePassword />}
+                    path="/auth/google/callback"
+                    element={<GoogleCallback />}
                   />
+
+                  <Route path={'*'} element={<E404 />} />
                 </Route>
-
-                <Route path="/auth" element={<Auth />} />
-                <Route
-                  path="/auth/google/callback"
-                  element={<GoogleCallback />}
-                />
-
-                <Route path={'*'} element={<E404 />} />
-              </Route>
-            </ModalRoutes>
-            <Notification />
-          </Suspense>
-        </BrowserRouter>
-      </Redux>
+              </ModalRoutes>
+              <Notification />
+            </Suspense>
+          </BrowserRouter>
+        </Redux>
+      </ColorModeProvider>
     </MantineSetUp>
   )
 }

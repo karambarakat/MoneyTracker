@@ -10,5 +10,6 @@ out
 
 */*/dist
 */*/.next
+*/*/dev
 
 do_app_spec_prod.yaml

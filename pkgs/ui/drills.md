@@ -16,7 +16,7 @@ export default {
   },
 } satisfies _m<typeof component>
 
-export const Primary = {} satisfies _s<typeof component>
+export const WithNormalConfiguration = {} satisfies _s<typeof component>
 ```
 
 creating new component:
