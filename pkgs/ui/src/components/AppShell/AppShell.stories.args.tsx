@@ -1,8 +1,8 @@
 import tw from 'twin.macro'
-import { useAppShellContext } from './AppShell'
+import { useAppShellContext } from './context'
 import { fakerEN } from '@faker-js/faker'
-import media from '../utils/mediaCss'
-import { WithChildren } from '../utils/WithChildren'
+import media from '../../utils/mediaCss'
+import { WithChildren } from '../../utils/WithChildren'
 
 const helpers = {
   SideBarAvailable: ({ children }: { children: React.ReactNode }) => {
@@ -98,7 +98,7 @@ export const SideBar_long = (
 )
 
 export const SideBar = (
-  <div tw="dark:bg-slate-700 bg-slate-200 flex flex-col gap-3 h-full">
+  <div tw="dark:bg-slate-700 bg-slate-200 flex flex-col gap-3">
     {(fakerEN.seed(2), fakerEN.lorem.lines(5).split('\n')).map((_, i) => {
       return (
         <helpers.SideBarItem key={i} slot1={_}>
@@ -148,7 +148,7 @@ export const Back_debug = ({ children }: WithChildren) => {
           id="toggleExpand"
           css={[
             tw`bg-teal-800 text-white px-1 m-1`,
-            expand === 'disabled' && tw`bg-gray-300/20 opacity-20`,
+            expand === 'disabled' && tw`bg-gray-600 opacity-20`,
           ]}
           onClick={() => toggleExpand()}
           disabled={expand === 'disabled'}

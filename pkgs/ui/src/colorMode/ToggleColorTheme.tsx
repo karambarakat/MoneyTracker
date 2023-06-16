@@ -11,8 +11,8 @@ function ToggleColorScheme(Props: PropsOf<typeof ButtonIcon>) {
     <ButtonIcon
       color={dark ? 'yellow' : 'blue'}
       onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
-      {...Props}
       variant="outline"
+      {...Props}
       title="Toggle color scheme"
     >
       {dark ? <Sun size={18} /> : <MoonStars size={18} />}

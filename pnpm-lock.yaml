@@ -20,6 +20,177 @@ importers:
         specifier: latest
         version: 1.10.1
 
+  alpha/twx@alpha: {}
+
+  alpha/ui:
+    dependencies:
+      '@emotion/css':
+        specifier: ^11.11.0
+        version: 11.11.0
+      '@emotion/react':
+        specifier: ^11.11.0
+        version: 11.11.0(@types/react@17.0.33)(react@17.0.2)
+      '@emotion/styled':
+        specifier: ^11.11.0
+        version: 11.11.0(@emotion/react@11.11.0)(@types/react@17.0.33)(react@17.0.2)
+      '@mantine/hooks':
+        specifier: ^5.4.2
+        version: 5.4.2(react@17.0.2)
+      classnames:
+        specifier: ^2.3.1
+        version: 2.3.1
+      color:
+        specifier: ^4.2.3
+        version: 4.2.3
+      d3:
+        specifier: ^7.6.1
+        version: 7.6.1
+      react:
+        specifier: ^17.0.2
+        version: 17.0.2
+      react-dom:
+        specifier: ^17.0.2
+        version: 17.0.2(react@17.0.2)
+      react-query:
+        specifier: ^3.34.19
+        version: 3.34.19(react-dom@17.0.2)(react@17.0.2)
+      react-redux:
+        specifier: ^7.2.8
+        version: 7.2.8(react-dom@17.0.2)(react@17.0.2)
+      react-router-dom:
+        specifier: ^6.3.0
+        version: 6.12.1(react-dom@17.0.2)(react@17.0.2)
+      react-transition-group:
+        specifier: ^4.4.2
+        version: 4.4.2(react-dom@17.0.2)(react@17.0.2)
+      tabler-icons-react:
+        specifier: ^1.54.0
+        version: 1.54.0(react@17.0.2)
+    devDependencies:
+      '@babel/plugin-transform-react-jsx':
+        specifier: ^7.22.3
+        version: 7.22.3(@babel/core@7.22.1)
+      '@emotion/babel-plugin-jsx-pragmatic':
+        specifier: ^0.2.1
+        version: 0.2.1(@babel/core@7.22.1)
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
+      '@storybook/addon-essentials':
+        specifier: 7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/addon-interactions':
+        specifier: 7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/addon-links':
+        specifier: 7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/addon-styling':
+        specifier: ^1.0.8
+        version: 1.0.8(less@4.1.3)(postcss@8.4.24)(react-dom@17.0.2)(react@17.0.2)(webpack@5.75.0)
+      '@storybook/addons':
+        specifier: ^7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/blocks':
+        specifier: 7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/jest':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@storybook/react':
+        specifier: 7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5)
+      '@storybook/react-vite':
+        specifier: 7.0.18
+        version: 7.0.18(react-dom@17.0.2)(react@17.0.2)(typescript@4.9.5)(vite@4.3.9)
+      '@storybook/test-runner':
+        specifier: ^0.10.0
+        version: 0.10.0
+      '@storybook/testing-library':
+        specifier: 0.0.14-next.2
+        version: 0.0.14-next.2
+      '@storybook/theming':
+        specifier: ^7.0.20
+        version: 7.0.20(react-dom@17.0.2)(react@17.0.2)
+      '@types/react':
+        specifier: ^17.0.33
+        version: 17.0.33
+      '@types/react-dom':
+        specifier: ^17.0.10
+        version: 17.0.10
+      '@types/react-redux':
+        specifier: ^7.1.23
+        version: 7.1.23
+      '@types/react-router-dom':
+        specifier: ^5.3.3
+        version: 5.3.3
+      '@types/react-transition-group':
+        specifier: ^4.4.4
+        version: 4.4.4
+      '@types/testing-library__jest-dom':
+        specifier: ^5.14.6
+        version: 5.14.6
+      '@types/uuid':
+        specifier: ^8.3.4
+        version: 8.3.4
+      '@vitejs/plugin-react':
+        specifier: ^1.0.7
+        version: 1.0.7
+      autoprefixer:
+        specifier: ^10.4.14
+        version: 10.4.14(postcss@8.4.24)
+      babel-plugin-macros:
+        specifier: ^3.1.0
+        version: 3.1.0
+      concurrently:
+        specifier: ^8.2.0
+        version: 8.2.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../../pkgs/eslint-config-custom
+      eslint-plugin-storybook:
+        specifier: ^0.6.12
+        version: 0.6.12(eslint@8.35.0)(typescript@4.9.5)
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
+      install:
+        specifier: ^0.13.0
+        version: 0.13.0
+      npm:
+        specifier: ^9.6.7
+        version: 9.6.7
+      postcss:
+        specifier: ^8.4.24
+        version: 8.4.24
+      prop-types:
+        specifier: 15.8.1
+        version: 15.8.1
+      storybook:
+        specifier: 7.0.18
+        version: 7.0.18
+      storybook-dark-mode:
+        specifier: ^3.0.0
+        version: 3.0.0(react-dom@17.0.2)(react@17.0.2)
+      tailwindcss:
+        specifier: ^3.3.2
+        version: 3.3.2
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../pkgs/tsconfig
+      twin.macro:
+        specifier: ^3.3.1
+        version: 3.3.1(tailwindcss@3.3.2)
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(less@4.1.3)
+      vite-tsconfig-paths:
+        specifier: ^3.4.1
+        version: 3.4.1(vite@4.3.9)
+      wait-on:
+        specifier: ^7.0.1
+        version: 7.0.1
+
   apps/backend:
     dependencies:
       bcryptjs:
@@ -240,8 +411,8 @@ importers:
         specifier: ^7.2.8
         version: 7.2.8(react-dom@17.0.2)(react@17.0.2)
       react-router-dom:
-        specifier: ^6.3.0
-        version: 6.3.0(react-dom@17.0.2)(react@17.0.2)
+        specifier: ^6.12.1
+        version: 6.12.1(react-dom@17.0.2)(react@17.0.2)
       react-transition-group:
         specifier: ^4.4.2
         version: 4.4.2(react-dom@17.0.2)(react@17.0.2)
@@ -472,6 +643,9 @@ importers:
       tabler-icons-react:
         specifier: ^1.54.0
         version: 1.54.0(react@17.0.2)
+      uuid:
+        specifier: ^9.0.0
+        version: 9.0.0
     devDependencies:
       '@babel/plugin-transform-react-jsx':
         specifier: ^7.22.3
@@ -6428,6 +6602,14 @@ packages:
       - encoding
     dev: false
 
+  /@remix-run/router@1.6.3:
+    resolution:
+      {
+        integrity: sha512-EXJysQ7J3veRECd0kZFQwYYd5sJMcq2O/m60zu1W2l3oVQ9xtub8jTOtYRE0+M2iomyG/W3Ps7+vp2kna0C27Q==,
+      }
+    engines: { node: '>=14' }
+    dev: false
+
   /@rollup/pluginutils@4.2.1:
     resolution:
       {
@@ -7031,7 +7213,7 @@ packages:
       magic-string: 0.27.0
       remark-external-links: 8.0.0
       remark-slug: 6.1.0
-      rollup: 2.79.1
+      rollup: 3.24.0
       typescript: 4.9.5
       vite: 4.3.9(less@4.1.3)
     transitivePeerDependencies:
@@ -7664,7 +7846,7 @@ packages:
         integrity: sha512-i/SLSGm0o978ELok/SB4Qg1sZ3zr+KuuCkzyFqcCD0r/yf+bG35aQGkFqqxfSAdDxuQom0NO02FE+qys5Eapdg==,
       }
     dependencies:
-      '@storybook/client-logger': 7.0.18
+      '@storybook/client-logger': 7.0.20
       '@storybook/instrumenter': 7.0.18
       '@testing-library/dom': 8.20.0
       '@testing-library/user-event': 13.5.0(@testing-library/dom@8.20.0)
@@ -19239,6 +19421,22 @@ packages:
     engines: { node: '>=0.10.0' }
     dev: true
 
+  /react-router-dom@6.12.1(react-dom@17.0.2)(react@17.0.2):
+    resolution:
+      {
+        integrity: sha512-POIZN9UDKWwEDga054LvYr2KnK8V+0HR4Ny4Bwv8V7/FZCPxJgsCjYxXGxqxzHs7VBxMKZfgvtKhafuJkJSPGA==,
+      }
+    engines: { node: '>=14' }
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.6.3
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+      react-router: 6.12.1(react@17.0.2)
+    dev: false
+
   /react-router-dom@6.3.0(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
@@ -19252,6 +19450,19 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
       react-router: 6.3.0(react@17.0.2)
+    dev: false
+
+  /react-router@6.12.1(react@17.0.2):
+    resolution:
+      {
+        integrity: sha512-evd/GrKJOeOypD0JB9e1r7pQh2gWCsTbUfq059Wm1AFT/K2MNZuDo19lFtAgIhlBrp0MmpgpqtvZC7LPAs7vSw==,
+      }
+    engines: { node: '>=14' }
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.6.3
+      react: 17.0.2
     dev: false
 
   /react-router@6.3.0(react@17.0.2):
@@ -19851,17 +20062,6 @@ packages:
         integrity: sha512-IXgzBWvWQwE6PrDI05OvmXUIruQTcoMDzRsOd5CDvHCVLcLHMTSYvOK5Cm46kWqlV3yAbuSpBZdJ5oP5OUoStg==,
       }
     dev: false
-
-  /rollup@2.79.1:
-    resolution:
-      {
-        integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==,
-      }
-    engines: { node: '>=10.0.0' }
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
 
   /rollup@3.24.0:
     resolution:

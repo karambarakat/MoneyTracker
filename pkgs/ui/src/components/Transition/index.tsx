@@ -10,6 +10,6 @@
 
 export { Transition as default } from './Transition'
 
-export type { TransitionProps, TransitionOverride } from './Transition'
+export type { TransitionStyles } from './Transition'
 
-export type { TransitionStyles } from './use-transition'
+export * as transitions from './transitions'

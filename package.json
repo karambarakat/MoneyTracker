@@ -6,7 +6,8 @@
   "workspaces": [
     "apps/*",
     "pkgs/*",
-    "conf/*"
+    "conf/*",
+    "alpha/*"
   ],
   "scripts": {
     "commit": "turbo --version && git commit",

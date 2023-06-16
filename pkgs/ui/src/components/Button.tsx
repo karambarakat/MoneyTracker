@@ -100,7 +100,7 @@ const light = (c: color) => css`
 `
 
 const outline = (c: color) => css`
-  ${tw`bg-transparent outline outline-1`};
+  ${tw`bg-transparent outline outline-1 -outline-offset-1`};
   outline-style: solid;
   outline-width: 1px;
   outline-color: ${colors[c][700]};
