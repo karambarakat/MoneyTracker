@@ -24,11 +24,9 @@ import Divider from 'ui/src/components/Divider'
 import ButtonIcon from 'ui/src/components/ButtonIcon'
 import Transition from 'ui/src/components/Transition'
 import Button from 'ui/src/components/Button'
-import {
-  fade_from_buttom,
-  fade_from_right,
-} from 'ui/src/components/Transition/transitions'
-import FlexBox from 'ui/src/components/exp/FlexBox'
+import { fade_from_buttom } from 'ui/src/components/Transition/transitions'
+import FlexBox from 'ui/src/components/experimental/FlexBox'
+import { getTitle } from '@src/components/ReactRoute'
 
 export default function Main_Layout_Component() {
   return (
@@ -161,11 +159,11 @@ function Navbar() {
 function Header() {
   const { width, setOpen } = useAppShellContext()
 
+  const title = getTitle()
   return (
     <div tw="flex justify-between items-center">
-      <Text size="h1">Home</Text>
-      {/* <FlexibleRect> : not stable */}
-      <FlexBox y={false}>
+      <Text size="h1">{title}</Text>
+      <FlexBox no_y>
         <div tw="flex gap-2 overflow-hidden">
           <Transition
             keepMounted={false}
@@ -191,7 +189,6 @@ function Header() {
           </Transition>
         </div>
       </FlexBox>
-      {/* </FlexibleRect> */}
     </div>
   )
 }

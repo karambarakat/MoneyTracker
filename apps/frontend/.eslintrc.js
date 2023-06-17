@@ -1,5 +1,6 @@
 /* eslint-env node */
 module.exports = {
   root: true,
-  extends: ['custom'],
+  extends: ['custom', 'plugin:@tanstack/eslint-plugin-query/recommended'],
+  plugins: ['@tanstack/query'],
 }

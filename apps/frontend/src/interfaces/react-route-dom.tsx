@@ -1,6 +1,9 @@
 import { Location } from 'react-router-dom'
 
 // actual deceleration is made at '../index.d.ts'
-export interface RouterState {
+/**
+ * @deprecated dead code; remove when done refactoring the code
+ */
+export interface RouterState_ {
   backgroundLocation?: Location
 }

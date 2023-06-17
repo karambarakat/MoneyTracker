@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
-
-// src/styles/GlobalStyles.tsx
 import { Global } from '@emotion/react'
 import tw, { css, theme, GlobalStyles as BaseStyles } from 'twin.macro'
 

@@ -9,7 +9,7 @@ import {
   Routes as NativeRoutes,
 } from 'react-router-dom'
 import { context } from './goBack'
-import { getTitle } from './Page'
+import { getTitle } from '../../routes/_MetaContext'
 import { ModalLocation } from './_type'
 
 export default function Routes({ children }: PropsWithChildren<any>) {
