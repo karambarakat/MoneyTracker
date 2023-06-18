@@ -7,12 +7,12 @@ export const Category_out = {
   properties: {
     _id: { type: 'string' },
     __v: { type: 'number' },
-    createdAt: { type: 'string' },
+    createdBy: { type: 'string' },
     title: { type: 'string' },
     color: { type: 'string' },
     icon: { type: 'string' },
   },
-  required: ['_id', '__v', 'createdAt', 'title'],
+  required: ['_id', '__v', 'createdBy', 'title'],
   additionalProperties: false,
 } as JSONSchema7
 

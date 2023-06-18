@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import passport from 'passport'
-import type { apiGoogleCallbackParams } from 'types/src/api/callback'
+import type { ApiGoogleCallbackParams } from 'types/dist/api'
 const google = Router()
 
 /**
@@ -71,7 +71,7 @@ callbackRouter.use('/', (req: Request, res: Response) => {
 
   const url = process.env.GOOGLE_CLIENT_CALLBACK_URL_FRONTEND as string
 
-  const params: apiGoogleCallbackParams = {
+  const params: ApiGoogleCallbackParams = {
     _id: profile._id,
     token: profile.token,
     displayName: profile.displayName,

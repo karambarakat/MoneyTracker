@@ -1,13 +1,13 @@
-// @ts-nocheck
 import mongoose from 'mongoose'
 import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 import { generateToken } from '@utils/tokens'
-import { Profile } from 'types/src/schema'
+import { SchemaProfile } from 'types/dist/schema'
 import type { Profile as PG } from 'passport-google-oauth20'
 
-export interface IProfile extends Profile {
+export interface IProfile extends SchemaProfile {
   password?: string
+
   googleInfo?: {
     accessToken: string
     refreshToken: string
@@ -25,7 +25,7 @@ export interface IProfile extends Profile {
   }
 
   matchPasswords: (password: string) => boolean
-  doc: () => Profile & { token: string }
+  doc: () => IProfile & { token: string }
 }
 
 const UserSchema = new mongoose.Schema<IProfile>(

@@ -8,17 +8,19 @@
 export interface SchemaCategoryOut {
   _id: string;
   __v: number;
-  createdAt: string;
+  createdBy: string;
   title: string;
   color?: string;
   icon?: string;
 }
+
 
 export interface SchemaCategoryIn {
   title: string;
   color?: string;
   icon?: string;
 }
+
 
 export interface SchemaLogOut {
   _id: string;
@@ -31,7 +33,7 @@ export interface SchemaLogOut {
   category?: {
     _id: string;
     __v: number;
-    createdAt: string;
+    createdBy: string;
     title: string;
     color?: string;
     icon?: string;
@@ -39,12 +41,14 @@ export interface SchemaLogOut {
   note?: string;
 }
 
+
 export interface SchemaLogIn {
   title: string;
   amount: number;
   category?: string;
   note?: string;
 }
+
 
 export interface SchemaProfile {
   _id: string;

@@ -1,22 +1,22 @@
 import {
-  BadBasicTokenE,
-  BadJsonPayloadE,
-  EmailIsUsedE,
-  EmailOrPasswordIncorrectE,
-  FailedToDeleteE,
-  FieldsRequiredE,
-  ResourceWasNotFoundE,
-  TokenFailedE,
-  UnAuthorizedE,
-  UnknownServerErrorE,
-  UserAlreadyExistE,
-  ValidationE,
-  WrongRouteConfig,
-} from 'types/src/httpErrors'
+  HttpErrors_BadBasicToken,
+  // HttpErrors_BadJsonPayload,
+  HttpErrors_EmailIsUsed,
+  HttpErrors_EmailOrPasswordIncorrect,
+  HttpErrors_FailedToDelete,
+  HttpErrors_FieldsRequired,
+  HttpErrors_ResourceWasNotFound,
+  HttpErrors_TokenFailed,
+  // HttpErrors_UnAuthorized,
+  HttpErrors_UnknownServerError,
+  HttpErrors_UserAlreadyExist,
+  HttpErrors_ValidationError,
+  // HttpErrors_WrongRouteConfi,
+} from 'types/dist/httpErrors'
 import { HttpError } from '.'
 
 export function FieldsRequired(keys: string[]) {
-  return new HttpError<FieldsRequiredE>({
+  return new HttpError<HttpErrors_FieldsRequired>({
     status: 400,
     name: 'SomeFieldsRequired',
     message: `these fields are required: ${keys.join(', ')}`,
@@ -30,7 +30,7 @@ export function FieldsRequired(keys: string[]) {
 }
 
 export const BadBasicToken = () =>
-  new HttpError<BadBasicTokenE>({
+  new HttpError<HttpErrors_BadBasicToken>({
     status: 401,
     name: 'BadBasicToken',
     message: 'email and password not provided',
@@ -38,7 +38,7 @@ export const BadBasicToken = () =>
   })
 
 export const EmailOrPasswordIncorrect = () =>
-  new HttpError<EmailOrPasswordIncorrectE>({
+  new HttpError<HttpErrors_EmailOrPasswordIncorrect>({
     status: 401,
     name: 'EmailOrPasswordIncorrect',
     message: 'email/password were/was wrong or not provided',
@@ -46,7 +46,7 @@ export const EmailOrPasswordIncorrect = () =>
   })
 
 export function UserAlreadyExist() {
-  return new HttpError<UserAlreadyExistE>({
+  return new HttpError<HttpErrors_UserAlreadyExist>({
     status: 409,
     name: 'UserAlreadyExist',
     message: 'User already exist.',
@@ -57,7 +57,7 @@ export function UserAlreadyExist() {
 }
 
 export function EmailIsUsed() {
-  return new HttpError<EmailIsUsedE>({
+  return new HttpError<HttpErrors_EmailIsUsed>({
     status: 400,
     name: 'EmailIsUsed',
     message: 'Email is used.',
@@ -66,7 +66,7 @@ export function EmailIsUsed() {
 }
 
 export function ResourceWasNotFound() {
-  return new HttpError<ResourceWasNotFoundE>({
+  return new HttpError<HttpErrors_ResourceWasNotFound>({
     status: 404,
     name: 'ResourceWasNotFound',
     message: 'couldn\'t find the target',
@@ -75,7 +75,7 @@ export function ResourceWasNotFound() {
 }
 
 export function UnknownServerError() {
-  return new HttpError<UnknownServerErrorE>({
+  return new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
     name: 'UnknownServerError',
     message: 'Unknown error occurred in the server.',
@@ -87,7 +87,7 @@ export function ValidationError(error: {
   msg: string
   errors: Record<string, string>
 }) {
-  return new HttpError<ValidationE>({
+  return new HttpError<HttpErrors_ValidationError>({
     status: 400,
     name: 'ValidationError',
     message: error.msg || 'some fields are not valid',
@@ -116,8 +116,8 @@ export function ValidationError(error: {
 // })
 
 export function BadJsonPayload() {
-  return new HttpError<BadJsonPayloadE>({
-    status: 400,
+  return new HttpError<HttpErrors_UnknownServerError>({
+    status: 500,
     name: 'JsonSyntaxError',
     message: 'can\'t parse the json payload',
     details: null,
@@ -125,7 +125,7 @@ export function BadJsonPayload() {
 }
 
 export const PrivateRoute = () =>
-  new HttpError<WrongRouteConfig>({
+  new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
     name: 'ServerError',
     message: 'authentication error, private route',
@@ -133,7 +133,7 @@ export const PrivateRoute = () =>
   })
 
 export const NoLog = () =>
-  new HttpError<WrongRouteConfig>({
+  new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
     name: 'ServerError',
     message: 'log wasn\'t found',
@@ -141,24 +141,24 @@ export const NoLog = () =>
   })
 
 export const NoCategory = () =>
-  new HttpError<WrongRouteConfig>({
+  new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
     name: 'ServerError',
     message: 'category wasn\'t found',
     details: null,
   })
 export const FailedToDelete = () =>
-  new HttpError<FailedToDeleteE>({
+  new HttpError<HttpErrors_FailedToDelete>({
     status: 500,
-    name: 'ServerError',
+    name: 'FailedToDelete',
     message: 'failed to delete',
     details: null,
   })
 
 export const TokenFailed: (
-  type: TokenFailedE['details']['type'],
+  type: HttpErrors_TokenFailed['details']['type'],
   date?: string | null | false,
-) => HttpError<TokenFailedE> = (type, date) =>
+) => HttpError<HttpErrors_TokenFailed> = (type, date) =>
   new HttpError({
     status: 401,
     name: type,

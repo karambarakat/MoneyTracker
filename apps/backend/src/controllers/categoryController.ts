@@ -12,7 +12,7 @@ import bearerAuth from '@middlewares/bearerAuth'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
-import { category_create, category_update } from 'types/src/api/routes/category'
+import { SchemaCategoryIn } from 'types/dist/schema'
 import Category from '@models/Category'
 import Log from '@models/Log'
 import of from '@utils/omitFalsy'
@@ -46,7 +46,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
   req.user._id
 
-  const { title, color, icon } = of(req.body) as category_create
+  const { title, color, icon } = of(req.body) as SchemaCategoryIn
 
   requiredFieldsMiddleware({ title })
 
@@ -131,7 +131,7 @@ async function findAllLogs(req: Request, res: Response, next: NextFunction) {
 async function update(req: Request, res: Response, next: NextFunction) {
   if (!req.category) throw NoCategory()
 
-  const { title, color, icon } = of(req.body) as category_update
+  const { title, color, icon } = of(req.body) as Partial<SchemaCategoryIn>
 
   req.category.title = title || req.category.title
   req.category.color = color || req.category.color

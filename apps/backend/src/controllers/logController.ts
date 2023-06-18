@@ -13,7 +13,8 @@ import Log, { ILog } from '@models/Log'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import { ObjectId } from 'mongodb'
-import { log_create, log_update } from 'types/src/api/routes/log'
+// import { log_create, log_update } from 'types/src/api/routes/log'
+import { SchemaLogIn } from 'types/dist/schema'
 import of from '@utils/omitFalsy'
 
 const router = Router()
@@ -46,7 +47,7 @@ async function find(req: Request, res: Response, next: NextFunction) {
 async function create(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
 
-  const { title, amount, category, note } = of(req.body) as log_create
+  const { title, amount, category, note } = of(req.body) as SchemaLogIn
 
   requiredFieldsMiddleware({ title, amount })
 
@@ -111,7 +112,7 @@ async function findOne(req: Request, res: Response, next: NextFunction) {
 async function update(req: Request, res: Response, next: NextFunction) {
   if (!req.log) throw NoLog()
 
-  const { title, amount, category, note } = of(req.body) as log_update
+  const { title, amount, category, note } = of(req.body) as Partial<SchemaLogIn>
 
   req.log.title = title || req.log.title
   req.log.amount = amount || req.log.amount

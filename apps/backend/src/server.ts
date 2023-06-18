@@ -74,8 +74,8 @@ api.use('*', e404)
 
 app.use('/api/v1', api)
 
-import { doc } from 'openapi-docs'
-app.use(doc)
+// import { doc } from 'openapi-docs'
+// app.use(doc)
 
 app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 
@@ -90,6 +90,7 @@ export { app }
 
 import log from '@utils/log'
 import db_conn from '@config/db-conn'
+import { SchemaLogIn, SchemaLogOut, SchemaProfile } from 'types/dist/schema'
 
 async function main() {
   await db_conn()

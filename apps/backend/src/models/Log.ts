@@ -1,8 +1,17 @@
 import mongoose from 'mongoose'
 import Category from './Category'
-import { Log } from 'types/src/schema'
+import type { SchemaLogOut } from 'types/dist/schema'
+import { Override } from 'types/utils/Override'
+import { ObjectId } from 'mongodb'
 
-export interface ILog extends Log {
+type Override_ = Override<
+  SchemaLogOut,
+  {
+    createdBy: ObjectId
+  }
+>
+
+export interface ILog extends Override_ {
   doc: () => Omit<ILog, 'doc'>
 }
 

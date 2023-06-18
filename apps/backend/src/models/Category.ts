@@ -1,7 +1,11 @@
+import { ObjectId } from 'mongodb'
 import mongoose from 'mongoose'
-import { Category } from 'types/src/schema'
+import type { SchemaCategoryOut } from 'types/dist/schema'
+import { Override } from 'types/utils/Override'
 
-export interface ICategory extends Category {
+type Override_ = Override<SchemaCategoryOut, { createdBy: ObjectId }>
+
+export interface ICategory extends Override_ {
   doc: () => Omit<ICategory, 'doc'>
 }
 

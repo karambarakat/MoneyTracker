@@ -42,16 +42,15 @@ export interface HttpErrors_PasswordIncorrect {
 
 
 export interface HttpErrors_UserAlreadyExist {
-  status?: 409;
-  name?: "UserAlreadyExist";
-  message?: string;
-  details?: {
+  status: 409;
+  name: "UserAlreadyExist";
+  message: string;
+  details: {
     errors?: {
       email: string;
     };
     [k: string]: unknown;
-  };
-  [k: string]: unknown;
+  }
 }
 
 
@@ -73,7 +72,7 @@ export interface HttpErrors_ResourceWasNotFound {
 
 export interface HttpErrors_UnknownServerError {
   status: 500;
-  name: "UnknownServerError";
+  name: string;
   message: string;
   details: null;
 }

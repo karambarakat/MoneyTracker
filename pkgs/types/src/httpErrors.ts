@@ -89,6 +89,8 @@ export const UserAlreadyExist = {
       },
     },
   },
+  required: ['status', 'name', 'message', 'details'],
+  additionalProperties: false,
 } satisfies JSONSchema7
 
 export const EmailIsUsed = {
@@ -125,7 +127,7 @@ export const UnknownServerError = {
   type: 'object',
   properties: {
     status: { const: 500 },
-    name: { const: 'UnknownServerError' },
+    name: { type: 'string' },
     message: { type: 'string' },
     details: { type: 'null' },
   },

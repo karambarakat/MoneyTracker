@@ -6,7 +6,7 @@ import {
 } from '@utils/httpError/errTypes'
 import type { HttpError } from '@utils/httpError'
 import { NextFunction, Request, Response } from 'express'
-import { UnknownServerErrorE } from 'types/src/httpErrors'
+import { HttpErrors_UnknownServerError } from 'types/dist/httpErrors'
 
 export function e400_JsonError(
   err: Error,
@@ -68,7 +68,7 @@ export function e400_MongooseValidation(
 }
 
 export function e500_ServerError(
-  err: HttpError<UnknownServerErrorE>,
+  err: HttpError<HttpErrors_UnknownServerError>,
   req: Request,
   res: Response,
   next: NextFunction,

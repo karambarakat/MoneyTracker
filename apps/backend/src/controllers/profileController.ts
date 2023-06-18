@@ -10,11 +10,11 @@ import User from '@models/User'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
 import {
-  email_status,
-  profile_update,
-  updatePassword_local,
-  updatePassword_nolocal,
-} from 'types/src/api/routes/profile'
+  RoutesEmailStatus,
+  RoutesProfileUpdate,
+  RoutesUpdatePasswordLocal,
+  RoutesUpdatePasswordNolocal,
+} from 'types/dist/routes'
 import of from '@utils/omitFalsy'
 
 const router = Router()
@@ -32,7 +32,7 @@ async function emailProvidersStatus(
   res: Response,
   next: NextFunction,
 ) {
-  const { email } = of(req.body) as email_status
+  const { email } = of(req.body) as RoutesEmailStatus
 
   requiredFieldsMiddleware({ email })
 
@@ -66,7 +66,7 @@ async function updateCurrentUser(
 ) {
   if (!req.user) throw PrivateRoute()
 
-  const { displayName, picture } = of(req.body) as profile_update
+  const { displayName, picture } = of(req.body) as RoutesProfileUpdate
 
   req.user.displayName = displayName || req.user.displayName
   req.user.picture = picture || req.user.picture
@@ -87,7 +87,9 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
   if (!req.user) throw PrivateRoute()
 
   if (req.user.providers.includes('local')) {
-    const { newPassword, oldPassword } = of(req.body) as updatePassword_local
+    const { newPassword, oldPassword } = of(
+      req.body,
+    ) as RoutesUpdatePasswordLocal
     requiredFieldsMiddleware({ newPassword, oldPassword })
 
     if (!req.user.matchPasswords(oldPassword)) throw EmailOrPasswordIncorrect()
@@ -95,7 +97,7 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
     req.user.password = newPassword
     await req.user.save()
   } else {
-    const { newPassword } = of(req.body) as updatePassword_nolocal
+    const { newPassword } = of(req.body) as RoutesUpdatePasswordNolocal
     requiredFieldsMiddleware({ newPassword })
 
     req.user.password = newPassword

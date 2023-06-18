@@ -8,9 +8,10 @@ COPY . .
 RUN pnpm exec turbo prune --scope backend --docker
 
 
-# npm install
+
 FROM base as install
 WORKDIR /monorepo
+COPY --from=prune /monorepo/turbo.json .
 COPY --from=prune /monorepo/out/json .
 COPY --from=prune /monorepo/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=prune /monorepo/pnpm-lock.yaml ./pnpm-lock.yaml
@@ -20,7 +21,8 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store/v3\
   pnpm install --frozen-lockfile
 
 COPY --from=prune /monorepo/out/full .
-RUN pnpm --filter backend run build
+# CMD ["sleep", "infinity"]
+RUN turbo build
 
 
 RUN addgroup --system --gid 1001 nodejs

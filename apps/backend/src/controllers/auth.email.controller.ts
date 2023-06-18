@@ -6,7 +6,10 @@ import User from '@models/User'
 import of from '@utils/omitFalsy'
 import { NextFunction, Request, Response, Router } from 'express'
 import _ from 'express-async-handler'
-import { auth_local_register } from 'types/src/api/routes/auth_local'
+import {
+  RoutesAuthLocalRegister,
+  RoutesAuthLocalLogin,
+} from 'types/dist/routes'
 const local = Router()
 
 /**
@@ -19,7 +22,7 @@ const local = Router()
 async function local_register(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.getBasicToken()
 
-  const { displayName } = of(req.body) as auth_local_register
+  const { displayName } = of(req.body) as RoutesAuthLocalRegister
 
   const userExist = await User.findOne({ email })
 

@@ -1,8 +1,11 @@
 import { NextFunction, Request, Response } from 'express'
-import { DefaultErrorE, HttpErrorProps } from 'types/src/httpErrors'
+import type {
+  DefaultErrorE,
+  HttpErrorProps,
+} from 'types/src/httpErrors_default'
 import { FieldsRequired } from './errTypes'
 
-const DefaultError: DefaultErrorE = {
+const DefaultError = {
   details: null,
   message: 'UnspecifiedError',
   name: 'UnspecifiedError',
@@ -13,7 +16,7 @@ export const isHttpError = Symbol('HttpError')
 export class HttpError<Props extends HttpErrorProps> extends Error {
   status: number
   name: string
-  details: Record<string, string> | null;
+  details: object | null;
   [isHttpError] = true
 
   constructor(args: Props) {

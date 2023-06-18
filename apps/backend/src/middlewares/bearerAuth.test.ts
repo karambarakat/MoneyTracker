@@ -6,20 +6,20 @@ import { ProfileShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
 import mongoose from 'mongoose'
 import { IProfile } from '@models/User'
-import { jwt_payload } from 'types/src/jwt'
+import { Jwt } from 'types/dist/api'
 import jwt from 'jsonwebtoken'
 
 const jwtParse = (token: string) => {
   try {
     return JSON.parse(
       Buffer.from(token.split('.')[1], 'base64').toString(),
-    ) as jwt_payload
+    ) as Jwt
   } catch {
     return undefined
   }
 }
 
-const jwtGen = (payload: jwt_payload, secret?: string) => {
+const jwtGen = (payload: Jwt, secret?: string) => {
   return jwt.sign(payload, secret || (process.env.JWT_SECRET as string), {
     algorithm: 'HS256',
   })
@@ -79,7 +79,7 @@ describe('bearer token', () => {
   })
 
   test('TokenExpiredError', async () => {
-    const token = jwtParse(user.token) as jwt_payload
+    const token = jwtParse(user.token) as Jwt
     const res = await req()
       .set(
         'Authorization',
@@ -103,7 +103,7 @@ describe('bearer token', () => {
   })
 
   test('invalid secret', async () => {
-    const token = jwtParse(user.token) as jwt_payload
+    const token = jwtParse(user.token) as Jwt
     const res = await req()
       .set('Authorization', 'Bearer ' + jwtGen(token, 'random secrets'))
       .send()

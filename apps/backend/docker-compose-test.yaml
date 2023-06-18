@@ -6,7 +6,7 @@ services:
       context: ../../
       args:
         Package_name: backend
-    command: ['npm', 'run', 'test:base', '-w', 'backend']
+    command: ['pnpm', '--filter', 'backend', 'run', 'test:base']
     env_file:
       - ./.env.test.local
     environment:
