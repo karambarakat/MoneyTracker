@@ -59,6 +59,7 @@ function App() {
                   <Route element={<AppShellLayout />}>
                     {/* // todo : next */}
                     <Route index element={<Index />} />
+
                     {/* <Route path="charts" element={<Charts />} /> */}
                     {/* <Route path="categories" element={<Categories />} /> */}
                   </Route>

@@ -5,8 +5,6 @@ RUN npm i -g pnpm@8.6.0 turbo
 FROM base as prune
 WORKDIR /monorepo
 COPY . .
-# [see](https://github.com/vercel/turbo/issues/5117)
-RUN sed -i -e "s/lockfileVersion: '6.1'/lockfileVersion: '6.0'/g" pnpm-lock.yaml
 RUN pnpm exec turbo prune --scope backend --docker
 
 
