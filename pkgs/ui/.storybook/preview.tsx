@@ -59,8 +59,8 @@ const preview: Preview = {
     },
     darkMode: {
       current: 'dark',
-      darkClass: ['dark', 'dark-mode-plugin'],
-      lightClass: ['light', 'dark-mode-plugin'],
+      darkClass: ['dark', 'dark-mode-plugin-dark'],
+      lightClass: ['light', 'dark-mode-plugin-light'],
       classTarget: 'html',
       stylePreview: true,
     },

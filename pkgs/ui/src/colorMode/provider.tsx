@@ -2,50 +2,42 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { WithChildren } from '../utils/WithChildren'
 
 type mode = 'light' | 'dark'
-const _context = createContext<[mode, (m: mode | 'system') => void]>([
-  'light',
-  () => {
+
+const _context = createContext<{
+  mode: mode
+  setMode: (to: mode | 'system') => void
+  toggle: () => void
+  isSystem: boolean
+}>({
+  isSystem: true,
+  mode: 'dark',
+  setMode: () => {
     throw new Error('no context provided')
   },
-])
-
-// see [Supporting system preference and manual selection](https://tailwindcss.com/docs/dark-mode#:~:text=Supporting%20system%20preference%20and%20manual%20selection)
-function setModeOnBrowser(m: mode | 'system') {
-  if (!localStorage || !document) return
-
-  if (m === 'system') {
-    localStorage.removeItem('theme')
-    // class will be removed by head(), I do it here just in case
-    document.documentElement.classList.remove('dark')
-    return
-  }
-
-  localStorage.theme = m
-
-  m === 'dark'
-    ? document.documentElement.classList.add('dark')
-    : document.documentElement.classList.remove('dark')
-}
-
-const head = () => {
-  if (!window) return
-
-  if (
-    localStorage.theme === 'dark' ||
-    (!('theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-}
+  toggle: () => {
+    throw new Error('no context provided')
+  },
+})
 
 export function ColorModeProvider({
   children,
-  mode,
-}: WithChildren<{ mode: mode }>) {
-  const [_mode, _setMode] = useState<mode>(mode)
+  mode: _mode,
+}: WithChildren<{ mode?: mode }>) {
+  const [isSystem, setIsSystem] = useState((_mode && false) || true)
+  const [mode, _setMode] = useState<mode>(_mode || 'dark')
+
+  useEffect(() => {
+    if (mode === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else if (mode === 'light') {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [mode])
+
+  useEffect(() => {
+    const isS = !_mode
+    setMode(isS ? 'system' : _mode)
+  }, [_mode])
 
   const setMode = (m: mode | 'system') => {
     const mode =
@@ -55,34 +47,39 @@ export function ColorModeProvider({
           : 'light'
         : m
 
+    m === 'system' ? setIsSystem(true) : setIsSystem(false)
+
     _setMode(mode)
 
     if (m === 'system') {
       localStorage.removeItem('theme')
-      document.documentElement.classList.remove('dark')
     } else if (m === 'dark') {
       localStorage.theme = 'dark'
-      document.documentElement.classList.add('dark')
     } else {
       localStorage.theme = 'light'
-      document.documentElement.classList.remove('dark')
     }
   }
 
-  // // changing the props
-  useEffect(() => {
-    setMode(mode)
-  }, [mode])
-
-  // // initial setup
-  // useEffect(() => {
-  //   head()
-  //   // bug: sb provide `dark` class for body tag
-  //   document.body.classList.remove('dark')
-  // }, [])
+  const [goBack, setGoBack] = useState(false)
+  const toggle = () => {
+    setMode(
+      isSystem
+        ? 'dark'
+        : mode === 'dark'
+        ? 'light'
+        : goBack
+        ? 'system'
+        : 'dark',
+    )
+    // mode === 'dark' ? setGoBack(true) : setGoBack(false)
+    isSystem && mode === 'dark' ? setGoBack(true) : setGoBack(false)
+    isSystem && mode === 'light' ? setGoBack(false) : setGoBack(true)
+  }
 
   return (
-    <_context.Provider value={[_mode, setMode]}>{children}</_context.Provider>
+    <_context.Provider value={{ mode, setMode, isSystem, toggle }}>
+      {children}
+    </_context.Provider>
   )
 }
 

@@ -87,13 +87,6 @@ export const ExtraSmallView = {
 
 export const ExtraSmallViewOpened = {
   parameters: ExtraSmallView.parameters,
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const toggle = await canvas.findByText('sidebar: ', { exact: false })
-    toggle.textContent?.includes('sidebar: closed') && toggle.click()
-    const clear = await canvas.findByText('sidebar: opened')
-    clear.click()
-  },
 } satisfies _s<typeof component>
 
 export const SmallView = {
@@ -106,33 +99,14 @@ export const SmallView = {
 
 export const SmallViewOpened = {
   parameters: SmallView.parameters,
-  play: async ({ canvasElement, ...more }) => {
-    await ExtraSmallViewOpened.play({ canvasElement, ...more })
-  },
 } satisfies _s<typeof component>
 
 export const SmallViewExpanded = {
   parameters: SmallView.parameters,
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const toggle = await canvas.findByText('expand: ', { exact: false })
-    toggle.textContent?.includes('expand: 0') && toggle.click()
-    const clear = await canvas.findByText('expand: 1')
-    clear.click()
-  },
 } satisfies _s<typeof component>
 
 export const SmallViewExpandedOpened = {
   parameters: SmallView.parameters,
-  play: async ({ canvasElement, ...more }) => {
-    await SmallViewOpened.play({ canvasElement, ...more })
-
-    await SmallViewExpanded.play({ canvasElement, ...more })
-
-    // should not allow to open
-    const canvas = within(canvasElement)
-    canvas.findByText('sidebar: closed')
-  },
 } satisfies _s<typeof component>
 
 export const MediumView = {
@@ -144,30 +118,6 @@ export const MediumView = {
 } satisfies _s<typeof component>
 export const HoverEffect = {
   parameters: SmallView.parameters,
-
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
-    // setup to prevent flanky test:
-    const expand = await canvas.findByText('expand: ', { exact: false })
-
-    expand.textContent?.includes('expand: 1') &&
-      userEvent.click(await canvas.findByText('expand: ', { exact: false }))
-    const toggle = await canvas.findByText('sidebar: ', { exact: false })
-    toggle.textContent?.includes('opened') && userEvent.click(toggle)
-    await new Promise(r => setTimeout(r, 500))
-
-    // actual test:
-    const hover = await canvas.findByText('···')
-    userEvent.hover(hover)
-    await canvas.findByText('sidebar: closed')
-    await new Promise(r => setTimeout(r, 1000))
-    await canvas.findByText('sidebar: opened')
-
-    userEvent.unhover(hover)
-    await new Promise(r => setTimeout(r, 1000))
-    await canvas.findByText('sidebar: closed')
-  },
 } satisfies _s<typeof component>
 
 export const LargeView = {

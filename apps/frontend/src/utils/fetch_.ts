@@ -4,10 +4,13 @@ export default async function fetch_<R>(
 ) {
   const res = await fetch(import.meta.env.VITE_BACKEND_API + id, {
     ...init,
-    headers: { ...init?.headers },
+    headers: {
+      ...init?.headers,
+      Authorization:
+        'Bearer ' +
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3MDc3OTk2LCJleHAiOjE2ODcyNTA3OTZ9.j6ElVd6_iln2DP9MEIW-Efx4SleG50e6Sar6_pXCsgs',
+    },
   })
-
-  const status = res.status
 
   const { data, error } = await res.json()
 

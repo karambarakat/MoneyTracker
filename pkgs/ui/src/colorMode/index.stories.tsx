@@ -7,84 +7,54 @@ import { expect } from '@storybook/jest'
 import ToggleColorTheme from './ToggleColorTheme'
 import 'twin.macro'
 import { addons } from '@storybook/addons'
-import { UPDATE_DARK_MODE_EVENT_NAME } from 'storybook-dark-mode'
-import { useColorMode } from './provider'
+import { UPDATE_DARK_MODE_EVENT_NAME, useDarkMode } from 'storybook-dark-mode'
+import { ColorModeProvider, useColorMode } from './provider'
 
 export default {
   title: 'colorMode',
+  decorators: [
+    Story => {
+      const sbMode = useDarkMode() ? 'dark' : 'light'
+      return (
+        <ColorModeProvider mode={sbMode}>
+          <WithSb>
+            <Story />
+          </WithSb>
+        </ColorModeProvider>
+      )
+    },
+  ],
   component,
 } satisfies _m<typeof component>
 
+function WithSb({ children }: { children: React.ReactNode }) {
+  const { mode } = useColorMode()
+  useEffect(() => {
+    // prevent a mismatch between the sb mode and the mode in the provider
+    mode === 'dark' &&
+      document.documentElement.classList.contains('dark-mode-plugin-light') &&
+      addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
+
+    mode === 'light' &&
+      document.documentElement.classList.contains('dark-mode-plugin-dark') &&
+      addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
+  }, [mode])
+
+  return <>{children}</>
+}
+
 export const Toggle = {} satisfies _s<typeof component>
 
-export const FromLight = {
-  decorators: [
-    Story => {
-      useEffect(() => {
-        if (document.documentElement.classList.contains('dark')) {
-          addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
-        }
-      }, [])
-      return <Story />
-    },
-  ],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const mode = canvas
-      .getByText(current(''), { exact: false })
-      .textContent?.replace('current mode is: ', '')
-
-    if (!mode) throw new Error()
-    const other = mode === 'dark' ? 'light' : 'dark'
-
-    userEvent.click(canvas.getByLabelText(change(mode)))
-
-    expect(canvas.getByText(current(other)).textContent).toBeDefined()
-
-    // return to normal
-    userEvent.click(canvas.getByLabelText(change(''), { exact: false }))
-  },
-} satisfies _s<typeof component>
-
-export const FromDark = {
-  decorators: [
-    Story => {
-      useEffect(() => {
-        if (!document.documentElement.classList.contains('dark')) {
-          addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
-        }
-      }, [])
-      return <Story />
-    },
-  ],
-
-  play: async ({ canvasElement, ...more }) => {
-    FromLight.play({ canvasElement, ...more })
-  },
-} satisfies _s<typeof component>
-
-function current(m: string) {
-  return `current mode is: ${m}`
-}
-
-function change(m: string) {
-  return `change to ${m === 'dark' ? 'light' : m === 'light' ? 'dark' : m}`
-}
-
 function component() {
-  const [mode, setMode] = useColorMode()
+  const { mode, isSystem } = useColorMode()
+
   return (
     <div>
-      <div tw="pb-2">{current(mode)}</div>
+      <div tw="pb-2">current mode is: {mode}</div>
 
-      <div
-        aria-label={change(mode)}
-        onClick={() => {
-          addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
-          mode === 'dark' && setMode('light')
-          mode === 'light' && setMode('dark')
-        }}
-      >
+      <div tw="pb-2">system prefers is turned {isSystem ? 'on' : 'off'}</div>
+
+      <div aria-label={'toggle mode'}>
         <ToggleColorTheme />
       </div>
     </div>

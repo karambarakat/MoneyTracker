@@ -48,7 +48,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 function App() {
   return (
     // <MantineSetUp>
-    <ColorModeProvider mode="light">
+    <ColorModeProvider>
       <MetaContext>
         <QueryClientProvider>
           <BrowserRouter>

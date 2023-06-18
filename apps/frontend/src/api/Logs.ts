@@ -1,14 +1,14 @@
 import fetch_ from '@src/utils/fetch_'
 import { QueryFunctionContext } from '@tanstack/react-query'
-import { Log } from 'types/src/schema'
+import { SchemaLogOut } from 'types/dist/schema'
 
 export const find_log = (ctx: QueryFunctionContext) =>
-  fetch_<Log[]>('/log', {
+  fetch_<SchemaLogOut[]>('/log', {
     method: 'GET',
   })
 
 export const find_one_log = ({ queryKey }: QueryFunctionContext) =>
-  fetch_<Log>('/log' + queryKey[1], {
+  fetch_<SchemaLogOut>('/log/' + queryKey[1], {
     method: 'GET',
   })
 

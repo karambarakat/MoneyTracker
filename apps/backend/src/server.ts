@@ -31,6 +31,7 @@ import JSONReplacer from '@utils/JSONReplacer'
 import type { IProfile } from '@models/User'
 import type { ILog } from '@models/Log'
 import type { ICategory } from '@models/Category'
+import cors from 'cors'
 
 declare global {
   namespace Express {
@@ -46,6 +47,8 @@ declare global {
 }
 
 const app = expressApp()
+
+app.use(cors({ origin: process.env.FRONTEND_URL || true }))
 
 app.set('json replacer', JSONReplacer)
 
