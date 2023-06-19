@@ -2,7 +2,7 @@
   "extends": "tsconfig/ui.json",
   "compilerOptions": {
     "forceConsistentCasingInFileNames": false,
-    "skipLibCheck": true,
-    "types": ["./types/modules.d.ts", "./types/twin.d.ts"]
-  }
+    "skipLibCheck": true
+  },
+  "include": ["./src", "./types"]
 }

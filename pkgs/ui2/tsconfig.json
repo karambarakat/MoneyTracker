@@ -1,8 +1,0 @@
-{
-  "extends": "tsconfig/ui.json",
-  "compilerOptions": {
-    "forceConsistentCasingInFileNames": false,
-    "skipLibCheck": true
-  },
-  "include": ["./src", "./types"]
-}

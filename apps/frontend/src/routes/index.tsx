@@ -23,7 +23,7 @@ function Index_Page_Component() {
     queryFn: find_log,
   })
 
-  if (!data) throw new Error('data is undefined')
+  if (!data) throw new Error('suspense option should be enabled ?')
 
   // const [logs, { empty }] = getLogs()
 

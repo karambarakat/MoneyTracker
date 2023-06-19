@@ -1,11 +1,11 @@
-import { colors, spacing } from './src/utils/tw'
+// import { colors, spacing } from './src/utils/tw'
 
 export const darkMode = 'class'
 
 /** @type {import('tailwindcss').Config} */
 export const theme = {
-  colors: colors,
-  spacing: spacing,
+  // colors: colors,
+  // spacing: spacing,
   screens: {
     // mobile-first
     sm: '640px',

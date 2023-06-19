@@ -7,7 +7,7 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"]
-    },
-    "types": ["./types/twin.d.ts"]
-  }
+    }
+  },
+  "include": ["src", "types"]
 }

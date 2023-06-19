@@ -29,16 +29,16 @@ export default {
 
 function WithSb({ children }: { children: React.ReactNode }) {
   const { mode } = useColorMode()
-  useEffect(() => {
-    // prevent a mismatch between the sb mode and the mode in the provider
-    mode === 'dark' &&
-      document.documentElement.classList.contains('dark-mode-plugin-light') &&
-      addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
+  // useEffect(() => {
+  //   // prevent a mismatch between the sb mode and the mode in the provider
+  //   mode === 'dark' &&
+  //     document.documentElement.classList.contains('dark-mode-plugin-light') &&
+  //     addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
 
-    mode === 'light' &&
-      document.documentElement.classList.contains('dark-mode-plugin-dark') &&
-      addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
-  }, [mode])
+  //   mode === 'light' &&
+  //     document.documentElement.classList.contains('dark-mode-plugin-dark') &&
+  //     addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
+  // }, [mode])
 
   return <>{children}</>
 }

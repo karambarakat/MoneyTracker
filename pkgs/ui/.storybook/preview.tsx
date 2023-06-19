@@ -69,7 +69,6 @@ const preview: Preview = {
   decorators: [
     Story => {
       const sbMode = useDarkMode() ? 'dark' : 'light'
-
       return <ColorModeProvider mode={sbMode}>{Story()}</ColorModeProvider>
     },
     Story => {
@@ -85,7 +84,7 @@ const preview: Preview = {
               },
             }}
           />
-          <Story />
+          {Story()}
         </>
       )
     },

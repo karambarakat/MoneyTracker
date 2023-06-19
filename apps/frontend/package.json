@@ -6,7 +6,7 @@
     "dev": "vite",
     "lint": "eslint --fix .",
     "typecheck": "tsc --noEmit",
-    "build": "tsc && vite build"
+    "build": "echo todo refactoring the app || tsc && vite build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",

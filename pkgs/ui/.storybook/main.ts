@@ -10,12 +10,6 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     'storybook-dark-mode',
-    {
-      name: '@storybook/addon-styling',
-      options: {
-        postCss: true,
-      },
-    },
   ],
   framework: {
     name: '@storybook/react-vite',
