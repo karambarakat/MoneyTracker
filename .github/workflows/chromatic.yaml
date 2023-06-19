@@ -10,6 +10,8 @@ jobs:
     # Job steps
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 3
 
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
