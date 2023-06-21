@@ -14,3 +14,4 @@ out
 .dev_*
 
 do_app_spec_prod.yaml
+*.local.*

@@ -5,9 +5,7 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "pkgs/*",
-    "conf/*",
-    "alpha/*"
+    "pkgs/*"
   ],
   "scripts": {
     "commit": "turbo --version && git commit",
@@ -19,7 +17,7 @@
     "test": "turbo run test",
     "prepare": "husky install",
     "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.yaml",
-    "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec_prod.yaml"
+    "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.local.yaml"
   },
   "devDependencies": {
     "husky": "^8.0.3",
@@ -28,8 +26,8 @@
     "turbo": "latest"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "**/*.{js,jsx,ts,tsx}": "eslint --fix"
+    "**/*.{js,jsx,ts,tsx}": "eslint --fix",
+    "**/*": "prettier --write --ignore-unknown"
   },
   "engines": {
     "node": ">=14.0.0",
