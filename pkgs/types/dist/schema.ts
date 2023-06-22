@@ -5,7 +5,7 @@
  * DO NOT MODIFY IT BY HAND. Instead, modify `json-schema/schema.ts`,
  * and run json-schema-to-typescript to regenerate this file.
  */
-export interface SchemaCategoryOut {
+export type SchemaCategoryOut =  {
   _id: string;
   __v: number;
   createdBy: string;
@@ -15,14 +15,14 @@ export interface SchemaCategoryOut {
 }
 
 
-export interface SchemaCategoryIn {
+export type SchemaCategoryIn =  {
   title: string;
   color?: string;
   icon?: string;
 }
 
 
-export interface SchemaLogOut {
+export type SchemaLogOut =  {
   _id: string;
   __v: number;
   createdAt: string;
@@ -42,7 +42,7 @@ export interface SchemaLogOut {
 }
 
 
-export interface SchemaLogIn {
+export type SchemaLogIn =  {
   title: string;
   amount: number;
   category?: string;
@@ -50,7 +50,7 @@ export interface SchemaLogIn {
 }
 
 
-export interface SchemaProfile {
+export type SchemaProfile =  {
   _id: string;
   __v: number;
   createdAt: string;

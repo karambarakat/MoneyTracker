@@ -127,7 +127,7 @@ export const UnknownServerError = {
   type: 'object',
   properties: {
     status: { const: 500 },
-    name: { type: 'string' },
+    name: { const: 'UnknownServerError' },
     message: { type: 'string' },
     details: { type: 'null' },
   },

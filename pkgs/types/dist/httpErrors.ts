@@ -72,7 +72,7 @@ export interface HttpErrors_ResourceWasNotFound {
 
 export interface HttpErrors_UnknownServerError {
   status: 500;
-  name: string;
+  name: 'ServerError';
   message: string;
   details: null;
 }

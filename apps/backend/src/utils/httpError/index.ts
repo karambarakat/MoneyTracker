@@ -1,8 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import type {
-  DefaultErrorE,
-  HttpErrorProps,
-} from 'types/src/httpErrors_default'
+import type { HttpErrorProps } from 'types/src/httpErrors_default'
 import { FieldsRequired } from './errTypes'
 
 const DefaultError = {

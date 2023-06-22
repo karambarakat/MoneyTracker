@@ -1,39 +1,67 @@
-import { QueryFunctionContext as ctx } from '@tanstack/react-query'
+import { QueryFunctionContext } from '@tanstack/react-query'
+import HttpError from 'types/src/httpErrors_default'
 
-export default async function fetch_<R>(
-  id: string,
-  init?: Parameters<typeof fetch>[1],
-) {
-  const res = await fetch(import.meta.env.VITE_BACKEND_API + id, {
-    ...init,
-    headers: {
-      ...init?.headers,
-      Authorization:
-        'Bearer ' +
-        // todo refactoring: use localStorage
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3MDc3OTk2LCJleHAiOjE2ODcyNTA3OTZ9.j6ElVd6_iln2DP9MEIW-Efx4SleG50e6Sar6_pXCsgs',
-    },
-  })
+export function mutation<A extends Action<any, any>>(action: A) {
+  return async function (args: InputOfAction<A>) {
+    const meta_ = action(args)
+    const res = await fetch(import.meta.env.VITE_BACKEND_API + meta_.path, {
+      ...meta_,
+      headers: {
+        ...meta_.headers,
+        'Content-Type': 'application/json',
+        Authorization:
+          'Bearer ' +
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3Mzg1MjkwLCJleHAiOjE2ODc1NTgwOTB9.3IQ6kowK8bQA0qVbCiBCuJkc5OAEJZneHXSXSQG5mfk',
+      },
+    })
 
-  const { data, error } = await res.json()
+    const { data, error } = await res.json()
 
-  if (error) return Promise.reject(error)
+    if (error) throw new HttpError(error)
 
-  return data as R
+    return data
+  }
 }
 
-export type ActionOutput<T> = T extends (
-  ...IDontCare1: any[]
-) => (...IDontCare3: any[]) => Promise<infer output>
+export function query<O>({ path, ...init }: RequestInfo<O>) {
+  return async function (context: QueryFunctionContext) {
+    const res = await fetch(import.meta.env.VITE_BACKEND_API + path, {
+      ...init,
+      signal: context.signal,
+      headers: {
+        ...init.headers,
+        // 'Content-Type': 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3Mzg1MjkwLCJleHAiOjE2ODc1NTgwOTB9.3IQ6kowK8bQA0qVbCiBCuJkc5OAEJZneHXSXSQG5mfk',
+      },
+    })
+
+    const { data, error } = await res.json()
+
+    if (error) throw new HttpError(error)
+
+    return data as O
+  }
+}
+
+export type OutputOfAction<T> = T extends (
+  Input: any,
+) => RequestInfo<infer output>
   ? output
   : never
 
-export type ActionInput<T> = T extends (
-  ...Input: infer input
-) => (...IDontCare3: any[]) => Promise<unknown>
+export type InputOfAction<T> = T extends (
+  Input: infer input,
+) => RequestInfo<unknown>
   ? input
   : never
 
 export type Action<input = object, output = unknown> = keyof input extends never
-  ? () => (ctx: ctx) => Promise<output>
-  : (input: input) => (ctx: ctx) => Promise<output>
+  ? () => RequestInfo<output>
+  : (input: input) => RequestInfo<output>
+
+export type RequestInfo<output> = Parameters<typeof fetch>[1] & {
+  path: string
+  // will be removed by typescript compiler
+  onlyTypeScript?: output
+}

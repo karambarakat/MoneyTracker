@@ -11,6 +11,6 @@ const sizes = {
 
 const base = tw`flex items-center justify-center`
 
-export default function Button(props: PropsOf<typeof ButtonBase>) {
+export default function ButtonIcon(props: PropsOf<typeof ButtonBase>) {
   return <ButtonBase css={[base, sizes[props.size || 'md']]} {...props} />
 }

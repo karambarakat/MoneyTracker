@@ -1,10 +1,17 @@
 import 'twin.macro'
+import Login from '@src/routes/auth/Login'
 // import 'ui/src/tailwind.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  Route,
+  RouteObject,
+  Routes,
+} from 'react-router-dom'
 import AppShellLayout from '@src/routes/_Layout'
 import MantineSetUp from '@src/components/MantineSetUp'
 import { Provider as Redux } from 'react-redux'
@@ -63,6 +70,7 @@ function App() {
                     {/* <Route path="charts" element={<Charts />} /> */}
                     {/* <Route path="categories" element={<Categories />} /> */}
                   </Route>
+                  <Route path="/auth/login" element={<Login />} />
 
                   {/* <Route path="about" element={<About />} /> */}
                   {/* <Route path="export" element={<Export />} /> */}

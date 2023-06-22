@@ -77,6 +77,7 @@ export function ResourceWasNotFound() {
 export function UnknownServerError() {
   return new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
+    // @ts-ignore
     name: 'UnknownServerError',
     message: 'Unknown error occurred in the server.',
     details: null,
@@ -118,6 +119,7 @@ export function ValidationError(error: {
 export function BadJsonPayload() {
   return new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
+    // @ts-ignore
     name: 'JsonSyntaxError',
     message: 'can\'t parse the json payload',
     details: null,
