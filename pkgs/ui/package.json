@@ -18,6 +18,8 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mantine/hooks": "^5.4.2",
+    "@radix-ui/react-scroll-area": "^1.0.4",
+    "@radix-ui/react-slot": "^1.0.2",
     "change-case": "^4.1.2",
     "classnames": "^2.3.1",
     "formik": "^2.2.9",

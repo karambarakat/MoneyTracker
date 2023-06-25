@@ -15,7 +15,7 @@ import {
 
 import { Outlet, Link } from 'react-router-dom'
 
-import AppShell, { useAppShellContext } from 'ui/src/components/AppShell'
+import * as AppShell from 'ui/src/components/AppShell/AppShell'
 import TextEllipsis from 'ui/src/components/TextEllipsis'
 import ToggleColorTheme from 'ui/src/colorMode/ToggleColorTheme'
 import { color } from 'ui/src/utils/tw-helper'
@@ -30,31 +30,48 @@ import { getTitle } from '@src/components/ReactRoute'
 
 export default function Main_Layout_Component() {
   return (
-    <AppShell
-      bp_sm={639}
-      bp_md={767}
-      sidebar_sm="64px" // icon 16px + button padding 10px * 2 + navbar padding 8px * 2
-      sidebar_md="250px"
-      SideBar={
+    // <AppShell
+    //   bp_sm={639}
+    //   bp_md={767}
+    //   sidebar_sm="64px" // icon 16px + button padding 10px * 2 + navbar padding 8px * 2
+    //   sidebar_md="250px"
+    //   SideBar={
+    //     <div tw="bg-slate-100 dark:bg-slate-900 h-full">
+    //       <Navbar />
+    //     </div>
+    //   }
+    //   Expand={Expand}
+    //   Back={({ children }) => (
+    //     <div tw="dark:bg-slate-800 bg-slate-50">{children}</div>
+    //   )}
+    // >
+    //   <div tw="border-black/30 p-4">
+    //     <Header />
+    //     <Outlet />
+    //   </div>
+    // </AppShell>
+    <AppShell.Root bp_sm={639} bp_md={767} sidebar_sm="64px" sidebar_md="250px">
+      <AppShell.SideBar>
         <div tw="bg-slate-100 dark:bg-slate-900 h-full">
           <Navbar />
+          <Expand />
         </div>
-      }
-      Expand={Expand}
-      Back={({ children }) => (
-        <div tw="dark:bg-slate-800 bg-slate-50">{children}</div>
-      )}
-    >
-      <div tw="border-black/30 p-4">
-        <Header />
-        <Outlet />
-      </div>
-    </AppShell>
+      </AppShell.SideBar>
+      <AppShell.Overlay />
+      <AppShell.Content>
+        <div tw="border-black/30 p-4 max-w-[700px] m-auto">
+          <Header />
+          <Outlet />
+        </div>
+      </AppShell.Content>
+    </AppShell.Root>
   )
 }
 
 function Expand() {
-  const { expand, open } = useAppShellContext()
+  const {
+    state: { expand, open },
+  } = AppShell.useAppShellContext()
   return (
     <div tw="absolute cursor-pointer rounded-full right-0 translate-x-[8px] bottom-[42px] ">
       <div
@@ -77,7 +94,9 @@ function Expand() {
 }
 
 function Navbar() {
-  const { open, expand } = useAppShellContext()
+  const {
+    state: { expand, open },
+  } = AppShell.useAppShellContext()
 
   return (
     <div tw="flex flex-col gap-2 p-2 h-full max-h-full overflow-hidden">
@@ -157,7 +176,10 @@ function Navbar() {
 }
 
 function Header() {
-  const { width, setOpen } = useAppShellContext()
+  const {
+    query: { width },
+    state: { setOpen },
+  } = AppShell.useAppShellContext()
 
   const title = getTitle()
   return (
@@ -202,7 +224,10 @@ function Navbar_item({
   color: color
   label: string
 }) {
-  const { open, expand } = useAppShellContext()
+  const {
+    state: { expand, open },
+  } = AppShell.useAppShellContext()
+
   return (
     <Button
       tw="w-full flex items-center justify-stretch gap-5"

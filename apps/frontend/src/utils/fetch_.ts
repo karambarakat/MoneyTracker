@@ -11,7 +11,7 @@ export function mutation<A extends Action<any, any>>(action: A) {
         'Content-Type': 'application/json',
         Authorization:
           'Bearer ' +
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3Mzg1MjkwLCJleHAiOjE2ODc1NTgwOTB9.3IQ6kowK8bQA0qVbCiBCuJkc5OAEJZneHXSXSQG5mfk',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3NjkzMDk2LCJleHAiOjE2ODc4NjU4OTZ9.Yf0AYqEIzQP5fGNg8kY1Tq_LluZdhbMDgPR6EGCmIqA',
       },
     })
 
@@ -32,7 +32,7 @@ export function query<O>({ path, ...init }: RequestInfo<O>) {
         ...init.headers,
         // 'Content-Type': 'application/json',
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3Mzg1MjkwLCJleHAiOjE2ODc1NTgwOTB9.3IQ6kowK8bQA0qVbCiBCuJkc5OAEJZneHXSXSQG5mfk',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3NjkzMDk2LCJleHAiOjE2ODc4NjU4OTZ9.Yf0AYqEIzQP5fGNg8kY1Tq_LluZdhbMDgPR6EGCmIqA',
       },
     })
 

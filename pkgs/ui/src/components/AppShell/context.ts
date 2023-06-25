@@ -1,7 +1,7 @@
 import { PropsOf } from '@emotion/react'
 import { useId, useMediaQuery } from '@mantine/hooks'
 import { createContext, useContext, useEffect, useState } from 'react'
-import AppShell from './AppShell'
+import AppShell, { Props2 } from './AppShellDeprecated'
 
 export interface AppShell_sideBar_Context {
   /**
@@ -51,6 +51,11 @@ export interface AppShell_sideBar_Context {
   /**
    * id of the main div
    */
+  id: string
+  /**
+   * props passed to the AppShell component
+   */
+  props: Props2
 }
 
 export const context = createContext<AppShell_sideBar_Context>({
@@ -64,6 +69,13 @@ export const context = createContext<AppShell_sideBar_Context>({
   toggleExpand: () => console.log('no context provider'),
   sm: false,
   md: false,
+  id: '',
+  props: {
+    bp_md: 0,
+    bp_sm: 0,
+    sidebar_md: '0',
+    sidebar_sm: '0',
+  },
 })
 
 type ContextInput = Pick<PropsOf<typeof AppShell>, 'bp_md' | 'bp_sm'>
@@ -111,12 +123,15 @@ export function useCreateContext(p: ContextInput): AppShell_sideBar_Context {
     md_query,
     sm_query,
     disabled_query,
-    open,
     sm,
     md,
     width,
-    setOpen,
     id,
+
+    props: p,
+
+    open,
+    setOpen,
     expand: disabled ? 'disabled' : expand ? 1 : 0,
 
     toggleExpand: () => {
