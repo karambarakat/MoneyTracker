@@ -1,6 +1,6 @@
 {
   "name": "my-pocket",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Easy to use money wallet",
   "private": true,
   "workspaces": [

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/schema/category_out",
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "__v": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "_id",
+        "__v"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "createdBy": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "createdBy",
+        "title"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

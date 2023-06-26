@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/httpErrors/UserAlreadyExist",
+  "type": "object",
+  "properties": {
+    "status": {
+      "const": 409
+    },
+    "name": {
+      "const": "UserAlreadyExist"
+    },
+    "message": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "required": [
+    "status",
+    "name",
+    "message",
+    "details"
+  ],
+  "additionalProperties": false
+}

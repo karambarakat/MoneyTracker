@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/api_google_callback_params",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "token",
+    "displayName",
+    "_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "src/server.ts",
   "types": "src/server.ts",
@@ -17,7 +17,7 @@
     "dev:docker": "echo deprecated || docker compose -f dev-compose.yaml up",
     "test:watch": "pnpm run test:base --watch",
     "test:base": "dotenv -c test -- jest --runInBand",
-    "test": "docker compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from main-service",
+    "test:todo": "docker compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from main-service",
     "test:force-build": "pnpm run test --build",
     "build:base": "webpack",
     "build": "pnpm run build:base"

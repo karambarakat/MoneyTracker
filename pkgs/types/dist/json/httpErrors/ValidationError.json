@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/httpErrors/ValidationError",
+  "type": "object",
+  "properties": {
+    "status": {
+      "const": 400
+    },
+    "name": {
+      "const": "ValidationError"
+    },
+    "message": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "status",
+    "name",
+    "message",
+    "details"
+  ],
+  "additionalProperties": false
+}

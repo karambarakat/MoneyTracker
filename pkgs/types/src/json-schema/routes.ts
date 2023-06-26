@@ -1,8 +1,10 @@
 import { JSONSchema7 } from 'json-schema'
-
+/**
+ * once I implement the openapi I don't have to have this file
+ */
 export const email_status = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'https://example.com/routes/email_status',
+  $id: '/routes/email_status',
   type: 'object',
   properties: {
     email: { type: 'string' },
@@ -13,7 +15,7 @@ export const email_status = {
 
 export const profile_update = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'https://example.com/routes/profile_update',
+  $id: '/routes/profile_update',
   type: 'object',
   properties: {
     displayName: { type: 'string' },
@@ -26,7 +28,7 @@ export const profile_update = {
 export const updatePassword_nolocal = {
   $schema: 'http://json-schema.org/draft-07/schema#',
 
-  $id: 'https://example.com/routes/updatePassword_nolocal',
+  $id: '/routes/updatePassword_nolocal',
   type: 'object',
   properties: {
     newPassword: { type: 'string' },
@@ -38,7 +40,7 @@ export const updatePassword_nolocal = {
 export const updatePassword_local = {
   $schema: 'http://json-schema.org/draft-07/schema#',
 
-  $id: 'https://example.com/routes/updatePassword_local',
+  $id: '/routes/updatePassword_local',
   type: 'object',
   properties: {
     oldPassword: { type: 'string' },
@@ -51,7 +53,7 @@ export const updatePassword_local = {
 export const auth_local_register = {
   $schema: 'http://json-schema.org/draft-07/schema#',
 
-  $id: 'https://example.com/routes/auth_local_register',
+  $id: '/routes/auth_local_register',
   type: 'object',
   properties: {
     displayName: { type: 'string' },
@@ -63,7 +65,7 @@ export const auth_local_register = {
 export const auth_local_login = {
   $schema: 'http://json-schema.org/draft-07/schema#',
 
-  $id: 'https://example.com/routes/auth_local_login',
+  $id: '/routes/auth_local_login',
   type: 'object',
   properties: {
     email: { type: 'string' },

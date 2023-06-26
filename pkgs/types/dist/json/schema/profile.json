@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/schema/profile",
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "__v": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "_id",
+        "__v"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "createdAt",
+        "updatedAt"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "local",
+              "google"
+            ]
+          }
+        },
+        "picture": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "displayName",
+        "email",
+        "providers",
+        "token"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

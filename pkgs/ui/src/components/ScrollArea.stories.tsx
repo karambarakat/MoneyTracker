@@ -6,6 +6,7 @@ import ScrollArea, { default as component } from './ScrollArea'
 import 'twin.macro'
 import { fakerEN } from '@faker-js/faker'
 import tw from 'twin.macro'
+import { userEvent, within } from '@storybook/testing-library'
 
 export default {
   title: 'ScrollArea',
@@ -30,6 +31,16 @@ export const Default = {
       </ScrollArea>
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const elem = await canvas.findByText(
+      (fakerEN.seed(1), fakerEN.lorem.paragraph(1)),
+      {
+        exact: false,
+      },
+    )
+    await userEvent.hover(elem)
+  },
 } satisfies _s<typeof component>
 
 export const XAndY = {
@@ -40,4 +51,5 @@ export const XAndY = {
       </ScrollArea>
     </div>
   ),
+  play: Default.play,
 } satisfies _s<typeof component>

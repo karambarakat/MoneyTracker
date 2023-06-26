@@ -2,7 +2,7 @@ import { JSONSchema7 } from 'json-schema'
 
 export const jwt_payload = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'https://example.com/jwt',
+  $id: '/jwt' as const,
   type: 'object',
   properties: {
     _id: { type: 'string' },
@@ -16,7 +16,7 @@ export const jwt_payload = {
 
 export const api_google_callback_params = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  $id: 'https://example.com/api_google_callback_params',
+  $id: '/api_google_callback_params' as const,
   type: 'object',
   properties: {
     token: { type: 'string' },

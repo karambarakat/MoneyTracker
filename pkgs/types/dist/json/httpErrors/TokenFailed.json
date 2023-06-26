@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/httpErrors/TokenFailed",
+  "type": "object",
+  "properties": {
+    "status": {
+      "const": 401
+    },
+    "name": {
+      "const": "TokenFailed"
+    },
+    "message": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "JsonWebTokenError",
+            "TokenExpiredError",
+            "NoTokenWasProvided",
+            "UnspecifiedError"
+          ]
+        },
+        "date": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "status",
+    "name",
+    "message",
+    "details"
+  ],
+  "additionalProperties": false
+}

@@ -1,11 +1,14 @@
 {
   "name": "types",
-  "version": "5.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "",
   "types": "./schema.d.ts",
   "scripts": {
-    "build": "ts-node ./scripts/build.ts"
+    "build:http-helper": "ts-node ./src/scripts/build-http-helper.ts",
+    "build:json": "ts-node ./src/scripts/build-json.ts",
+    "build:ts": "ts-node ./src/scripts/build-ts.ts",
+    "build": "pnpm run \"/build:/\""
   },
   "author": "",
   "license": "ISC",

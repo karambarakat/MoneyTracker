@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://expamle.com/httpErrors/BadBasicToken",
+  "type": "object",
+  "properties": {
+    "status": {
+      "const": 401
+    },
+    "name": {
+      "const": "BadBasicToken"
+    },
+    "message": {
+      "type": "string"
+    },
+    "details": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "status",
+    "name",
+    "message",
+    "details"
+  ],
+  "additionalProperties": false
+}

@@ -1,7 +1,7 @@
 {
   "name": "tsconfig",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "shared typescript configuration accross all apps",
   "files": [
     "base.json",

@@ -1,6 +1,6 @@
-/** eslint-enable */
-import {
-  HttpErrors_FieldsRequired,
+
+import { 
+  HttpErrors_SomeFieldsRequired,
   HttpErrors_EmailOrPasswordIncorrect,
   HttpErrors_BadBasicToken,
   HttpErrors_PasswordIncorrect,
@@ -12,11 +12,11 @@ import {
   HttpErrors_FailedToDelete,
   HttpErrors_UnAuthorized,
   HttpErrors_TokenFailed,
-  HttpErrors_DefaultError,
-} from '../dist/httpErrors'
+  HttpErrors_UnspecifiedError,
+} from '../ts/httpErrors'
 
-export type All_Errors =
-  | HttpErrors_FieldsRequired
+export type All_Errors = 
+  | HttpErrors_SomeFieldsRequired
   | HttpErrors_EmailOrPasswordIncorrect
   | HttpErrors_BadBasicToken
   | HttpErrors_PasswordIncorrect
@@ -28,7 +28,7 @@ export type All_Errors =
   | HttpErrors_FailedToDelete
   | HttpErrors_UnAuthorized
   | HttpErrors_TokenFailed
-  | HttpErrors_DefaultError
+  | HttpErrors_UnspecifiedError
 
 export type HttpErrorProps = {
   status: number
@@ -49,7 +49,7 @@ export default class HttpError extends Error {
 
   constructor(payload: HttpErrorProps) {
     super('HttpError')
-
+    
     this.status = payload.status
     this.message = payload.message
     this.details = payload.details
@@ -57,3 +57,4 @@ export default class HttpError extends Error {
     this.payload = payload as All_Errors
   }
 }
+    
