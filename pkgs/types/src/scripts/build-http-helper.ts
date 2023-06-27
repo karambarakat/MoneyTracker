@@ -2,13 +2,13 @@
 import { readFileSync, writeFileSync } from 'fs'
 
 async function main() {
-  const input = readFileSync('./dist/ts/httpErrors.ts').toString()
+  const input = readFileSync('./dist/ts/HttpErrors.ts').toString()
   const regex = input.matchAll(/export interface ([a-zA-Z_]*) \{/g)
   const allExports = Array.from(regex).map(arr => arr[1])
 
   const output = `
 import { ${allExports.map(e => `\n  ${e},`).join('')}
-} from '../ts/httpErrors'
+} from '../ts/HttpErrors'
 
 export type All_Errors = ${allExports.map(n => `\n  | ${n}`).join('')}
 
@@ -41,8 +41,8 @@ export default class HttpError extends Error {
 }
     `
 
-  writeFileSync('./dist/helpers/httpErrors.ts', output)
-  console.log('build: file written ./dist/helpers/httpErrors.ts')
+  writeFileSync('./dist/helpers/HttpError.ts', output)
+  console.log('build-helper: file written ./dist/helpers/HttpError.ts')
 }
 
 main()

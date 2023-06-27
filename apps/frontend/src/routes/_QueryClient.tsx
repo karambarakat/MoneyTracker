@@ -1,4 +1,4 @@
-import HttpError from 'types/src/httpErrors_default'
+import HttpError from 'types/dist/helpers/HttpError'
 import {
   QueryClient,
   QueryClientProvider as QueryClientProvider_,
@@ -11,7 +11,10 @@ export const queryClient = new QueryClient({
       suspense: true,
       retry(failureCount, error) {
         // todo: refactoring: when done with type package refactoring come and use error.payload
-        if (error instanceof HttpError && error.name === 'TokenExpiredError') {
+        if (
+          error instanceof HttpError &&
+          error.payload.name === 'TokenFailed'
+        ) {
           return false
         }
 

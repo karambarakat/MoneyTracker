@@ -30,31 +30,13 @@ import { getTitle } from '@src/components/ReactRoute'
 
 export default function Main_Layout_Component() {
   return (
-    // <AppShell
-    //   bp_sm={639}
-    //   bp_md={767}
-    //   sidebar_sm="64px" // icon 16px + button padding 10px * 2 + navbar padding 8px * 2
-    //   sidebar_md="250px"
-    //   SideBar={
-    //     <div tw="bg-slate-100 dark:bg-slate-900 h-full">
-    //       <Navbar />
-    //     </div>
-    //   }
-    //   Expand={Expand}
-    //   Back={({ children }) => (
-    //     <div tw="dark:bg-slate-800 bg-slate-50">{children}</div>
-    //   )}
-    // >
-    //   <div tw="border-black/30 p-4">
-    //     <Header />
-    //     <Outlet />
-    //   </div>
-    // </AppShell>
     <AppShell.Root bp_sm={639} bp_md={767} sidebar_sm="64px" sidebar_md="250px">
       <AppShell.SideBar>
         <div tw="bg-slate-100 dark:bg-slate-900 h-full">
           <Navbar />
-          <Expand />
+          <AppShell.Expand asChild>
+            <Expand />
+          </AppShell.Expand>
         </div>
       </AppShell.SideBar>
       <AppShell.Overlay />
@@ -70,10 +52,19 @@ export default function Main_Layout_Component() {
 
 function Expand() {
   const {
-    state: { expand, open },
+    state: { expand, open, toggleExpand },
+    query: { sm },
   } = AppShell.useAppShellContext()
+
   return (
-    <div tw="absolute cursor-pointer rounded-full right-0 translate-x-[8px] bottom-[42px] ">
+    <div
+      onClick={() => {
+        // todo: remove when figure out why AppShell itself if not firing this
+        // pkgs/ui/src/components/AppShell/AppShell.tsx:234
+        !sm && toggleExpand()
+      }}
+      tw=" absolute cursor-pointer rounded-full right-0 translate-x-[8px] bottom-[42px]"
+    >
       <div
         css={[
           tw`opacity-100 transition-opacity`,

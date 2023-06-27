@@ -1,4 +1,4 @@
-import { Category as CatDoc } from 'types/src/schema'
+import { Category as CatDoc } from 'types/dist/ts/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 

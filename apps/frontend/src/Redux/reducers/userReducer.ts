@@ -1,5 +1,5 @@
 import invalidStateReducerEnhancer from '@src/redux/extra/invalidStateReducerEnhancer'
-import { Profile } from 'types/src/schema'
+import { Profile } from 'types/dist/ts/schema'
 import { reducerAction, UserState } from './../types'
 
 const initialState: UserState = {

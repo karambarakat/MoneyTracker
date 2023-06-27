@@ -6,7 +6,7 @@ import { ProfileShape } from '../../tests/helpers/shapes'
 import db_conn, { disconnect } from '@config/db-conn'
 import mongoose from 'mongoose'
 import { IProfile } from '@models/User'
-import { Jwt } from 'types/dist/api'
+import { Jwt } from 'types/dist/ts/api'
 import jwt from 'jsonwebtoken'
 
 const jwtParse = (token: string) => {

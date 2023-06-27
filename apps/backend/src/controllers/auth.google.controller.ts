@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import passport from 'passport'
-import type { ApiGoogleCallbackParams } from 'types/dist/api'
+import type { ApiGoogleCallbackParams } from 'types/dist/ts/api'
 const google = Router()
 
 /**

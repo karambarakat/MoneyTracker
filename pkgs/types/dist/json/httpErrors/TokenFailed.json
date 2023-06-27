@@ -15,7 +15,7 @@
     "details": {
       "type": "object",
       "properties": {
-        "type": {
+        "name": {
           "type": "string",
           "enum": [
             "JsonWebTokenError",
@@ -29,7 +29,7 @@
         }
       },
       "required": [
-        "type"
+        "name"
       ],
       "additionalProperties": false
     }

@@ -1,4 +1,4 @@
-import { Profile } from 'types/src/schema'
+import { Profile } from 'types/dist/ts/schema'
 import {
   updatePassword_local,
   updatePassword_nolocal,

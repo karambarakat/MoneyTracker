@@ -93,7 +93,7 @@ export { app }
 
 import log from '@utils/log'
 import db_conn from '@config/db-conn'
-import { SchemaLogIn, SchemaLogOut, SchemaProfile } from 'types/dist/schema'
+import { SchemaLogIn, SchemaLogOut, SchemaProfile } from 'types/dist/ts/schema'
 
 async function main() {
   await db_conn()

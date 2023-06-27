@@ -453,6 +453,9 @@ importers:
       typescript-json-schema:
         specifier: ^0.57.0
         version: 0.57.0
+      wait-on:
+        specifier: ^7.0.1
+        version: 7.0.1
 
   pkgs/ui:
     dependencies:

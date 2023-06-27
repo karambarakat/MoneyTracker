@@ -1,4 +1,4 @@
-import { Profile } from 'types/src/schema'
+import { Profile } from 'types/dist/ts/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 

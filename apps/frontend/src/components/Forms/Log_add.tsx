@@ -10,7 +10,7 @@ import MySimpleInput from '@src/components/Formik/ISimple'
 import MyAmountInput from '@src/components/Formik/IAmount'
 import MyTextarea from '@src/components/Formik/ITextarea'
 import MyCategoryInput from '@src/components/Formik/ICategory'
-import { Log as LogDoc } from 'types/src/schema'
+import { Log as LogDoc } from 'types/dist/ts/schema'
 import HttpError from 'src/utils/HttpError'
 
 type args = Partial<

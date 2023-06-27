@@ -1,7 +1,12 @@
-type UndefinedKeyOf<
-  R extends Record<string, unknown>,
-  K extends keyof R,
-> = K extends K ? (undefined extends R[K] ? never : K) : never
+import { MutateOptions, UseMutationResult } from '@tanstack/react-query'
+import { FormikHelpers } from 'formik'
+import HttpError from 'types/dist/helpers/HttpError'
+
+type UndefinedKeyOf<R extends object, K extends keyof R> = K extends K
+  ? undefined extends R[K]
+    ? never
+    : K
+  : never
 
 /**
  * I faced a problem in Formik where initial values should be undefined (at first)
@@ -12,8 +17,7 @@ type UndefinedKeyOf<
  * @param required required keys, bridges the gap between typescript and javascript
  * @returns output object where required keys are guaranteed to be defined
  */
-
-const require = <A extends Record<string, unknown>>(
+export const require = <A extends object>(
   values: Partial<A>,
   required: UndefinedKeyOf<A, keyof A>[],
 ) => {
@@ -27,8 +31,6 @@ const require = <A extends Record<string, unknown>>(
     ? ([undefined, values as A] as const)
     : ([errors, undefined] as const)
 }
-
-export default require
 
 /** type safety: test case 1
  type test1Type = { title: string; amount: number; node?: string }
@@ -62,3 +64,31 @@ _.title.search // required
 _.node.search
 
  */
+
+export const formikMutateOption: (
+  formikContext: FormikHelpers<any>,
+) => MutateOptions<any, any, any, any> = formikContext => ({
+  onError: e => {
+    if (!(e instanceof HttpError)) {
+      console.error('submit unknown error', e)
+      formikContext.setStatus({ error: 'some error, please try later' })
+      return
+    }
+
+    try {
+      // @ts-ignore
+      const errs = e.payload.details.errors
+      if (typeof errs !== 'object' || errs === null) throw new Error('')
+      formikContext.setErrors(errs)
+    } catch {
+      //
+    }
+    formikContext.setStatus({ error: e.message })
+  },
+  onSuccess() {
+    formikContext.setValues({}, false)
+  },
+  onSettled() {
+    formikContext.setSubmitting(false)
+  },
+})

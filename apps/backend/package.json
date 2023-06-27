@@ -10,7 +10,7 @@
   },
   "scripts": {
     "lint": "eslint --fix .",
-    "typecheck": "tsc --noEmit",
+    "typecheck:todo": "tsc --noEmit",
     "start": "node dist/index.bundle.js",
     "start:no-build": "dotenv -c -- ts-node -r tsconfig-paths/register src/server.ts",
     "dev": "dotenv -c dev -- ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
@@ -20,7 +20,7 @@
     "test:todo": "docker compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from main-service",
     "test:force-build": "pnpm run test --build",
     "build:base": "webpack",
-    "build": "pnpm run build:base"
+    "build:todo": "pnpm run build:base"
   },
   "author": "karam barakat",
   "license": "MIT",

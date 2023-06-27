@@ -8,7 +8,7 @@ import { File } from 'tabler-icons-react'
 import { MyDateRangePicker } from '@src/components/Formik/IDateRange'
 import { store } from '@src/redux/index'
 import getDate from 'src/utils/getDate'
-import { category_in } from 'types/src/schema'
+import { category_in } from 'types/dist/ts/schema'
 
 interface Values {
   range: Date[]

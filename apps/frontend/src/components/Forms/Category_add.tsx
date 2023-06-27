@@ -10,7 +10,7 @@ import dispatch from '@src/redux/dispatch'
 
 import MyColorInput from '@src/components/Formik/IColor'
 import MyIconInput from '@src/components/Formik/IIcon'
-import { Category as CatDoc } from 'types/src/schema'
+import { Category as CatDoc } from 'types/dist/ts/schema'
 import HttpError from 'src/utils/HttpError'
 
 type args = Omit<CatDoc, 'createdBy' | '__v' | '_id'>

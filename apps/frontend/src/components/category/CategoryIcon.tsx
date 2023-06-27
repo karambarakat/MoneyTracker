@@ -14,7 +14,7 @@ import React, { PropsWithChildren } from 'react'
 import CategoryAllColors from './CategoryAllColors'
 import * as AllIcons from '@src/components/category/CategoryAllIcons'
 import getCats from '@src/redux/actions/getData/getCats'
-import { Category, category_in } from 'types/src/schema'
+import { Category, category_in } from 'types/dist/ts/schema'
 
 function _Icon({ icon, props = {} }: { icon?: string; props?: IconProps }) {
   const IconName = icon && icon in allTablerIcon ? icon : 'Category2'

@@ -1,7 +1,7 @@
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 import { log_create } from 'types/src/api/routes/log'
-import { Log_out } from 'types/src/schema'
+import { Log_out } from 'types/dist/ts/schema'
 
 const type = 'log:create'
 

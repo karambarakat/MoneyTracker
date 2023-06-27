@@ -1,11 +1,8 @@
 import RoutingContainer from '@src/components/RoutingContainer'
-import type { All_Errors } from 'types/src/httpErrors_default'
-import {
-  FallbackProps as FallbackProps_,
-  useErrorBoundary,
-} from 'react-error-boundary'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import type { All_Errors } from 'types/dist/helpers/HttpError'
+import { FallbackProps as FallbackProps_ } from 'react-error-boundary'
+import { Navigate } from 'react-router-dom'
+import { useQueryErrorResetBoundary } from '@tanstack/react-query'
 
 type FallbackProps = {
   error:
@@ -13,7 +10,7 @@ type FallbackProps = {
     | {
         // undocumented, exist in `backend` package but not built based on `types` package
         // todo: refactoring types
-        name: 'TokenExpiredError'
+        name: 'TokenFailed'
         status: 401
         message: string
         details: { date: string }
@@ -22,15 +19,23 @@ type FallbackProps = {
 }
 
 export default function Error({ error, resetErrorBoundary }: FallbackProps) {
-  if (error.name === 'TokenExpiredError') {
+  if (error.name === 'TokenFailed') {
     return <Navigate to={'/auth/login'} />
   }
-  // const { resetBoundary, showBoundary } = useErrorBoundary()
+  const { reset } = useQueryErrorResetBoundary()
+
   // useQueryErrorResetBoundary()
   return (
     <RoutingContainer>
       <div>Ops, some error ocurred</div>
-      <button onClick={() => resetErrorBoundary()}>retry</button>
+      <button
+        onClick={() => {
+          resetErrorBoundary()
+          reset()
+        }}
+      >
+        retry
+      </button>
     </RoutingContainer>
   )
 }

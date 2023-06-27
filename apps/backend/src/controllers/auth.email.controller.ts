@@ -9,7 +9,7 @@ import _ from 'express-async-handler'
 import {
   RoutesAuthLocalRegister,
   RoutesAuthLocalLogin,
-} from 'types/dist/routes'
+} from 'types/dist/ts/routes'
 const local = Router()
 
 /**

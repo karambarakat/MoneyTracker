@@ -7,7 +7,7 @@ import {
   SchemaLogIn,
   SchemaLogOut,
   SchemaProfile,
-} from 'types/dist/schema'
+} from 'types/dist/ts/schema'
 import {
   RoutesAuthLocalLogin,
   RoutesAuthLocalRegister,
@@ -15,7 +15,7 @@ import {
   RoutesProfileUpdate,
   RoutesUpdatePasswordLocal,
   RoutesUpdatePasswordNolocal,
-} from 'types/dist/routes'
+} from 'types/dist/ts/routes'
 
 export const find_log: Action<object, SchemaLogOut[]> =
   //
@@ -24,10 +24,10 @@ export const find_log: Action<object, SchemaLogOut[]> =
     method: 'GET',
   })
 
-export const find_one_log: Action<{ id: string }, SchemaLogOut> =
+export const find_one_log: Action<{ _id: string }, SchemaLogOut> =
   //
-  ({ id }: { id: string }) => ({
-    path: '/log/' + id,
+  ({ _id }: { _id: string }) => ({
+    path: '/log/' + _id,
     method: 'GET',
   })
 
@@ -40,20 +40,20 @@ export const create_log: Action<SchemaLogIn, SchemaLogOut> =
   })
 
 export const update_log: Action<
-  Partial<SchemaLogIn> & { id: string },
+  Partial<SchemaLogIn> & { _id: string },
   SchemaLogOut
 > =
   //
-  ({ id, ...data }) => ({
-    path: '/log/' + id,
-    method: 'POST',
+  ({ _id, ...data }) => ({
+    path: '/log/' + _id,
+    method: 'PUT',
     body: JSON.stringify(data),
   })
 
-export const delete_log: Action<{ id: string }, null> =
+export const delete_log: Action<{ _id: string }, null> =
   //
-  ({ id }) => ({
-    path: '/log/' + id,
+  ({ _id }) => ({
+    path: '/log/' + _id,
     method: 'DELETE',
   })
 
@@ -64,10 +64,10 @@ export const find_category: Action<object, SchemaCategoryOut[]> =
     method: 'GET',
   })
 
-export const find_one_category: Action<{ id: string }, SchemaCategoryOut> =
+export const find_one_category: Action<{ _id: string }, SchemaCategoryOut> =
   //
-  ({ id }) => ({
-    path: '/category/' + id,
+  ({ _id }) => ({
+    path: '/category/' + _id,
     method: 'GET',
   })
 
@@ -80,27 +80,30 @@ export const create_category: Action<SchemaCategoryIn, SchemaCategoryOut> =
   })
 
 export const update_category: Action<
-  Partial<SchemaCategoryIn> & { id: string },
+  Partial<SchemaCategoryIn> & { _id: string },
   SchemaCategoryOut
 > =
   //
-  ({ id, ...data }) => ({
-    path: '/category/' + id,
-    method: 'POST',
+  ({ _id, ...data }) => ({
+    path: '/category/' + _id,
+    method: 'PUT',
     body: JSON.stringify(data),
   })
 
-export const delete_category: Action<{ id: string }, null> =
+export const delete_category: Action<{ _id: string }, null> =
   //
-  ({ id }) => ({
-    path: '/category/' + id,
+  ({ _id }) => ({
+    path: '/category/' + _id,
     method: 'DELETE',
   })
 
-export const find_all_logs_by_category: Action<{ id: string }, SchemaLogOut[]> =
+export const find_all_logs_by_category: Action<
+  { _id: string },
+  SchemaLogOut[]
+> =
   //
-  ({ id }) => ({
-    path: '/category/' + id + '/logs',
+  ({ _id }) => ({
+    path: '/category/' + _id + '/logs',
     method: 'GET',
   })
 

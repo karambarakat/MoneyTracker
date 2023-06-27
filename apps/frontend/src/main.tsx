@@ -64,11 +64,11 @@ function App() {
                 {/* <ModalRoutes> */}
                 <Routes>
                   <Route element={<AppShellLayout />}>
-                    {/* // todo : next */}
                     <Route index element={<Index />} />
+                    {/* // todo : next */}
+                    <Route path="categories" element={<Categories />} />
 
                     {/* <Route path="charts" element={<Charts />} /> */}
-                    {/* <Route path="categories" element={<Categories />} /> */}
                   </Route>
                   <Route path="/auth/login" element={<Login />} />
 

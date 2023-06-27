@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import Category from './Category'
-import type { SchemaLogOut } from 'types/dist/schema'
+import type { SchemaLogOut } from 'types/dist/ts/schema'
 import { Override } from 'types/utils/Override'
 import { ObjectId } from 'mongodb'
 

@@ -1,4 +1,4 @@
-import { Profile } from 'types/src/schema'
+import { Profile } from 'types/dist/ts/schema'
 import { profile_update } from 'types/src/api/routes/profile'
 import { actionModule } from '../../dispatch'
 

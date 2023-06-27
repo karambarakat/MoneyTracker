@@ -10,7 +10,7 @@ import {
 import dispatch from '@src/redux/dispatch'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import { Log } from 'types/src/schema'
+import { Log } from 'types/dist/ts/schema'
 import Amount from './Amount'
 import CategoryIcon from './category/CategoryIcon'
 import { Link } from './ReactRoute'

@@ -1,46 +1,73 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
-import HttpError from 'types/src/httpErrors_default'
+import HttpError from 'types/dist/helpers/HttpError'
 
-export function mutation<A extends Action<any, any>>(action: A) {
-  return async function (args: InputOfAction<A>) {
-    const meta_ = action(args)
-    const res = await fetch(import.meta.env.VITE_BACKEND_API + meta_.path, {
-      ...meta_,
-      headers: {
-        ...meta_.headers,
-        'Content-Type': 'application/json',
-        Authorization:
-          'Bearer ' +
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3NjkzMDk2LCJleHAiOjE2ODc4NjU4OTZ9.Yf0AYqEIzQP5fGNg8kY1Tq_LluZdhbMDgPR6EGCmIqA',
-      },
+function _fetch<O>(path: string, init: RequestInit) {
+  return fetch(import.meta.env.VITE_BACKEND_API + path, {
+    ...init,
+    headers: {
+      ...init.headers,
+      'Content-Type': 'application/json',
+      Authorization:
+        'Bearer ' +
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3ODc0NTQ0LCJleHAiOjE2ODgwNDczNDR9.xx0dp6xN2ljkczjxfcb_eij8rweSWPUn6uco3EkV9bs',
+    },
+  })
+    .then(res => res.json())
+    .then(({ error, ...data }) => {
+      console.log(error)
+      if (error) throw new HttpError(error)
+      return data.data as O
     })
+}
 
-    const { data, error } = await res.json()
-
-    if (error) throw new HttpError(error)
-
+export function mutation<I, O>(action: Action<I, O>) {
+  return async function (args: I) {
+    const { path, ...init } = action(args)
+    const data = await _fetch<O>(path, init)
     return data
   }
 }
 
 export function query<O>({ path, ...init }: RequestInfo<O>) {
   return async function (context: QueryFunctionContext) {
-    const res = await fetch(import.meta.env.VITE_BACKEND_API + path, {
+    const data = await _fetch<O>(path, {
       ...init,
       signal: context.signal,
-      headers: {
-        ...init.headers,
-        // 'Content-Type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3NjkzMDk2LCJleHAiOjE2ODc4NjU4OTZ9.Yf0AYqEIzQP5fGNg8kY1Tq_LluZdhbMDgPR6EGCmIqA',
-      },
+    })
+    return data
+  }
+}
+
+// todo: when done refactoring the backend rewrite this function or remove it
+export function pagedQuery<O>(
+  { path, ...init }: RequestInfo<O[]>,
+  pagination: { page: number; pageSize: number },
+) {
+  return async function (context: QueryFunctionContext) {
+    const data = await _fetch<O[]>(path, {
+      ...init,
+      signal: context.signal,
     })
 
-    const { data, error } = await res.json()
-
-    if (error) throw new HttpError(error)
-
-    return data as O
+    return {
+      data: data
+        .reverse()
+        .slice(
+          (pagination.page - 1) * pagination.pageSize,
+          pagination.page * pagination.pageSize,
+        )
+        .reverse(),
+      meta: {
+        pagination: {
+          page: pagination.page,
+          pageSize: pagination.pageSize,
+          pageCount: Math.ceil(
+            (data instanceof Array ? data.length : 1) / pagination.pageSize,
+          ),
+          total: data instanceof Array ? data.length : 1,
+        },
+      },
+    }
   }
 }
 

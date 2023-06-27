@@ -1,4 +1,4 @@
-import { Category_out, category_in } from 'types/src/schema'
+import { Category_out, category_in } from 'types/dist/ts/schema'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@src/redux/dispatch'
 import { category_update } from 'types/src/api/routes/category'

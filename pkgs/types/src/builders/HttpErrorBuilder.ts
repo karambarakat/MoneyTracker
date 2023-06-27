@@ -51,7 +51,7 @@ const openapi_operation = build_operation('/', 'get', [
 export default function HttpErrorBuilder(
   status: number,
   name: string,
-  details?: JSONSchema7 & { type: 'object' },
+  details?: Omit<JSONSchema7, 'type'> & { type: 'object' | 'objectOrNull' },
 ) {
   return {
     $schema: 'http://json-schema.org/draft-07/schema#',
@@ -61,7 +61,11 @@ export default function HttpErrorBuilder(
       status: { const: status },
       name: { const: name },
       message: { type: 'string' },
-      details: details ?? { type: 'null' },
+      details: details
+        ? details.type === 'objectOrNull'
+          ? { anyOf: [{ type: 'null' }, { ...details, type: 'object' }] }
+          : { ...details, type: 'object' }
+        : { type: 'null' },
     },
     required: ['status', 'name', 'message', 'details'],
     additionalProperties: false,

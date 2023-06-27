@@ -13,7 +13,7 @@ import {
   HttpErrors_UnAuthorized,
   HttpErrors_TokenFailed,
   HttpErrors_UnspecifiedError,
-} from '../ts/httpErrors'
+} from '../ts/HttpErrors'
 
 export type All_Errors = 
   | HttpErrors_SomeFieldsRequired

@@ -14,7 +14,7 @@ import {
   RoutesProfileUpdate,
   RoutesUpdatePasswordLocal,
   RoutesUpdatePasswordNolocal,
-} from 'types/dist/routes'
+} from 'types/dist/ts/routes'
 import of from '@utils/omitFalsy'
 
 const router = Router()

@@ -20,7 +20,7 @@ async function main(obj: object) {
       },
     )
 
-    console.log('build: file written ./dist/json' + schema.$id + '.json')
+    console.log('build-json: file written ./dist/json' + schema.$id + '.json')
   })
 }
 

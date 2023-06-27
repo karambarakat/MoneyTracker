@@ -1,45 +1,31 @@
-import React, { Fragment, createContext, useContext } from 'react'
-import { useCallback } from 'react'
-import AddLogButton from '@src/components/AddLogButton'
+import React, { Fragment } from 'react'
 // import { Accordion, Divider, Stack } from '@mantine/core'
-import Divider, { DividerWithLabel } from 'ui/src/components/Divider'
-import dispatch from '@src/redux/dispatch'
-import { useEffect, useRef, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState, UserState } from '@src/redux/types'
+import { useMemo, useState } from 'react'
 import moment from 'moment'
 import segregate from 'src/utils/segregate'
-import LogAccordion from '@src/components/LogAccordion'
-import MyPaper from '@src/components/MyPaper'
-import { setTitle } from '@src/components/ReactRoute/index'
-import EmptyLogs from '@src/components/alternates/EmptyLogs'
-import { create_log, find_log, find_one_log } from '@src/api'
-import {
-  QueryFunctionContext,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
 import tw from 'twin.macro'
-import { OutputOfAction, RequestInfo, query } from '@src/utils/fetch_'
 import { OneStateProvider } from '@src/utils/OneOpenAtATime'
-import { Field, Form, Formik, useFormik, useFormikContext } from 'formik'
-import HttpError from 'types/src/httpErrors_default'
 import AddLog from '../component/forms/AddLog'
 import LogEntry from '@src/component/LogEntry'
+import { useLogs } from '@src/api/log_queries'
+import { setTitle } from './_MetaContext'
+import { DividerWithLabel } from 'ui/src/components/Divider'
 
 function Index_Page_Component() {
   setTitle('Home')
 
-  const { data } = useQuery({
-    queryKey: ['logs'],
-    queryFn: query(find_log()),
-  })
+  const [page, setPage] = useState(1)
 
-  if (!data) throw new Error('suspense option should be enabled ?')
+  const { data } = useLogs({ page, pageSize: 6 })
 
+  const pagination = data.meta.pagination
+
+  // divide logs into their respective dates from T[] to {key: string, subList: T[]}[], where T extends { createdAt: string }
   const logs = useMemo(() => {
+    if (!data?.data || !(data?.data instanceof Array)) return []
     const s = segregate(
-      data.sort(
+      // if not sorted you may have duplicate keys
+      data?.data.sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       ),
@@ -57,7 +43,7 @@ function Index_Page_Component() {
         subList,
       }
     })
-  }, [data])
+  }, [data?.data])
 
   return (
     <OneStateProvider>
@@ -76,6 +62,27 @@ function Index_Page_Component() {
           </Fragment>
         ))}
       </div>
+      {pagination.pageCount > 1 && (
+        <div tw="flex justify-center gap-4">
+          <button
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+            css={page === 1 && tw`text-gray-400/50`}
+          >
+            Previous
+          </button>
+          <div>
+            {pagination.page}/{pagination.pageCount}
+          </div>
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={page === pagination.pageCount}
+            css={page === pagination.pageCount && tw`text-gray-400/50`}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </OneStateProvider>
   )
 }

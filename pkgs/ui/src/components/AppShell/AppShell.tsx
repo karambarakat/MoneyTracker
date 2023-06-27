@@ -230,7 +230,10 @@ export const Expand = ({
 
   return (
     <Component
-      onClick={() => !context.query.sm && context.state.toggleExpand()}
+      onClick={() => {
+        // !context.query.sm && context.state.toggleExpand()
+        console.log('not firing on click')
+      }}
       css={[
         css`
           .expand-0 & {
@@ -245,7 +248,9 @@ export const Expand = ({
         `,
         styles?.base || '',
       ]}
-    />
+    >
+      {children}
+    </Component>
   )
 }
 

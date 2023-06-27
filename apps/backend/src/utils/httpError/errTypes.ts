@@ -1,22 +1,22 @@
 import {
   HttpErrors_BadBasicToken,
-  // HttpErrors_BadJsonPayload,
   HttpErrors_EmailIsUsed,
   HttpErrors_EmailOrPasswordIncorrect,
   HttpErrors_FailedToDelete,
-  HttpErrors_FieldsRequired,
+  HttpErrors_SomeFieldsRequired,
+  // HttpErrors_PasswordIncorrect,
+  // HttpErrors_UnAuthorized,
+  // HttpErrors_UnspecifiedError,
   HttpErrors_ResourceWasNotFound,
   HttpErrors_TokenFailed,
-  // HttpErrors_UnAuthorized,
   HttpErrors_UnknownServerError,
   HttpErrors_UserAlreadyExist,
   HttpErrors_ValidationError,
-  // HttpErrors_WrongRouteConfi,
-} from 'types/dist/httpErrors'
+} from 'types/dist/ts/httpErrors'
 import { HttpError } from '.'
 
 export function FieldsRequired(keys: string[]) {
-  return new HttpError<HttpErrors_FieldsRequired>({
+  return new HttpError<HttpErrors_SomeFieldsRequired>({
     status: 400,
     name: 'SomeFieldsRequired',
     message: `these fields are required: ${keys.join(', ')}`,
@@ -69,7 +69,7 @@ export function ResourceWasNotFound() {
   return new HttpError<HttpErrors_ResourceWasNotFound>({
     status: 404,
     name: 'ResourceWasNotFound',
-    message: 'couldn\'t find the target',
+    message: 'could not find the target',
     details: null,
   })
 }
@@ -77,7 +77,6 @@ export function ResourceWasNotFound() {
 export function UnknownServerError() {
   return new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
-    // @ts-ignore
     name: 'UnknownServerError',
     message: 'Unknown error occurred in the server.',
     details: null,
@@ -119,36 +118,44 @@ export function ValidationError(error: {
 export function BadJsonPayload() {
   return new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
-    // @ts-ignore
-    name: 'JsonSyntaxError',
-    message: 'can\'t parse the json payload',
-    details: null,
+    name: 'UnknownServerError',
+    message: 'Ops, some error occurred, please try again',
+    details: {
+      dev: 'JsonSyntaxError: can not parse the json payload',
+    },
   })
 }
 
 export const PrivateRoute = () =>
   new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
-    name: 'ServerError',
-    message: 'authentication error, private route',
-    details: null,
+    name: 'UnknownServerError',
+    message: 'Ops, some error occurred, please try again',
+    details: {
+      dev: 'authentication error, private route',
+    },
   })
 
 export const NoLog = () =>
   new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
-    name: 'ServerError',
-    message: 'log wasn\'t found',
-    details: null,
+    name: 'UnknownServerError',
+    message: 'Ops, some error occurred, please try again',
+    details: {
+      dev: 'log was not found',
+    },
   })
 
 export const NoCategory = () =>
   new HttpError<HttpErrors_UnknownServerError>({
     status: 500,
-    name: 'ServerError',
-    message: 'category wasn\'t found',
-    details: null,
+    name: 'UnknownServerError',
+    message: 'Ops, some error occurred, please try again',
+    details: {
+      dev: 'category was not found',
+    },
   })
+
 export const FailedToDelete = () =>
   new HttpError<HttpErrors_FailedToDelete>({
     status: 500,
@@ -158,14 +165,15 @@ export const FailedToDelete = () =>
   })
 
 export const TokenFailed: (
-  type: HttpErrors_TokenFailed['details']['type'],
+  type: HttpErrors_TokenFailed['details']['name'],
   date?: string | null | false,
 ) => HttpError<HttpErrors_TokenFailed> = (type, date) =>
   new HttpError({
     status: 401,
-    name: type,
+    name: 'TokenFailed',
     message: 'authorization failed',
     details: {
       ...((date && { date }) || {}),
+      name: type,
     },
   })

@@ -1,4 +1,4 @@
-import { Log_out } from 'types/src/schema'
+import { Log_out } from 'types/dist/ts/schema'
 import { log_update } from 'types/src/api/routes/log'
 import { actionModule } from '../../dispatch'
 import { dispatchFnToTuple as __d } from '@src/redux/dispatch'

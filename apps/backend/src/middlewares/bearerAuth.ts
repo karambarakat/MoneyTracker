@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { Router } from 'express'
 import { TokenFailed } from '@utils/httpError/errTypes'
-import { HttpErrors_TokenFailed } from 'types/dist/httpErrors'
+import { HttpErrors_TokenFailed } from 'types/dist/ts/httpErrors'
 
 const bearerAuth = Router()
 
@@ -38,7 +38,7 @@ function handleJWTError(err: Error | false, info: Info) {
   // new Error('No auth token')
   // new Error('SyntaxError')
   // new Error(...)
-  const errorType: HttpErrors_TokenFailed['details']['type'] =
+  const errorType: HttpErrors_TokenFailed['details']['name'] =
     (info as any)?.message === 'No auth token'
       ? 'NoTokenWasProvided'
       : info?.name || 'UnspecifiedError'

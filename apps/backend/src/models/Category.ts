@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import mongoose from 'mongoose'
-import type { SchemaCategoryOut } from 'types/dist/schema'
+import type { SchemaCategoryOut } from 'types/dist/ts/schema'
 import { Override } from 'types/utils/Override'
 
 type Override_ = Override<SchemaCategoryOut, { createdBy: ObjectId }>

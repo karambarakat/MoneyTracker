@@ -1,26 +1,25 @@
 import React from 'react'
-import { find_one_log } from '@src/api'
-import { useDeleteLog, useLog } from '@src/api/log_queries'
+import { find_one_category } from '@src/api'
+import { useCategory, useDeleteCategory } from '@src/api/category_queries'
 import { useOneState } from '@src/utils/OneOpenAtATime'
 import { OutputOfAction } from '@src/utils/fetch_'
-import moment from 'moment'
 import { useState } from 'react'
 import tw from 'twin.macro'
-import EditLog from './forms/EditLog'
+import EditCategory from './forms/EditCategory'
 
-export default function LogEntry({
-  log,
+export default function CategoryEntry({
+  category,
 }: {
-  log: OutputOfAction<typeof find_one_log>
+  category: OutputOfAction<typeof find_one_category>
 }) {
   const [expand, setExpand] = useOneState()
   const [edit, setEdit] = useState(false)
 
-  const freshData = useLog(log._id)
+  const freshData = useCategory(category._id)
 
-  const data = freshData.status === 'success' ? freshData.data : log
+  const data = freshData.status === 'success' ? freshData.data : category
 
-  const delete_ = useDeleteLog()
+  const delete_ = useDeleteCategory()
 
   return (
     <div tw="hover:bg-slate-200/50 dark:hover:bg-slate-600/10 rounded-md p-3 py-1">
@@ -28,10 +27,9 @@ export default function LogEntry({
         {delete_.status === 'loading' && 'deleting'}
         {delete_.status === 'success' && 'deleted'}
       </div>
-      <div>{data.category?.title || 'no category'}</div>
       <div>{data.title}</div>
-      <div>{data.note}</div>
-      <div>{data.amount}</div>
+      <div>{data.icon || 'no icon'}</div>
+      <div>{data.color || 'no color'}</div>
       {expand ? (
         <button onClick={() => setExpand(false)}>show less</button>
       ) : (
@@ -39,18 +37,12 @@ export default function LogEntry({
       )}
       {expand && (
         <div>
-          <div>
-            last updated:{' '}
-            {moment(data.updatedAt || data.createdAt)
-              .format('MMM Do, YYYY ___ h:mm a')
-              .replace('___', 'at')}
-          </div>
           {edit ? (
             <>
               <button tw="mr-3" onClick={() => setEdit(false)}>
                 close editing
               </button>
-              <EditLog log={data} />
+              <EditCategory category={data} />
             </>
           ) : (
             <button tw="mr-3" onClick={() => setEdit(true)}>

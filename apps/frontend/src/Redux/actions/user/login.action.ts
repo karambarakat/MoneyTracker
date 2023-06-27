@@ -1,4 +1,4 @@
-import { Profile } from 'types/src/schema'
+import { Profile } from 'types/dist/ts/schema'
 import { auth_local_login } from 'types/src/api/routes/auth_local'
 import { actionModule } from '../../dispatch'
 

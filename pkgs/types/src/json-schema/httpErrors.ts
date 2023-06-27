@@ -57,7 +57,12 @@ export const EmailIsUsed = HttpErrorBuilder(400, 'EmailIsUsed')
 
 export const ResourceWasNotFound = HttpErrorBuilder(404, 'ResourceWasNotFound')
 
-export const UnknownServerError = HttpErrorBuilder(500, 'UnknownServerError')
+export const UnknownServerError = HttpErrorBuilder(500, 'UnknownServerError', {
+  type: 'objectOrNull',
+  properties: {
+    dev: { type: 'string' },
+  },
+})
 
 export const ValidationError = HttpErrorBuilder(400, 'ValidationError', {
   type: 'object',
@@ -76,7 +81,7 @@ export const UnAuthorized = HttpErrorBuilder(401, 'UnAuthorized')
 export const TokenFailed = HttpErrorBuilder(401, 'TokenFailed', {
   type: 'object',
   properties: {
-    type: {
+    name: {
       type: 'string',
       enum: [
         'JsonWebTokenError',
@@ -87,7 +92,7 @@ export const TokenFailed = HttpErrorBuilder(401, 'TokenFailed', {
     },
     date: { type: 'string' },
   },
-  required: ['type'],
+  required: ['name'],
   additionalProperties: false,
 })
 
