@@ -1,7 +1,7 @@
 import 'twin.macro'
 import React from 'react'
 import { OutputOfAction } from '@src/utils/fetch_'
-import { find_one_category } from '@src/api'
+import { find_one_category, update_category } from '@src/api'
 import { Form, Formik } from 'formik'
 import { SchemaCategoryIn } from 'types/dist/ts/schema'
 import { formikMutateOption, require } from '@src/utils/formikUtils'
@@ -13,7 +13,7 @@ import { useUpdateCategory } from '@src/api/category_queries'
 export default function EditCategory({
   category,
 }: {
-  category: OutputOfAction<typeof find_one_category>
+  category: OutputOfAction<typeof update_category>
 }) {
   const mutate = useUpdateCategory()
 
@@ -25,6 +25,7 @@ export default function EditCategory({
 
         if (errors) {
           ctx.setErrors(errors)
+          ctx.setSubmitting(false)
           return
         }
 
@@ -36,6 +37,7 @@ export default function EditCategory({
             ...option,
             onSuccess: (...args) => {
               option.onSuccess?.(...args)
+              ctx.setValues(category, false)
               ctx.setStatus({ success: 'updated' })
             },
           },
@@ -44,10 +46,10 @@ export default function EditCategory({
     >
       <Form tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />
-        <TextField formikName="title" />
-        <TextField formikName="color" />
-        <TextField formikName="note" />
-        <TextField formikName="icon" />
+        <TextField name="title" />
+        <TextField name="color" />
+        <TextField name="note" />
+        <TextField name="icon" />
         <SubmitButton tw="col-span-2 mt-2" size="lg">
           submit
         </SubmitButton>

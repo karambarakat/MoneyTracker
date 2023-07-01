@@ -1,36 +1,43 @@
 import { mutation, pagedQuery, query } from '@src/utils/fetch_'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { create_log, delete_log, find_log, find_one_log, update_log } from '.'
+import {
+  create_log,
+  delete_log,
+  find_log,
+  find_one_log,
+  register,
+  update_log,
+} from '.'
 
-export const useLogs = (pagination: { page: number; pageSize: number }) => {
-  const _query = useQuery({
-    queryKey: ['logs', pagination],
-    queryFn: pagedQuery(find_log(), pagination),
-    keepPreviousData: true,
-  })
+// export const useRegister = (pagination: { page: number; pageSize: number }) => {
+//   const _query = useQuery({
+//     queryKey: ['logs', pagination],
+//     queryFn: pagedQuery(find_log(), pagination),
+//     keepPreviousData: true,
+//   })
 
-  if (!_query.data) throw new Error('suspense missing?')
+//   if (!_query.data) throw new Error('suspense missing?')
 
-  return _query
-}
+//   return _query
+// }
 
-export const useLog = (_id: string) => {
-  const _query = useQuery({
-    queryKey: ['log', _id],
-    queryFn: query(find_one_log({ _id })),
-  })
+// export const useLog = (_id: string) => {
+//   const _query = useQuery({
+//     queryKey: ['log', _id],
+//     queryFn: query(find_one_log({ _id })),
+//   })
 
-  if (!_query.data) throw new Error('suspense missing?')
+//   if (!_query.data) throw new Error('suspense missing?')
 
-  return _query
-}
+//   return _query
+// }
 
-export const useCreateLog = () => {
+export const useRegister = () => {
   const client = useQueryClient()
   const mutate = useMutation({
-    mutationFn: mutation(create_log),
+    mutationFn: mutation(register),
     onSettled: () => {
-      client.invalidateQueries(['logs'])
+      client.invalidateQueries(['profile'])
     },
   })
 

@@ -7,7 +7,6 @@ import {
   find_one_category,
   update_category,
 } from '.'
-import { v4 } from 'uuid'
 
 export const useCategories = () => {
   const _query = useQuery({

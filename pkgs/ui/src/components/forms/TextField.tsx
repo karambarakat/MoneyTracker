@@ -8,56 +8,126 @@ import { WithAsChild } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
 
 interface Props {
-  formikName: string
+  /**
+   * name of the field could be nested or not
+   * @example 'email', 'address.street' or 'friends[0].name
+   */
+  name: string
+  /**
+   * displayed title
+   */
   title?: string
+  /**
+   * placeholder text
+   */
+  placeholder?: string
 }
 
-export default function TextField({
+interface BridgeProps {
+  formikName: string
+  title?: string
+  validate?: (value: string) => string | undefined
+}
+
+/**
+ * this component is a bridge that separate formik logic
+ * and common UI design (low level) from each specific
+ * field component (hi level eg. TextField, EmailField)
+ *
+ * if in the future I decided to migrate from formik I can
+ * just change this component
+ */
+function FieldBridge({
   formikName,
   title,
-  asChild,
-}: WithAsChild<Props>) {
-  const [f_props, meta, helpers] = useField(formikName)
+  children,
+  validate,
+}: WithAsChild<BridgeProps>) {
+  const Component = children ? Slot : 'input'
 
-  const Component = asChild ? Slot : 'input'
-
-  // useFormikContext()
   return (
-    <div tw="flex flex-col gap-2">
-      <label tw="flex flex-col gap-2">
-        {title || capitalCase(formikName)}
-        <Component
-          tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
-          {...f_props}
-          value={f_props.value ?? ''}
-        />
-      </label>
-      {meta.touched && meta.error && <div>{meta.error}</div>}
-    </div>
+    <Field name={formikName} validate={validate}>
+      {({ field, meta }: FieldProps) => {
+        return (
+          <div tw="flex flex-col gap-2">
+            <label tw="flex flex-col gap-2">
+              {title || capitalCase(formikName)}
+              <Component
+                {...field}
+                value={field.value ?? ''}
+                tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
+              />
+            </label>
+            {meta.touched && meta.error && <div>{meta.error}</div>}
+          </div>
+        )
+      }}
+    </Field>
   )
 }
 
-// todo: for now this works
-export function NumberField(props: PropsOf<typeof TextField>) {
-  return <TextField {...props} />
+export default function TextField(props: Props) {
+  return <FieldBridge formikName={props.name} title={props.title} />
+}
+
+export function NumberField(props: Props) {
+  return (
+    <FieldBridge
+      formikName={props.name}
+      title={props.title}
+      validate={(value: string) => {
+        if (value && !/^\d+$/.test(value)) {
+          return 'Invalid number'
+        }
+      }}
+    />
+  )
+}
+
+export function EmailField(props: Props) {
+  return (
+    <FieldBridge
+      formikName={props.name}
+      title={props.title}
+      validate={(value: string) => {
+        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+          return 'Invalid email address'
+        }
+      }}
+    />
+  )
+}
+
+export function PasswordField(props: Props) {
+  return (
+    <FieldBridge
+      formikName={props.name}
+      title={props.title}
+      validate={(value: string) => {
+        if (value && value.length < 8) {
+          return 'Password must be at least 8 characters'
+        }
+      }}
+    />
+  )
 }
 
 export function CategoryField({
-  formikName,
+  name,
   title,
   options,
   asChild,
 }: WithAsChild<
   Props & { options: ({ label?: string; value: string } | string)[] }
 >) {
-  const [f_props, meta, helpers] = useField(formikName)
+  const [f_props, meta, helpers] = useField(name)
 
   const Component = asChild ? Slot : 'input'
 
   // useFormikContext()
   return (
     <div tw="flex flex-col gap-2">
-      <label>{title || capitalCase(formikName)}</label>
+      <label>{title || capitalCase(name)}</label>
       <div tw="flex gap-2">
         {options.map(v => {
           const value = typeof v === 'string' ? v : v.value

@@ -32,6 +32,7 @@ export default function AddLog() {
 
         if (errors) {
           ctx.setErrors(errors)
+          ctx.setSubmitting(false)
           return
         }
 
@@ -40,6 +41,8 @@ export default function AddLog() {
         mutate.mutate(values, {
           ...options,
           onSuccess: (...args) => {
+            ctx.setValues({}, false)
+
             options.onSuccess?.(...args)
             ctx.setStatus({ success: 'created' })
           },
@@ -48,12 +51,12 @@ export default function AddLog() {
     >
       <Form tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />
-        <TextField formikName="title" />
-        <NumberField formikName="amount" />
-        <TextField formikName="note" />
+        <TextField name="title" />
+        <NumberField name="amount" />
+        <TextField name="note" />
         <CategoryField
           options={categories.map(v => ({ value: v._id, label: v.title }))}
-          formikName="category"
+          name="category"
         />
         <SubmitButton tw="col-span-2 mt-2" size="lg">
           submit

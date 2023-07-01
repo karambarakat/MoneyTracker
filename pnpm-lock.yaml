@@ -224,6 +224,9 @@ importers:
       formik:
         specifier: ^2.2.9
         version: 2.2.9(react@17.0.2)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       luxon:
         specifier: ^2.3.1
         version: 2.3.1
@@ -288,6 +291,9 @@ importers:
       '@types/events':
         specifier: ^3.0.0
         version: 3.0.0
+      '@types/lodash':
+        specifier: ^4.14.191
+        version: 4.14.191
       '@types/react':
         specifier: ^17.0.33
         version: 17.0.33

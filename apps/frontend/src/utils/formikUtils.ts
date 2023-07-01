@@ -1,6 +1,7 @@
 import { MutateOptions, UseMutationResult } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import HttpError from 'types/dist/helpers/HttpError'
+import ErrorDebug from './ErrorDebug'
 
 type UndefinedKeyOf<R extends object, K extends keyof R> = K extends K
   ? undefined extends R[K]
@@ -78,15 +79,13 @@ export const formikMutateOption: (
     try {
       // @ts-ignore
       const errs = e.payload.details.errors
-      if (typeof errs !== 'object' || errs === null) throw new Error('')
+      if (typeof errs !== 'object' || errs === null)
+        throw new ErrorDebug('unknown destructuring error', { errs, e })
       formikContext.setErrors(errs)
     } catch {
       //
     }
     formikContext.setStatus({ error: e.message })
-  },
-  onSuccess() {
-    formikContext.setValues({}, false)
   },
   onSettled() {
     formikContext.setSubmitting(false)

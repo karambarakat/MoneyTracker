@@ -1,5 +1,4 @@
 import 'twin.macro'
-import Login from '@src/routes/auth/Login'
 // import 'ui/src/tailwind.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -51,6 +50,8 @@ const E404 = lazy(() => import('@src/routes/_E404'))
 import { ErrorBoundary } from 'react-error-boundary'
 import Error from './routes/_Error'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import Signup from './component/forms/Signup'
+import Login from './component/forms/Login'
 
 function App() {
   return (
@@ -65,12 +66,15 @@ function App() {
                 <Routes>
                   <Route element={<AppShellLayout />}>
                     <Route index element={<Index />} />
-                    {/* // todo : next */}
                     <Route path="categories" element={<Categories />} />
 
                     {/* <Route path="charts" element={<Charts />} /> */}
                   </Route>
-                  <Route path="/auth/login" element={<Login />} />
+                  {/* // todo : next */}
+                  <Route path="auth" element={<Auth />}>
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<Signup />} />
+                  </Route>
 
                   {/* <Route path="about" element={<About />} /> */}
                   {/* <Route path="export" element={<Export />} /> */}

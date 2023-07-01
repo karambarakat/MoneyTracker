@@ -36,6 +36,8 @@ export default function AddCategory() {
         mutate.mutate(values, {
           ...options,
           onSuccess: (...args) => {
+            ctx.setValues({}, false)
+
             options.onSuccess?.(...args)
             ctx.setStatus({ success: 'created' })
           },
@@ -44,10 +46,10 @@ export default function AddCategory() {
     >
       <Form tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />
-        <TextField formikName="title" />
-        <TextField formikName="color" />
-        <TextField formikName="note" />
-        <TextField formikName="icon" />
+        <TextField name="title" />
+        <TextField name="color" />
+        <TextField name="note" />
+        <TextField name="icon" />
         <SubmitButton tw="col-span-2 mt-2" size="lg">
           submit
         </SubmitButton>

@@ -1,8 +1,10 @@
+import { Slot } from '@radix-ui/react-slot'
 import React from 'react'
 import tw from 'twin.macro'
+import { WithAsChild } from '../utils/WithChildren'
 
 interface Props {
-  size: 'sm' | 'md' | 'lg' | 'h1' | 'h2'
+  size?: 'sm' | 'md' | 'lg' | 'h1' | 'h2'
 }
 
 export const fontSizes = {
@@ -14,6 +16,14 @@ export const fontSizes = {
   // h1: tw`text-[2.5rem] font-[700] leading-[3rem] tracking-wide`,
 }
 
-export default function (props: JSX.IntrinsicElements['span'] & Props) {
-  return <span css={[fontSizes[props.size]]} {...props} />
+type Preferred = 'span' | 'h1' | 'h2'
+
+export default function Text(props: WithAsChild<Props>) {
+  const preferred = (
+    props.size?.startsWith('h') ? props.size : 'span'
+  ) as Preferred
+
+  const Component = props.asChild ? Slot : preferred
+
+  return <Component css={[fontSizes[props.size || 'md']]} {...props} />
 }

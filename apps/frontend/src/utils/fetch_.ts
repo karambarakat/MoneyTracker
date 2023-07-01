@@ -9,12 +9,11 @@ function _fetch<O>(path: string, init: RequestInit) {
       'Content-Type': 'application/json',
       Authorization:
         'Bearer ' +
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg3ODc0NTQ0LCJleHAiOjE2ODgwNDczNDR9.xx0dp6xN2ljkczjxfcb_eij8rweSWPUn6uco3EkV9bs',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg4MjAzMDc0LCJleHAiOjE2ODgzNzU4NzR9.h6uNoTX4rPIpsHj5Hxt8v-qCfnDT4K9BLfqDTYEZCkQ',
     },
   })
     .then(res => res.json())
     .then(({ error, ...data }) => {
-      console.log(error)
       if (error) throw new HttpError(error)
       return data.data as O
     })

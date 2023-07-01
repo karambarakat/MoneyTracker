@@ -10,6 +10,7 @@ import LogEntry from '@src/component/LogEntry'
 import { useLogs } from '@src/api/log_queries'
 import { setTitle } from './_MetaContext'
 import { DividerWithLabel } from 'ui/src/components/Divider'
+import groupBy from 'lodash/groupBy'
 
 function Index_Page_Component() {
   setTitle('Home')
@@ -20,26 +21,20 @@ function Index_Page_Component() {
 
   const pagination = data.meta.pagination
 
-  // divide logs into their respective dates from T[] to {key: string, subList: T[]}[], where T extends { createdAt: string }
   const logs = useMemo(() => {
     if (!data?.data || !(data?.data instanceof Array)) return []
-    const s = segregate(
-      // if not sorted you may have duplicate keys
-      data?.data.sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      ),
-      log => moment(log.createdAt).format('l'),
+
+    const migrate = groupBy(data?.data, log =>
+      moment(log.createdAt).format('l'),
     )
 
-    return s.map(subList => {
-      if (!subList[0]) return { key: '', subList }
-      const m = moment(subList[0].createdAt)
-      const c = m.calendar()
-      const f1s = !Number.parseInt(c) ? c : m.format('dddd')
-
+    return Object.entries(migrate).map(([key, subList]) => {
+      let newKey = moment(key).calendar()
+      newKey = !Number.parseInt(newKey) ? newKey : moment(key).format('dddd')
+      newKey =
+        newKey.replace(/ (at \d).*/, '') + moment(key).format(', MMM Do, YYYY')
       return {
-        key: f1s.replace(/ (at \d).*/, '') + m.format(', MMM Do, YYYY'),
+        key: newKey,
         subList,
       }
     })

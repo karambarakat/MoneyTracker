@@ -1,7 +1,7 @@
 import 'twin.macro'
 import React from 'react'
-import { OutputOfAction } from '@src/utils/fetch_'
-import { find_one_log } from '@src/api'
+import { InputOfAction, OutputOfAction } from '@src/utils/fetch_'
+import { find_one_log, update_log } from '@src/api'
 import { useUpdateLog } from '@src/api/log_queries'
 import { Form, Formik } from 'formik'
 import { SchemaLogIn } from 'types/dist/ts/schema'
@@ -17,7 +17,7 @@ import { useCategories } from '@src/api/category_queries'
 export default function EditLog({
   log,
 }: {
-  log: OutputOfAction<typeof find_one_log>
+  log: InputOfAction<typeof update_log>
 }) {
   const mutate = useUpdateLog()
   const categories = useCategories().data
@@ -30,6 +30,7 @@ export default function EditLog({
 
         if (errors) {
           ctx.setErrors(errors)
+          ctx.setSubmitting(false)
           return
         }
 
@@ -40,6 +41,8 @@ export default function EditLog({
           {
             ...option,
             onSuccess: (...args) => {
+              ctx.setValues(log, false)
+
               option.onSuccess?.(...args)
               ctx.setStatus({ success: 'updated' })
             },
@@ -49,12 +52,12 @@ export default function EditLog({
     >
       <Form tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />
-        <TextField formikName="title" />
-        <NumberField formikName="amount" />
-        <TextField formikName="note" />
+        <TextField name="title" />
+        <NumberField name="amount" />
+        <TextField name="note" />
         <CategoryField
           options={categories.map(v => ({ value: v._id, label: v.title }))}
-          formikName="category"
+          name="category"
         />
         <SubmitButton tw="col-span-2 mt-2" size="lg">
           submit
