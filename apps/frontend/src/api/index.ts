@@ -97,6 +97,7 @@ export const delete_category: Action<{ _id: string }, null> =
     method: 'DELETE',
   })
 
+// todo: should be removed in favor of filtering feature
 export const find_all_logs_by_category: Action<
   { _id: string },
   SchemaLogOut[]
@@ -107,6 +108,8 @@ export const find_all_logs_by_category: Action<
     method: 'GET',
   })
 
+// todo: in formik I pass confirmPassword, here this will not get passed
+// but in different actions that uses `JSON.stringify(data)` it will be passed
 export const register: Action<
   RoutesAuthLocalRegister & RoutesAuthLocalLogin,
   SchemaProfile
@@ -117,7 +120,7 @@ export const register: Action<
     method: 'POST',
     body: JSON.stringify({ displayName }),
     headers: {
-      Authentication: 'Basic ' + encode(data.email, data.password),
+      Authorization: 'Basic ' + btoa(data.email + ':' + data.password),
     },
   })
 
@@ -127,7 +130,7 @@ export const login: Action<RoutesAuthLocalLogin, SchemaProfile> =
     path: '/auth/local/login',
     method: 'POST',
     headers: {
-      Authentication: 'Basic ' + encode(data.email, data.password),
+      Authorization: 'Basic ' + btoa(data.email + ':' + data.password),
     },
   })
 
@@ -164,7 +167,3 @@ export const set_password: Action<
     method: 'PUT',
     body: JSON.stringify(data),
   })
-
-function encode(email: string, password: string) {
-  return Buffer.from(email + ':' + password).toString('base64')
-}

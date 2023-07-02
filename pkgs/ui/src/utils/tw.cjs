@@ -1,18 +1,21 @@
-import tw_colors from 'tailwindcss/colors'
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-env node */
 
-export const colors = {
+const tw_colors = require('tailwindcss/colors')
+
+const colors = {
   primary: {
-    '50': '#fdf5e7',
-    '100': '#fcecce',
-    '200': '#fbe2b6',
-    '300': '#fad99d',
-    '400': '#f9d085',
-    '500': '#f7c66d',
-    '600': '#f6bd55',
-    '700': '#f5b43c',
-    '800': '#f4aa24',
-    '900': '#f2a10c',
-    '950': '#d18a00',
+    50: '#fdf5e7',
+    100: '#fcecce',
+    200: '#fbe2b6',
+    300: '#fad99d',
+    400: '#f9d085',
+    500: '#f7c66d',
+    600: '#f6bd55',
+    700: '#f5b43c',
+    800: '#f4aa24',
+    900: '#f2a10c',
+    950: '#d18a00',
   },
   inherit: tw_colors.inherit,
   transparent: tw_colors.transparent,
@@ -42,7 +45,7 @@ export const colors = {
   rose: tw_colors.rose,
 }
 
-export const spacing = {
+const spacing = {
   px: '1px',
   0: '0px',
   0.5: '0.125rem', // 2px
@@ -78,4 +81,9 @@ export const spacing = {
   72: '18rem', // 288px
   80: '20rem', // 320px
   96: '24rem', // 384px
+}
+
+module.exports = {
+  colors,
+  spacing,
 }

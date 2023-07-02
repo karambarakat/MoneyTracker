@@ -1,50 +1,32 @@
 import 'twin.macro'
 import React from 'react'
-import { useRegister } from '@src/api/auth_queries'
-import { Form, Formik } from 'formik'
-import { RoutesAuthLocalLogin } from 'types/dist/ts/routes'
-import { formikMutateOption, require } from '@src/utils/formikUtils'
 import Status from 'ui/src/components/forms/Status'
 import { EmailField, PasswordField } from 'ui/src/components/forms/TextField'
+import SubmitButton from 'ui/src/components/forms/SubmitButton'
+import tw from 'twin.macro'
+import Form from '../facade/Form'
+import { useLogin } from '@src/api/auth_queries'
 
 export default function Login_Auth_Page_Component() {
-  const register = useRegister()
+  const login = useLogin()
 
   return (
-    <Formik
-      initialValues={
-        {
-          email: undefined,
-          password: undefined,
-        } as Partial<RoutesAuthLocalLogin>
-      }
-      onSubmit={(v, ctx) => {
-        const [errors, values] = require(v, ['email', 'password'])
-
-        if (errors) {
-          ctx.setErrors(errors)
-          ctx.setSubmitting(false)
-          return
-        }
-
-        const options = formikMutateOption(ctx)
-
-        register.mutate(values, {
-          ...options,
-          onSuccess: (...args) => {
-            ctx.setValues({}, false)
-
-            options.onSuccess?.(...args)
-            ctx.setStatus({ success: 'signed in' })
-          },
-        })
+    <Form
+      action={login}
+      properties={['email', 'password']}
+      required={['email', 'password']}
+      onSuccess={(ret, ctx) => {
+        ctx.setStatus({ success: 'signed in' })
       }}
     >
-      <Form>
+      <div css={{ '&>*': tw`mb-3`, '&>*:last-child': tw`mb-0` }}>
         <Status />
         <EmailField name="email" />
         <PasswordField name="password" />
-      </Form>
-    </Formik>
+        <div tw="flex justify-center">
+          <SubmitButton>Login</SubmitButton>
+        </div>
+      </div>
+    </Form>
   )
 }

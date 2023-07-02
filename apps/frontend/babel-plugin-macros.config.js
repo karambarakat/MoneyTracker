@@ -1,6 +1,2 @@
 /* eslint-env node */
-module.exports = {
-  twin: {
-    preset: 'emotion',
-  },
-}
+module.exports = require('ui/babel-plugin-macros.config.js')

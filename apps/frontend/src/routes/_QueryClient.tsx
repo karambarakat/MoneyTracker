@@ -18,6 +18,12 @@ export const queryClient = new QueryClient({
           return false
         }
 
+        if (
+          error instanceof Error &&
+          `${error.name}: ${error.message}` === 'TypeError: Failed to fetch'
+        )
+          return false
+
         if (failureCount > 2) {
           return false
         }

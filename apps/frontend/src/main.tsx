@@ -1,57 +1,53 @@
 import 'twin.macro'
-// import 'ui/src/tailwind.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 import { lazy, Suspense } from 'react'
-import {
-  BrowserRouter,
-  createBrowserRouter,
-  Route,
-  RouteObject,
-  Routes,
-} from 'react-router-dom'
-import AppShellLayout from '@src/routes/_Layout'
-import MantineSetUp from '@src/components/MantineSetUp'
-import { Provider as Redux } from 'react-redux'
-import { store } from '@src/redux/index'
-import GoogleCallback from '@src/routes/auth/GoogleCallback'
-import { Routes as ModalRoutes } from '@src/components/ReactRoute/index'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+// import MantineSetUp from '@src/components/MantineSetUp'
+// import { Provider as Redux } from 'react-redux'
+// import { store } from '@src/redux/index'
+// import GoogleCallback from '@src/routes/auth/GoogleCallback'
+// import { Routes as ModalRoutes } from '@src/components/ReactRoute/index'
 
-import Auth from '@src/routes/auth/Auth'
-import Profile, { ProfileIndex } from '@src/routes/profile/profile'
-import ProfileUpdate from '@src/components/Forms/Profile_update'
-import Profile_SetPassword from '@src/components/Forms/Profile_SetPassword'
-import Profile_ChangePassword from '@src/components/Forms/Profile_changePassword'
+// import Profile, { ProfileIndex } from '@src/routes/profile/profile'
+// import ProfileUpdate from '@src/components/Forms/Profile_update'
+// import Profile_SetPassword from '@src/components/Forms/Profile_SetPassword'
+// import Profile_ChangePassword from '@src/components/Forms/Profile_changePassword'
 // import { Page as MetaContext } from '@src/components/ReactRoute/index'
-import MetaContext from '@src/routes/_MetaContext'
-import Loading from '@src/routes/_Loading'
 
-import Notification from '@src/components/Notifications'
-import { NavigateController } from '@src/redux/actions/app/navigate.action'
+// import Notification from '@src/components/Notifications'
+// import { NavigateController } from '@src/redux/actions/app/navigate.action'
+
+// const AddLog = lazy(() => import('@src/components/Forms/Log_add'))
+// const EditLog = lazy(() => import('@src/components/Forms/Log_edit'))
+// const AddCategory = lazy(() => import('@src/components/Forms/Category_add'))
+// const EditCategory = lazy(() => import('@src/components/Forms/Category_edit'))
+
+// const Charts = lazy(() => import('@src/routes/charts'))
+// const About = lazy(() => import('@src/routes/about'))
+// const Export = lazy(() => import('@src/routes/export'))
+// const Setting = lazy(() => import('@src/routes/setting'))
+// const RateUs = lazy(() => import('@src/routes/rateUs'))
+// const E404 = lazy(() => import('@src/routes/_E404'))
+
+import MetaContext from '@src/routes/_MetaContext'
 import GlobalStyles from 'ui/src/GlobalStyles'
 import { ColorModeProvider } from 'ui/src/colorMode/provider'
 import QueryClientProvider from './routes/_QueryClient'
+import AppShellLayout from '@src/routes/_Layout'
 
-const AddLog = lazy(() => import('@src/components/Forms/Log_add'))
-const EditLog = lazy(() => import('@src/components/Forms/Log_edit'))
-const AddCategory = lazy(() => import('@src/components/Forms/Category_add'))
-const EditCategory = lazy(() => import('@src/components/Forms/Category_edit'))
+import Loading from '@src/routes/_Loading'
+import Auth from '@src/routes/auth/Auth'
 
-const Index = lazy(() => import('@src/routes/index'))
 const Categories = lazy(() => import('@src/routes/categories'))
-const Charts = lazy(() => import('@src/routes/charts'))
-const About = lazy(() => import('@src/routes/about'))
-const Export = lazy(() => import('@src/routes/export'))
-const Setting = lazy(() => import('@src/routes/setting'))
-const RateUs = lazy(() => import('@src/routes/rateUs'))
-const E404 = lazy(() => import('@src/routes/_E404'))
+const Index = lazy(() => import('@src/routes/index'))
 
 import { ErrorBoundary } from 'react-error-boundary'
 import Error from './routes/_Error'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import Signup from './component/forms/Signup'
 import Login from './component/forms/Login'
+import Profile from './routes/profile'
 
 function App() {
   return (
@@ -68,6 +64,7 @@ function App() {
                     <Route index element={<Index />} />
                     <Route path="categories" element={<Categories />} />
 
+                    <Route path="profile" element={<Profile />} />
                     {/* <Route path="charts" element={<Charts />} /> */}
                   </Route>
                   {/* // todo : next */}
@@ -112,7 +109,6 @@ function App() {
         </QueryClientProvider>
       </MetaContext>
     </ColorModeProvider>
-    // </MantineSetUp>
   )
 }
 

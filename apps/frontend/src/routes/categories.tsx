@@ -15,8 +15,8 @@ function Index_Page_Component() {
     <OneStateProvider>
       <div css={{ '&>*': tw`mt-4` }}>
         <AddCategory />
-        {data.map(log => (
-          <CategoryEntry key={log._id} category={log} />
+        {data.reverse().map(cat => (
+          <CategoryEntry key={cat._id} category={cat} />
         ))}
       </div>
     </OneStateProvider>

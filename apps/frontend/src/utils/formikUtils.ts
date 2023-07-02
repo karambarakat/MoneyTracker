@@ -2,12 +2,8 @@ import { MutateOptions, UseMutationResult } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import HttpError from 'types/dist/helpers/HttpError'
 import ErrorDebug from './ErrorDebug'
-
-type UndefinedKeyOf<R extends object, K extends keyof R> = K extends K
-  ? undefined extends R[K]
-    ? never
-    : K
-  : never
+import get from 'lodash/get'
+import set from 'lodash/set'
 
 /**
  * I faced a problem in Formik where initial values should be undefined (at first)
@@ -15,17 +11,19 @@ type UndefinedKeyOf<R extends object, K extends keyof R> = K extends K
  * on typescript side using validate prop is not making this type safe.
  * on javascript side code in validate prop is redundant and could be DRYed.
  * @param values input object, may contain undefined values
- * @param required required keys, bridges the gap between typescript and javascript
+ * @param required list of lodash path that should be required
+ * @example ['title', 'amount', 'note.text']
  * @returns output object where required keys are guaranteed to be defined
  */
 export const require = <A extends object>(
   values: Partial<A>,
-  required: UndefinedKeyOf<A, keyof A>[],
+  required: string[],
 ) => {
   const errors: Partial<Record<keyof A, string>> = {}
 
   for (const key of required) {
-    if (!values[key]) errors[key] = (key as string) + ' is required'
+    const val = get(values, key)
+    val ?? set(errors, key, `${key as string} is required`)
   }
 
   return Object.keys(errors).length === 0

@@ -5,7 +5,7 @@ import Text from 'ui/src/components/Text'
 
 export default function () {
   return (
-    <div tw="grid place-content-center min-h-screen">
+    <div tw="grid place-content-center min-h-screen my-10">
       <div tw="min-w-[400px]">
         <Text tw="text-center mb-10" size="h1">
           Auth

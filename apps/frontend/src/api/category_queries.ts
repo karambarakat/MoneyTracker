@@ -25,6 +25,8 @@ export const useCategory = (_id: string) => {
     queryFn: query(find_one_category({ _id })),
   })
 
+  if (!_query.data) throw new Error('suspense missing?')
+
   return _query
 }
 

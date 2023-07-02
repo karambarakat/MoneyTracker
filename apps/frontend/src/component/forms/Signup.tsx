@@ -1,21 +1,22 @@
 import 'twin.macro'
 import React from 'react'
 import { useRegister } from '@src/api/auth_queries'
-import { Form, Formik } from 'formik'
+import Form from '../facade/Form'
+
 import {
   RoutesAuthLocalLogin,
   RoutesAuthLocalRegister,
 } from 'types/dist/ts/routes'
-import { formikMutateOption, require } from '@src/utils/formikUtils'
 import Status from 'ui/src/components/forms/Status'
 import TextField, {
   EmailField,
   PasswordField,
 } from 'ui/src/components/forms/TextField'
-import { WithAsChild, WithChildren } from 'ui/src/utils/WithChildren'
-import set from 'lodash/set'
-import get from 'lodash/get'
-import merge from 'lodash/merge'
+import SubmitButton from 'ui/src/components/forms/SubmitButton'
+import tw from 'twin.macro'
+import { UseMutationResult } from '@tanstack/react-query'
+import { OutputOfAction } from '@src/utils/fetch_'
+import { register as register_api } from '@src/api'
 
 type Values = Partial<
   RoutesAuthLocalLogin &
@@ -32,40 +33,36 @@ const initial = {
 } as Values
 
 export default function SignIn_Auth_Page_Component() {
-  const register = useRegister()
+  const register = useRegister() as UseMutationResult<
+    OutputOfAction<typeof register_api>,
+    any,
+    Values,
+    any
+  >
 
   return (
-    <Formik
-      initialValues={initial}
-      onSubmit={(v, ctx) => {
-        const [errors, values] = require(v, ['email', 'password'])
-
-        if (errors) {
-          ctx.setErrors(errors)
-          ctx.setSubmitting(false)
-          return
-        }
-
-        const options = formikMutateOption(ctx)
-
-        register.mutate(values, {
-          ...options,
-          onSuccess: (...args) => {
-            ctx.setValues({}, false)
-
-            options.onSuccess?.(...args)
-            ctx.setStatus({ success: 'signed in' })
-          },
-        })
+    <Form
+      properties={Object.keys(initial)}
+      required={['email', 'password', 'confirmPassword']}
+      action={register}
+      validate={values => {
+        if (values.password !== values.confirmPassword)
+          return { confirmPassword: 'passwords do not match' }
+      }}
+      onSuccess={(ret, ctx) => {
+        ctx.setStatus({ success: 'signed in' })
       }}
     >
-      <Form>
+      <div css={{ '&>*': tw`mb-3`, '&>*:last-child': tw`mb-0` }}>
         <Status />
         <EmailField name="email" />
         <TextField name="username" />
         <PasswordField name="password" />
         <PasswordField name="confirmPassword" />
-      </Form>
-    </Formik>
+        <div tw="flex justify-center">
+          <SubmitButton>Login</SubmitButton>
+        </div>
+      </div>
+    </Form>
   )
 }

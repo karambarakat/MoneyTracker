@@ -1,7 +1,7 @@
 import 'twin.macro'
-import React from 'react'
-import { PropsOf } from '@emotion/react'
-import { Field, useField, useFormikContext } from 'formik'
+import React, { createContext, useContext, useMemo } from 'react'
+import { PropsOf, css } from '@emotion/react'
+import { Field as FormikField, useField, useFormikContext } from 'formik'
 import type { FieldProps } from 'formik'
 import { capitalCase } from 'change-case'
 import { WithAsChild } from '../../utils/WithChildren'
@@ -24,10 +24,17 @@ interface Props {
 }
 
 interface BridgeProps {
-  formikName: string
+  fieldName: string
   title?: string
   validate?: (value: string) => string | undefined
 }
+
+const requiredCss = css`
+  &[data-required='true']::after {
+    content: ' *';
+    color: red;
+  }
+`
 
 /**
  * this component is a bridge that separate formik logic
@@ -38,22 +45,32 @@ interface BridgeProps {
  * just change this component
  */
 function FieldBridge({
-  formikName,
+  fieldName,
   title,
   children,
+  asChild,
   validate,
 }: WithAsChild<BridgeProps>) {
-  const Component = children ? Slot : 'input'
+  const Component = asChild ? Slot : 'input'
+
+  const { required } = useContext(formMetaInfo)
+  const req = useMemo(() => {
+    return required.includes(fieldName)
+  }, [fieldName])
 
   return (
-    <Field name={formikName} validate={validate}>
+    <FormikField name={fieldName} validate={validate}>
       {({ field, meta }: FieldProps) => {
         return (
           <div tw="flex flex-col gap-2">
             <label tw="flex flex-col gap-2">
-              {title || capitalCase(formikName)}
+              <div data-required={req} css={requiredCss}>
+                {title || capitalCase(fieldName)}
+              </div>
               <Component
+                required={req}
                 {...field}
+                children={asChild ? children : undefined}
                 value={field.value ?? ''}
                 tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
               />
@@ -62,18 +79,32 @@ function FieldBridge({
           </div>
         )
       }}
-    </Field>
+    </FormikField>
   )
 }
 
+export const formMetaInfo = createContext<{ required: string[] }>({
+  required: [],
+})
+
 export default function TextField(props: Props) {
-  return <FieldBridge formikName={props.name} title={props.title} />
+  return <FieldBridge fieldName={props.name} title={props.title} />
+}
+
+export function HiddenField(props: Props) {
+  return (
+    <div tw="hidden">
+      <FieldBridge fieldName={props.name} asChild>
+        <input type="hidden" />
+      </FieldBridge>
+    </div>
+  )
 }
 
 export function NumberField(props: Props) {
   return (
     <FieldBridge
-      formikName={props.name}
+      fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
         if (value && !/^\d+$/.test(value)) {
@@ -87,31 +118,39 @@ export function NumberField(props: Props) {
 export function EmailField(props: Props) {
   return (
     <FieldBridge
-      formikName={props.name}
+      fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
-        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+        console.log('todo: uncomment when done')
+        // if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i.test(value)) {
           return 'Invalid email address'
         }
       }}
-    />
+    ></FieldBridge>
   )
 }
 
 export function PasswordField(props: Props) {
   return (
     <FieldBridge
-      formikName={props.name}
+      fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
-        if (value && value.length < 8) {
+        console.log('todo: uncomment when done')
+        // if (value && value.length < 8) {
+        if (value && value.length < 2) {
           return 'Password must be at least 8 characters'
         }
       }}
-    />
+      asChild
+    >
+      <input type="password" />
+    </FieldBridge>
   )
 }
 
+// refactored into OptionField and figure out a way to render special ui
 export function CategoryField({
   name,
   title,

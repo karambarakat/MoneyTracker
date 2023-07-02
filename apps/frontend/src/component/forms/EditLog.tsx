@@ -1,14 +1,13 @@
 import 'twin.macro'
 import React from 'react'
-import { InputOfAction, OutputOfAction } from '@src/utils/fetch_'
-import { find_one_log, update_log } from '@src/api'
+import { InputOfAction } from '@src/utils/fetch_'
+import { update_log } from '@src/api'
 import { useUpdateLog } from '@src/api/log_queries'
-import { Form, Formik } from 'formik'
-import { SchemaLogIn } from 'types/dist/ts/schema'
-import { formikMutateOption, require } from '@src/utils/formikUtils'
+import Form from '../facade/Form'
 import Status from 'ui/src/components/forms/Status'
 import TextField, {
   CategoryField,
+  HiddenField,
   NumberField,
 } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
@@ -23,35 +22,17 @@ export default function EditLog({
   const categories = useCategories().data
 
   return (
-    <Formik
-      initialValues={log as Partial<SchemaLogIn>}
-      onSubmit={(v, ctx) => {
-        const [errors, values] = require<SchemaLogIn>(v, ['title', 'amount'])
-
-        if (errors) {
-          ctx.setErrors(errors)
-          ctx.setSubmitting(false)
-          return
-        }
-
-        const option = formikMutateOption(ctx)
-
-        mutate.mutate(
-          { _id: log._id, ...values },
-          {
-            ...option,
-            onSuccess: (...args) => {
-              ctx.setValues(log, false)
-
-              option.onSuccess?.(...args)
-              ctx.setStatus({ success: 'updated' })
-            },
-          },
-        )
+    <Form
+      onSuccess={(values, ctx) => {
+        ctx.setValues(log, false)
+        ctx.setStatus({ success: 'updated' })
       }}
+      initial={log}
+      action={mutate}
     >
-      <Form tw="grid grid-cols-2 gap-3">
+      <div tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />
+        <HiddenField name="_id" />
         <TextField name="title" />
         <NumberField name="amount" />
         <TextField name="note" />
@@ -62,7 +43,7 @@ export default function EditLog({
         <SubmitButton tw="col-span-2 mt-2" size="lg">
           submit
         </SubmitButton>
-      </Form>
-    </Formik>
+      </div>
+    </Form>
   )
 }

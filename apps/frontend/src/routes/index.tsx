@@ -28,16 +28,19 @@ function Index_Page_Component() {
       moment(log.createdAt).format('l'),
     )
 
-    return Object.entries(migrate).map(([key, subList]) => {
-      let newKey = moment(key).calendar()
-      newKey = !Number.parseInt(newKey) ? newKey : moment(key).format('dddd')
-      newKey =
-        newKey.replace(/ (at \d).*/, '') + moment(key).format(', MMM Do, YYYY')
-      return {
-        key: newKey,
-        subList,
-      }
-    })
+    return Object.entries(migrate)
+      .map(([key, subList]) => {
+        let newKey = moment(key).calendar()
+        newKey = !Number.parseInt(newKey) ? newKey : moment(key).format('dddd')
+        newKey =
+          newKey.replace(/ (at \d).*/, '') +
+          moment(key).format(', MMM Do, YYYY')
+        return {
+          key: newKey,
+          subList,
+        }
+      })
+      .reverse()
   }, [data?.data])
 
   return (

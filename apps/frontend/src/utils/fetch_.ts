@@ -2,14 +2,17 @@ import { QueryFunctionContext } from '@tanstack/react-query'
 import HttpError from 'types/dist/helpers/HttpError'
 
 function _fetch<O>(path: string, init: RequestInit) {
+  // @ts-ignore
+  const basicToken = init.headers?.Authorization
   return fetch(import.meta.env.VITE_BACKEND_API + path, {
     ...init,
     headers: {
       ...init.headers,
       'Content-Type': 'application/json',
       Authorization:
+        basicToken ??
         'Bearer ' +
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg4MjAzMDc0LCJleHAiOjE2ODgzNzU4NzR9.h6uNoTX4rPIpsHj5Hxt8v-qCfnDT4K9BLfqDTYEZCkQ',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDhlYzQ2Y2NmOWM2MzcxNjBmMzczNjkiLCJlbWFpbCI6InVzZXJAZy5jIiwiaWF0IjoxNjg4MjAzMDc0LCJleHAiOjE2ODgzNzU4NzR9.h6uNoTX4rPIpsHj5Hxt8v-qCfnDT4K9BLfqDTYEZCkQ',
     },
   })
     .then(res => res.json())
