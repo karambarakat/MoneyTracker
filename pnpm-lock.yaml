@@ -425,6 +425,15 @@ importers:
         specifier: ^4.9.5
         version: 4.9.5
 
+  pkgs/e2e:
+    dependencies:
+      '@playwright/test':
+        specifier: ^1.34.3
+        version: 1.34.3
+      wait-on:
+        specifier: ^7.0.1
+        version: 7.0.1
+
   pkgs/eslint-config-custom:
     devDependencies:
       '@typescript-eslint/eslint-plugin':
@@ -5792,7 +5801,6 @@ packages:
       {
         integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==,
       }
-    dev: true
 
   /@hapi/topo@5.1.0:
     resolution:
@@ -5801,7 +5809,6 @@ packages:
       }
     dependencies:
       '@hapi/hoek': 9.3.0
-    dev: true
 
   /@humanwhocodes/config-array@0.11.10:
     resolution:
@@ -6855,6 +6862,20 @@ packages:
     dev: true
     optional: true
 
+  /@playwright/test@1.34.3:
+    resolution:
+      {
+        integrity: sha512-zPLef6w9P6T/iT6XDYG3mvGOqOyb6eHaV9XtkunYs0+OzxBtrPAAaHotc0X+PJ00WPPnLfFBTl7mf45Mn8DBmw==,
+      }
+    engines: { node: '>=14' }
+    hasBin: true
+    dependencies:
+      '@types/node': 17.0.45
+      playwright-core: 1.34.3
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
+
   /@radix-ui/number@1.0.0:
     resolution:
       {
@@ -7261,21 +7282,18 @@ packages:
       }
     dependencies:
       '@hapi/hoek': 9.3.0
-    dev: true
 
   /@sideway/formula@3.0.1:
     resolution:
       {
         integrity: sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==,
       }
-    dev: true
 
   /@sideway/pinpoint@2.0.0:
     resolution:
       {
         integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==,
       }
-    dev: true
 
   /@sinclair/typebox@0.24.51:
     resolution:
@@ -12003,7 +12021,6 @@ packages:
       {
         integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==,
       }
-    dev: true
 
   /autoprefixer@10.4.14(postcss@8.4.24):
     resolution:
@@ -12064,7 +12081,6 @@ packages:
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /babel-core@7.0.0-bridge.0(@babel/core@7.22.5):
     resolution:
@@ -13122,7 +13138,6 @@ packages:
     engines: { node: '>= 0.8' }
     dependencies:
       delayed-stream: 1.0.0
-    dev: true
 
   /commander@10.0.1:
     resolution:
@@ -14211,7 +14226,6 @@ packages:
         integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==,
       }
     engines: { node: '>=0.4.0' }
-    dev: true
 
   /delegates@1.0.0:
     resolution:
@@ -15725,7 +15739,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
 
   /for-each@0.3.3:
     resolution:
@@ -15787,7 +15800,6 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
-    dev: true
 
   /formidable@2.1.2:
     resolution:
@@ -18695,7 +18707,6 @@ packages:
       '@sideway/address': 4.1.4
       '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
-    dev: true
 
   /js-levenshtein@1.1.6:
     resolution:
@@ -21138,6 +21149,15 @@ packages:
       find-up: 5.0.0
     dev: true
 
+  /playwright-core@1.34.3:
+    resolution:
+      {
+        integrity: sha512-2pWd6G7OHKemc5x1r1rp8aQcpvDh7goMBZlJv6Co5vCNLVcQJdhxRL09SGaY6HcyHH9aT4tiynZabMofVasBYw==,
+      }
+    engines: { node: '>=14' }
+    hasBin: true
+    dev: false
+
   /playwright-core@1.35.1:
     resolution:
       {
@@ -22493,7 +22513,6 @@ packages:
       }
     dependencies:
       tslib: 2.5.3
-    dev: true
 
   /safe-buffer@5.1.1:
     resolution:
@@ -25105,7 +25124,6 @@ packages:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /wait-port@0.2.14:
     resolution:
