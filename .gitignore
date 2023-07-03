@@ -6,12 +6,11 @@ node_modules
 
 # turborepo
 out
-**/.turbo
+.turbo
 
-*/*/dist
-*/*/.next
-*/*/dev
-.dev_*
+# build
+dist
+.next
 
 do_app_spec_prod.yaml
 *.local.*

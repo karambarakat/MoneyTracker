@@ -4,8 +4,6 @@ services:
     build:
       dockerfile: apps/backend/Dockerfile
       context: ../../
-      args:
-        Package_name: backend
     command: ['pnpm', '--filter', 'backend', 'run', 'test:base']
     env_file:
       - ./.env.test.local

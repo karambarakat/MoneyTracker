@@ -1,0 +1,26 @@
+# write a github action's workflow to run e2e test on every push
+name: e2e test
+
+on: [push]
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.0.2
+
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
+      - run: pnpm install -g concurrently wait-on
+      - run: >
+          concurrently -n "be,fe,e2e"
+          -c "green,yellow,bgBlue.bold"
+          -s "last" --kill-others
+          "pnpm --filter backend run dev:db && pnpm --filter backend run dev"
+          "pnpm --filter frontend run dev"
+          "pnpm --filter e2e run test:e2e"
+          "echo todo load vars"
