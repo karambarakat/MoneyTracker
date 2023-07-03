@@ -16,6 +16,8 @@
     "dev": "dotenv -c dev -- ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
     "dev:docker": "echo deprecated || docker compose -f dev-compose.yaml up",
     "test:watch": "pnpm run test:base --watch",
+    "// test:e2e": "long lasting, should be terminated by concurrently somewhere",
+    "test:e2e": "docker compose -f docker-compose-e2e.yaml up",
     "test:base": "dotenv -c test -- jest --runInBand",
     "test:todo": "docker compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from main-service",
     "test:force-build": "pnpm run test --build",
