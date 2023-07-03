@@ -1,16 +1,17 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import {
+  createDefinedContext,
+  useDefinedContext,
+} from '@src/utils/definedContext'
+import React, { useState, useEffect, createContext, useContext } from 'react'
 import { WithChildren } from 'ui/src/utils/WithChildren'
 
 type contextType = [string, React.Dispatch<React.SetStateAction<string>>]
 
-const context = createContext<contextType>([
-  '',
-  () => console.log('not context found - page.tsx'),
-])
+const context = createContext<contextType>({} as any)
 
 function MetaContext(P: WithChildren) {
   const state = useState('Home')
+
   if (!import.meta.env.SSR) {
     useEffect(() => {
       document.getElementsByTagName(

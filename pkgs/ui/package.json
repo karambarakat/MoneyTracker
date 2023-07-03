@@ -5,6 +5,7 @@
   "scripts": {
     "start": "storybook start",
     "dev": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006",
     "test:base": "test-storybook",
     "test": "pnpm run build && concurrently -n \"sb,test\" -c \"bgBlue,green\" --k -s first \"http-server dist -p 6006 --silent\" \"wait-on http://127.0.0.1:6006 && test-storybook --url http://127.0.0.1:6006\"",
     "build": "storybook build -o dist",

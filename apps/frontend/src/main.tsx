@@ -43,7 +43,7 @@ const Categories = lazy(() => import('@src/routes/categories'))
 const Index = lazy(() => import('@src/routes/index'))
 
 import { ErrorBoundary } from 'react-error-boundary'
-import Error from './routes/_Error'
+import ErrorComponent from './routes/_Error'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import Signup from './component/forms/Signup'
 import Login from './component/forms/Login'
@@ -51,13 +51,12 @@ import Profile from './routes/profile'
 
 function App() {
   return (
-    // <MantineSetUp>
     <ColorModeProvider>
       <MetaContext>
         <QueryClientProvider>
           <BrowserRouter>
             <Suspense fallback={<Loading />}>
-              <ErrorBoundary FallbackComponent={Error}>
+              <ErrorBoundary FallbackComponent={ErrorComponent}>
                 {/* <ModalRoutes> */}
                 <Routes>
                   <Route element={<AppShellLayout />}>
@@ -105,11 +104,33 @@ function App() {
               </ErrorBoundary>
             </Suspense>
           </BrowserRouter>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          <ReactQueryDevtoolsProduction />
         </QueryClientProvider>
       </MetaContext>
     </ColorModeProvider>
   )
+}
+
+const ReactQueryDevtoolsProductionLazy = React.lazy(() =>
+  import('@tanstack/react-query-devtools/build/lib/index.prod.js').then(d => ({
+    default: d.ReactQueryDevtools,
+  })),
+)
+
+function ReactQueryDevtoolsProduction() {
+  const [showDevtools, setShowDevtools] = React.useState(false)
+
+  React.useEffect(() => {
+    // @ts-ignore
+    window.toggleDevtools = () => setShowDevtools(old => !old)
+  }, [])
+
+  return showDevtools ? (
+    <React.Suspense fallback={null}>
+      <ReactQueryDevtoolsProductionLazy />
+    </React.Suspense>
+  ) : null
 }
 
 ReactDOM.render(

@@ -167,7 +167,7 @@ export function CategoryField({
   return (
     <div tw="flex flex-col gap-2">
       <label>{title || capitalCase(name)}</label>
-      <div tw="flex gap-2">
+      <div tw="flex gap-2 flex-wrap">
         {options.map(v => {
           const value = typeof v === 'string' ? v : v.value
           const label = typeof v === 'string' ? v : v.label

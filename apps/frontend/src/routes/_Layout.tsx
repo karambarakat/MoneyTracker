@@ -173,6 +173,7 @@ function Header() {
   } = AppShell.useAppShellContext()
 
   const title = getTitle()
+
   return (
     <div tw="flex justify-between items-center">
       <Text size="h1">{title}</Text>
