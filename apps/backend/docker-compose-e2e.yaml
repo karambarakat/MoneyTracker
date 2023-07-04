@@ -6,28 +6,6 @@ services:
     hostname: mongo
     ports:
       - 27018:27017
-    # networks:
-    #   - default
-  mongosetup:
-    image: mongo:3.6-xenial
-    depends_on:
-      - mongo
-    restart: 'no'
-    entrypoint: >
-      sleep 10 &&
-      mongo --host mongo:27017 
-      --eval '
-        const dbs = db.getMongo().getDBNames();
-        const keep = ['admin', 'config', 'local'];
-        for (var i in dbs) {  
-          db = db.getMongo().getDB(dbs[i]) ;
-          print('dropping db ' + db.getName());
-          db.dropDatabase();
-        }'
-    # networks:
-    #   - default
-
-# networks:
-#   default:
-#     driver: bridge
-
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=e2eroot
+      - MONGO_INITDB_ROOT_PASSWORD=e2epass

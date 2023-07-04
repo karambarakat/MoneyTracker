@@ -15,6 +15,11 @@
     "typecheck": "turbo run typecheck",
     "prettier": "prettier --write .",
     "test": "turbo run test",
+    "// e2e": "used for development, see ./.github/workflows/e2e.yaml",
+    "e2e:dep": "concurrently \"pnpm --filter backend run e2e\" \"pnpm --filter frontend run e2e\"",
+    "e2e:clean": "pnpm --filter backend e2e:clean",
+    "e2e:codegen": "pnpm --filter e2e codegen",
+    "e2e": "pnpm e2e:clean && pnpm --filter e2e e2e",
     "prepare": "husky install",
     "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.yaml",
     "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.local.yaml"

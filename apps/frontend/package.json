@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "e2e": "vite --mode e2e --port 5333",
     "lint": "eslint --fix .",
     "typecheck": "tsc --noEmit",
     "build": "echo todo refactoring the app tsc vite build",

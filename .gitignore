@@ -1,8 +1,11 @@
 node_modules
 /.VSCodeCounter
 
-.env*
-!.env.*.local
+.env*.local
+
+.env
+.env.prod*
+.env.production*
 
 # turborepo
 out
