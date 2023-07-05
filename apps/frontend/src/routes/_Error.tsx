@@ -1,7 +1,7 @@
 import RoutingContainer from '@src/components/RoutingContainer'
 import type { All_Errors } from 'types/dist/helpers/HttpError'
 import { FallbackProps as FallbackProps_ } from 'react-error-boundary'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useMatch } from 'react-router-dom'
 import { useQueryErrorResetBoundary } from '@tanstack/react-query'
 
 type FallbackProps = {
@@ -19,12 +19,11 @@ type FallbackProps = {
 }
 
 export default function Error({ error, resetErrorBoundary }: FallbackProps) {
-  if (error.name === 'TokenFailed') {
-    return <Navigate to={'/auth/login'} />
-  }
   const { reset } = useQueryErrorResetBoundary()
 
-  // useQueryErrorResetBoundary()
+  if (error.name === 'TokenFailed') {
+    return <Navigate to={'/auth/login'} state={{ goBackTo: '' }} />
+  }
   return (
     <RoutingContainer>
       <div>Ops, some error ocurred</div>

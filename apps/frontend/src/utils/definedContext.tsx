@@ -35,9 +35,7 @@ export function useDefinedContext<T>(
 ) {
   const context = useContext(ctx as Context<DefinedContext<T>>)
 
-  console.log(context)
-
   if (context.defined) return context.value
 
-  throw new Error(`undefined context, use ${ctx.displayName || ''} Provider`)
+  throw new Error('undefined context, use inside a Provider')
 }

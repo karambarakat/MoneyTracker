@@ -51,6 +51,10 @@ import { queryClient } from './lib/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
+// TODO:
+// 1. a way to push notification
+// 2. notify (and inform) when go online/offline
+// 3. add offline capability
 function App() {
   return (
     <ColorModeProvider>

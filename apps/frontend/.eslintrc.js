@@ -1,5 +1,9 @@
 /* eslint-env node */
 module.exports = {
+  env: {
+    browser: true,
+    serviceworker: true,
+  },
   root: true,
   extends: [
     'custom',
