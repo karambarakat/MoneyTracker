@@ -3,8 +3,8 @@ import tw from 'twin.macro'
 import { OneStateProvider } from '@src/utils/OneOpenAtATime'
 import { setTitle } from './_MetaContext'
 import { useCategories } from '@src/api/category_queries'
-import CategoryEntry from '@src/component/CategoryEntry'
-import AddCategory from '@src/component/forms/AddCategory'
+import CategoryEntry from '@src/components/CategoryEntry'
+import AddCategory from '@src/components/forms/AddCategory'
 
 function Index_Page_Component() {
   setTitle('categories')

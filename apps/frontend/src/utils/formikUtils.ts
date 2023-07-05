@@ -1,7 +1,7 @@
 import { MutateOptions, UseMutationResult } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
 import HttpError from 'types/dist/helpers/HttpError'
-import ErrorDebug from './ErrorDebug'
+// import ErrorDebug from './ErrorDebug'
 import get from 'lodash/get'
 import set from 'lodash/set'
 
@@ -77,8 +77,10 @@ export const formikMutateOption: (
     try {
       // @ts-ignore
       const errs = e.payload.details.errors
-      if (typeof errs !== 'object' || errs === null)
-        throw new ErrorDebug('unknown destructuring error', { errs, e })
+      if (typeof errs !== 'object' || errs === null) {
+        throw new Error('unknown destructuring error')
+        console.error({ errs, e })
+      }
       formikContext.setErrors(errs)
     } catch {
       //

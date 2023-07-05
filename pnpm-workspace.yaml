@@ -3,3 +3,4 @@ packages:
   - 'pkgs/**'
   # exclude packages that are inside test directories
   - '!**/test/**'
+  - '!apps/frontend_dep'

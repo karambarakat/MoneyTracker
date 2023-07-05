@@ -3,9 +3,9 @@ import tw from 'twin.macro'
 import { setTitle } from './_MetaContext'
 import { useProfile } from '@src/api/auth_queries'
 import Button from 'ui/src/components/Button'
-import ResetPassword from '@src/component/forms/ResetPassword'
-import SetPassword from '@src/component/forms/SetPassword'
-import UpdateProfile from '@src/component/forms/UpdateProfile'
+import ResetPassword from '@src/components/forms/ResetPassword'
+import SetPassword from '@src/components/forms/SetPassword'
+import UpdateProfile from '@src/components/forms/UpdateProfile'
 
 function Profile_Page_Component() {
   setTitle('Profile')

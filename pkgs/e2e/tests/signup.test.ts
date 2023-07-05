@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 
-test('test', async ({ page }) => {
+test.setTimeout(120000) //I have to build vite first to reduce this timeout
+
+test('main', async ({ page }) => {
   await page.goto('http://localhost:5333/auth/signup')
   await page.getByLabel('Email').click()
   await page.getByLabel('Email').fill('k@gmail.com')

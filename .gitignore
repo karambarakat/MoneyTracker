@@ -1,8 +1,9 @@
 node_modules
 /.VSCodeCounter
 
-.env*.local
+.env.*.local
 
+# prevent suppling production with any env by mistake
 .env
 .env.prod*
 .env.production*

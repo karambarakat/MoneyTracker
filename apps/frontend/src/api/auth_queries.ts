@@ -1,4 +1,4 @@
-import { mutation, query } from '@src/utils/fetch_'
+import { OutputOfAction, mutation, query } from '@src/lib/react-query'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   register,
@@ -8,11 +8,15 @@ import {
   update_profile,
   set_password,
 } from '.'
+import { setProfile } from '@src/utils/localProfile'
 
 export const useRegister = () => {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: mutation(register),
+    onSuccess: (data: OutputOfAction<typeof register>) => {
+      setProfile(data)
+    },
     onSettled: () => {
       client.invalidateQueries(['profile'])
     },
@@ -25,6 +29,9 @@ export const useLogin = () => {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: mutation(login),
+    onSuccess: (data: OutputOfAction<typeof login>) => {
+      setProfile(data)
+    },
     onSettled: () => {
       client.invalidateQueries(['profile'])
     },

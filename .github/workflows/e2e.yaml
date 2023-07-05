@@ -20,7 +20,6 @@ jobs:
           concurrently -n "be,fe,e2e"
           -c "green,yellow,bgBlue.bold"
           -s "last" --kill-others
-          "pnpm --filter backend run dev:db && pnpm --filter backend run dev"
-          "pnpm --filter frontend run dev"
-          "pnpm --filter e2e run test:e2e"
-          "echo todo load vars"
+          "pnpm --filter backend run e2e"
+          "pnpm --filter frontend run e2e"
+          "pnpm --filter e2e run e2e"

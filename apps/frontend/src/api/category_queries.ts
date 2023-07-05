@@ -1,4 +1,4 @@
-import { InputOfAction, mutation, query } from '@src/utils/fetch_'
+import { InputOfAction, mutation, query } from '@src/lib/react-query'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   create_category,

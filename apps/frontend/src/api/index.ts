@@ -1,6 +1,6 @@
 /* eslint-disable no-empty-pattern */
 // todo: once openapi is implemented, this file could auto-generated
-import { Action } from '@src/utils/fetch_'
+import { Action } from '@src/lib/react-query'
 import {
   SchemaCategoryIn,
   SchemaCategoryOut,

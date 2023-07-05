@@ -1,4 +1,4 @@
-import { mutation, pagedQuery, query } from '@src/utils/fetch_'
+import { mutation, pagedQuery, query } from '@src/lib/react-query'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { create_log, delete_log, find_log, find_one_log, update_log } from '.'
 

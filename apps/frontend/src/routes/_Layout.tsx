@@ -1,5 +1,7 @@
 import tw from 'twin.macro'
 
+import * as AspectRatio from '@radix-ui/react-aspect-ratio'
+
 import LogoPng from '@src/public/logo.png'
 
 import {
@@ -26,7 +28,9 @@ import Transition from 'ui/src/components/Transition'
 import Button from 'ui/src/components/Button'
 import { fade_from_buttom } from 'ui/src/components/Transition/transitions'
 import FlexBox from 'ui/src/components/experimental/FlexBox'
-import { getTitle } from '@src/components/ReactRoute'
+// import { getTitle } from '@src/components/ReactRoute'
+import UserIcon from '@src/components/UserIcon'
+import { getTitle } from './_MetaContext'
 
 export default function Main_Layout_Component() {
   return (
@@ -157,7 +161,7 @@ function Navbar() {
       <Divider />
       <Link to="/auth">
         <Navbar_item
-          icon={<PlugConnected />}
+          icon={<UserIcon />}
           color={'indigo'}
           label={'Sign In or Log In to Sync'}
         />
@@ -226,9 +230,10 @@ function Navbar_item({
       variant="subtle"
       color={color}
     >
-      <span>{icon}</span>
+      <span tw="w-[24px] h-[24px]">{icon}</span>
       <Text
         size="md"
+        // @ts-ignore
         css={[
           tw`flex-1 overflow-hidden opacity-0 translate-y-2 transition-[opacity,transform]`,
           expand === 1 || expand === 'disabled' || open

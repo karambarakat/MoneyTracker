@@ -33,7 +33,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MetaContext from '@src/routes/_MetaContext'
 import GlobalStyles from 'ui/src/GlobalStyles'
 import { ColorModeProvider } from 'ui/src/colorMode/provider'
-import QueryClientProvider from './routes/_QueryClient'
 import AppShellLayout from '@src/routes/_Layout'
 
 import Loading from '@src/routes/_Loading'
@@ -44,20 +43,22 @@ const Index = lazy(() => import('@src/routes/index'))
 
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorComponent from './routes/_Error'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import Signup from './component/forms/Signup'
-import Login from './component/forms/Login'
+import { ReactQueryDevtoolsProduction } from '@src/utils/ReactQueryDevTool'
+import Signup from './components/forms/Signup'
+import Login from './components/forms/Login'
 import Profile from './routes/profile'
+import { queryClient } from './lib/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function App() {
   return (
     <ColorModeProvider>
       <MetaContext>
-        <QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Suspense fallback={<Loading />}>
               <ErrorBoundary FallbackComponent={ErrorComponent}>
-                {/* <ModalRoutes> */}
                 <Routes>
                   <Route element={<AppShellLayout />}>
                     <Route index element={<Index />} />
@@ -66,7 +67,7 @@ function App() {
                     <Route path="profile" element={<Profile />} />
                     {/* <Route path="charts" element={<Charts />} /> */}
                   </Route>
-                  {/* // todo : next */}
+
                   <Route path="auth" element={<Auth />}>
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
@@ -110,27 +111,6 @@ function App() {
       </MetaContext>
     </ColorModeProvider>
   )
-}
-
-const ReactQueryDevtoolsProductionLazy = React.lazy(() =>
-  import('@tanstack/react-query-devtools/build/lib/index.prod.js').then(d => ({
-    default: d.ReactQueryDevtools,
-  })),
-)
-
-function ReactQueryDevtoolsProduction() {
-  const [showDevtools, setShowDevtools] = React.useState(false)
-
-  React.useEffect(() => {
-    // @ts-ignore
-    window.toggleDevtools = () => setShowDevtools(old => !old)
-  }, [])
-
-  return showDevtools ? (
-    <React.Suspense fallback={null}>
-      <ReactQueryDevtoolsProductionLazy />
-    </React.Suspense>
-  ) : null
 }
 
 ReactDOM.render(
