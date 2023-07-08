@@ -5,7 +5,7 @@ import { PropsOf } from '@emotion/react'
 import useListForTesting, { finalList } from '../../utils/useListForTesting'
 import tw from 'twin.macro'
 import { Transition } from '../Transition/Transition'
-import { fade_from_buttom } from '../Transition/transitions'
+import { fade_from_bottom } from '../Transition/transitions'
 
 function FlexBox(Props: PropsOf<typeof FlexBox_>) {
   return <FlexBox_ {...Props} tw="outline outline-2 outline-red-500/50" />
@@ -89,7 +89,7 @@ export const WithTransitionRow = {
               <Transition
                 duration={200}
                 mounted={list.includes(item)}
-                transition={fade_from_buttom}
+                transition={fade_from_bottom}
                 key={item}
               >
                 {styles => (
@@ -118,7 +118,7 @@ export const WithTransitionColumn = {
               <Transition
                 duration={200}
                 mounted={list.includes(item)}
-                transition={fade_from_buttom}
+                transition={fade_from_bottom}
                 key={item}
               >
                 {styles => (

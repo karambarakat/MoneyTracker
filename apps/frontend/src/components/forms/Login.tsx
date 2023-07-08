@@ -6,9 +6,11 @@ import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import Form from '../facade/Form'
 import { useLogin } from '@src/api/auth_queries'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login_Auth_Page_Component() {
   const login = useLogin()
+  const navigate = useNavigate()
 
   return (
     <Form
@@ -17,6 +19,7 @@ export default function Login_Auth_Page_Component() {
       required={['email', 'password']}
       onSuccess={(ret, ctx) => {
         ctx.setStatus({ success: 'signed in' })
+        navigate('/')
       }}
     >
       <div css={{ '&>*': tw`mb-3`, '&>*:last-child': tw`mb-0` }}>

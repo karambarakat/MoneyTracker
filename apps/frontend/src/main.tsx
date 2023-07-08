@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 // import MantineSetUp from '@src/components/MantineSetUp'
 // import { Provider as Redux } from 'react-redux'
 // import { store } from '@src/redux/index'
@@ -50,11 +50,17 @@ import Profile from './routes/profile'
 import { queryClient } from './lib/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { useProfile } from './utils/localProfile'
+import { WithChildren } from 'ui/src/utils/WithChildren'
 
-// TODO:
-// 1. a way to push notification
-// 2. notify (and inform) when go online/offline
-// 3. add offline capability
+function Protected({ children }: WithChildren) {
+  const profile = useProfile()
+
+  if (!profile) return <Navigate to={'/auth/login'} state={{ goBackTo: '' }} />
+
+  return <>{children}</>
+}
+
 function App() {
   return (
     <ColorModeProvider>
@@ -64,7 +70,13 @@ function App() {
             <Suspense fallback={<Loading />}>
               <ErrorBoundary FallbackComponent={ErrorComponent}>
                 <Routes>
-                  <Route element={<AppShellLayout />}>
+                  <Route
+                    element={
+                      <Protected>
+                        <AppShellLayout />
+                      </Protected>
+                    }
+                  >
                     <Route index element={<Index />} />
                     <Route path="categories" element={<Categories />} />
 

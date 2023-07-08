@@ -1,6 +1,5 @@
 import tw from 'twin.macro'
-
-import * as AspectRatio from '@radix-ui/react-aspect-ratio'
+import React from 'react'
 
 import LogoPng from '@src/public/logo.png'
 
@@ -9,10 +8,10 @@ import {
   Menu2,
   InfoCircle,
   LayoutGrid,
-  PlugConnected,
   Settings,
   Star,
   TableExport,
+  Login,
 } from 'tabler-icons-react'
 
 import { Outlet, Link } from 'react-router-dom'
@@ -26,11 +25,13 @@ import Divider from 'ui/src/components/Divider'
 import ButtonIcon from 'ui/src/components/ButtonIcon'
 import Transition from 'ui/src/components/Transition'
 import Button from 'ui/src/components/Button'
-import { fade_from_buttom } from 'ui/src/components/Transition/transitions'
+import { fade_from_bottom } from 'ui/src/components/Transition/transitions'
 import FlexBox from 'ui/src/components/experimental/FlexBox'
-// import { getTitle } from '@src/components/ReactRoute'
 import UserIcon from '@src/components/UserIcon'
+import { Logout } from 'tabler-icons-react'
 import { getTitle } from './_MetaContext'
+import { getProfile, setProfile, useProfile } from '@src/utils/localProfile'
+import { ILink } from '@src/lib/react-router-dom'
 
 export default function Main_Layout_Component() {
   return (
@@ -67,14 +68,14 @@ function Expand() {
         // pkgs/ui/src/components/AppShell/AppShell.tsx:234
         !sm && toggleExpand()
       }}
-      tw=" absolute cursor-pointer rounded-full right-0 translate-x-[8px] bottom-[42px]"
+      tw="absolute cursor-pointer rounded-full right-0 translate-x-[8px] bottom-[42px]"
     >
       <div
         css={[
           tw`opacity-100 transition-opacity`,
           expand === 'disabled' && tw`opacity-0`,
         ]}
-        tw="rounded-full bg-slate-200 dark:bg-slate-700 p-[2px] w-[fit-content] h-[fit-content]"
+        tw="rounded-full bg-slate-200 dark:bg-slate-800/80 p-[2px] w-[fit-content] h-[fit-content]"
       >
         <ChevronLeft
           size={14}
@@ -159,13 +160,34 @@ function Navbar() {
       })}
       <span tw="flex-1" />
       <Divider />
-      <Link to="/auth">
-        <Navbar_item
-          icon={<UserIcon />}
-          color={'indigo'}
-          label={'Sign In or Log In to Sync'}
-        />
-      </Link>
+      <UserController_NavbarItem />
+    </div>
+  )
+}
+
+function UserController_NavbarItem() {
+  const profile = useProfile()
+
+  return (
+    <div>
+      {profile ? (
+        <>
+          <ILink to={'/profile'}>
+            <Navbar_item
+              icon={<UserIcon />}
+              color={'indigo'}
+              label={profile.displayName}
+            />
+          </ILink>
+          <div onClick={() => setProfile(undefined)}>
+            <Navbar_item icon={<Logout />} color={'indigo'} label={'log out'} />
+          </div>
+        </>
+      ) : (
+        <div onClick={() => setProfile(undefined)}>
+          <Navbar_item icon={<Login />} color={'indigo'} label={'log out'} />
+        </div>
+      )}
     </div>
   )
 }
@@ -186,14 +208,14 @@ function Header() {
           <Transition
             keepMounted={false}
             mounted={width !== 'lg'}
-            transition={fade_from_buttom}
+            transition={fade_from_bottom}
           >
             {styles => <ToggleColorTheme css={styles} variant="subtle" />}
           </Transition>
           <Transition
             keepMounted={false}
             mounted={width === 'sm'}
-            transition={fade_from_buttom}
+            transition={fade_from_bottom}
           >
             {styles => (
               <ButtonIcon

@@ -7,7 +7,7 @@ export const fade_from_right: TransitionStyles = {
   transitionProperty: 'opacity, transform',
 }
 
-export const fade_from_buttom: TransitionStyles = {
+export const fade_from_bottom: TransitionStyles = {
   in: { opacity: 1 },
   out: { opacity: 0 },
   common: {},
