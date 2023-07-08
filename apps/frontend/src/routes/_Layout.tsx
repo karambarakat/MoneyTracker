@@ -176,7 +176,7 @@ function UserController_NavbarItem() {
             <Navbar_item
               icon={<UserIcon />}
               color={'indigo'}
-              label={profile.displayName}
+              label={'profile'}
             />
           </ILink>
           <div onClick={() => setProfile(undefined)}>

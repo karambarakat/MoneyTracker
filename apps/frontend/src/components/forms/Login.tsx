@@ -12,6 +12,9 @@ export default function Login_Auth_Page_Component() {
   const login = useLogin()
   const navigate = useNavigate()
 
+  console.log(import.meta.env)
+  console.log(import.meta.env.VITE_BACKEND_API)
+
   return (
     <Form
       action={login}
@@ -19,6 +22,7 @@ export default function Login_Auth_Page_Component() {
       required={['email', 'password']}
       onSuccess={(ret, ctx) => {
         ctx.setStatus({ success: 'signed in' })
+
         navigate('/')
       }}
     >

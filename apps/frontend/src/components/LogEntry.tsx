@@ -50,7 +50,7 @@ export default function LogEntry({
               <button tw="mr-3" onClick={() => setEdit(false)}>
                 close editing
               </button>
-              <EditLog log={data} />
+              <EditLog log={{ ...data, category: data.category?._id }} />
             </>
           ) : (
             <button tw="mr-3" onClick={() => setEdit(true)}>

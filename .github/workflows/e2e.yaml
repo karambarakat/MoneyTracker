@@ -15,11 +15,29 @@ jobs:
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
-      - run: pnpm install -g concurrently wait-on
-      - run: >
-          concurrently -n "be,fe,e2e"
-          -c "green,yellow,bgBlue.bold"
+      - name: 📥 Install e2e dependencies
+        run: pnpm install -g concurrently wait-on
+
+      - name: 📥 playwright install
+        run: pnpm F e2e exec playwright install --with-deps
+
+      - name: 🚀 Run e2e pre scripts
+        shell: bash
+        run: pnpm e2e:pre
+
+      - name: 🚀 Run e2e test
+        shell: bash
+        run: >
+          concurrently -n "bg,e2e"
+          -c "green,bgBlue.bold"
           -s "last" --kill-others
-          "pnpm --filter backend run e2e"
-          "pnpm --filter frontend run e2e"
-          "pnpm --filter e2e run e2e"
+          "pnpm e2e:bg"
+          "sleep 6 && e2e:run"
+
+      - name: 📤 Upload e2e report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: e2e-report
+          path: pkgs/e2e/playwright-report/
+          retention-days: 20
