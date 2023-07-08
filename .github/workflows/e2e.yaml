@@ -19,7 +19,7 @@ jobs:
         run: pnpm install -g concurrently wait-on
 
       - name: 📥 playwright install
-        run: pnpm F e2e exec playwright install --with-deps
+        run: pnpm --filter e2e exec playwright install --with-deps
 
       - name: 🚀 Run e2e pre scripts
         shell: bash
