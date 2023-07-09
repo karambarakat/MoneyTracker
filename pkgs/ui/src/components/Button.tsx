@@ -4,6 +4,8 @@ import { useMemo } from 'react'
 import 'twin.macro'
 import tw, { css } from 'twin.macro'
 import { fontSizes } from './Text'
+import { WithAsChild } from '../utils/WithChildren'
+import { Slot } from '@radix-ui/react-slot'
 
 interface Props {
   color?: color
@@ -17,8 +19,10 @@ function Button({
   variant = 'light',
   size = 'md',
   disabled: _disabled = false,
+  asChild,
   ...props
-}: JSX.IntrinsicElements['button'] & Props) {
+}: WithAsChild<Props>) {
+  const Component = asChild ? Slot : 'button'
   const variantCss = useMemo(() => {
     switch (variant) {
       case 'subtle':
@@ -32,9 +36,9 @@ function Button({
     }
   }, [variant, color])
   return (
-    <button
-      {...props}
+    <Component
       disabled={_disabled}
+      aria-disabled={_disabled}
       css={[
         base,
         variantCss,
@@ -42,6 +46,7 @@ function Button({
         fontSizes[size],
         _disabled && disabled,
       ]}
+      {...props}
     />
   )
 }
@@ -69,7 +74,7 @@ const subtle = (c: color) => css`
 `
 
 const filled = (c: color) => css`
-  background-color: ${colors[c][600]};
+  background-color: ${colors[c][700]};
   color: ${colors[c][50]};
 
   &:enabled:hover {

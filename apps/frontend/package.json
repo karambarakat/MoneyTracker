@@ -48,6 +48,7 @@
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.22.3",
     "@emotion/babel-plugin-jsx-pragmatic": "^0.2.1",
+    "@storybook/addon-a11y": "^7.0.26",
     "@storybook/addon-essentials": "7.0.24",
     "@storybook/addon-interactions": "7.0.24",
     "@storybook/addon-links": "7.0.24",

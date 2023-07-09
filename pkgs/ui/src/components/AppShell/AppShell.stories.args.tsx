@@ -144,16 +144,27 @@ export const Debug = () => {
     query: { width, sm, md },
   } = useAppShellContext()
   return (
-    <pre tw="fixed bg-slate-300/50 dark:bg-slate-600/50 z-50 right-0 bottom-0 p-2 m-2 border-2">
-      <em tw="text-gray-400">
+    <pre tw="fixed bg-slate-300 dark:bg-slate-600 z-50 right-0 bottom-0 p-2 m-2 border-2">
+      <em>
         debug: <br />
       </em>
       width: {width} (
-      <div tw="text-gray-300 dark:text-gray-600">
-        <span css={media(sm_query, tw`text-gray-700 dark:text-gray-100`)}>
+      <div tw="">
+        <span
+          css={media(
+            sm_query,
+            tw`line-through text-gray-600 dark:text-gray-300`,
+          )}
+        >
           1st_bp
         </span>{' '}
-        <span css={media(md_query, tw`text-gray-700 dark:text-gray-100`)}>
+        {/* <span> */}
+        <span
+          css={media(
+            md_query,
+            tw`line-through text-gray-600 dark:text-gray-300`,
+          )}
+        >
           2nd_bp
         </span>
         )

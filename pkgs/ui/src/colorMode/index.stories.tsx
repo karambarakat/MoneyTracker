@@ -54,8 +54,8 @@ function component() {
 
       <div tw="pb-2">system prefers is turned {isSystem ? 'on' : 'off'}</div>
 
-      <div aria-label={'toggle mode'}>
-        <ToggleColorTheme />
+      <div>
+        <ToggleColorTheme label="toggle color mode" />
       </div>
     </div>
   )

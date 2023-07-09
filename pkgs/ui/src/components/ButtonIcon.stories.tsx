@@ -27,6 +27,7 @@ export default {
     size: 'md',
     color: 'green',
     variant: 'outline',
+    label: 'Storybook Example',
   },
 } satisfies _m<typeof ButtonIcon>
 

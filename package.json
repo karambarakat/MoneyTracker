@@ -8,7 +8,7 @@
     "pkgs/*"
   ],
   "scripts": {
-    "commit": "turbo --version && git commit",
+    "prepare": "husky install",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "prettier --write . && turbo run lint ",
@@ -18,7 +18,7 @@
     "// e2e 1.build": "build of dependencies `frontend` and `backend`",
     "// e2e 2.e2e:bg": "run persistent background processes on ports 5333 and 8088",
     "// e2e 3.e2e:clean": "run e2e:clean before each test run",
-    "// e2e 4.e2e": "run e2e test",
+    "// e2e 4.e2e": "in another thread/terminal run the e2e tests",
     "e2e:pre": "turbo -F frontend -F backend -F e2e build:e2e",
     "e2e:bg": "pnpm -r --parallel run e2e:bg",
     "e2e:run": "pnpm -r --parallel run e2e:clean && wait-on -t 60000 http://localhost:5333 && wait-on -t 60000 tcp:8088 && pnpm --filter e2e run e2e",
@@ -27,7 +27,7 @@
     "e2e-run": "pnpm -F e2e playwright test --ui",
     "e2e-codegen": "pnpm --filter e2e codegen",
     "e2e-cicd": "concurrently -n \"bg,e2e\" -c \"green,bgBlue.bold\" -s \"last\" --kill-others \"pnpm e2e:bg\" \"sleep 6 && e2e:run\"",
-    "prepare": "husky install",
+    "// deploy": "manual deployment to digital ocean, secrets are stored in do_app_spec.local.yaml",
     "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.yaml",
     "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.local.yaml"
   },
