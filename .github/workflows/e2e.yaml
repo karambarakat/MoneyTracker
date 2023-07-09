@@ -31,7 +31,7 @@ jobs:
           -s "last" --kill-others
           "pnpm -F backend e2e:bg"
           "pnpm -F frontend e2e:bg"
-          "sleep 6 && e2e:run"
+          "sleep 6 && pnpm e2e:run"
 
       - name: 📤 Upload e2e report
         uses: actions/upload-artifact@v3
