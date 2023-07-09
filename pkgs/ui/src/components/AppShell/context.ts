@@ -1,7 +1,8 @@
 import { PropsOf } from '@emotion/react'
 import { useId, useMediaQuery } from '@mantine/hooks'
 import { createContext, useContext, useEffect, useState } from 'react'
-import AppShell, { Props2 } from './AppShellDeprecated'
+// import AppShell, { Props2 } from './AppShellDeprecated'
+import { Root } from './AppShell'
 
 export interface AppShell_sideBar_Context {
   /**
@@ -55,7 +56,7 @@ export interface AppShell_sideBar_Context {
   /**
    * props passed to the AppShell component
    */
-  props: Props2
+  props: PropsOf<typeof Root>
 }
 
 export const context = createContext<AppShell_sideBar_Context>({
@@ -78,7 +79,7 @@ export const context = createContext<AppShell_sideBar_Context>({
   },
 })
 
-type ContextInput = Pick<PropsOf<typeof AppShell>, 'bp_md' | 'bp_sm'>
+type ContextInput = Pick<PropsOf<typeof Root>, 'bp_md' | 'bp_sm'>
 
 export const useAppShellContext = () => useContext(context)
 

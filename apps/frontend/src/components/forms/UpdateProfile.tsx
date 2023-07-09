@@ -40,20 +40,19 @@ function SubmitButton(
     useFormikContext<object>()
 
   return (
-    <Button
-      {...Props}
-      disabled={isSubmitting}
-      variant="light"
-      onClick={() => {
-        if (Object.values(values).filter(e => e).length === 0) {
-          setStatus({ error: 'empty form' })
-          return
-        }
-        submitForm()
-      }}
-      type="button"
-    >
-      Submit
+    <Button {...Props} disabled={isSubmitting} variant="light" asChild>
+      <button
+        onClick={() => {
+          if (Object.values(values).filter(e => e).length === 0) {
+            setStatus({ error: 'empty form' })
+            return
+          }
+          submitForm()
+        }}
+        type="button"
+      >
+        Submit
+      </button>
     </Button>
   )
 }

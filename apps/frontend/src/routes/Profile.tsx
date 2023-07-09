@@ -36,28 +36,34 @@ function Profile_Page_Component() {
       </div>
       {data.providers.includes('local') ? (
         <div>
-          <Button
-            onClick={() => setOpen(o => (o === 'password' ? '' : 'password'))}
-          >
-            Reset Password
+          <Button asChild>
+            <button
+              onClick={() => setOpen(o => (o === 'password' ? '' : 'password'))}
+            >
+              Reset Password
+            </button>
           </Button>
           {open === 'password' && <ResetPassword />}
         </div>
       ) : (
         <div>
-          <Button
-            onClick={() => setOpen(o => (o === 'password' ? '' : 'password'))}
-          >
-            Set Password
+          <Button asChild>
+            <button
+              onClick={() => setOpen(o => (o === 'password' ? '' : 'password'))}
+            >
+              Set Password
+            </button>
           </Button>
           {open === 'password' && <SetPassword />}
         </div>
       )}
       <div>
-        <Button
-          onClick={() => setOpen(o => (o === 'profile' ? '' : 'profile'))}
-        >
-          Update Profile
+        <Button asChild>
+          <button
+            onClick={() => setOpen(o => (o === 'profile' ? '' : 'profile'))}
+          >
+            Update Profile
+          </button>
         </Button>
         {open === 'profile' && <UpdateProfile />}
       </div>

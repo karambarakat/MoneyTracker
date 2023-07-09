@@ -5,7 +5,7 @@ import ButtonIcon from '../components/ButtonIcon'
 import { PropsOf } from '@emotion/react'
 import tw from 'twin.macro'
 
-function ToggleColorScheme(Props: PropsOf<typeof ButtonIcon>) {
+function ToggleColorScheme(Props: Omit<PropsOf<typeof ButtonIcon>, 'label'>) {
   const { mode, toggle, isSystem } = useColorMode()
 
   const dark = mode === 'dark'
