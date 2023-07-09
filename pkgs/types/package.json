@@ -7,7 +7,7 @@
   "scripts": {
     "build::json": "ts-node ./src/scripts/build-json.ts",
     "build::ts": "ts-node ./src/scripts/build-ts.ts && ts-node ./src/scripts/build-http-helper.ts",
-    "pre-commit-build": "pnpm run \"/build::/\""
+    "pre-commit": "pnpm run \"/build::/\""
   },
   "author": "",
   "license": "ISC",

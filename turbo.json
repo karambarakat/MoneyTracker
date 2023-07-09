@@ -11,10 +11,7 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
-    "pre-commit-build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
-    },
+    "pre-commit": {},
     "build:e2e": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]

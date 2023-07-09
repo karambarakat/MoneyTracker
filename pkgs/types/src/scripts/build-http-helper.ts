@@ -8,7 +8,7 @@ async function main() {
 
   const output = `
 import { ${allExports.map(e => `\n  ${e},`).join('')}
-} from '../ts/HttpErrors'
+} from '../ts/httpErrors'
 
 export type All_Errors = ${allExports.map(n => `\n  | ${n}`).join('')}
 

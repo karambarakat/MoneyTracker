@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npx lint-staged
-turbo --scope=types pre-commit-build
+turbo pre-commit
 git add pkgs/types/dist
