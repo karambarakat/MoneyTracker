@@ -22,11 +22,11 @@
     "e2e-dev": "dotenv -c e2e -- pnpm run dev:base",
     "e2e:clean": "dotenv -c e2e -- node ephemeral-db.mjs",
     "e2e:bg": "pnpm run e2e-db && pnpm run e2e-dev",
+    "e2e:pre": "pnpm run build:base",
     "test:base": "dotenv -c test -- jest --runInBand",
     "test:todo": "docker compose -f docker-compose-test.yaml up --abort-on-container-exit --exit-code-from main-service",
     "test:force-build": "pnpm run test --build",
     "build:base": "webpack",
-    "build:e2e": "webpack",
     "build": "pnpm run build:base"
   },
   "author": "karam barakat",

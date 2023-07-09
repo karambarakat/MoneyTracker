@@ -19,7 +19,7 @@
     "// e2e 2.e2e:bg": "run persistent background processes on ports 5333 and 8088",
     "// e2e 3.e2e:clean": "run e2e:clean before each test run",
     "// e2e 4.e2e": "in another thread/terminal run the e2e tests",
-    "e2e:pre": "turbo -F frontend -F backend -F e2e build:e2e",
+    "e2e:pre": "turbo -F frontend -F backend -F e2e e2e:pre",
     "e2e:bg": "pnpm -r --parallel run e2e:bg",
     "e2e:run": "pnpm -r --parallel run e2e:clean && wait-on -t 60000 http://localhost:5333 && wait-on -t 60000 tcp:8088 && pnpm --filter e2e run e2e",
     "// there are used for development": "pnpm e2e-dev test || pnpm e2e-dev test --ui || pnpm e2e-dev codegen",
