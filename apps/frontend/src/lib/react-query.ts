@@ -9,23 +9,17 @@ export const queryClient = new QueryClient({
     queries: {
       suspense: true,
       retry(failureCount, error) {
-        // todo: refactoring: when done with type package refactoring come and use error.payload
-        if (
-          error instanceof HttpError &&
-          error.payload.name === 'TokenFailed'
-        ) {
-          return false
-        }
-
         if (
           error instanceof Error &&
           `${error.name}: ${error.message}` === 'TypeError: Failed to fetch'
         )
           return false
 
-        if (failureCount > 2) {
-          return false
-        }
+        if (!(error instanceof HttpError)) return false
+
+        if (error.payload.name === 'TokenFailed') return false
+
+        if (failureCount > 2) return false
 
         return true
       },

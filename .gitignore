@@ -5,6 +5,7 @@ node_modules
 
 # prevent suppling production with any env by mistake
 .env
+.env.local
 .env.prod*
 .env.production*
 

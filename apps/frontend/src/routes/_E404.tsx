@@ -1,4 +1,4 @@
-import { setTitle } from '@src/components/ReactRoute'
+import { setTitle } from '@src/routes/_MetaContext'
 import { Text } from '@mantine/core'
 
 function E404_Page_Component() {

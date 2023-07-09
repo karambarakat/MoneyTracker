@@ -45,7 +45,9 @@ export default function ScrollArea({
   return (
     <Radix.Root css={styles.root} {...props}>
       <Radix.Viewport css={styles.viewport}>
-        <Component css={tw`h-full`}>{children}</Component>
+        <Component css={tw`h-full`} tabIndex={0}>
+          {children}
+        </Component>
       </Radix.Viewport>
       <Radix.Scrollbar
         css={[styles.scrollbar, styles.scrollbar_vertical]}

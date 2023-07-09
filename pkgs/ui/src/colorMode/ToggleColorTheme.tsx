@@ -3,6 +3,7 @@ import { Sun, MoonStars, DeviceLaptop } from 'tabler-icons-react'
 import { useColorMode } from './provider'
 import ButtonIcon from '../components/ButtonIcon'
 import { PropsOf } from '@emotion/react'
+import tw from 'twin.macro'
 
 function ToggleColorScheme(Props: PropsOf<typeof ButtonIcon>) {
   const { mode, toggle, isSystem } = useColorMode()
@@ -10,19 +11,21 @@ function ToggleColorScheme(Props: PropsOf<typeof ButtonIcon>) {
   const dark = mode === 'dark'
   return (
     <ButtonIcon
-      color={dark ? 'yellow' : 'blue'}
-      onClick={toggle}
-      variant="outline"
       {...Props}
-      title="Toggle color scheme"
+      color={dark ? 'yellow' : 'blue'}
+      variant="outline"
+      label="Toggle color scheme"
+      asChild
     >
-      {isSystem ? (
-        <DeviceLaptop />
-      ) : dark ? (
-        <Sun size={18} />
-      ) : (
-        <MoonStars size={18} />
-      )}
+      <button onClick={toggle}>
+        {isSystem ? (
+          <DeviceLaptop />
+        ) : dark ? (
+          <Sun size={18} />
+        ) : (
+          <MoonStars size={18} />
+        )}
+      </button>
     </ButtonIcon>
   )
 }

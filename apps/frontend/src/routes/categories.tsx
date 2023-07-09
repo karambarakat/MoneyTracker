@@ -7,7 +7,7 @@ import CategoryEntry from '@src/components/CategoryEntry'
 import AddCategory from '@src/components/forms/AddCategory'
 
 function Index_Page_Component() {
-  setTitle('categories')
+  setTitle('Categories')
 
   const { data } = useCategories()
 

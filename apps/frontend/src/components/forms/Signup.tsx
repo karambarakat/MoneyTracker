@@ -14,6 +14,7 @@ import TextField, {
 } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
+import { useNavigate } from 'react-router-dom'
 
 type Values = Partial<
   RoutesAuthLocalLogin &
@@ -31,6 +32,7 @@ const initial = {
 
 export default function SignIn_Auth_Page_Component() {
   const register = useRegister()
+  const navigate = useNavigate()
 
   return (
     <Form
@@ -43,6 +45,7 @@ export default function SignIn_Auth_Page_Component() {
       }}
       onSuccess={(ret, ctx) => {
         ctx.setStatus({ success: 'signed in' })
+        navigate('/')
       }}
     >
       <div css={{ '&>*': tw`mb-3`, '&>*:last-child': tw`mb-0` }}>
