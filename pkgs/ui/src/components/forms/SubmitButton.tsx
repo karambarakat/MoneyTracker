@@ -10,8 +10,8 @@ export default function SubmitButton(
   const { isSubmitting } = useFormikContext()
 
   return (
-    <Button {...Props} disabled={isSubmitting} variant="light" type="submit">
-      Submit
+    <Button {...Props} disabled={isSubmitting} variant="light" asChild>
+      <button type="submit">Submit</button>
     </Button>
   )
 }

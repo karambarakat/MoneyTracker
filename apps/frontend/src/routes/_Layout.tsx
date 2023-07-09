@@ -221,9 +221,12 @@ function Header() {
               <ButtonIcon
                 css={styles}
                 variant="subtle"
-                onClick={() => setOpen(s => !s)}
+                asChild
+                label="open menu"
               >
-                <Menu2 />
+                <button onClick={() => setOpen(o => !o)}>
+                  <Menu2 />
+                </button>
               </ButtonIcon>
             )}
           </Transition>

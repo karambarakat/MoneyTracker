@@ -28,17 +28,16 @@ export default {
 } satisfies _m<typeof component>
 
 function WithSb({ children }: { children: React.ReactNode }) {
-  const { mode } = useColorMode()
-  // useEffect(() => {
-  //   // prevent a mismatch between the sb mode and the mode in the provider
-  //   mode === 'dark' &&
-  //     document.documentElement.classList.contains('dark-mode-plugin-light') &&
-  //     addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
-
-  //   mode === 'light' &&
-  //     document.documentElement.classList.contains('dark-mode-plugin-dark') &&
-  //     addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
-  // }, [mode])
+  const { mode, isSystem } = useColorMode()
+  useEffect(() => {
+    // if (isSystem) return
+    // mode === 'dark' &&
+    //   !document.documentElement.classList.contains('dark') &&
+    //   addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
+    // mode === 'light' &&
+    //   document.documentElement.classList.contains('dark') &&
+    //   addons.getChannel().emit(UPDATE_DARK_MODE_EVENT_NAME)
+  }, [mode])
 
   return <>{children}</>
 }
@@ -55,7 +54,7 @@ function component() {
       <div tw="pb-2">system prefers is turned {isSystem ? 'on' : 'off'}</div>
 
       <div>
-        <ToggleColorTheme label="toggle color mode" />
+        <ToggleColorTheme />
       </div>
     </div>
   )
