@@ -1,10 +1,10 @@
 /// <reference types="node" />
 import * as Schemas from '../json-schema'
-import { writeFileSync } from 'fs'
+import writeFile from '../utils/writeFile'
 
 async function main(obj: object) {
   Object.values(obj).map(schema => {
-    writeFileSync(
+    writeFile(
       `./dist/json${schema.$id}.json`,
       JSON.stringify(
         {
@@ -14,10 +14,6 @@ async function main(obj: object) {
         null,
         2,
       ),
-      {
-        encoding: 'utf-8',
-        flag: 'w+',
-      },
     )
 
     console.log('build-json: file written ./dist/json' + schema.$id + '.json')

@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
-import HttpError from 'types/dist/helpers/HttpError'
+import HttpError from 'types/dist/helpers/http_error'
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { get } from 'lodash'
 import { getProfile } from '../utils/localProfile'

@@ -1,5 +1,5 @@
 import RoutingContainer from '@src/components/RoutingContainer'
-import type { All_Errors } from 'types/dist/helpers/HttpError'
+import type { All_Errors } from 'types/dist/helpers/http_error'
 import { FallbackProps as FallbackProps_ } from 'react-error-boundary'
 import { Navigate, useMatch } from 'react-router-dom'
 import { useQueryErrorResetBoundary } from '@tanstack/react-query'

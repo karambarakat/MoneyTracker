@@ -6,7 +6,7 @@ import {
 } from '@utils/httpError/errTypes'
 import type { HttpError } from '@utils/httpError'
 import { NextFunction, Request, Response } from 'express'
-import { HttpErrors_UnknownServerError } from 'types/dist/ts/httpErrors'
+import { HttpErrors_UnknownServerError } from 'types/dist/ts/http_errors'
 
 export function e400_JsonError(
   err: Error,

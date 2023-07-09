@@ -1,6 +1,6 @@
 import { MutateOptions, UseMutationResult } from '@tanstack/react-query'
 import { FormikHelpers } from 'formik'
-import HttpError from 'types/dist/helpers/HttpError'
+import HttpError from 'types/dist/helpers/http_error'
 // import ErrorDebug from './ErrorDebug'
 import get from 'lodash/get'
 import set from 'lodash/set'
