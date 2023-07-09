@@ -1,5 +1,6 @@
 /// <reference types="node" />
-import { readFileSync, writeFileSync } from 'fs'
+import { readFileSync } from 'fs'
+import writeFile from '../utils/writeFile'
 
 async function main() {
   const input = readFileSync('./dist/ts/HttpErrors.ts').toString()
@@ -41,7 +42,8 @@ export default class HttpError extends Error {
 }
     `
 
-  writeFileSync('./dist/helpers/HttpError.ts', output)
+  writeFile('./dist/helpers/HttpError.ts', output)
+
   console.log('build-helper: file written ./dist/helpers/HttpError.ts')
 }
 
