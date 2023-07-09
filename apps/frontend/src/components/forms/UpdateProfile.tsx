@@ -3,7 +3,7 @@ import React from 'react'
 import Form from '../facade/Form'
 
 import TextField from 'ui/src/components/forms/TextField'
-import Status from 'ui/src/components/forms/status'
+import Status from 'ui/src/components/forms/Status'
 import { useUpdateProfile } from '@src/api/auth_queries'
 import { useFormikContext } from 'formik'
 import { PropsOf } from '@emotion/react'

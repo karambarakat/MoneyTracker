@@ -1,4 +1,4 @@
-import { TransitionStyles } from '../transition'
+import { TransitionStyles } from '../Transition'
 
 export const fade_from_right: TransitionStyles = {
   in: { opacity: 1, transform: 'translateX(0)' },

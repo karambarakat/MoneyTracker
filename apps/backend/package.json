@@ -10,7 +10,7 @@
   },
   "scripts": {
     "lint": "eslint --fix .",
-    "typecheck:todo": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "start": "node dist/index.bundle.js",
     "start:no-build": "dotenv -c -- ts-node -r tsconfig-paths/register src/server.ts",
     "dev:base": "ts-node-dev -r tsconfig-paths/register src/server.ts --respawn --transpile-only",
