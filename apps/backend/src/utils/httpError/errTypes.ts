@@ -12,7 +12,7 @@ import {
   HttpErrors_UnknownServerError,
   HttpErrors_UserAlreadyExist,
   HttpErrors_ValidationError,
-} from 'types/dist/ts/httpErrors'
+} from 'types/dist/ts/http_errors'
 import { HttpError } from '.'
 
 export function FieldsRequired(keys: string[]) {
@@ -21,10 +21,13 @@ export function FieldsRequired(keys: string[]) {
     name: 'SomeFieldsRequired',
     message: `these fields are required: ${keys.join(', ')}`,
     details: {
-      errors: keys.reduce((acc, key) => {
-        acc[key] = `\`${key}\` is required`
-        return acc
-      }, {} as Record<string, string>),
+      errors: keys.reduce(
+        (acc, key) => {
+          acc[key] = `\`${key}\` is required`
+          return acc
+        },
+        {} as Record<string, string>,
+      ),
     },
   })
 }

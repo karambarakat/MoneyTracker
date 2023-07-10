@@ -2,8 +2,6 @@
 import React, { useEffect } from 'react'
 
 import { StoryObj as _s, Meta as _m } from '@storybook/react'
-import { userEvent, within } from '@storybook/testing-library'
-import { expect } from '@storybook/jest'
 import ToggleColorTheme from './ToggleColorTheme'
 import 'twin.macro'
 import { addons } from '@storybook/addons'

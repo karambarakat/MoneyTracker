@@ -3,7 +3,7 @@ import React from 'react'
 import Form from '../facade/Form'
 
 import { PasswordField } from 'ui/src/components/forms/TextField'
-import Status from 'ui/src/components/forms/status'
+import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useSetPassword } from '@src/api/auth_queries'
 

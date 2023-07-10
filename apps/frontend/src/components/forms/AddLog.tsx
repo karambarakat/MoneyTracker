@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 import Form from '../facade/Form'
 
-import Status from 'ui/src/components/forms/status'
+import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useCreateLog } from '@src/api/log_queries'
 import { useCategories } from '@src/api/category_queries'

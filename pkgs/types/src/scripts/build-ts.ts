@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { compile } from 'json-schema-to-typescript'
 import * as Schemas from '../json-schema'
-import { writeFileSync } from 'fs'
+import writeFile from '../utils/writeFile'
 
 async function main(obj: object, src: string) {
   const schemas = Object.entries(obj).map(([name, schema]) => {
@@ -27,9 +27,7 @@ ${ts.join('\n\n')}
 `
   })
 
-  writeFileSync(`./dist/ts/${src}.ts`, file, {
-    encoding: 'utf-8',
-  })
+  writeFile(`./dist/ts/${src}.ts`, file)
 
   console.log('build-ts: file written ./dist/ts/' + src + '.ts')
 }

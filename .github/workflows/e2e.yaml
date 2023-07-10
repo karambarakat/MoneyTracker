@@ -7,10 +7,8 @@ jobs:
   e2e-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 6.0.2
+      - name: 📂 checkout files
+        uses: actions/checkout@v2
 
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
@@ -30,9 +28,9 @@ jobs:
         run: >
           concurrently -n "bg,e2e"
           -c "green,bgBlue.bold"
-          -s "last" --kill-others
+          -s first --kill-others
           "pnpm e2e:bg"
-          "sleep 6 && e2e:run"
+          "sleep 6 && pnpm e2e:run"
 
       - name: 📤 Upload e2e report
         uses: actions/upload-artifact@v3

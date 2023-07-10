@@ -104,7 +104,7 @@ export function Transition({
   )
 }
 
-// import { MantineTransition, transitions } from '../transitions';
+// import { MantineTransition, transitions } from '../Transitions';
 
 const transitionStatuses = {
   entering: 'in',
