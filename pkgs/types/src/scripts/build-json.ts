@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import * as Schemas from '../json-schema'
+import { BASE_URL } from '../utils/constants'
 import writeFile from '../utils/writeFile'
 
 async function main(obj: object) {
@@ -9,7 +10,7 @@ async function main(obj: object) {
       JSON.stringify(
         {
           ...schema,
-          $id: 'https://expamle.com' + schema.$id,
+          $id: BASE_URL + schema.$id,
         },
         null,
         2,

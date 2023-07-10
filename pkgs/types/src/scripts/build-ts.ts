@@ -1,4 +1,5 @@
 /// <reference types="node" />
+// todo: bug here, replace Timestamps with { $ref: '/utils/document', }, in pkgs\types\src\json-schema\schema.ts
 import { compile } from 'json-schema-to-typescript'
 import * as Schemas from '../json-schema'
 import writeFile from '../utils/writeFile'

@@ -4,8 +4,9 @@ import { JSONSchema7 } from 'json-schema'
 // and when I'm done with openapi
 // I can use extra builders to distinguish
 // between input and output schemas
-const Document = {
+export const Document = {
   type: 'object',
+  $id: '/utils/document',
   properties: {
     _id: { type: 'string' },
     __v: { type: 'number' },
@@ -14,8 +15,9 @@ const Document = {
   additionalProperties: false,
 }
 
-const Timestamps = {
+export const Timestamps = {
   type: 'object',
+  $id: '/utils/timestamps',
   properties: {
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },
@@ -104,6 +106,7 @@ export const Profile = {
         displayName: { type: 'string' },
         email: { type: 'string' },
         providers: {
+          $id: '#providers',
           type: 'array',
           items: {
             type: 'string',

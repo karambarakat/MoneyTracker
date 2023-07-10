@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://expamle.com/httpErrors/ResourceWasNotFound",
+  "$id": "https://backend-json.pocket-app.karam.page/httpErrors/ResourceWasNotFound",
   "type": "object",
   "properties": {
     "status": {

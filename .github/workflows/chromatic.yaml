@@ -1,4 +1,4 @@
-name: 'Chromatic Publish'
+name: Chromatic
 
 on: push
 

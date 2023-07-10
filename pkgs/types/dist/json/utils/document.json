@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "$id": "https://backend-json.pocket-app.karam.page/utils/document",
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "__v": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "_id",
+    "__v"
+  ],
+  "additionalProperties": false
+}

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://expamle.com/httpErrors/UnAuthorized",
+  "$id": "https://backend-json.pocket-app.karam.page/httpErrors/UnAuthorized",
   "type": "object",
   "properties": {
     "status": {

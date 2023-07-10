@@ -1,7 +1,7 @@
 # write a github action's workflow to run e2e test on every push
 name: e2e test
 
-on: [push]
+on: push
 
 jobs:
   e2e-test:

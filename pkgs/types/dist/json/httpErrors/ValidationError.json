@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://expamle.com/httpErrors/ValidationError",
+  "$id": "https://backend-json.pocket-app.karam.page/httpErrors/ValidationError",
   "type": "object",
   "properties": {
     "status": {

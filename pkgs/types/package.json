@@ -5,7 +5,7 @@
   "main": "",
   "types": "./schema.d.ts",
   "scripts": {
-    "build::json": "ts-node ./src/scripts/build-json.ts",
+    "build::json": "ts-node ./src/scripts/build-json.ts && ts-node ./src/scripts/build-json-helper.ts",
     "build::ts": "ts-node ./src/scripts/build-ts.ts && ts-node ./src/scripts/build-http-helper.ts",
     "pre-commit": "pnpm run \"/build::/\"",
     "build": "pnpm run \"/build::/\""
@@ -17,6 +17,7 @@
     "@types/node": "^17.0.45",
     "eslint-config-custom": "workspace:*",
     "json-schema-to-typescript": "^13.0.2",
+    "json-schema-traverse": "^1.0.0",
     "ts-node": "^10.9.1",
     "typescript": "*",
     "typescript-json-schema": "^0.57.0",

@@ -7,7 +7,7 @@ async function main() {
   const regex = input.matchAll(/export interface ([a-zA-Z_]*) \{/g)
   const allExports = Array.from(regex).map(arr => arr[1])
 
-  const output = `
+  const output = `// don't edit directly
 import { ${allExports.map(e => `\n  ${e},`).join('')}
 } from '../ts/http_errors'
 
