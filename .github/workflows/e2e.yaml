@@ -28,9 +28,8 @@ jobs:
         run: >
           concurrently -n "bg,e2e"
           -c "green,bgBlue.bold"
-          -s "last" --kill-others
-          "pnpm -F backend e2e:bg"
-          "pnpm -F frontend e2e:bg"
+          -s first --kill-others
+          "pnpm e2e:bg"
           "sleep 6 && pnpm e2e:run"
 
       - name: 📤 Upload e2e report

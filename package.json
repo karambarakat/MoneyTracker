@@ -26,7 +26,7 @@
     "e2e-dev": "pnpm -r run e2e:clean && pnpm -F e2e run playwright",
     "e2e-run": "pnpm -F e2e playwright test --ui",
     "e2e-codegen": "pnpm --filter e2e codegen",
-    "e2e-cicd": "concurrently -n \"bg,e2e\" -c \"green,bgBlue.bold\" -s \"last\" --kill-others \"pnpm e2e:bg\" \"sleep 6 && e2e:run\"",
+    "e2e-cicd": "concurrently -n \"bg,e2e\" -c \"green,bgBlue.bold\" -s first --kill-others \"pnpm e2e:bg\" \"sleep 6 && pnpm e2e:run\"",
     "// deploy": "manual deployment to digital ocean, secrets are stored in do_app_spec.local.yaml",
     "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.yaml",
     "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.local.yaml"
