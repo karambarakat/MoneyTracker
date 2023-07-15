@@ -1,7 +1,7 @@
 import 'twin.macro'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useId, useMediaQuery } from '@mantine/hooks'
-import tw, { TwStyle, css, styled } from 'twin.macro'
+import tw, { TwStyle, css, stylable, styled } from 'twin.macro'
 import useHoverInOut from '../../hooks/useHoverInOut'
 import { WithAsChild, WithChildren } from '../../utils/WithChildren'
 // import { useCreateContext, context } from './context'
@@ -214,10 +214,10 @@ export function Root({ children, asChild, ...props }: WithAsChild<Props>) {
 }
 
 type ExpandStyle = {
-  base?: SerializedStyles | TwStyle
-  expand_0?: SerializedStyles | TwStyle
-  expand_1?: SerializedStyles | TwStyle
-  expand_disabled?: SerializedStyles | TwStyle
+  base?: stylable
+  expand_0?: stylable
+  expand_1?: stylable
+  expand_disabled?: stylable
 }
 
 export const Expand = ({
@@ -255,9 +255,9 @@ export const Expand = ({
 }
 
 type OverlayStyle = {
-  base?: SerializedStyles | TwStyle
-  open?: SerializedStyles | TwStyle
-  not_open?: SerializedStyles | TwStyle
+  base?: stylable
+  open?: stylable
+  not_open?: stylable
 }
 
 export function Overlay({

@@ -60,7 +60,7 @@ function Protected({ children }: WithChildren) {
 
   return <>{children}</>
 }
-
+Suspense
 function App() {
   return (
     <ColorModeProvider>

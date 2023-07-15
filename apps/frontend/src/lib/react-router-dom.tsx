@@ -1,6 +1,7 @@
 import { SerializedStyles } from '@emotion/react'
 import { NavLinkProps, LinkProps, NavLink, Link } from 'react-router-dom'
 import { TwStyle, css } from 'twin.macro'
+import { stylable } from 'twin.macro'
 import { WithChildren } from 'ui/src/utils/WithChildren'
 
 /**
@@ -23,8 +24,8 @@ export function INavLink({
 }: WithChildren<
   Omit<NavLinkProps, keyof React.AnchorHTMLAttributes<HTMLAnchorElement>> & {
     Styles?: {
-      isPending?: SerializedStyles | TwStyle
-      isActive?: SerializedStyles | TwStyle
+      isPending?: stylable
+      isActive?: stylable
     }
   }
 >) {

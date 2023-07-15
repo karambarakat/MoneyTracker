@@ -11,6 +11,7 @@
     "prepare": "husky install",
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:all": "pnpm -F backend -F frontend --parallel dev",
     "lint": "prettier --write . && turbo run lint ",
     "typecheck": "turbo run typecheck",
     "prettier": "prettier --write .",
@@ -56,5 +57,12 @@
     "url": "https://github.com/karambarakat/MoneyTracker/issues"
   },
   "homepage": "https://github.com/karambarakat/MoneyTracker#readme",
-  "packageManager": "pnpm@8.6.0"
+  "packageManager": "pnpm@8.6.0",
+  "pnpm": {
+    "patchedDependencies": {
+      "twin.macro@3.3.1": "patches/twin.macro@3.3.1.patch",
+      "@types/json-schema@7.0.12": "patches/@types__json-schema@7.0.12.patch",
+      "@types/json-schema@7.0.12-patched": "patches/@types__json-schema@7.0.12.patch"
+    }
+  }
 }

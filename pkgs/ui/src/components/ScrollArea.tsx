@@ -1,6 +1,6 @@
-import tw, { styled } from 'twin.macro'
+import tw from 'twin.macro'
 import * as Radix from '@radix-ui/react-scroll-area'
-import { WithAsChild, WithChildren } from '../utils/WithChildren'
+import { WithAsChild } from '../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
 import { css } from '@emotion/react'
 
