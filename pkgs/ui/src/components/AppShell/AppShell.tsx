@@ -1,3 +1,9 @@
+/**
+ * source in which this component drives inspiration from
+ * 1. https://doc.rust-lang.org/beta/book/index.html
+ * 2. https://mail.google.com/mail/u/0/#inbox
+ * 3. console.firebase.google.com (expand mode, overlay mode)
+ */
 import 'twin.macro'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useId, useMediaQuery } from '@mantine/hooks'
