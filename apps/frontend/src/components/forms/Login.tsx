@@ -5,11 +5,12 @@ import { EmailField, PasswordField } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import Form from '../facade/Form'
-import { useLogin } from '@src/api/auth_queries'
 import { useNavigate } from 'react-router-dom'
+import { login } from '@src/api'
+import { useMutation } from '@tanstack/react-query'
 
 export default function Login_Auth_Page_Component() {
-  const login = useLogin()
+  const login_ = useMutation({ mutationFn: login })
   const navigate = useNavigate()
 
   console.log(import.meta.env)
@@ -17,7 +18,7 @@ export default function Login_Auth_Page_Component() {
 
   return (
     <Form
-      action={login}
+      action={login_}
       properties={['email', 'password']}
       required={['email', 'password']}
       onSuccess={(ret, ctx) => {

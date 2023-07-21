@@ -4,13 +4,14 @@ import Form from '../facade/Form'
 
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
-import { useUpdateProfile } from '@src/api/auth_queries'
 import { useFormikContext } from 'formik'
 import { PropsOf } from '@emotion/react'
 import Button from 'ui/src/components/Button'
+import { useMutation } from '@tanstack/react-query'
+import { update_profile } from '@src/api'
 
 export default function UpdateProfile() {
-  const mutate = useUpdateProfile()
+  const mutate = useMutation({ mutationFn: update_profile })
 
   return (
     <Form

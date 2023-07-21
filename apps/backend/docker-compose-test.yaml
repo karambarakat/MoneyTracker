@@ -6,7 +6,7 @@ services:
       context: ../../
     command: ['pnpm', '--filter', 'backend', 'run', 'test:base']
     env_file:
-      - ./.env.test.local
+      - ./.env.test
     environment:
       - MONGO_STRING=mongodb://mongo:27017/testing
     networks:

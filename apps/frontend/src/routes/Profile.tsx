@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import tw from 'twin.macro'
 import { setTitle } from './_MetaContext'
-import { useProfile } from '@src/api/auth_queries'
 import Button from 'ui/src/components/Button'
 import ResetPassword from '@src/components/forms/ResetPassword'
 import SetPassword from '@src/components/forms/SetPassword'
 import UpdateProfile from '@src/components/forms/UpdateProfile'
+import { useQuery } from '@src/lib/react-query'
 
 function Profile_Page_Component() {
   setTitle('Profile')
 
-  const { data } = useProfile()
+  const { data } = useQuery('profile', [])
+
+  if (!data) return <div>error</div>
 
   const [open, setOpen] = useState<'password' | 'profile' | ''>('')
 

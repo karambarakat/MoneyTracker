@@ -5,10 +5,18 @@ import Form from '../facade/Form'
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useCreateCategory } from '@src/api/category_queries'
+import { create_category } from '@src/api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { apis } from '@src/api/type'
 
 export default function AddCategory() {
-  const mutate = useCreateCategory()
+  const client = useQueryClient()
+  const mutate = useMutation({
+    mutationFn: create_category,
+    onSettled: () => {
+      client.invalidateQueries(['find_category'] satisfies apis)
+    },
+  })
 
   return (
     <Form

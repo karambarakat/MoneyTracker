@@ -4,16 +4,27 @@ import Form from '../facade/Form'
 
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useCreateLog } from '@src/api/log_queries'
-import { useCategories } from '@src/api/category_queries'
 import TextField, {
   CategoryField,
   NumberField,
 } from 'ui/src/components/forms/TextField'
+import { useQuery } from '@src/lib/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { create_log } from '@src/api'
+import { apis } from '@src/api/type'
 
 export default function AddLog() {
-  const mutate = useCreateLog()
-  const categories = useCategories().data
+  const client = useQueryClient()
+  const mutate = useMutation({
+    mutationFn: create_log,
+    onSettled: () => {
+      client.invalidateQueries(['find_log'] satisfies apis)
+    },
+  })
+
+  const categories = useQuery('find_category', []).data
+
+  if (!categories) return <div>error</div>
 
   return (
     <Form

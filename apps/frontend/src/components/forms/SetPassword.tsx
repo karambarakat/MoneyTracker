@@ -5,10 +5,11 @@ import Form from '../facade/Form'
 import { PasswordField } from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useSetPassword } from '@src/api/auth_queries'
+import { set_password } from '@src/api'
+import { useMutation } from '@tanstack/react-query'
 
 export default function SetPassword() {
-  const mutate = useSetPassword()
+  const mutate = useMutation({ mutationFn: set_password })
 
   return (
     <Form

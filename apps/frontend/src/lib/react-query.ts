@@ -1,8 +1,8 @@
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, UseQueryOptions } from '@tanstack/react-query'
 import HttpError from 'types/dist/helpers/http_error'
-import { QueryFunctionContext } from '@tanstack/react-query'
-import { get } from 'lodash'
-import { getProfile } from '../utils/localProfile'
+import { useQuery as useQuery_ } from '@tanstack/react-query'
+
+import * as apis from '../api/index'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,93 +27,21 @@ export const queryClient = new QueryClient({
   },
 })
 
-function _fetch<O>(path: string, init: RequestInit) {
-  return fetch(import.meta.env.VITE_BACKEND_API + path, {
-    ...init,
-    headers: {
-      ...init.headers,
-      'Content-Type': 'application/json',
-      Authorization:
-        get(init, 'headers.Authorization') ??
-        (getProfile()?.token.replace(/^/, 'Bearer ') || ''),
-    },
-  })
-    .then(res => res.json())
-    .then(({ error, ...data }) => {
-      if (error) throw new HttpError(error)
-      return data.data as O
-    })
-}
-
-export function mutation<I, O>(action: Action<I, O>) {
-  return async function (args: I) {
-    const { path, ...init } = action(args)
-    const data = await _fetch<O>(path, init)
-    return data
-  }
-}
-
-export function query<O>({ path, ...init }: RequestInfo<O>) {
-  return async function (context: QueryFunctionContext) {
-    const data = await _fetch<O>(path, {
-      ...init,
-      signal: context.signal,
-    })
-    return data
-  }
-}
-
-// todo: when done refactoring the backend rewrite this function or remove it
-export function pagedQuery<O>(
-  { path, ...init }: RequestInfo<O[]>,
-  pagination: { page: number; pageSize: number },
+export function useQuery<T extends keyof typeof apis>(
+  key: T,
+  params: Parameters<(typeof apis)[T]>,
+  options: UseQueryOptions<Awaited<ReturnType<(typeof apis)[T]>>> = {},
 ) {
-  return async function (context: QueryFunctionContext) {
-    const data = await _fetch<O[]>(path, {
-      ...init,
-      signal: context.signal,
-    })
+  const fn = apis[key]
 
-    return {
-      data: data
-        .reverse()
-        .slice(
-          (pagination.page - 1) * pagination.pageSize,
-          pagination.page * pagination.pageSize,
-        )
-        .reverse(),
-      meta: {
-        pagination: {
-          page: pagination.page,
-          pageSize: pagination.pageSize,
-          pageCount: Math.ceil(
-            (data instanceof Array ? data.length : 1) / pagination.pageSize,
-          ),
-          total: data instanceof Array ? data.length : 1,
-        },
-      },
-    }
-  }
-}
-
-export type OutputOfAction<T> = T extends (
-  Input: any,
-) => RequestInfo<infer output>
-  ? output
-  : never
-
-export type InputOfAction<T> = T extends (
-  Input: infer input,
-) => RequestInfo<unknown>
-  ? input
-  : never
-
-export type Action<input = object, output = unknown> = keyof input extends never
-  ? () => RequestInfo<output>
-  : (input: input) => RequestInfo<output>
-
-export type RequestInfo<output> = Parameters<typeof fetch>[1] & {
-  path: string
-  // will be removed by typescript compiler
-  onlyTypeScript?: output
+  return useQuery_({
+    queryFn: () => {
+      return fn(
+        // @ts-ignore
+        ...params,
+      ) as Promise<Awaited<ReturnType<(typeof apis)[T]>>>
+    },
+    queryKey: [key, ...params],
+    ...options,
+  })
 }

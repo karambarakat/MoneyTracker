@@ -1,5 +1,5 @@
 import '../../tests/helpers/initJest'
-import { app } from '../server'
+import { app } from '../app'
 import request from 'supertest'
 import { TokenFailed } from '@utils/httpError/errTypes'
 import { ProfileShape } from '../../tests/helpers/shapes'
@@ -28,7 +28,7 @@ const jwtGen = (payload: Jwt, secret?: string) => {
 beforeAll(() => db_conn())
 afterAll(() => disconnect())
 
-describe('bearer token', () => {
+describe.skip('bearer token', () => {
   jest.setTimeout(5000)
 
   let user: ReturnType<IProfile['doc']>

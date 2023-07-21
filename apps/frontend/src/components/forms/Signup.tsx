@@ -1,6 +1,5 @@
 import 'twin.macro'
 import React from 'react'
-import { useRegister } from '@src/api/auth_queries'
 import Form from '../facade/Form'
 
 import {
@@ -15,6 +14,8 @@ import TextField, {
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { register } from '@src/api'
 
 type Values = Partial<
   RoutesAuthLocalLogin &
@@ -31,14 +32,15 @@ const initial = {
 } as Values
 
 export default function SignIn_Auth_Page_Component() {
-  const register = useRegister()
+  // const register = useRegister()
+  const register_ = useMutation({ mutationFn: register })
   const navigate = useNavigate()
 
   return (
     <Form
       properties={Object.keys(initial)}
       required={['email', 'password', 'confirmPassword']}
-      action={register}
+      action={register_}
       validate={(values: any) => {
         if (values.password !== values.confirmPassword)
           return { confirmPassword: 'passwords do not match' }

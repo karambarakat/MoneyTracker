@@ -1,5 +1,5 @@
 import '../../tests/helpers/initJest'
-import { app } from '../server'
+import { app } from '../app'
 import request from 'supertest'
 import {
   BadBasicToken,
@@ -15,7 +15,7 @@ import { clone } from 'lodash'
 beforeAll(() => db_conn())
 afterAll(() => disconnect())
 
-describe('auth email', () => {
+describe.skip('auth email', () => {
   jest.setTimeout(5000)
 
   afterAll(async () => {

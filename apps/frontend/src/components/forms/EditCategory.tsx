@@ -1,20 +1,31 @@
 import 'twin.macro'
 import React from 'react'
-import { OutputOfAction } from '@src/lib/react-query'
-import { update_category } from '@src/api'
+// import { OutputOfAction } from '@src/lib/react-query'
+import { create_category, update_category } from '@src/api'
 import Form from '../facade/Form'
 
 import TextField, { HiddenField } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useUpdateCategory } from '@src/api/category_queries'
 import Status from 'ui/src/components/forms/Status'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { apis } from '@src/api/type'
 
 export default function EditCategory({
   category,
 }: {
-  category: OutputOfAction<typeof update_category>
+  // category: OutputOfAction<typeof update_category>
+  category: Awaited<ReturnType<typeof update_category>>
 }) {
-  const mutate = useUpdateCategory()
+  // const mutate = useUpdateCategory()
+  const client = useQueryClient()
+
+  const mutate = useMutation({
+    mutationFn: update_category,
+    onSettled: () => {
+      client.invalidateQueries(['find_category'] satisfies apis)
+    },
+  })
+
   return (
     <Form
       onSuccess={(values, ctx) => {

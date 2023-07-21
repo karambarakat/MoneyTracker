@@ -1,8 +1,7 @@
 import 'twin.macro'
 import React from 'react'
-import { InputOfAction } from '@src/lib/react-query'
+import { useQuery } from '@src/lib/react-query'
 import { update_log } from '@src/api'
-import { useUpdateLog } from '@src/api/log_queries'
 import Form from '../facade/Form'
 import Status from 'ui/src/components/forms/Status'
 import TextField, {
@@ -11,15 +10,18 @@ import TextField, {
   NumberField,
 } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useCategories } from '@src/api/category_queries'
+import { useMutation } from '@tanstack/react-query'
 
 export default function EditLog({
   log,
 }: {
-  log: InputOfAction<typeof update_log>
+  log: Parameters<typeof update_log>[0]
 }) {
-  const mutate = useUpdateLog()
-  const categories = useCategories().data
+  const mutate = useMutation({ mutationFn: update_log })
+
+  const categories = useQuery('find_category', []).data
+
+  if (!categories) return <div>error</div>
 
   return (
     <Form
