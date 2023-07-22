@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://backend-json.pocket-app.karam.page/schema/category_in_update",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

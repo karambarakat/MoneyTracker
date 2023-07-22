@@ -32,6 +32,7 @@ import type { IProfile } from '@models/User'
 import type { ILog } from '@models/Log'
 import type { ICategory } from '@models/Category'
 import cors from 'cors'
+import { doc } from 'openapi-docs'
 
 declare global {
   namespace Express {
@@ -76,9 +77,7 @@ api.use('/category', categoryController)
 api.use('*', e404)
 
 app.use('/api/v1', api)
-
-// import { doc } from 'openapi-docs'
-// app.use(doc)
+app.use(doc)
 
 app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 

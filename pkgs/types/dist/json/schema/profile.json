@@ -4,7 +4,6 @@
   "allOf": [
     {
       "type": "object",
-      "$id": "/utils/document",
       "properties": {
         "_id": {
           "type": "string"
@@ -21,7 +20,6 @@
     },
     {
       "type": "object",
-      "$id": "/utils/timestamps",
       "properties": {
         "createdAt": {
           "type": "string"

@@ -37,5 +37,6 @@ Object.entries(Schemas).forEach(([name, schema]) => {
   if (name === 'default') {
     return
   }
+
   main(schema, name)
 })

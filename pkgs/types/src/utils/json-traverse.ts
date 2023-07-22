@@ -110,3 +110,28 @@ const res2 = getIds({
 
 console.log({ res2 }) // { res: [ 'http://test.com/test#test', 'http://test.com/test#boo', 'http://test.com/test#nested', 'http://test.com/absolute' ] }
  */
+
+export function getRefs(res: NonNullable<object>) {
+  const refs = Array<{ $ref: string }>()
+
+  traverseObj(res, sub => {
+    if (
+      typeof sub === 'object' &&
+      '$ref' in sub &&
+      typeof sub.$ref === 'string'
+    )
+      refs.push(sub as { $ref: string })
+  })
+
+  return refs
+}
+
+function traverseObj(obj: object, cb: (sub: object) => void, path?: string[]) {
+  // path = path || []
+  Object.entries(obj).forEach(([key, value]) => {
+    if (typeof value === 'object') {
+      cb(value)
+      traverseObj(value, cb, [...(path || []), key])
+    }
+  })
+}

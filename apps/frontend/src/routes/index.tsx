@@ -22,8 +22,6 @@ function Index_Page_Component() {
 
   if (!data) return <div>error</div>
 
-  data.data[0]
-
   const pagination = data.meta.pagination
 
   const logs = useMemo(() => {

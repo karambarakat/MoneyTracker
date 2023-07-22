@@ -1,7 +1,7 @@
-import oapi_operation from '../builders/OapiOperation'
+import oapi_operation from '../builders/OapiOperationBuilder'
 
 export const status = oapi_operation(
-  ['/profile/status', 'get'],
+  ['/profile/status/', 'get'],
   [
     {
       step: 'info',
@@ -42,7 +42,7 @@ export const status = oapi_operation(
 )
 
 export const profile_get = oapi_operation(
-  ['/profile', 'get'],
+  ['/profile/', 'get'],
   [
     {
       step: 'info',
@@ -63,7 +63,7 @@ export const profile_get = oapi_operation(
 )
 
 export const profile_put = oapi_operation(
-  ['/profile', 'put'],
+  ['/profile/', 'put'],
   [
     {
       step: 'info',
@@ -100,7 +100,7 @@ export const profile_put = oapi_operation(
 )
 
 export const profile_set_password = oapi_operation(
-  ['/profile/password', 'put'],
+  ['/profile/password/', 'put'],
   [
     {
       step: 'info',

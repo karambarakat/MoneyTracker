@@ -22,18 +22,12 @@ type refs =
   '/routes/updatePassword_local' |
   '/routes/updatePassword_nolocal' |
   '/schema/category_in' |
+  '/schema/category_in_update' |
   '/schema/category_out' |
   '/schema/log_in' |
+  '/schema/log_in_update' |
   '/schema/log_out' |
   '/schema/profile' |
-  '/utils/document' |
-  '/utils/timestamps' |
-  '/utils/document' |
-  '/utils/document' |
-  '/utils/timestamps' |
-  '/utils/document' |
-  '/utils/document' |
-  '/utils/timestamps' |
   '/schema/profile#providers'
 
 export default refs

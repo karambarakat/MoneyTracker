@@ -4,9 +4,9 @@ import { JSONSchema7 } from 'json-schema'
 // and when I'm done with openapi
 // I can use extra builders to distinguish
 // between input and output schemas
-export const Document = {
+
+const Document = {
   type: 'object',
-  $id: '/utils/document',
   properties: {
     _id: { type: 'string' },
     __v: { type: 'number' },
@@ -15,9 +15,8 @@ export const Document = {
   additionalProperties: false,
 }
 
-export const Timestamps = {
+const Timestamps = {
   type: 'object',
-  $id: '/utils/timestamps',
   properties: {
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },
@@ -58,6 +57,18 @@ export const Category_in = {
   additionalProperties: false,
 } as JSONSchema7
 
+export const Category_in_update = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  $id: '/schema/category_in_update',
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    color: { type: 'string' },
+    icon: { type: 'string' },
+  },
+  additionalProperties: false,
+} as JSONSchema7
+
 export const Log_out = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id: '/schema/log_out',
@@ -71,7 +82,7 @@ export const Log_out = {
         title: { type: 'string' },
         amount: { type: 'number' },
 
-        category: { ...Category_out, $id: '' }, // todo ability to refer to other by json pointer
+        category: { ...Category_out, $id: undefined }, // todo ability to refer to other by json pointer
         note: { type: 'string' },
       },
       required: ['createdBy', 'title', 'amount'],
@@ -91,6 +102,19 @@ export const Log_in = {
     note: { type: 'string' },
   },
   required: ['title', 'amount'],
+  additionalProperties: false,
+} as JSONSchema7
+
+export const Log_in_update = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  $id: '/schema/log_in_update',
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    amount: { type: 'number' },
+    category: { type: 'string' },
+    note: { type: 'string' },
+  },
   additionalProperties: false,
 } as JSONSchema7
 

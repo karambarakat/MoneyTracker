@@ -36,3 +36,10 @@ export const MultiPages = {
     },
   },
 } satisfies st<typeof Page>
+export const MultiPages2 = {
+  parameters: {
+    msw: {
+      handlers: [logs_data, categories_data, log_data],
+    },
+  },
+} satisfies st<typeof Page>

@@ -1,9 +1,7 @@
-import { JSONSchema7 } from 'json-schema'
-import oapi_operation from '../builders/OapiOperation'
-import refs from '../../dist/helpers/refs'
+import oapi_operation from '../builders/OapiOperationBuilder'
 
 export const log = oapi_operation(
-  ['/log', 'get'],
+  ['/log/', 'get'],
   [
     {
       step: 'info',
@@ -19,7 +17,7 @@ export const log = oapi_operation(
       data: {
         type: 'array',
         items: {
-          $ref: '/schema/log_in',
+          $ref: '/schema/log_out',
         },
       },
     },
@@ -27,7 +25,7 @@ export const log = oapi_operation(
 )
 
 export const log_post = oapi_operation(
-  ['/log', 'post'],
+  ['/log/', 'post'],
   [
     {
       step: 'info',
@@ -41,7 +39,7 @@ export const log_post = oapi_operation(
     {
       step: 'request_body',
       data: {
-        $ref: '/schema/log_out',
+        $ref: '/schema/log_in',
       },
     },
     {
@@ -54,7 +52,7 @@ export const log_post = oapi_operation(
 )
 
 export const log_byId = oapi_operation(
-  ['/log/{id}', 'get'],
+  ['/log/{id}/', 'get'],
   [
     {
       step: 'info',
@@ -78,7 +76,7 @@ export const log_byId = oapi_operation(
 )
 
 export const log_byId_put = oapi_operation(
-  ['/log/{id}', 'put'],
+  ['/log/{id}/', 'put'],
   [
     {
       step: 'info',
@@ -95,7 +93,7 @@ export const log_byId_put = oapi_operation(
     {
       step: 'request_body',
       data: {
-        $ref: '/schema/log_in',
+        $ref: '/schema/log_in_update',
       },
     },
     {
@@ -108,7 +106,7 @@ export const log_byId_put = oapi_operation(
 )
 
 export const log_byId_delete = oapi_operation(
-  ['/log/{id}', 'delete'],
+  ['/log/{id}/', 'delete'],
   [
     {
       step: 'info',
@@ -126,7 +124,6 @@ export const log_byId_delete = oapi_operation(
       step: 'data',
       data: {
         type: 'object',
-        properties: {},
       },
     },
   ],
