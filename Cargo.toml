@@ -8,5 +8,8 @@ edition = "2021"
 actix-web = "4.3.1"
 async-graphql = "5.0.10"
 async-graphql-actix-web = "5.0.10"
+dotenv = "0.15.0"
+mongodb = "2.6.0"
 rand = "0.8.5"
+serde = "1.0.176"
 tokio = { version = "1", features = ["full"] }
