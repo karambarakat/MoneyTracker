@@ -2,9 +2,9 @@
 
 use actix_web::*;
 use async_graphql::{EmptyMutation, EmptySubscription, Schema};
+use graphql::Root::{Mutation, Query};
 use std::{fmt, sync::Mutex};
 
-mod state;
 mod services {
     pub mod category;
 }
@@ -24,10 +24,19 @@ async fn main() -> std::io::Result<()> {
 
     let client = db::connect().await;
 
+    let schema = Schema::build(Query::default(), Mutation::default(), EmptySubscription)
+        .data(client.clone())
+        .finish();
+
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
-            .configure(graphql::with_actix::configuration)
+            .service(
+                web::scope("/graphql")
+                    .app_data(web::Data::new(schema.clone()))
+                    .service(graphql::with_actix::graphql_playground)
+                    .service(graphql::with_actix::graphql_endpoint),
+            )
             .service(web::scope("/category").configure(category))
             .service(web::scope("/log").configure(category))
             .route("/api", web::get().to(HttpResponse::Ok))

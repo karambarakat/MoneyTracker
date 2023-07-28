@@ -1,8 +1,8 @@
 use mongodb::bson::doc;
 use mongodb::options::IndexOptions;
-use mongodb::{Client, IndexModel};
+use mongodb::{Client, Database, IndexModel};
 
-pub async fn connect() -> Client {
+pub async fn connect() -> Database {
     let uri = std::env::var("MONGO_URI").expect("no mongo uri");
     let db = std::env::var("MONDO_DB").expect("no mongo db");
 
@@ -21,5 +21,5 @@ pub async fn connect() -> Client {
         .await
         .unwrap();
 
-    client
+    client.database(&db)
 }
