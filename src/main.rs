@@ -1,8 +1,6 @@
-#![allow(unused_variables, unused_imports)]
-
 use actix_web::*;
 use async_graphql::{EmptyMutation, EmptySubscription, Schema};
-use graphql::Root::{Mutation, Query};
+use graphql::root::{Mutation, Query};
 use std::{fmt, sync::Mutex};
 
 mod services {
@@ -12,10 +10,6 @@ mod services {
 mod db;
 mod graphql;
 mod models;
-
-use services::category::config as category;
-
-use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 
 #[actix_web::main]
 
@@ -37,9 +31,11 @@ async fn main() -> std::io::Result<()> {
                     .service(graphql::with_actix::graphql_playground)
                     .service(graphql::with_actix::graphql_endpoint),
             )
-            .service(web::scope("/category").configure(category))
-            .service(web::scope("/log").configure(category))
-            .route("/api", web::get().to(HttpResponse::Ok))
+            .route(
+                "/",
+                web::get().to(|| async { HttpResponse::Ok().body("api is working") }),
+            )
+            .route("*", web::get().to(HttpResponse::NotFound))
     })
     .bind(("127.0.0.1", 8080))?
     .run()
