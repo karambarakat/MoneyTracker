@@ -15,7 +15,7 @@ import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import { register } from '@src/api'
+import { register } from '../../api'
 
 type Values = Partial<
   RoutesAuthLocalLogin &

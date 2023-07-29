@@ -3,13 +3,13 @@ import React, { Fragment } from 'react'
 import { useMemo, useState } from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
-import { OneStateProvider } from '@src/utils/OneOpenAtATime'
+import { OneStateProvider } from '../utils/OneOpenAtATime'
 import AddLog from '../components/forms/AddLog'
-import LogEntry from '@src/components/LogEntry'
+import LogEntry from '../components/LogEntry'
 import { setTitle } from './_MetaContext'
 import { DividerWithLabel } from 'ui/src/components/Divider'
 import groupBy from 'lodash/groupBy'
-import { useQuery } from '@src/lib/react-query'
+import { useQuery } from '../lib/react-query'
 
 function Index_Page_Component() {
   setTitle('Home')

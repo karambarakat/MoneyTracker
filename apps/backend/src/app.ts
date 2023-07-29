@@ -77,7 +77,7 @@ api.use('/category', categoryController)
 api.use('*', e404)
 
 app.use('/api/v1', api)
-app.use(doc)
+app.use(doc) // /docs, /swagger.json
 
 app.all('*', (_, res) => res.status(404).send('go to /api/v1'))
 

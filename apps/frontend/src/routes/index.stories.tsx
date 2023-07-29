@@ -6,7 +6,7 @@ import {
   log_data,
   logs_data,
   logs_data_small,
-} from '@src/mockedData/msw'
+} from '../mockedData/msw'
 
 export default {
   component: Page,

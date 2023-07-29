@@ -14,10 +14,10 @@ import {
   RoutesUpdatePasswordLocal,
   RoutesUpdatePasswordNolocal,
 } from 'types/dist/ts/routes'
-import { getProfile } from '@src/utils/localProfile'
+import { getProfile } from '../utils/localProfile'
 
 export const find_log = (pagination: { page: number; pageSize: number }) => {
-  return fetch('/log', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -31,6 +31,8 @@ const paged = <T>(
   data: T[],
   pagination: { page: number; pageSize: number },
 ) => {
+  if (!data) return { data: [], meta: { pagination: {} } }
+
   return {
     data: data
       .reverse()
@@ -51,7 +53,7 @@ const paged = <T>(
 }
 
 export const find_one_log = ({ _id }: { _id: string }) => {
-  return fetch(`/log/${_id}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -60,7 +62,7 @@ export const find_one_log = ({ _id }: { _id: string }) => {
 }
 
 export const create_log = (_input: SchemaLogIn) => {
-  return fetch('/log', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log`, {
     method: 'POST',
     body: JSON.stringify(_input),
     headers: {
@@ -73,7 +75,7 @@ export const update_log = ({
   _id,
   ..._input
 }: { _id: string } & SchemaLogIn) => {
-  return fetch(`/log/${_id}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
     method: 'PUT',
     body: JSON.stringify(_input),
     headers: {
@@ -83,7 +85,7 @@ export const update_log = ({
 }
 
 export const delete_log = ({ _id }: { _id: string }) => {
-  return fetch(`/log/${_id}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -92,7 +94,7 @@ export const delete_log = ({ _id }: { _id: string }) => {
 }
 
 export const find_category = () => {
-  return fetch('/category', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -101,7 +103,7 @@ export const find_category = () => {
 }
 
 export const find_one_category = ({ _id }: { _id: string }) => {
-  return fetch(`/category/${_id}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -110,7 +112,7 @@ export const find_one_category = ({ _id }: { _id: string }) => {
 }
 
 export const create_category = (_input: SchemaCategoryIn) => {
-  return fetch('/category', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category`, {
     method: 'POST',
     body: JSON.stringify(_input),
     headers: {
@@ -123,7 +125,7 @@ export const update_category = ({
   _id,
   ..._input
 }: { _id: string } & Partial<SchemaCategoryIn>) => {
-  return fetch(`/category/${_id}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
     method: 'PUT',
     body: JSON.stringify(_input),
     headers: {
@@ -133,7 +135,7 @@ export const update_category = ({
 }
 
 export const delete_category = ({ _id }: { _id: string }) => {
-  return fetch(`/category/${_id}`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -142,7 +144,7 @@ export const delete_category = ({ _id }: { _id: string }) => {
 }
 
 export const find_all_logs_by_category = ({ _id }: { _id: string }) => {
-  return fetch(`/category/${_id}/logs`, {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}/logs`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -155,7 +157,7 @@ export const register = ({
   password,
   ...body
 }: RoutesAuthLocalLogin & RoutesAuthLocalRegister) => {
-  return fetch('/auth/local/register', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/auth/local/register`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -167,7 +169,7 @@ export const register = ({
 }
 
 export const login = ({ email, password }: RoutesAuthLocalLogin) => {
-  return fetch('/auth/local/login', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/auth/local/login`, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${Buffer.from(`${email}:${password}`).toString(
@@ -178,14 +180,14 @@ export const login = ({ email, password }: RoutesAuthLocalLogin) => {
 }
 
 export const email_status = ({ email }: RoutesEmailStatus) => {
-  return fetch('/profile/status', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile/status`, {
     method: 'GET',
     body: JSON.stringify({ email }),
   }).then(r => r.json() as Promise<'local' | 'google'>)
 }
 
 export const profile = () => {
-  return fetch('/profile', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${getProfile()?.token}`,
@@ -194,7 +196,7 @@ export const profile = () => {
 }
 
 export const update_profile = (_input: RoutesProfileUpdate) => {
-  return fetch('/profile', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile`, {
     method: 'PUT',
     body: JSON.stringify(_input),
     headers: {
@@ -206,7 +208,7 @@ export const update_profile = (_input: RoutesProfileUpdate) => {
 export const set_password = (
   _input: RoutesUpdatePasswordLocal | RoutesUpdatePasswordNolocal,
 ) => {
-  return fetch('/profile/password', {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile/password`, {
     method: 'PUT',
     body: JSON.stringify(_input),
   }).then(r => r.json() as Promise<null>)

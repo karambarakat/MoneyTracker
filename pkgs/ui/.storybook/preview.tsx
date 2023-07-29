@@ -5,14 +5,25 @@ import { useDarkMode } from 'storybook-dark-mode'
 import { ColorModeProvider } from '../src/colorMode/provider'
 import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
+import { initialize, mswDecorator } from 'msw-storybook-addon'
+import Providers from '../../../apps/frontend/.storybook/_app_providers'
 
 import 'twin.macro'
 import { Global } from '@emotion/react'
 import { colors } from '../src/utils/tw'
 fakerEN.seed(123)
 
+initialize()
+
 const preview: Preview = {
   parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
     viewport: {
       viewports: {
         xs: {
@@ -67,6 +78,10 @@ const preview: Preview = {
   },
 
   decorators: [
+    mswDecorator,
+    Story => {
+      return Providers({ Story })
+    },
     Story => {
       const sbMode = useDarkMode() ? 'dark' : 'light'
       return <ColorModeProvider mode={sbMode}>{Story()}</ColorModeProvider>

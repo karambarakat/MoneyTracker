@@ -8,7 +8,7 @@ import { useFormikContext } from 'formik'
 import { PropsOf } from '@emotion/react'
 import Button from 'ui/src/components/Button'
 import { useMutation } from '@tanstack/react-query'
-import { update_profile } from '@src/api'
+import { update_profile } from '../../api'
 
 export default function UpdateProfile() {
   const mutate = useMutation({ mutationFn: update_profile })

@@ -1,7 +1,7 @@
 import 'twin.macro'
 import React from 'react'
-import { useQuery } from '@src/lib/react-query'
-import { update_log } from '@src/api'
+import { useQuery } from '../../lib/react-query'
+import { update_log } from '../../api'
 import Form from '../facade/Form'
 import Status from 'ui/src/components/forms/Status'
 import TextField, {

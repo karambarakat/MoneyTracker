@@ -1,13 +1,13 @@
 import {
   createDefinedContext,
   useDefinedContext,
-} from '@src/utils/definedContext'
+} from '../utils/definedContext'
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import { WithChildren } from 'ui/src/utils/WithChildren'
 
 type contextType = [string, React.Dispatch<React.SetStateAction<string>>]
 
-const context = createContext<contextType>({} as any)
+const context = createContext<contextType>([] as any)
 
 function MetaContext(P: WithChildren) {
   const state = useState('Home')

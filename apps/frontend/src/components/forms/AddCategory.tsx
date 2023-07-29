@@ -5,9 +5,9 @@ import Form from '../facade/Form'
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { create_category } from '@src/api'
+import { create_category } from '../../api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '@src/api/type'
+import { apis } from '../../api/type'
 
 export default function AddCategory() {
   const client = useQueryClient()

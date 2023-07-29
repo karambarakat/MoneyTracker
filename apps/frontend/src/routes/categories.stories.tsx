@@ -1,6 +1,6 @@
 import Page from './categories'
 import { StoryObj as st, Meta as mt } from '@storybook/react'
-import { categories_data, category_data, empty_data } from '@src/mockedData/msw'
+import { categories_data, category_data, empty_data } from '../mockedData/msw'
 
 export default {
   component: Page,

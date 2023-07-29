@@ -1,11 +1,15 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  refs: {
-    frontend: {
-      title: 'frontend',
-      url: 'http://localhost:6007',
-    },
+  stories: [
+    '../../../apps/frontend/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/**/*.mdx',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../designSystem/**/*.stories.@(js|jsx|ts|tsx)',
+    '../designSystem/**/*.mdx',
+  ],
+  env: {
+    VITE_BACKEND_URL: 'http://localhost:8080',
+    VITE_BACKEND_API: 'http://localhost:8080/api/v1',
   },
   addons: [
     '@storybook/addon-links',

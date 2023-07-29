@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import tw from 'twin.macro'
 import { setTitle } from './_MetaContext'
 import Button from 'ui/src/components/Button'
-import ResetPassword from '@src/components/forms/ResetPassword'
-import SetPassword from '@src/components/forms/SetPassword'
-import UpdateProfile from '@src/components/forms/UpdateProfile'
-import { useQuery } from '@src/lib/react-query'
+import ResetPassword from '../components/forms/ResetPassword'
+import SetPassword from '../components/forms/SetPassword'
+import UpdateProfile from '../components/forms/UpdateProfile'
+import { useQuery } from '../lib/react-query'
 
 function Profile_Page_Component() {
   setTitle('Profile')
@@ -75,7 +75,7 @@ function Profile_Page_Component() {
 
 export default Profile_Page_Component
 
-// import { Link, useRoutes } from '@src/components/ReactRoute/index'
+// import { Link, useRoutes } from '../components/ReactRoute/index'
 // import TextEllipsis from 'ui/src/components/TextEllipsis'
 
 // import {
@@ -88,14 +88,14 @@ export default Profile_Page_Component
 //   Stack,
 //   Divider,
 // } from '@mantine/core'
-// import { store } from '@src/redux/index'
+// import { store } from '../redux/index'
 
-// import { ActionsObjects, RootState, UserState } from '@src/redux/types'
+// import { ActionsObjects, RootState, UserState } from '../redux/types'
 // import { useSelector } from 'react-redux'
 // import { Outlet } from 'react-router-dom'
-// import dispatch from '@src/redux/dispatch'
+// import dispatch from '../redux/dispatch'
 // import { ReactElement } from 'react'
-// import OnlineStateAction from '@src/components/OnlineStateAction'
+// import OnlineStateAction from '../components/OnlineStateAction'
 
 // function Profile() {
 //   const user = useSelector<RootState, UserState>(s => s.user)

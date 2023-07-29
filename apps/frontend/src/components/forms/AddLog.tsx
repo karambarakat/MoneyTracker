@@ -8,10 +8,10 @@ import TextField, {
   CategoryField,
   NumberField,
 } from 'ui/src/components/forms/TextField'
-import { useQuery } from '@src/lib/react-query'
+import { useQuery } from '../../lib/react-query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { create_log } from '@src/api'
-import { apis } from '@src/api/type'
+import { create_log } from '../../api'
+import { apis } from '../../api/type'
 
 export default function AddLog() {
   const client = useQueryClient()

@@ -1,14 +1,14 @@
 import 'twin.macro'
 import React from 'react'
-// import { OutputOfAction } from '@src/lib/react-query'
-import { create_category, update_category } from '@src/api'
+// import { OutputOfAction } from '../lib/react-query'
+import { create_category, update_category } from '../../api'
 import Form from '../facade/Form'
 
 import TextField, { HiddenField } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import Status from 'ui/src/components/forms/Status'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '@src/api/type'
+import { apis } from '../../api/type'
 
 export default function EditCategory({
   category,

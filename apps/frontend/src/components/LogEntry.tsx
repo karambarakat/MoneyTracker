@@ -1,13 +1,13 @@
 import React from 'react'
-import { delete_log, find_one_log } from '@src/api'
-import { useOneState } from '@src/utils/OneOpenAtATime'
+import { delete_log, find_one_log } from '../api'
+import { useOneState } from '../utils/OneOpenAtATime'
 import moment from 'moment'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditLog from './forms/EditLog'
-import { useQuery } from '@src/lib/react-query'
+import { useQuery } from '../lib/react-query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '@src/api/type'
+import { apis } from '../api/type'
 
 export default function LogEntry({
   log,

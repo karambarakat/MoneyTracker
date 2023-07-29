@@ -6,7 +6,7 @@ import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import Form from '../facade/Form'
 import { useNavigate } from 'react-router-dom'
-import { login } from '@src/api'
+import { login } from '../../api'
 import { useMutation } from '@tanstack/react-query'
 
 export default function Login_Auth_Page_Component() {

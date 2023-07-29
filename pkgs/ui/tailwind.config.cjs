@@ -29,16 +29,6 @@ const theme = {
     landscape: { raw: '(orientation: landscape)' },
   },
   extend: {},
-  plugins: [
-    function (
-      /** @type {import('tailwindcss/types/config').PluginAPI} */
-      { addVariant },
-    ) {
-      addVariant('child', '&>*')
-      addVariant('last-child', '&>*:last-child')
-      addVariant('first-child', '&>*:first-child')
-    },
-  ],
 }
 
 const plugins = []

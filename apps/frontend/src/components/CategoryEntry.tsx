@@ -1,12 +1,12 @@
 import React from 'react'
-import { delete_category, find_one_category } from '@src/api'
-import { useOneState } from '@src/utils/OneOpenAtATime'
+import { delete_category, find_one_category } from '../api'
+import { useOneState } from '../utils/OneOpenAtATime'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditCategory from './forms/EditCategory'
-import { useQuery } from '@src/lib/react-query'
+import { useQuery } from '../lib/react-query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '@src/api/type'
+import { apis } from '../api/type'
 
 export default function CategoryEntry({
   category,

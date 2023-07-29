@@ -1,22 +1,20 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-env node */
-
-const tw_colors = require('tailwindcss/colors')
+import tw_colors from 'tailwindcss/colors'
 
 const colors = {
   primary: {
-    50: '#fdf5e7',
-    100: '#fcecce',
-    200: '#fbe2b6',
-    300: '#fad99d',
-    400: '#f9d085',
-    500: '#f7c66d',
-    600: '#f6bd55',
-    700: '#f5b43c',
-    800: '#f4aa24',
-    900: '#f2a10c',
-    950: '#d18a00',
+    50: '#fff9f0',
+    100: '#fff3de',
+    200: '#ffe9bd',
+    300: '#ffe09c',
+    400: '#ffd57a',
+    500: '#efa02a',
+    600: '#d17d26',
+    700: '#b25a22',
+    800: '#94371e',
+    900: '#75141a',
+    950: '#523600',
   },
+
   inherit: tw_colors.inherit,
   transparent: tw_colors.transparent,
   black: tw_colors.black,
