@@ -4,10 +4,9 @@ use graphql::root::{Mutation, Query};
 use std::{fmt, sync::Mutex};
 
 mod services {
-    pub mod category;
+    pub mod local_auth;
 }
 
-mod db;
 mod graphql;
 mod models;
 
@@ -15,6 +14,11 @@ mod models;
 
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
+
+    let port = std::env::var("PORT")
+        .unwrap_or("8080".to_string())
+        .parse::<u16>()
+        .expect("port is not a number");
 
     let client = db::connect().await;
 
@@ -31,13 +35,31 @@ async fn main() -> std::io::Result<()> {
                     .service(graphql::with_actix::graphql_playground)
                     .service(graphql::with_actix::graphql_endpoint),
             )
+            .service(
+                web::scope("/api/v1/auth/local").configure(crate::services::local_auth::config),
+            )
             .route(
                 "/",
                 web::get().to(|| async { HttpResponse::Ok().body("api is working") }),
             )
             .route("*", web::get().to(HttpResponse::NotFound))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", port))?
     .run()
     .await
+}
+
+mod db {
+    use mongodb::{Client, Database};
+
+    pub async fn connect() -> Database {
+        let uri = std::env::var("MONGO_URI").expect("no mongo uri");
+        let db = std::env::var("MONDO_DB").expect("no mongo db");
+
+        let client: Client = Client::with_uri_str(uri.clone()).await.unwrap();
+
+        crate::models::user_model::db_init(&client).await;
+
+        client.database(&db)
+    }
 }
