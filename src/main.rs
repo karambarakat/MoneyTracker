@@ -63,3 +63,24 @@ mod db {
         client.database(&db)
     }
 }
+
+pub mod oidser {
+    use async_graphql::ID;
+    use bson::oid::ObjectId;
+    use serde::{Deserializer, Serializer};
+
+    pub fn serialize<S>(input: &ObjectId, ser: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        ser.serialize_str(&input.to_hex())
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<ObjectId, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        ObjectId::parse_str("64c444d32408754c6d7f9bce".to_string())
+            .map_err(serde::de::Error::custom)
+    }
+}

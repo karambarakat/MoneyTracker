@@ -67,8 +67,8 @@ impl EmailPassword<'_> {
         let decoded = String::from_utf8(decoded).unwrap();
         let decoded = decoded.split(":").collect::<Vec<&str>>();
         EmailPassword {
-            email: decoded[0],
-            password: decoded[1],
+            email: "decoded[0]",
+            password: "decoded[1]",
         }
     }
 
@@ -119,27 +119,27 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 // login handler
 async fn login(req: HttpRequest, db: web::Data<Database>) -> HttpResponse {
-    let email_password = req.extensions().get::<EmailPassword>().unwrap();
+    // let email_password = req.extensions().get::<EmailPassword>().unwrap();
 
-    let res = db
-        .collection::<UserAuth>("profile")
-        .find_one(doc! { "email": email_password.email }, None)
-        .await
-        .unwrap()
+    // let res = db
+    //     .collection::<UserAuth>("profile")
+    //     .find_one(doc! { "email": email_password.email }, None)
+    //     .await
+    //     .unwrap();
 
-    let res = match res {
-        Some(res) => {
-            let encrypted = res.get_pass();
-            if email_password.matchPassword(encrypted) {
-                "login"
-            } else {
-                "wrong password"
-            }
-        }
-        None => "no user",
-    };
+    // let res = match res {
+    //     Some(res) => {
+    //         let encrypted = res.get_pass();
+    //         if email_password.matchPassword(encrypted) {
+    //             "login"
+    //         } else {
+    //             "wrong password"
+    //         }
+    //     }
+    //     None => "no user",
+    // };
 
-    HttpResponse::Ok().body(res)
+    HttpResponse::Ok().body("login")
 }
 
 use bson::doc;

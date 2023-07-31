@@ -23,11 +23,12 @@ bcrypt = "0.15.0"
 bson = "2.6.1"
 data-encoding = "2.4.0"
 dotenv = "0.15.0"
+futures = "0.3.28"
 futures-util = "0.3.28"
 hmac = "0.12.1"
 jwt = "0.16.0"
 mongodb = "2.6.0"
 rand = "0.8.5"
-serde = "1.0.176"
+serde = { version= "1.0.176", features = ["derive"] }
 sha2 = "0.10.7"
 tokio = { version = "1", features = ["full"] }
