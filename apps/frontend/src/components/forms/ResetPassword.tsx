@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import Form from '../facade/Form'
+import Form from 'ui/src/components/forms/Form'
 
 import { PasswordField } from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
@@ -13,12 +13,12 @@ export default function ResetPassword() {
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
+      then={ctx => {
         ctx.setValues({} as any, false)
         ctx.setStatus({ success: 'password changed' })
       }}
-      action={mutate}
-      properties={['newPassword', 'oldPassword']}
+      action={mutate.mutateAsync}
+      values={[]}
       required={['newPassword', 'oldPassword']}
     >
       <div>

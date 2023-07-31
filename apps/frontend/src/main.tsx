@@ -32,19 +32,16 @@ function App() {
             <Suspense fallback={<Loading />}>
               <ErrorBoundary FallbackComponent={ErrorComponent}>
                 <Routes>
-                  {/* <Route element={<Auth.Protected />}> */}
-                  <Route element={<AppShellLayout />}>
-                    <Route index element={<Index />} />
-                    <Route path="categories" element={<Categories />} />
+                  <Route element={<Auth.Protected />}>
+                    <Route element={<AppShellLayout />}>
+                      <Route index element={<Index />} />
+                      <Route path="categories" element={<Categories />} />
 
-                    <Route path="profile" element={<Profile />} />
-                    {/* <Route path="charts" element={<Charts />} /> */}
+                      <Route path="profile" element={<Profile />} />
+                      {/* <Route path="charts" element={<Charts />} /> */}
+                    </Route>
                   </Route>
-                  {/* </Route> */}
-                  {/* <Route path="auth" element={<Auth.Authentication />}> */}
-                  {/* <Route path="login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} /> */}
-                  {/* </Route> */}
+                  <Route path="auth/*" element={<Auth.Authentication />} />
 
                   {/* <Route path="about" element={<About />} /> */}
                   {/* <Route path="export" element={<Export />} /> */}

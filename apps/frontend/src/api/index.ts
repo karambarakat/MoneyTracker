@@ -31,8 +31,6 @@ const paged = <T>(
   data: T[],
   pagination: { page: number; pageSize: number },
 ) => {
-  if (!data) return { data: [], meta: { pagination: {} } }
-
   return {
     data: data
       .reverse()

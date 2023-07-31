@@ -6,12 +6,8 @@ import get from 'lodash/get'
 import set from 'lodash/set'
 
 /**
- * I faced a problem in Formik where initial values should be undefined (at first)
- * but with onSubmit they may have required values.
- * on typescript side using validate prop is not making this type safe.
- * on javascript side code in validate prop is redundant and could be DRYed.
  * @param values input object, may contain undefined values
- * @param required list of lodash path that should be required
+ * @param required list of lodash paths that should be required
  * @example ['title', 'amount', 'note.text']
  * @returns output object where required keys are guaranteed to be defined
  */

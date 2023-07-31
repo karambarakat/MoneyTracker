@@ -56,5 +56,20 @@ export default class HttpError extends Error {
     this.name = payload.name
     this.payload = payload as All_Errors
   }
+
+  getErrorFields(){
+    let rt
+    try {
+      // @ts-ignore
+      rt = error.payload.details.errors
+    } catch {
+      //
+    }
+  
+    if (typeof rt === 'object' && rt !== null) {
+      return rt as object
+    } else return undefined
+  
+  }
 }
     

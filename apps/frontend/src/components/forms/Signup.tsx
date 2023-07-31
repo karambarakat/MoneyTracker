@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import Form from '../facade/Form'
+import Form from 'ui/src/components/forms/Form'
 
 import {
   RoutesAuthLocalLogin,
@@ -24,13 +24,6 @@ type Values = Partial<
     }
 >
 
-const initial = {
-  email: undefined,
-  username: undefined,
-  password: undefined,
-  confirmPassword: undefined,
-} as Values
-
 export default function SignIn_Auth_Page_Component() {
   // const register = useRegister()
   const register_ = useMutation({ mutationFn: register })
@@ -38,16 +31,16 @@ export default function SignIn_Auth_Page_Component() {
 
   return (
     <Form
-      properties={Object.keys(initial)}
+      then={ctx => {
+        navigate('/')
+        ctx.setStatus({ success: 'signed in' })
+      }}
+      action={register_.mutateAsync}
+      values={[]}
       required={['email', 'password', 'confirmPassword']}
-      action={register_}
       validate={(values: any) => {
         if (values.password !== values.confirmPassword)
           return { confirmPassword: 'passwords do not match' }
-      }}
-      onSuccess={(ret, ctx) => {
-        ctx.setStatus({ success: 'signed in' })
-        navigate('/')
       }}
     >
       <div css={{ '&>*': tw`mb-3`, '&>*:last-child': tw`mb-0` }}>

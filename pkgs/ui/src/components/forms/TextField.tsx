@@ -1,11 +1,9 @@
 import 'twin.macro'
-import React, { createContext, useContext, useMemo } from 'react'
-import { PropsOf, css } from '@emotion/react'
-import { Field as FormikField, useField, useFormikContext } from 'formik'
-import type { FieldProps } from 'formik'
 import { capitalCase } from 'change-case'
 import { WithAsChild } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
+import { Field } from './Form'
+import { useField } from 'formik'
 
 interface Props {
   /**
@@ -23,87 +21,23 @@ interface Props {
   placeholder?: string
 }
 
-interface BridgeProps {
-  fieldName: string
-  title?: string
-  validate?: (value: string) => string | undefined
-}
-
-const requiredCss = css`
-  &[data-required='true']::after {
-    content: ' *';
-    color: red;
-  }
-`
-
-/**
- * this component is a bridge that separate formik logic
- * and common UI design (low level) from each specific
- * field component (hi level eg. TextField, EmailField)
- *
- * if in the future I decided to migrate from formik I can
- * just change this component
- */
-function FieldBridge({
-  fieldName,
-  title,
-  children,
-  asChild,
-  validate,
-}: WithAsChild<BridgeProps>) {
-  const Component = asChild ? Slot : 'input'
-
-  const { required } = useContext(formMetaInfo)
-  const req = useMemo(() => {
-    return required.includes(fieldName)
-  }, [fieldName])
-
-  return (
-    <FormikField name={fieldName} validate={validate}>
-      {({ field, meta }: FieldProps) => {
-        return (
-          <div tw="flex flex-col gap-2">
-            <label tw="flex flex-col gap-2">
-              <div data-required={req} css={requiredCss}>
-                {title || capitalCase(fieldName)}
-              </div>
-              <Component
-                required={req}
-                {...field}
-                children={asChild ? children : undefined}
-                value={field.value ?? ''}
-                tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
-              />
-            </label>
-            {meta.touched && meta.error && <div>{meta.error}</div>}
-          </div>
-        )
-      }}
-    </FormikField>
-  )
-}
-
-export const formMetaInfo = createContext<{ required: string[] }>({
-  required: [],
-})
-
 export default function TextField(props: Props) {
-  return <FieldBridge fieldName={props.name} title={props.title} />
+  return <Field fieldName={props.name} title={props.title} />
 }
 
 export function HiddenField(props: Props) {
   return (
     <div tw="hidden">
-      <FieldBridge fieldName={props.name} asChild>
+      <Field fieldName={props.name} asChild>
         <input type="hidden" />
-      </FieldBridge>
+      </Field>
     </div>
   )
 }
 
 export function NumberField(props: Props) {
   return (
-    <FieldBridge
+    <Field
       fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
@@ -117,7 +51,7 @@ export function NumberField(props: Props) {
 
 export function EmailField(props: Props) {
   return (
-    <FieldBridge
+    <Field
       fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
@@ -127,13 +61,13 @@ export function EmailField(props: Props) {
           return 'Invalid email address'
         }
       }}
-    ></FieldBridge>
+    ></Field>
   )
 }
 
 export function PasswordField(props: Props) {
   return (
-    <FieldBridge
+    <Field
       fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
@@ -146,7 +80,7 @@ export function PasswordField(props: Props) {
       asChild
     >
       <input type="password" />
-    </FieldBridge>
+    </Field>
   )
 }
 

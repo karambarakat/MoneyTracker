@@ -22,3 +22,8 @@ dist-e2e
 *.njsproj
 *.sln
 *.sw?
+
+
+# restore depricated storybook config `git restore --source 424307a apps/frontend/.storybook`
+.storybook
+storybook-static

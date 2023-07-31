@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 import { useQuery } from '../../lib/react-query'
 import { update_log } from '../../api'
-import Form from '../facade/Form'
+import Form from 'ui/src/components/forms/Form'
 import Status from 'ui/src/components/forms/Status'
 import TextField, {
   CategoryField,
@@ -25,12 +25,12 @@ export default function EditLog({
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
-        ctx.setValues(log, false)
-        ctx.setStatus({ success: 'updated' })
+      then={ctx => {
+        ctx.setValues({} as any, false)
+        ctx.setStatus({ success: 'edited' })
       }}
-      initial={log}
-      action={mutate}
+      action={mutate.mutateAsync}
+      values={log}
     >
       <div tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />

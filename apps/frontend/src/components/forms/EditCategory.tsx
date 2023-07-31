@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 // import { OutputOfAction } from '../lib/react-query'
 import { create_category, update_category } from '../../api'
-import Form from '../facade/Form'
+import Form from 'ui/src/components/forms/Form'
 
 import TextField, { HiddenField } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
@@ -28,12 +28,12 @@ export default function EditCategory({
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
-        ctx.setValues(category, false)
-        ctx.setStatus({ success: 'updated' })
+      values={category}
+      then={ctx => {
+        ctx.setValues({} as any, false)
+        ctx.setStatus({ success: 'edited' })
       }}
-      initial={category}
-      action={mutate}
+      action={mutate.mutateAsync}
     >
       <div tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />

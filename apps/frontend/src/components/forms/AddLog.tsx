@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import Form from '../facade/Form'
+import Form from 'ui/src/components/forms/Form'
 
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
@@ -28,13 +28,12 @@ export default function AddLog() {
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
+      then={ctx => {
         ctx.setValues({} as any, false)
         ctx.setStatus({ success: 'created' })
       }}
-      // initial={{}}
-      action={mutate}
-      properties={[]}
+      action={mutate.mutateAsync}
+      values={[]}
       required={['title', 'amount']}
     >
       <div tw="grid grid-cols-2 gap-3">

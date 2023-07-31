@@ -6,7 +6,7 @@ import { ColorModeProvider } from '../src/colorMode/provider'
 import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
-import Providers from '../../../apps/frontend/.storybook/_app_providers'
+import Providers from '../../../apps/frontend/storybook-decorator'
 
 import 'twin.macro'
 import { Global } from '@emotion/react'

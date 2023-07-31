@@ -1,2 +1,2 @@
-# was available as of 92d922d
+# restore depricated frontend package `git restore --source 92d922d apps/frontend_dep`
 frontend_dep
