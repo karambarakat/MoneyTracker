@@ -1,13 +1,22 @@
+mod category;
 mod entry;
 
 pub mod root {
     use async_graphql::*;
 
     #[derive(async_graphql::MergedObject, Default)]
-    pub struct Query(super::entry::CategoryQuery, EmptyMutation);
+    pub struct Query(
+        super::category::CategoryQuery,
+        super::entry::EntryQuery,
+        EmptyMutation,
+    );
 
     #[derive(async_graphql::MergedObject, Default)]
-    pub struct Mutation(super::entry::EntryMutation, EmptyMutation);
+    pub struct Mutation(
+        super::category::CategoryMutation,
+        super::entry::EntryMutation,
+        EmptyMutation,
+    );
 }
 
 pub mod with_actix {

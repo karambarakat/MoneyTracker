@@ -2,3 +2,4 @@
 
 pub use crate::services::local_auth::user_model;
 pub mod category;
+pub mod entry;

@@ -130,8 +130,6 @@ impl CategoryUpdate {
             doc.insert("title", title);
         }
 
-        println!("{:?}", doc);
-
         doc
     }
 }
