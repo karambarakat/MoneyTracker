@@ -3,7 +3,7 @@ import { capitalCase } from 'change-case'
 import { WithAsChild } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
 import { Field } from './Form'
-import { useField } from 'formik'
+import { useField, useFormik, useFormikContext } from 'formik'
 
 interface Props {
   /**
@@ -12,13 +12,9 @@ interface Props {
    */
   name: string
   /**
-   * displayed title
+   * displayed title, if not provided will be generated from name
    */
   title?: string
-  /**
-   * placeholder text
-   */
-  placeholder?: string
 }
 
 export default function TextField(props: Props) {
@@ -55,8 +51,6 @@ export function EmailField(props: Props) {
       fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
-        console.log('todo: uncomment when done')
-        // if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
         if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i.test(value)) {
           return 'Invalid email address'
         }
@@ -71,9 +65,7 @@ export function PasswordField(props: Props) {
       fieldName={props.name}
       title={props.title}
       validate={(value: string) => {
-        console.log('todo: uncomment when done')
-        // if (value && value.length < 8) {
-        if (value && value.length < 2) {
+        if (value && value.length < 8) {
           return 'Password must be at least 8 characters'
         }
       }}

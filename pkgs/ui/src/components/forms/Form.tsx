@@ -1,4 +1,4 @@
-import { css } from 'twin.macro'
+import tw, { css } from 'twin.macro'
 import set from 'lodash/set'
 import merge from 'lodash/merge'
 import {
@@ -30,6 +30,10 @@ const requiredCss = css`
   }
 `
 
+const form_tw = css`
+  ${tw`flex gap-4 flex-col`}
+`
+
 /**
  * this component is a bridge that separate formik logic
  * and common UI design (low level) from each specific
@@ -53,22 +57,32 @@ export function Field({
   }, [fieldName])
 
   return (
-    <FormikField name={fieldName} validate={validate}>
+    // <FormikField name={fieldName} validate={validate}>
+    //   {({ field, meta }: FieldProps) => {
+    //     return (
+    //       <div tw="flex flex-col gap-2">
+    //         <label tw="flex flex-col gap-2">
+    //           {/* <div data-required={req} css={requiredCss}>
+    //             {title || capitalCase(fieldName)}
+    //           </div> */}
+    //           <Component
+    //             required={req}
+    //             {...field}
+    //             children={asChild ? children : undefined}
+    //             value={field.value ?? ''}
+    //             tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
+    //           />
+    //         </label>
+    //         {meta.touched && meta.error && <div>{meta.error}</div>}
+    //       </div>
+    //     )
+    //   }}
+    // </FormikField>
+    <FormikField name={fieldName}>
       {({ field, meta }: FieldProps) => {
         return (
           <div tw="flex flex-col gap-2">
-            <label tw="flex flex-col gap-2">
-              <div data-required={req} css={requiredCss}>
-                {title || capitalCase(fieldName)}
-              </div>
-              <Component
-                required={req}
-                {...field}
-                children={asChild ? children : undefined}
-                value={field.value ?? ''}
-                tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
-              />
-            </label>
+            <label tw="flex flex-col gap-2">{JSON.stringify(meta)}</label>
             {meta.touched && meta.error && <div>{meta.error}</div>}
           </div>
         )
@@ -86,7 +100,7 @@ interface Form<Values extends object, Data>
   /**
    * react-query mutation function
    */
-  action: (input: any) => Promise<Data>
+  action: (input: Values) => Promise<Data>
   /**
    * initial values or string of keys like ['profile.name', 'profile.meta[]']
    */
@@ -117,7 +131,7 @@ export default function Form<V extends object, D>({
 }: WithChildren<Form<V, D>>) {
   const values_ = useMemo(() => {
     if (values instanceof Array) {
-      return values
+      return (values || [])
         .map(p => {
           if (p.endsWith('[]')) {
             const mod = p.slice(0, -2)
@@ -169,7 +183,7 @@ export default function Form<V extends object, D>({
         }}
         {...FormikProps}
       >
-        <FormikForm>{children}</FormikForm>
+        <FormikForm css={form_tw}>{children}</FormikForm>
       </Formik>
     </formMetaInfo.Provider>
   )

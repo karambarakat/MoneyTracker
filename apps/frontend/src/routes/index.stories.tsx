@@ -22,6 +22,7 @@ export const EmptyList = {
 } satisfies st<typeof Page>
 
 export const Default = {
+  tags: ['pages'],
   parameters: {
     msw: {
       handlers: [logs_data_small, categories_data, log_data],

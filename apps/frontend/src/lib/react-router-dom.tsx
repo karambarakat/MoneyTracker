@@ -50,5 +50,5 @@ export function ILink({
 }: WithChildren<
   Omit<LinkProps, keyof React.AnchorHTMLAttributes<HTMLAnchorElement>>
 >) {
-  return <Link {...props} />
+  return <Link {...props} tw="text-primary-600 dark:text-primary-300" />
 }

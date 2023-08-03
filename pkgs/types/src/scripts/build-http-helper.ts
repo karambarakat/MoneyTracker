@@ -39,6 +39,16 @@ export default class HttpError extends Error {
     this.name = payload.name
     this.payload = payload as All_Errors
   }
+
+  getErrorFields(){
+    // @ts-ignore
+    const rt = this.payload?.details?.errors
+  
+    if (typeof rt === 'object' && rt !== null) {
+      return rt as object
+    } else return undefined
+  }
+
 }
     `
 

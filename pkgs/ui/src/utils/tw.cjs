@@ -2,17 +2,17 @@ import tw_colors from 'tailwindcss/colors'
 
 const colors = {
   primary: {
-    50: '#fff9f0',
-    100: '#fff3de',
-    200: '#ffe9bd',
-    300: '#ffe09c',
-    400: '#ffd57a',
-    500: '#efa02a',
-    600: '#d17d26',
-    700: '#b25a22',
-    800: '#94371e',
-    900: '#75141a',
-    950: '#523600',
+    50: '#f7fee7',
+    100: '#ecfccb',
+    200: '#d9f99d',
+    300: '#bef264',
+    400: '#a3e635',
+    500: '#84cc16',
+    600: '#65a30d',
+    700: '#4d7c0f',
+    800: '#3f6212',
+    900: '#365314',
+    950: '#1a2e05',
   },
 
   inherit: tw_colors.inherit,

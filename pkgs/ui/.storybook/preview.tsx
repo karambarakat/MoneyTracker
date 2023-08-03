@@ -79,8 +79,8 @@ const preview: Preview = {
 
   decorators: [
     mswDecorator,
-    Story => {
-      return Providers({ Story })
+    (Story, ctx) => {
+      return ctx.tags.includes('pages') ? Providers({ Story }) : <Story />
     },
     Story => {
       const sbMode = useDarkMode() ? 'dark' : 'light'
