@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import Form from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/Form'
 
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'

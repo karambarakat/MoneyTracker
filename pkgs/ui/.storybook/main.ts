@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite'
+import type {} from 'storybook-formik/dist/esm/register'
 const config: StorybookConfig = {
   stories: [
     '../../../apps/frontend/src/**/*.stories.@(js|jsx|ts|tsx)',
@@ -17,6 +18,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-interactions',
     'storybook-dark-mode',
+    'storybook-formik', // todo: this doesn't work
   ],
   framework: {
     name: '@storybook/react-vite',

@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 // import { OutputOfAction } from '../lib/react-query'
 import { create_category, update_category } from '../../api'
-import Form from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/Form'
 
 import TextField, { HiddenField } from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'

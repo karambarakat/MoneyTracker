@@ -1,6 +1,5 @@
 import { Edit } from 'tabler-icons-react'
 import ButtonIcon from './ButtonIcon'
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import 'twin.macro'
 import meta from './Button.stories'
 
@@ -29,22 +28,22 @@ export default {
     variant: 'outline',
     label: 'Storybook Example',
   },
-} satisfies _m<typeof ButtonIcon>
+} satisfies SB.Meta<typeof ButtonIcon>
 
 export const Small = {
   args: {
     size: 'sm',
   },
-} satisfies _s<typeof ButtonIcon>
+} satisfies SB.Story<typeof ButtonIcon>
 
 export const Medium = {
   args: {
     size: 'md',
   },
-} satisfies _s<typeof ButtonIcon>
+} satisfies SB.Story<typeof ButtonIcon>
 
 export const Large = {
   args: {
     size: 'lg',
   },
-} satisfies _s<typeof ButtonIcon>
+} satisfies SB.Story<typeof ButtonIcon>

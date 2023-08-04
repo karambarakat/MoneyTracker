@@ -2,7 +2,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect } from 'react'
 
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import * as AppShell from './AppShell'
 import { userEvent, within } from '@storybook/testing-library'
 import {
@@ -15,7 +14,6 @@ import {
   Debug,
 } from './AppShell.stories.args'
 import tw from 'twin.macro'
-import { css } from '@emotion/react'
 import ScrollArea from '../ScrollArea'
 import { Props } from './AppShell'
 
@@ -79,18 +77,18 @@ export default {
     sidebar_md: '250px',
   },
   component: Components,
-} satisfies _m<typeof Components>
+} satisfies SB.Meta<typeof Components>
 
 export const NormalContent = {
   args: {
     children: Children,
     SideBar: SideBar,
   },
-} satisfies _s<typeof Components>
+} satisfies SB.Story<typeof Components>
 
 export const LongContent = {
   args: {
     children: Children_long,
     SideBar: SideBar_long,
   },
-} satisfies _s<typeof Components>
+} satisfies SB.Story<typeof Components>

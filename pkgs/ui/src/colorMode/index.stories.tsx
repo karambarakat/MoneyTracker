@@ -1,11 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect } from 'react'
-
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import ToggleColorTheme from './ToggleColorTheme'
 import 'twin.macro'
-import { addons } from '@storybook/addons'
-import { UPDATE_DARK_MODE_EVENT_NAME, useDarkMode } from 'storybook-dark-mode'
+import { useDarkMode } from 'storybook-dark-mode'
 import { ColorModeProvider, useColorMode } from './provider'
 
 export default {
@@ -23,7 +20,7 @@ export default {
     },
   ],
   component,
-} satisfies _m<typeof component>
+} satisfies SB.Meta<typeof component>
 
 function WithSb({ children }: { children: React.ReactNode }) {
   const { mode, isSystem } = useColorMode()
@@ -40,7 +37,7 @@ function WithSb({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
-export const Toggle = {} satisfies _s<typeof component>
+export const Toggle = {} satisfies SB.Story<typeof component>
 
 function component() {
   const { mode, isSystem } = useColorMode()

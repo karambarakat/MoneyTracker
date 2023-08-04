@@ -1,19 +1,32 @@
+/// <reference path="../types/SB.d.ts"/>
 import '../src/tailwind.css'
 import type { Preview } from '@storybook/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDarkMode } from 'storybook-dark-mode'
 import { ColorModeProvider } from '../src/colorMode/provider'
 import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
 import Providers from '../../../apps/frontend/storybook-decorator'
+import { Form } from '../src/components/forms/Form'
+import { action } from '@storybook/addon-actions'
 
 import 'twin.macro'
-import { Global } from '@emotion/react'
+import { Global, PropsOf } from '@emotion/react'
 import { colors } from '../src/utils/tw'
+import { useField, useFormik, useFormikContext } from 'formik'
 fakerEN.seed(123)
 
 initialize()
+
+function AutoSubmit() {
+  const f = useFormikContext()
+  useEffect(() => {
+    f.submitForm()
+  }, [])
+
+  return <></>
+}
 
 const preview: Preview = {
   parameters: {
@@ -80,11 +93,53 @@ const preview: Preview = {
   decorators: [
     mswDecorator,
     (Story, ctx) => {
-      return ctx.tags.includes('pages') ? Providers({ Story }) : <Story />
+      if (!Object.keys(ctx.parameters).includes('page')) {
+        return <Story />
+      }
+
+      return Providers({ Story })
     },
     Story => {
       const sbMode = useDarkMode() ? 'dark' : 'light'
       return <ColorModeProvider mode={sbMode}>{Story()}</ColorModeProvider>
+    },
+    (Story, ctx) => {
+      const form = ctx.parameters.form as SB.Parameter['form']
+
+      if (!form) {
+        return <Story />
+      }
+
+      const StoryField = form.asField?.name || 'StoryField'
+
+      var values: PropsOf<typeof Form>['values'] = []
+
+      if (form.values) values = form.values
+
+      const asField = form.asField ? { name: StoryField } : {}
+
+      if (form.asField?.value) {
+        values = { ...values, [StoryField]: form.asField?.value }
+      }
+
+      return (
+        <Form
+          values={values}
+          validate={
+            form.asField?.failed
+              ? async () => {
+                  return {
+                    [StoryField]: 'this is an example error',
+                  }
+                }
+              : async () => {}
+          }
+          action={async vals => action('submit-form')}
+        >
+          {form.asField?.failed && <AutoSubmit />}
+          <Story args={{ ...ctx.args, ...asField }} />
+        </Form>
+      )
     },
     Story => {
       return (

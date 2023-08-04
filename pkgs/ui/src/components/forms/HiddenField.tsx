@@ -17,6 +17,12 @@ interface Props {
   title?: string
 }
 
-export default function TextField(props: Props) {
-  return <Field fieldName={props.name} title={props.title} />
+export default function HiddenField(props: Props) {
+  return (
+    <div tw="hidden">
+      <Field fieldName={props.name} asChild>
+        <input type="hidden" />
+      </Field>
+    </div>
+  )
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import tw from 'twin.macro'
-import { Meta as _m, StoryObj as _s } from '@storybook/react'
 import { colors } from '../src/utils/tw'
 
 interface Props {

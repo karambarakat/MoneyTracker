@@ -1,19 +1,19 @@
 import React from 'react'
 import 'twin.macro'
 
-import TextField from './TextField'
+import HiddenField from './HiddenField'
 
 export default {
-  title: 'forms/TextField',
+  title: 'forms/HiddenField',
   parameters: {
     form: {
       asField: {},
     },
   },
-  component: TextField,
-} satisfies SB.Meta<typeof TextField>
+  component: HiddenField,
+} satisfies SB.Meta<typeof HiddenField>
 
-export const Default = {} satisfies SB.Story<typeof TextField>
+export const Default = {} satisfies SB.Story<typeof HiddenField>
 export const Filled = {
   parameters: {
     form: {
@@ -23,7 +23,7 @@ export const Filled = {
     },
   },
   args: {},
-} satisfies SB.Story<typeof TextField>
+} satisfies SB.Story<typeof HiddenField>
 
 export const Long = {
   parameters: {
@@ -35,7 +35,7 @@ export const Long = {
     },
   },
   args: {},
-} satisfies SB.Story<typeof TextField>
+} satisfies SB.Story<typeof HiddenField>
 
 export const Errored = {
   parameters: {
@@ -46,4 +46,4 @@ export const Errored = {
       },
     },
   },
-} satisfies SB.Story<typeof TextField>
+} satisfies SB.Story<typeof HiddenField>

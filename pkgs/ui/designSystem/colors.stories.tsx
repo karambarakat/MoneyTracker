@@ -1,5 +1,4 @@
 import React from 'react'
-import { Meta as _m, StoryObj as _s } from '@storybook/react'
 import tw from 'twin.macro'
 import { colors } from '../src/utils/tw'
 import Display from './_Display'
@@ -12,13 +11,13 @@ const getColor = (
 ) => {
   return {
     args: { name: key, colors: Object.values(colors[key]) as any },
-  } satisfies _s<typeof Display>
+  } satisfies SB.Story<typeof Display>
 }
 
 export default {
   title: 'Design System/Colors',
   component: Display,
-} satisfies _m<typeof Display>
+} satisfies SB.Meta<typeof Display>
 
 export const Primary = getColor('primary')
 export const slate = getColor('slate')

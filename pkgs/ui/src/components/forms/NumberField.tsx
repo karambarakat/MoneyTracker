@@ -17,6 +17,16 @@ interface Props {
   title?: string
 }
 
-export default function TextField(props: Props) {
-  return <Field fieldName={props.name} title={props.title} />
+export default function NumberField(props: Props) {
+  return (
+    <Field
+      fieldName={props.name}
+      title={props.title}
+      validate={(value: string) => {
+        if (value && !/^\d+$/.test(value)) {
+          return 'Invalid number'
+        }
+      }}
+    />
+  )
 }

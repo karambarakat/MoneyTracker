@@ -1,6 +1,5 @@
 import FlexBox_ from './FlexBox'
 import React from 'react'
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import { PropsOf } from '@emotion/react'
 import useListForTesting, { finalList } from '../../utils/useListForTesting'
 import tw from 'twin.macro'
@@ -21,7 +20,7 @@ export default {
     no_y: { type: 'boolean', control: { type: 'radio' } },
   },
   args: {},
-} satisfies _m<typeof FlexBox>
+} satisfies SB.Meta<typeof FlexBox>
 
 export const Column = {
   render: args => {
@@ -39,7 +38,7 @@ export const Column = {
       </>
     )
   },
-} satisfies _s<typeof FlexBox>
+} satisfies SB.Story<typeof FlexBox>
 
 export const Row = {
   render: args => {
@@ -57,7 +56,7 @@ export const Row = {
       </div>
     )
   },
-} satisfies _s<typeof FlexBox>
+} satisfies SB.Story<typeof FlexBox>
 
 export const RowFromRight = {
   render: args => {
@@ -76,7 +75,7 @@ export const RowFromRight = {
       </div>
     )
   },
-} satisfies _s<typeof FlexBox>
+} satisfies SB.Story<typeof FlexBox>
 
 export const WithTransitionRow = {
   render: args => {
@@ -105,7 +104,7 @@ export const WithTransitionRow = {
       </div>
     )
   },
-} satisfies _s<typeof FlexBox>
+} satisfies SB.Story<typeof FlexBox>
 
 export const WithTransitionColumn = {
   render: args => {
@@ -134,7 +133,7 @@ export const WithTransitionColumn = {
       </div>
     )
   },
-} satisfies _s<typeof FlexBox>
+} satisfies SB.Story<typeof FlexBox>
 
 // todo: next
 // export const WithTransitionDelay = {}

@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 import { useQuery } from '../../lib/react-query'
 import { update_log } from '../../api'
-import Form from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/Form'
 import Status from 'ui/src/components/forms/Status'
 import TextField, {
   CategoryField,

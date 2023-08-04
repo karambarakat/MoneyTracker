@@ -8,31 +8,23 @@ import {
   Field as FormikField,
   Form as FormikForm,
   FormikHelpers,
+  useField,
 } from 'formik'
 import { WithAsChild, WithChildren } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
-import { createContext, useContext, useMemo } from 'react'
+import React, { createContext, useContext, useMemo } from 'react'
 import { capitalCase } from 'change-case'
 import requires from '../../utils/requires'
 
 import HttpError from 'types/dist/helpers/http_error'
+import { useId } from '@mantine/hooks'
+import { CircleX, X } from 'tabler-icons-react'
 
 interface BridgeProps {
   fieldName: string
   title?: string
   validate?: (value: string) => string | undefined
 }
-
-const requiredCss = css`
-  &[data-required='true']::after {
-    content: ' *';
-    color: red;
-  }
-`
-
-const form_tw = css`
-  ${tw`flex gap-4 flex-col`}
-`
 
 /**
  * this component is a bridge that separate formik logic
@@ -42,7 +34,7 @@ const form_tw = css`
  * if in the future I decided to migrate from formik I can
  * just change this component
  */
-export function Field({
+function Field({
   fieldName,
   title,
   children,
@@ -56,40 +48,95 @@ export function Field({
     return required.includes(fieldName)
   }, [fieldName])
 
+  const id = useId()
+
   return (
-    // <FormikField name={fieldName} validate={validate}>
-    //   {({ field, meta }: FieldProps) => {
-    //     return (
-    //       <div tw="flex flex-col gap-2">
-    //         <label tw="flex flex-col gap-2">
-    //           {/* <div data-required={req} css={requiredCss}>
-    //             {title || capitalCase(fieldName)}
-    //           </div> */}
-    //           <Component
-    //             required={req}
-    //             {...field}
-    //             children={asChild ? children : undefined}
-    //             value={field.value ?? ''}
-    //             tw="rounded min-h-[2.25rem] p-2 dark:bg-gray-600/10 focus-visible:outline-0 focus-visible:ring-1 focus-visible:ring-primary-200 border dark:border-gray-500/50"
-    //           />
-    //         </label>
-    //         {meta.touched && meta.error && <div>{meta.error}</div>}
-    //       </div>
-    //     )
-    //   }}
-    // </FormikField>
-    <FormikField name={fieldName}>
-      {({ field, meta }: FieldProps) => {
+    <FormikField validate={validate} name={fieldName}>
+      {({ field, meta, form }: FieldProps) => {
+        // Component height: 32
+        // label height: 16
+        // label enlarged space: 24
         return (
-          <div tw="flex flex-col gap-2">
-            <label tw="flex flex-col gap-2">{JSON.stringify(meta)}</label>
-            {meta.touched && meta.error && <div>{meta.error}</div>}
+          <div
+            id={id}
+            className={[
+              field.value ? 'value' : 'no-value',
+              meta.touched && meta.error ? 'error' : 'no-error',
+            ].join(' ')}
+            tw="focus-within:()"
+          >
+            <label>
+              <div tw="flex gap-3 items-center">
+                <div tw="flex-1">
+                  <div
+                    css={[
+                      {
+                        // eslint-disable-next-line quotes
+                        ["&[data-required='true']::after"]: css`
+                          ${tw`text-red-600`};
+                          content: ' *';
+                        `,
+                      },
+                      tw`h-[16px] translate-y-[16px] text-base transition-[transform,font-size] text-gray-500`,
+                      {
+                        [`#${id}:focus-within &, #${id}.value &`]: tw`translate-y-0 text-xs `,
+                        [`#${id}:focus-within &`]: tw`text-blue-600`,
+                        [`#${id}.error &`]: tw`text-red-600`,
+                      },
+                    ]}
+                    data-required={!req}
+                  >
+                    {title || capitalCase(fieldName)}
+                  </div>
+                  <Component
+                    tw="w-full bg-transparent pb-1 focus-visible:outline-none"
+                    required={req}
+                    {...field}
+                    children={asChild ? children : undefined}
+                    value={field.value ?? ''}
+                  />
+                </div>
+                {field.value && (
+                  <div
+                    tw="cursor-pointer p-2 pr-0 pb-0"
+                    onClick={() => form.setFieldValue(fieldName, undefined)}
+                  >
+                    <X size={16} />
+                  </div>
+                )}
+              </div>
+              <div
+                tw="min-h-[1px] w-full bg-slate-400/70 transition-[background-color]"
+                css={{
+                  [`#${id}:focus-within &`]: tw`bg-blue-600 outline outline-1 outline-blue-600`,
+                  [`#${id}.error &`]: tw`bg-red-600 outline outline-1 outline-red-600`,
+                }}
+              />
+            </label>
+            {/* // todo: aria labels to link with input? */}
+            <div tw="text-red-600">
+              {meta.touched && meta.error && <div>{meta.error}</div>}
+            </div>
           </div>
         )
       }}
     </FormikField>
   )
 }
+
+// interface FieldContext {
+//   id: string
+//   name: string
+//   req: boolean
+//   title?: string
+// }
+// const CurrentFieldContext = React.createContext<FieldContext>({
+//   id: '',
+//   req: false,
+//   name: '',
+// })
+
+export { Field }
 
 export const formMetaInfo = createContext<{ required: string[] }>({
   required: [],
@@ -121,7 +168,7 @@ interface Form<Values extends object, Data>
  * react-query, lodash, HttpError) to work together
  * provides a simple interface to create a form
  */
-export default function Form<V extends object, D>({
+export function Form<V extends object, D>({
   children,
   values,
   required,
@@ -183,7 +230,7 @@ export default function Form<V extends object, D>({
         }}
         {...FormikProps}
       >
-        <FormikForm css={form_tw}>{children}</FormikForm>
+        <FormikForm css={tw`flex gap-4 flex-col`}>{children}</FormikForm>
       </Formik>
     </formMetaInfo.Provider>
   )

@@ -17,6 +17,16 @@ interface Props {
   title?: string
 }
 
-export default function TextField(props: Props) {
-  return <Field fieldName={props.name} title={props.title} />
+export default function EmailField(props: Props) {
+  return (
+    <Field
+      fieldName={props.name}
+      title={props.title}
+      validate={(value: string) => {
+        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i.test(value)) {
+          return 'Invalid email address'
+        }
+      }}
+    ></Field>
+  )
 }

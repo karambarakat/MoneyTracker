@@ -17,6 +17,19 @@ interface Props {
   title?: string
 }
 
-export default function TextField(props: Props) {
-  return <Field fieldName={props.name} title={props.title} />
+export default function PasswordField(props: Props) {
+  return (
+    <Field
+      fieldName={props.name}
+      title={props.title}
+      validate={(value: string) => {
+        if (value && value.length < 8) {
+          return 'Password must be at least 8 characters'
+        }
+      }}
+      asChild
+    >
+      <input type="password" />
+    </Field>
+  )
 }

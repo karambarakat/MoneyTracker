@@ -1,19 +1,20 @@
 import React from 'react'
 import 'twin.macro'
 
-import TextField from './TextField'
+import EmailField from './EmailField'
+import { userEvent, within } from '@storybook/testing-library'
 
 export default {
-  title: 'forms/TextField',
+  title: 'forms/EmailField',
   parameters: {
     form: {
       asField: {},
     },
   },
-  component: TextField,
-} satisfies SB.Meta<typeof TextField>
+  component: EmailField,
+} satisfies SB.Meta<typeof EmailField>
 
-export const Default = {} satisfies SB.Story<typeof TextField>
+export const Default = {} satisfies SB.Story<typeof EmailField>
 export const Filled = {
   parameters: {
     form: {
@@ -23,7 +24,7 @@ export const Filled = {
     },
   },
   args: {},
-} satisfies SB.Story<typeof TextField>
+} satisfies SB.Story<typeof EmailField>
 
 export const Long = {
   parameters: {
@@ -35,15 +36,21 @@ export const Long = {
     },
   },
   args: {},
-} satisfies SB.Story<typeof TextField>
+} satisfies SB.Story<typeof EmailField>
 
 export const Errored = {
   parameters: {
     form: {
       asField: {
-        value: 'filled with error',
-        failed: true,
+        name: 'email',
+        value: 'invalid @ email com',
       },
     },
   },
-} satisfies SB.Story<typeof TextField>
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const elem = await canvas.findByLabelText('Email')
+    await userEvent.click(elem)
+    await userEvent.keyboard('{Enter}')
+  },
+} satisfies SB.Story<typeof EmailField>
