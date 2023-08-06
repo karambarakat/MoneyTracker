@@ -1,16 +1,15 @@
 import 'twin.macro'
 import React from 'react'
-import { Form } from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/_Form'
 
 import {
   RoutesAuthLocalLogin,
   RoutesAuthLocalRegister,
 } from 'types/dist/ts/routes'
 import Status from 'ui/src/components/forms/Status'
-import TextField, {
-  EmailField,
-  PasswordField,
-} from 'ui/src/components/forms/TextField'
+import EmailField from 'ui/src/components/forms/EmailField'
+import PasswordField from 'ui/src/components/forms/PasswordField'
+import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'

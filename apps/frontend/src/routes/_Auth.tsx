@@ -10,14 +10,14 @@ import Login from '../components/forms/Login'
 import Brand from '../components/Brand'
 import tw from 'twin.macro'
 import { SchemaProfile } from 'types/dist/ts/schema'
-import TextField, {
-  EmailField,
-  PasswordField,
-} from 'ui/src/components/forms/TextField'
+import TextField from 'ui/src/components/forms/TextField'
+import PasswordField from 'ui/src/components/forms/PasswordField'
+import EmailField from 'ui/src/components/forms/EmailField'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '../api'
 import { useFormik } from 'formik'
-import Form from 'ui/src/components/forms/Form'
+import { Form, FormBody } from 'ui/src/components/forms/_Form'
+
 import { Slot } from '@radix-ui/react-slot'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { ILink } from '../lib/react-router-dom'
@@ -60,12 +60,23 @@ function _Card(p: WithAsChild) {
   )
 }
 
+function LogIn() {
+  const login_action = useMutation({ mutationFn: login })
+  return (
+    <Form values={[]} action={login_action.mutateAsync}>
+      <FormBody>
+        <EmailField name="email" title="Email" />
+        <PasswordField name="password" />
+        <SubmitButton tw="py-[0.5rem]">Login</SubmitButton>
+      </FormBody>
+    </Form>
+  )
+}
+
 export function Authentication() {
   const match = useMatch('/auth/*')
 
   const profile = useProfile()
-
-  const login_action = useMutation({ mutationFn: login })
 
   return (
     <div
@@ -75,11 +86,7 @@ export function Authentication() {
       <Brand />
       <_Card>
         {match?.params['*'] ? <></> : <></>}
-        <Form values={[]} action={login_action.mutateAsync}>
-          <TextField name="email" title="Email" />
-          <TextField name="password" />
-          <SubmitButton />
-        </Form>
+        <LogIn />
       </_Card>
       <div tw="flex gap-2">
         <span>

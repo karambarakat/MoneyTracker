@@ -2,7 +2,7 @@ import 'twin.macro'
 import { capitalCase } from 'change-case'
 import { WithAsChild } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
-import { Field } from './Form'
+import { FieldEx } from './_Field'
 import { useField, useFormik, useFormikContext } from 'formik'
 
 interface Props {
@@ -20,9 +20,9 @@ interface Props {
 export default function HiddenField(props: Props) {
   return (
     <div tw="hidden">
-      <Field fieldName={props.name} asChild>
-        <input type="hidden" />
-      </Field>
+      <FieldEx name={props.name} />
+      {/* <input type="hidden" /> */}
+      {/* </FieldEx> */}
     </div>
   )
 }

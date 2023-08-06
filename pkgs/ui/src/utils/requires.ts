@@ -1,13 +1,17 @@
 import get from 'lodash/get'
 import set from 'lodash/set'
 
-/**
- * @param values input object, may contain undefined values
- * @param required list of lodash paths that should be required
- * @example ['title', 'amount', 'note.text']
- * @returns output object where required keys are guaranteed to be defined
- */
-function requires<A extends object>(values: Partial<A>, required: string[]) {
+export const requires = <A extends object>(
+  /**
+   * input object, may contain undefined values
+   */
+  values: Partial<A>,
+  /**
+   * list of lodash paths that should be required
+   * @example ['title', 'amount', 'note.text']
+   */
+  required: string[],
+) => {
   const errors: Partial<Record<keyof A, string>> = {}
 
   for (const key of required) {
@@ -15,10 +19,14 @@ function requires<A extends object>(values: Partial<A>, required: string[]) {
     val ?? set(errors, key, `${key as string} is required`)
   }
 
+  /**
+   * output object where required keys are guaranteed to be defined
+   */
   return Object.keys(errors).length === 0
     ? ([undefined, values as A] as const)
     : ([errors, undefined] as const)
 }
+
 export default requires
 
 /** type safety: test case 1

@@ -1,5 +1,5 @@
 diff --git a/macro.js b/macro.js
-index 4df3979dfc9b730e7be8dbcc7e702b09699fbaa1..e4fbe71a5e4bf1478ff18491b1e1961b3930048f 100644
+index 4df3979dfc9b730e7be8dbcc7e702b09699fbaa1..107e2599e30826784e74cc52678e952c39dd162f 100644
 --- a/macro.js
 +++ b/macro.js
 @@ -1774,7 +1774,8 @@ function getJsxAttributes(path) {

@@ -1,17 +1,22 @@
 import React from 'react'
 import 'twin.macro'
 import { PropsOf } from '@emotion/react'
-import Button from '../Button'
+import ButtonBase from '../Button'
 import { useFormikContext } from 'formik'
+import { WithAsChild } from '../../utils/WithChildren'
+import { Slot } from '@radix-ui/react-slot'
 
-export default function SubmitButton(
-  Props: Omit<PropsOf<typeof Button>, 'disabled' | 'type'>,
-) {
+export default function SubmitButton({
+  asChild,
+  ...props
+}: WithAsChild<PropsOf<typeof ButtonBase>>) {
+  const Component = asChild ? Slot : 'button'
+
   const { isSubmitting } = useFormikContext()
 
   return (
-    <Button {...Props} disabled={isSubmitting} variant="filled" asChild>
-      <button type="submit">Submit</button>
-    </Button>
+    <ButtonBase variant="filled" disabled={isSubmitting} {...props} asChild>
+      <Component type="submit">{props.children || 'Submit'}</Component>
+    </ButtonBase>
   )
 }

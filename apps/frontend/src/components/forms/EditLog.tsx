@@ -2,13 +2,13 @@ import 'twin.macro'
 import React from 'react'
 import { useQuery } from '../../lib/react-query'
 import { update_log } from '../../api'
-import { Form } from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/_Form'
+
 import Status from 'ui/src/components/forms/Status'
-import TextField, {
-  CategoryField,
-  HiddenField,
-  NumberField,
-} from 'ui/src/components/forms/TextField'
+import CategoryField from 'ui/src/components/forms/CategoryField'
+import HiddenField from 'ui/src/components/forms/HiddenField'
+import NumberField from 'ui/src/components/forms/NumberField'
+import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useMutation } from '@tanstack/react-query'
 

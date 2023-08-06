@@ -1,7 +1,3 @@
-import {
-  createDefinedContext,
-  useDefinedContext,
-} from '../utils/definedContext'
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import { WithChildren } from 'ui/src/utils/WithChildren'
 

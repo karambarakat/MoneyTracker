@@ -1,13 +1,12 @@
 import 'twin.macro'
 import React from 'react'
-import { Form } from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/_Form'
 
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import TextField, {
-  CategoryField,
-  NumberField,
-} from 'ui/src/components/forms/TextField'
+import CategoryField from 'ui/src/components/forms/CategoryField'
+import NumberField from 'ui/src/components/forms/NumberField'
+import TextField from 'ui/src/components/forms/TextField'
 import { useQuery } from '../../lib/react-query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create_log } from '../../api'

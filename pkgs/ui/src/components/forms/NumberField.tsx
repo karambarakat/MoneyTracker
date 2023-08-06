@@ -2,7 +2,7 @@ import 'twin.macro'
 import { capitalCase } from 'change-case'
 import { WithAsChild } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
-import { Field } from './Form'
+import { FieldEx } from './_Field'
 import { useField, useFormik, useFormikContext } from 'formik'
 
 interface Props {
@@ -19,8 +19,8 @@ interface Props {
 
 export default function NumberField(props: Props) {
   return (
-    <Field
-      fieldName={props.name}
+    <FieldEx
+      name={props.name}
       title={props.title}
       validate={(value: string) => {
         if (value && !/^\d+$/.test(value)) {

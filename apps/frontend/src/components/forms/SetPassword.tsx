@@ -1,8 +1,8 @@
 import 'twin.macro'
 import React from 'react'
-import { Form } from 'ui/src/components/forms/Form'
+import { Form } from 'ui/src/components/forms/_Form'
 
-import { PasswordField } from 'ui/src/components/forms/TextField'
+import PasswordField from 'ui/src/components/forms/PasswordField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { set_password } from '../../api'
