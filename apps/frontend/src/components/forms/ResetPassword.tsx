@@ -1,23 +1,24 @@
 import 'twin.macro'
 import React from 'react'
-import Form from '../facade/Form'
+import { Form } from 'ui/src/components/forms/_Form'
 
-import { PasswordField } from 'ui/src/components/forms/TextField'
+import PasswordField from 'ui/src/components/forms/PasswordField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useSetPassword } from '@src/api/auth_queries'
+import { useMutation } from '@tanstack/react-query'
+import { set_password } from '../../api'
 
 export default function ResetPassword() {
-  const mutate = useSetPassword()
+  const mutate = useMutation({ mutationFn: set_password })
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
+      then={ctx => {
         ctx.setValues({} as any, false)
         ctx.setStatus({ success: 'password changed' })
       }}
-      action={mutate}
-      properties={['newPassword', 'oldPassword']}
+      action={mutate.mutateAsync}
+      values={[]}
       required={['newPassword', 'oldPassword']}
     >
       <div>

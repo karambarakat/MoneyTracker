@@ -13,7 +13,6 @@ export const fontSizes = {
   lg: tw`text-[1.1875rem] font-[600] leading-[1.8125rem]`,
   h2: tw`text-[1.5rem] font-[400] leading-[2rem]`,
   h1: tw`text-[2rem] font-[600] leading-[2rem]`,
-  // h1: tw`text-[2.5rem] font-[700] leading-[3rem] tracking-wide`,
 }
 
 type Preferred = 'span' | 'h1' | 'h2'

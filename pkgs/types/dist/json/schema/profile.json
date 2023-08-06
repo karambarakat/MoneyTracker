@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://expamle.com/schema/profile",
+  "$id": "https://backend-json.pocket-app.karam.page/schema/profile",
   "allOf": [
     {
       "type": "object",
@@ -44,6 +44,7 @@
           "type": "string"
         },
         "providers": {
+          "$id": "#providers",
           "type": "array",
           "items": {
             "type": "string",

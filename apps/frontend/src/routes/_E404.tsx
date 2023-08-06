@@ -1,4 +1,4 @@
-import { setTitle } from '@src/routes/_MetaContext'
+import { setTitle } from '../routes/_MetaContext'
 import { Text } from '@mantine/core'
 
 function E404_Page_Component() {

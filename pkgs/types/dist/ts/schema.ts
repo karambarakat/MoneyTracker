@@ -21,6 +21,13 @@ export interface SchemaCategoryIn {
 }
 
 
+export interface SchemaCategoryInUpdate {
+  title?: string;
+  color?: string;
+  icon?: string;
+}
+
+
 export type SchemaLogOut = {
   _id: string;
   __v: number;
@@ -52,6 +59,14 @@ export interface SchemaLogIn {
 }
 
 
+export interface SchemaLogInUpdate {
+  title?: string;
+  amount?: number;
+  category?: string;
+  note?: string;
+}
+
+
 export type SchemaProfile = {
   _id: string;
   __v: number;
@@ -61,8 +76,9 @@ export type SchemaProfile = {
 } & {
   displayName: string;
   email: string;
-  providers: ("local" | "google")[];
+  providers: Providers;
   picture?: string;
   token: string;
 };
+export type Providers = ("local" | "google")[];
 

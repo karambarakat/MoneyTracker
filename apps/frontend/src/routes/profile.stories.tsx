@@ -1,11 +1,13 @@
 import Page from './Profile'
-import { StoryObj as st, Meta as mt } from '@storybook/react'
-import { profile_data } from '@src/mockedData/msw'
+import { profile_data } from '../mockedData/msw'
 
 export default {
   component: Page,
+  parameters: {
+    page: true,
+  },
   title: 'pages/profile',
-} satisfies mt<typeof Page>
+} satisfies SB.Meta<typeof Page>
 
 export const Default = {
   parameters: {
@@ -13,4 +15,4 @@ export const Default = {
       handlers: [profile_data],
     },
   },
-} satisfies st<typeof Page>
+} satisfies SB.Story<typeof Page>

@@ -1,7 +1,7 @@
 import tw from 'twin.macro'
 import React from 'react'
 
-import LogoPng from '@src/public/logo.png'
+import LogoPng from '../public/logo.png'
 
 import {
   ChevronLeft,
@@ -27,11 +27,11 @@ import Transition from 'ui/src/components/Transition'
 import Button from 'ui/src/components/Button'
 import { fade_from_bottom } from 'ui/src/components/Transition/transitions'
 import FlexBox from 'ui/src/components/experimental/FlexBox'
-import UserIcon from '@src/components/UserIcon'
+import UserIcon from '../components/UserIcon'
 import { Logout } from 'tabler-icons-react'
 import { getTitle } from './_MetaContext'
-import { getProfile, setProfile, useProfile } from '@src/utils/localProfile'
-import { ILink } from '@src/lib/react-router-dom'
+import { getProfile, setProfile, useProfile } from '../utils/localProfile'
+import { ILink } from '../lib/react-router-dom'
 
 export default function Main_Layout_Component() {
   return (

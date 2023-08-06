@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro'
 
 // width is 12px less than the breakpoint
-const Container = styled.main`
+const Container__Idle = styled.main`
   ${tw`
     mx-auto 
     px-3 sm:px-4 md:px-5 lg:px-6
@@ -9,4 +9,4 @@ const Container = styled.main`
   `}
 `
 
-export default Container
+export default Container__Idle

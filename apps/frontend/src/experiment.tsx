@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BrowserRouter, Link, NavLink, Route, Routes } from 'react-router-dom'
 import { client } from './main-query'
 import { Suspense } from 'react'
+import { apis } from './api/type'
 
 export default function Experiment() {
   return (

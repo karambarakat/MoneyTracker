@@ -1,34 +1,36 @@
 import 'twin.macro'
 import React from 'react'
-import { InputOfAction } from '@src/lib/react-query'
-import { update_log } from '@src/api'
-import { useUpdateLog } from '@src/api/log_queries'
-import Form from '../facade/Form'
+import { useQuery } from '../../lib/react-query'
+import { update_log } from '../../api'
+import { Form } from 'ui/src/components/forms/_Form'
+
 import Status from 'ui/src/components/forms/Status'
-import TextField, {
-  CategoryField,
-  HiddenField,
-  NumberField,
-} from 'ui/src/components/forms/TextField'
+import CategoryField from 'ui/src/components/forms/CategoryField'
+import HiddenField from 'ui/src/components/forms/HiddenField'
+import NumberField from 'ui/src/components/forms/NumberField'
+import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useCategories } from '@src/api/category_queries'
+import { useMutation } from '@tanstack/react-query'
 
 export default function EditLog({
   log,
 }: {
-  log: InputOfAction<typeof update_log>
+  log: Parameters<typeof update_log>[0]
 }) {
-  const mutate = useUpdateLog()
-  const categories = useCategories().data
+  const mutate = useMutation({ mutationFn: update_log })
+
+  const categories = useQuery('find_category', []).data
+
+  if (!categories) return <div>error</div>
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
-        ctx.setValues(log, false)
-        ctx.setStatus({ success: 'updated' })
+      then={ctx => {
+        ctx.setValues({} as any, false)
+        ctx.setStatus({ success: 'edited' })
       }}
-      initial={log}
-      action={mutate}
+      action={mutate.mutateAsync}
+      values={log}
     >
       <div tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />

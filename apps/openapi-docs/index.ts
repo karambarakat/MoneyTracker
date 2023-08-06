@@ -1,6 +1,6 @@
 import redoc from 'redoc-express'
 import express from 'express'
-import openapi from 'openapi'
+import openapi from 'types/dist/openapi.json'
 
 const doc = express.Router()
 

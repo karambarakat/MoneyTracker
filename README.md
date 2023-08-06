@@ -1,3 +1,6 @@
+[![Chromatic Publish](https://github.com/karambarakat/MoneyTracker/actions/workflows/chromatic.yaml/badge.svg)](https://github.com/karambarakat/MoneyTracker/actions/workflows/chromatic.yaml)
+[![e2e test](https://github.com/karambarakat/MoneyTracker/actions/workflows/e2e.yaml/badge.svg)](https://github.com/karambarakat/MoneyTracker/actions/workflows/e2e.yaml)
+
 # myPocket
 
 This is a monorepo for `myPocket` app, this is seamless and powerfully MERN full stack app designed to simplify and assist your personal finances. it is made of React frontend application and Express backend with MongoDB as the database of choice.

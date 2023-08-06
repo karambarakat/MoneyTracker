@@ -21,7 +21,6 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store/v3\
   pnpm install --frozen-lockfile
 
 COPY --from=prune /monorepo/out/full .
-# CMD ["sleep", "infinity"]
 RUN turbo build
 
 

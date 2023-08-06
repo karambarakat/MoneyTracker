@@ -1,20 +1,20 @@
 import 'twin.macro'
 import React from 'react'
-import { useRegister } from '@src/api/auth_queries'
-import Form from '../facade/Form'
+import { Form } from 'ui/src/components/forms/_Form'
 
 import {
   RoutesAuthLocalLogin,
   RoutesAuthLocalRegister,
 } from 'types/dist/ts/routes'
 import Status from 'ui/src/components/forms/Status'
-import TextField, {
-  EmailField,
-  PasswordField,
-} from 'ui/src/components/forms/TextField'
+import EmailField from 'ui/src/components/forms/EmailField'
+import PasswordField from 'ui/src/components/forms/PasswordField'
+import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { register } from '../../api'
 
 type Values = Partial<
   RoutesAuthLocalLogin &
@@ -23,29 +23,23 @@ type Values = Partial<
     }
 >
 
-const initial = {
-  email: undefined,
-  username: undefined,
-  password: undefined,
-  confirmPassword: undefined,
-} as Values
-
 export default function SignIn_Auth_Page_Component() {
-  const register = useRegister()
+  // const register = useRegister()
+  const register_ = useMutation({ mutationFn: register })
   const navigate = useNavigate()
 
   return (
     <Form
-      properties={Object.keys(initial)}
+      then={ctx => {
+        navigate('/')
+        ctx.setStatus({ success: 'signed in' })
+      }}
+      action={register_.mutateAsync}
+      values={[]}
       required={['email', 'password', 'confirmPassword']}
-      action={register}
       validate={(values: any) => {
         if (values.password !== values.confirmPassword)
           return { confirmPassword: 'passwords do not match' }
-      }}
-      onSuccess={(ret, ctx) => {
-        ctx.setStatus({ success: 'signed in' })
-        navigate('/')
       }}
     >
       <div css={{ '&>*': tw`mb-3`, '&>*:last-child': tw`mb-0` }}>

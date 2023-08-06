@@ -1,25 +1,26 @@
 import 'twin.macro'
 import React from 'react'
-import Form from '../facade/Form'
+import { Form } from 'ui/src/components/forms/_Form'
 
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
-import { useUpdateProfile } from '@src/api/auth_queries'
 import { useFormikContext } from 'formik'
 import { PropsOf } from '@emotion/react'
 import Button from 'ui/src/components/Button'
+import { useMutation } from '@tanstack/react-query'
+import { update_profile } from '../../api'
 
 export default function UpdateProfile() {
-  const mutate = useUpdateProfile()
+  const mutate = useMutation({ mutationFn: update_profile })
 
   return (
     <Form
-      onSuccess={(values, ctx) => {
+      then={ctx => {
         ctx.setValues({} as any, false)
         ctx.setStatus({ success: 'profile updated' })
       }}
-      action={mutate}
-      properties={['displayName', 'picture']}
+      values={[]}
+      action={mutate.mutateAsync}
     >
       <div>
         <Status />

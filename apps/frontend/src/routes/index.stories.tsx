@@ -1,17 +1,19 @@
 import Page from '.'
-import { StoryObj as st, Meta as mt } from '@storybook/react'
 import {
   categories_data,
   empty_data,
   log_data,
   logs_data,
   logs_data_small,
-} from '@src/mockedData/msw'
+} from '../mockedData/msw'
 
 export default {
   component: Page,
+  parameters: {
+    page: true,
+  },
   title: 'pages/index',
-} satisfies mt<typeof Page>
+} satisfies SB.Meta<typeof Page>
 
 export const EmptyList = {
   parameters: {
@@ -19,7 +21,7 @@ export const EmptyList = {
       handlers: [...empty_data, log_data],
     },
   },
-} satisfies st<typeof Page>
+} satisfies SB.Story<typeof Page>
 
 export const Default = {
   parameters: {
@@ -27,7 +29,7 @@ export const Default = {
       handlers: [logs_data_small, categories_data, log_data],
     },
   },
-} satisfies st<typeof Page>
+} satisfies SB.Story<typeof Page>
 
 export const MultiPages = {
   parameters: {
@@ -35,4 +37,11 @@ export const MultiPages = {
       handlers: [logs_data, categories_data, log_data],
     },
   },
-} satisfies st<typeof Page>
+} satisfies SB.Story<typeof Page>
+export const MultiPages2 = {
+  parameters: {
+    msw: {
+      handlers: [logs_data, categories_data, log_data],
+    },
+  },
+} satisfies SB.Story<typeof Page>

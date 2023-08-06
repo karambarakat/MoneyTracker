@@ -7,7 +7,7 @@ async function main() {
   const regex = input.matchAll(/export interface ([a-zA-Z_]*) \{/g)
   const allExports = Array.from(regex).map(arr => arr[1])
 
-  const output = `
+  const output = `// don't edit directly
 import { ${allExports.map(e => `\n  ${e},`).join('')}
 } from '../ts/http_errors'
 
@@ -39,6 +39,16 @@ export default class HttpError extends Error {
     this.name = payload.name
     this.payload = payload as All_Errors
   }
+
+  getErrorFields(){
+    // @ts-ignore
+    const rt = this.payload?.details?.errors
+  
+    if (typeof rt === 'object' && rt !== null) {
+      return rt as object
+    } else return undefined
+  }
+
 }
     `
 

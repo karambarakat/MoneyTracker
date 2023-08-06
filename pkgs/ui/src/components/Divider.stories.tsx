@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 import 'twin.macro'
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import Divider, { DividerWithLabel, default as component } from './Divider'
 import { fakerEN } from '@faker-js/faker'
 import tw from 'twin.macro'
@@ -9,7 +8,7 @@ import tw from 'twin.macro'
 export default {
   title: 'Divider',
   component,
-} satisfies _m<typeof component>
+} satisfies SB.Meta<typeof component>
 
 export const Column = {
   render: args => {
@@ -22,7 +21,7 @@ export const Column = {
       </div>
     )
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>
 
 export const ColumnWithMargin = {
   render: args => {
@@ -35,7 +34,7 @@ export const ColumnWithMargin = {
       </div>
     )
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>
 
 export const Row = {
   render: args => {
@@ -48,7 +47,7 @@ export const Row = {
       </div>
     )
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>
 
 export const WithLabelCenter = {
   render: args => {
@@ -61,7 +60,7 @@ export const WithLabelCenter = {
       </div>
     )
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>
 
 export const WithLabelLeft = {
   render: args => {
@@ -76,7 +75,7 @@ export const WithLabelLeft = {
       </div>
     )
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>
 
 export const WithLabelRight = {
   render: args => {
@@ -91,4 +90,4 @@ export const WithLabelRight = {
       </div>
     )
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>

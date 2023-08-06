@@ -42,7 +42,6 @@
     "ui": "workspace:*",
     "usehooks-ts": "^2.6.0",
     "uuid": "^9.0.0",
-    "vite-tsconfig-paths": "^3.4.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import { getProfile } from '@src/utils/localProfile'
+import { getProfile } from '../utils/localProfile'
 import { PlugConnected, UserCircle } from 'tabler-icons-react'
 
 export default function UserIcon() {

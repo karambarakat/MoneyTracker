@@ -6,7 +6,8 @@
     "tw\\.\\w+`([^`]*)", // tw.xxx`...`
     "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
   ],
-
+  "editor.tabSize": 2,
+  "cSpell.minWordLength": 5,
   "cSpell.words": [
     "autodocs",
     "cmnd",
@@ -25,5 +26,16 @@
     "Turborepo",
     "typecheck",
     "viewports"
+  ],
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]
+  },
+  "eslint.validate": [
+    "markdown",
+    "mdx",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
   ]
 }

@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import ScrollArea, { default as component } from './ScrollArea'
 import 'twin.macro'
 import { fakerEN } from '@faker-js/faker'
@@ -21,7 +20,7 @@ export default {
   args: {
     children: (fakerEN.seed(1), fakerEN.lorem.paragraph(150)),
   },
-} satisfies _m<typeof component>
+} satisfies SB.Meta<typeof component>
 
 export const Default = {
   render: args => (
@@ -41,7 +40,7 @@ export const Default = {
     )
     await userEvent.hover(elem)
   },
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>
 
 export const XAndY = {
   render: args => (
@@ -52,4 +51,4 @@ export const XAndY = {
     </div>
   ),
   play: Default.play,
-} satisfies _s<typeof component>
+} satisfies SB.Story<typeof component>

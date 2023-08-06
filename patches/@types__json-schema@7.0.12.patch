@@ -1,0 +1,31 @@
+diff --git a/index.d.ts b/index.d.ts
+index c8318b7e3a30fb9a18056bbef5c7a64b8e5c45ce..07965b18d07b2bc2bf53a81989fe656e1ccc8d88 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -7,6 +7,8 @@
+ // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+ // TypeScript Version: 2.2
+ 
++import refs from "../../../../../../pkgs/types/dist/helpers/refs";
++
+ //==================================================================================================
+ // JSON Schema Draft 04
+ //==================================================================================================
+@@ -616,7 +618,7 @@ export type JSONSchema7Version = string;
+ export type JSONSchema7Definition = JSONSchema7 | boolean;
+ export interface JSONSchema7 {
+     $id?: string | undefined;
+-    $ref?: string | undefined;
++    $ref?: refs | undefined;
+     $schema?: JSONSchema7Version | undefined;
+     $comment?: string | undefined;
+ 
+@@ -723,6 +725,8 @@ export interface JSONSchema7 {
+     examples?: JSONSchema7Type | undefined;
+ }
+ 
++export type JSONSchema = JSONSchema7 
++
+ export interface ValidationResult {
+     valid: boolean;
+     errors: ValidationError[];

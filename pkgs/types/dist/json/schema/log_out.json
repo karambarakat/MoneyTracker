@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://expamle.com/schema/log_out",
+  "$id": "https://backend-json.pocket-app.karam.page/schema/log_out",
   "allOf": [
     {
       "type": "object",
@@ -48,7 +48,6 @@
         },
         "category": {
           "$schema": "http://json-schema.org/draft-07/schema#",
-          "$id": "",
           "allOf": [
             {
               "type": "object",

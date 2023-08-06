@@ -1,6 +1,4 @@
 /* eslint-disable no-empty-pattern */
-// todo: once openapi is implemented, this file could auto-generated
-import { Action } from '@src/lib/react-query'
 import {
   SchemaCategoryIn,
   SchemaCategoryOut,
@@ -16,154 +14,200 @@ import {
   RoutesUpdatePasswordLocal,
   RoutesUpdatePasswordNolocal,
 } from 'types/dist/ts/routes'
+import { getProfile } from '../utils/localProfile'
 
-export const find_log: Action<object, SchemaLogOut[]> =
-  //
-  () => ({
-    path: '/log',
+export const find_log = (pagination: { page: number; pageSize: number }) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log`, {
     method: 'GET',
-  })
-
-export const find_one_log: Action<{ _id: string }, SchemaLogOut> =
-  //
-  ({ _id }: { _id: string }) => ({
-    path: '/log/' + _id,
-    method: 'GET',
-  })
-
-export const create_log: Action<SchemaLogIn, SchemaLogOut> =
-  //
-  data => ({
-    path: '/log',
-    method: 'POST',
-    body: JSON.stringify(data),
-  })
-
-export const update_log: Action<
-  Partial<SchemaLogIn> & { _id: string },
-  SchemaLogOut
-> =
-  //
-  ({ _id, ...data }) => ({
-    path: '/log/' + _id,
-    method: 'PUT',
-    body: JSON.stringify(data),
-  })
-
-export const delete_log: Action<{ _id: string }, null> =
-  //
-  ({ _id }) => ({
-    path: '/log/' + _id,
-    method: 'DELETE',
-  })
-
-export const find_category: Action<object, SchemaCategoryOut[]> =
-  //
-  () => ({
-    path: '/category',
-    method: 'GET',
-  })
-
-export const find_one_category: Action<{ _id: string }, SchemaCategoryOut> =
-  //
-  ({ _id }) => ({
-    path: '/category/' + _id,
-    method: 'GET',
-  })
-
-export const create_category: Action<SchemaCategoryIn, SchemaCategoryOut> =
-  //
-  data => ({
-    path: '/category',
-    method: 'POST',
-    body: JSON.stringify(data),
-  })
-
-export const update_category: Action<
-  Partial<SchemaCategoryIn> & { _id: string },
-  SchemaCategoryOut
-> =
-  //
-  ({ _id, ...data }) => ({
-    path: '/category/' + _id,
-    method: 'PUT',
-    body: JSON.stringify(data),
-  })
-
-export const delete_category: Action<{ _id: string }, null> =
-  //
-  ({ _id }) => ({
-    path: '/category/' + _id,
-    method: 'DELETE',
-  })
-
-// todo: should be removed in favor of filtering feature
-export const find_all_logs_by_category: Action<
-  { _id: string },
-  SchemaLogOut[]
-> =
-  //
-  ({ _id }) => ({
-    path: '/category/' + _id + '/logs',
-    method: 'GET',
-  })
-
-// todo: in formik I pass confirmPassword, here this will not get passed
-// but in different actions that uses `JSON.stringify(data)` it will be passed
-export const register: Action<
-  RoutesAuthLocalRegister & RoutesAuthLocalLogin,
-  SchemaProfile
-> =
-  //
-  ({ displayName, ...data }) => ({
-    path: '/auth/local/register',
-    method: 'POST',
-    body: JSON.stringify({ displayName }),
     headers: {
-      Authorization: 'Basic ' + btoa(data.email + ':' + data.password),
+      Authorization: `Bearer ${getProfile()?.token}`,
     },
   })
+    .then(r => r.json() as Promise<SchemaLogOut[]>)
+    .then(data => paged(data, pagination))
+}
 
-export const login: Action<RoutesAuthLocalLogin, SchemaProfile> =
-  //
-  data => ({
-    path: '/auth/local/login',
+const paged = <T>(
+  data: T[],
+  pagination: { page: number; pageSize: number },
+) => {
+  return {
+    data: data
+      .reverse()
+      .slice(
+        (pagination.page - 1) * pagination.pageSize,
+        pagination.page * pagination.pageSize,
+      )
+      .reverse(),
+    meta: {
+      pagination: {
+        page: pagination.page,
+        pageSize: pagination.pageSize,
+        pageCount: Math.ceil(data.length / pagination.pageSize),
+        total: data.length,
+      },
+    },
+  }
+}
+
+export const find_one_log = ({ _id }: { _id: string }) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaLogOut>)
+}
+
+export const create_log = (_input: SchemaLogIn) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log`, {
+    method: 'POST',
+    body: JSON.stringify(_input),
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaLogOut>)
+}
+
+export const update_log = ({
+  _id,
+  ..._input
+}: { _id: string } & SchemaLogIn) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
+    method: 'PUT',
+    body: JSON.stringify(_input),
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaLogOut>)
+}
+
+export const delete_log = ({ _id }: { _id: string }) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<null>)
+}
+
+export const find_category = () => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaCategoryOut[]>)
+}
+
+export const find_one_category = ({ _id }: { _id: string }) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaCategoryOut>)
+}
+
+export const create_category = (_input: SchemaCategoryIn) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category`, {
+    method: 'POST',
+    body: JSON.stringify(_input),
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaCategoryOut>)
+}
+
+export const update_category = ({
+  _id,
+  ..._input
+}: { _id: string } & Partial<SchemaCategoryIn>) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
+    method: 'PUT',
+    body: JSON.stringify(_input),
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaCategoryOut>)
+}
+
+export const delete_category = ({ _id }: { _id: string }) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<null>)
+}
+
+export const find_all_logs_by_category = ({ _id }: { _id: string }) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}/logs`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaLogOut[]>)
+}
+
+export const register = ({
+  email,
+  password,
+  ...body
+}: RoutesAuthLocalLogin & RoutesAuthLocalRegister) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/auth/local/register`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${email}:${password}`).toString(
+        'base64',
+      )}`,
+    },
+  }).then(r => r.json() as Promise<SchemaProfile>)
+}
+
+export const login = ({ email, password }: RoutesAuthLocalLogin) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/auth/local/login`, {
     method: 'POST',
     headers: {
-      Authorization: 'Basic ' + btoa(data.email + ':' + data.password),
+      Authorization: `Basic ${Buffer.from(`${email}:${password}`).toString(
+        'base64',
+      )}`,
     },
-  })
+  }).then(r => r.json() as Promise<SchemaProfile>)
+}
 
-export const email_status: Action<RoutesEmailStatus, ('local' | 'google')[]> =
-  //
-  data => ({
-    path: '/profile/status',
+export const email_status = ({ email }: RoutesEmailStatus) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile/status`, {
     method: 'GET',
-    body: JSON.stringify(data),
-  })
+    body: JSON.stringify({ email }),
+  }).then(r => r.json() as Promise<'local' | 'google'>)
+}
 
-export const profile: Action<object, SchemaProfile> =
-  //
-  () => ({
-    path: '/profile',
+export const profile = () => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile`, {
     method: 'GET',
-  })
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaProfile>)
+}
 
-export const update_profile: Action<RoutesProfileUpdate, SchemaProfile> =
-  //
-  data => ({
-    path: '/profile',
+export const update_profile = (_input: RoutesProfileUpdate) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile`, {
     method: 'PUT',
-    body: JSON.stringify(data),
-  })
+    body: JSON.stringify(_input),
+    headers: {
+      Authorization: `Bearer ${getProfile()?.token}`,
+    },
+  }).then(r => r.json() as Promise<SchemaProfile>)
+}
 
-export const set_password: Action<
-  RoutesUpdatePasswordLocal | RoutesUpdatePasswordNolocal,
-  null
-> =
-  //
-  data => ({
-    path: '/profile/password',
+export const set_password = (
+  _input: RoutesUpdatePasswordLocal | RoutesUpdatePasswordNolocal,
+) => {
+  return fetch(`${import.meta.env.VITE_BACKEND_API}/profile/password`, {
     method: 'PUT',
-    body: JSON.stringify(data),
-  })
+    body: JSON.stringify(_input),
+  }).then(r => r.json() as Promise<null>)
+}

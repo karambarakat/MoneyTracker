@@ -1,4 +1,4 @@
-import RoutingContainer from '@src/components/RoutingContainer'
+import RoutingContainer from '../components/RoutingContainer'
 
 export default function Loading() {
   return <RoutingContainer>loading ...</RoutingContainer>

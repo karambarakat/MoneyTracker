@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import { default as component } from './TextEllipsis'
 import 'twin.macro'
 import { fakerEN } from '@faker-js/faker'
@@ -23,7 +22,9 @@ export default {
       </div>
     ),
   ],
-} satisfies _m<typeof component>
+} satisfies SB.Meta<typeof component>
 
-export const WithBasicConfiguration = {} satisfies _s<typeof component>
-export const Short = { args: { width: 170 } } satisfies _s<typeof component>
+export const WithBasicConfiguration = {} satisfies SB.Story<typeof component>
+export const Short = { args: { width: 170 } } satisfies SB.Story<
+  typeof component
+>

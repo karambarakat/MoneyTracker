@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* 
+    this classname will cause have wierd affect if set with with: min-content, overflow-wrap: anywhere
+    .break-words {
+      overflow-wrap: break-word;
+    }
+  */
+  .break-words-hyphen {
+    hyphens: auto;
+    word-wrap: break-word;
+  }
+}

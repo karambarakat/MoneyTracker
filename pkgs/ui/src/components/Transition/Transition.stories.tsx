@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from 'react'
 import 'twin.macro'
-import { StoryObj as _s, Meta as _m } from '@storybook/react'
 import { default as Prototype_ } from './index'
 import { PropsOf } from '@emotion/react'
 import { useTimeout } from '@mantine/hooks'
@@ -44,7 +43,7 @@ export default {
     children: style => <div style={style}>transitioning element</div>,
     augmentChildren: s => s,
   },
-} satisfies _m<typeof Prototype>
+} satisfies SB.Meta<typeof Prototype>
 
 export const OutToIn = {
   decorators: [
@@ -54,14 +53,14 @@ export const OutToIn = {
       return <Story args={{ ...ctx.args, mounted }} />
     },
   ],
-} satisfies _s<typeof Prototype>
+} satisfies SB.Story<typeof Prototype>
 
 export const InToOut = {
   decorators: [OutToIn.decorators[0]],
   args: {
     mounted: true,
   },
-} satisfies _s<typeof Prototype>
+} satisfies SB.Story<typeof Prototype>
 
 export const WithSiblings = {
   decorators: [OutToIn.decorators[0]],
@@ -76,7 +75,7 @@ export const WithSiblings = {
       </div>
     ),
   },
-} satisfies _s<typeof Prototype>
+} satisfies SB.Story<typeof Prototype>
 
 export const WithSiblingsRow = {
   decorators: [OutToIn.decorators[0]],
@@ -91,4 +90,4 @@ export const WithSiblingsRow = {
       </div>
     ),
   },
-} satisfies _s<typeof Prototype>
+} satisfies SB.Story<typeof Prototype>

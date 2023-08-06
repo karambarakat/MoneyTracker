@@ -1,12 +1,9 @@
-async function main() {
-  const PORT = 8811
-  const app = express()
-  app.use(doc)
-  app.get('*', (_, res) => res.redirect('/docs'))
-  app.listen(PORT, () => console.log(`listening at port ${PORT}`))
-}
+import { doc } from './index'
+import express from 'express'
 
-main().catch(error => {
-  console.error(error)
-  process.exit(1)
+const app = express()
+app.use(doc)
+
+app.listen(3000, () => {
+  console.log('listening on 3000')
 })

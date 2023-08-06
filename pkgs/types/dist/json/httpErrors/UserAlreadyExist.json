@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://expamle.com/httpErrors/UserAlreadyExist",
+  "$id": "https://backend-json.pocket-app.karam.page/httpErrors/UserAlreadyExist",
   "type": "object",
+  "description": "UserAlreadyExist",
   "properties": {
     "status": {
       "const": 409

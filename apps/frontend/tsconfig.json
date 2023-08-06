@@ -2,12 +2,7 @@
   "extends": "tsconfig/ui.json",
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "forceConsistentCasingInFileNames": false,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": ["src/*"]
-    }
+    "skipLibCheck": true
   },
-  "include": ["src", "types"]
+  "include": ["src", "types", "../../pkgs/ui/src/utils/requires.ts"]
 }

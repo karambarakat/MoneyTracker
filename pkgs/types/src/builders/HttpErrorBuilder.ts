@@ -57,6 +57,7 @@ export default function HttpErrorBuilder(
     $schema: 'http://json-schema.org/draft-07/schema#',
     $id: `/httpErrors/${name}` as const,
     type: 'object',
+    description: name,
     properties: {
       status: { const: status },
       name: { const: name },

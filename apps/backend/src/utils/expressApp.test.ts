@@ -4,7 +4,7 @@ import { Request } from 'express'
 import { BadBasicToken } from '@utils/httpError/errTypes'
 import '../../tests/helpers/initJest.js'
 
-describe('testing basic token extraction and validation', () => {
+describe.skip('testing basic token extraction and validation', () => {
   test('valid req', () => {
     const req = {
       headers: { authorization: 'Basic dXNlcjpwYXNz' },

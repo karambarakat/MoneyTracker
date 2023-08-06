@@ -19,3 +19,6 @@ dist
 
 do_app_spec_prod.yaml
 *.local.*
+
+# scripts
+*.log
