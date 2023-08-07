@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 import { Form } from 'ui/src/components/forms/_Form'
 
-import PasswordField from 'ui/src/components/forms/PasswordField'
+import SecretField from 'ui/src/components/forms/SecretField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useMutation } from '@tanstack/react-query'
@@ -23,8 +23,8 @@ export default function ResetPassword() {
     >
       <div>
         <Status />
-        <PasswordField name="oldPassword" />
-        <PasswordField name="newPassword" />
+        <SecretField name="oldPassword" />
+        <SecretField name="newPassword" />
         <SubmitButton tw="mt-2" size="lg">
           submit
         </SubmitButton>

@@ -30,6 +30,7 @@ declare global {
 
     interface Form {
       values?: object
+      validate?: (values: object) => object
       asField?: {
         name?: string
         value?: unknown

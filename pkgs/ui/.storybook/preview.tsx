@@ -1,14 +1,14 @@
 /// <reference path="../types/SB.d.ts"/>
 import '../src/tailwind.css'
 import type { Preview } from '@storybook/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDarkMode } from 'storybook-dark-mode'
 import { ColorModeProvider } from '../src/colorMode/provider'
 import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
 import Providers from '../../../apps/frontend/storybook-decorator'
-import { Form } from '../src/components/forms/Form'
+import { Form } from '../src/components/forms/_Form'
 import { action } from '@storybook/addon-actions'
 
 import 'twin.macro'
@@ -18,15 +18,6 @@ import { useField, useFormik, useFormikContext } from 'formik'
 fakerEN.seed(123)
 
 initialize()
-
-function AutoSubmit() {
-  const f = useFormikContext()
-  useEffect(() => {
-    f.submitForm()
-  }, [])
-
-  return <></>
-}
 
 const preview: Preview = {
   parameters: {
@@ -122,6 +113,16 @@ const preview: Preview = {
         values = { ...values, [StoryField]: form.asField?.value }
       }
 
+      const AutoSubmit = useMemo(() => {
+        return ({ submit }: { submit: boolean }) => {
+          const f = useFormikContext()
+          useEffect(() => {
+            submit && f.submitForm()
+          }, [])
+          return <></>
+        }
+      }, [])
+
       return (
         <Form
           values={values}
@@ -136,7 +137,7 @@ const preview: Preview = {
           }
           action={async vals => action('submit-form')}
         >
-          {form.asField?.failed && <AutoSubmit />}
+          <AutoSubmit submit={form.asField?.failed || false} />
           <Story args={{ ...ctx.args, ...asField }} />
         </Form>
       )

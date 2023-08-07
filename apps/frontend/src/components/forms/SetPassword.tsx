@@ -2,7 +2,7 @@ import 'twin.macro'
 import React from 'react'
 import { Form } from 'ui/src/components/forms/_Form'
 
-import PasswordField from 'ui/src/components/forms/PasswordField'
+import SecretField from 'ui/src/components/forms/SecretField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { set_password } from '../../api'
@@ -23,7 +23,7 @@ export default function SetPassword() {
     >
       <div>
         <Status />
-        <PasswordField name="oldPassword" />
+        <SecretField name="oldPassword" />
         <SubmitButton tw="mt-2" size="lg">
           submit
         </SubmitButton>

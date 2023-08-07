@@ -89,7 +89,6 @@ export function Form<V extends object, D>({
 
               const fields = error.getErrorFields()
               fields && ctx.setErrors(fields)
-
               ctx.setStatus({ error: error.message })
             })
             .finally(() => {

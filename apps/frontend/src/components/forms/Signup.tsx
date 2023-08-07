@@ -8,7 +8,7 @@ import {
 } from 'types/dist/ts/routes'
 import Status from 'ui/src/components/forms/Status'
 import EmailField from 'ui/src/components/forms/EmailField'
-import PasswordField from 'ui/src/components/forms/PasswordField'
+import SecretField from 'ui/src/components/forms/SecretField'
 import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import tw from 'twin.macro'
@@ -46,8 +46,8 @@ export default function SignIn_Auth_Page_Component() {
         <Status />
         <EmailField name="email" />
         <TextField name="username" />
-        <PasswordField name="password" />
-        <PasswordField name="confirmPassword" />
+        <SecretField name="password" />
+        <SecretField name="confirmPassword" />
         <div tw="flex justify-center">
           <SubmitButton>Login</SubmitButton>
         </div>

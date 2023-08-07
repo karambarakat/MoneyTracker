@@ -10,31 +10,31 @@ import {
   Label,
 } from './_Field'
 
-type Props = FieldProps
+interface Props extends FieldProps {
+  info?: string
+}
 
-export default function EmailField(props: Props) {
+export default function EmailField({ info, ...props }: Props) {
   return (
     <FieldRoot
       {...props}
-      validate={(value: string) => {
-        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i.test(value)) {
-          return 'Invalid email address'
-        }
-      }}
+      // validate={(value: string) => {
+      // if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i.test(value)) {
+      //   return 'Invalid email address'
+      // }
+      // }}
     >
-      <div>
-        <FieldBase>
-          <div tw="flex gap-3 items-center">
-            <div tw="flex-1">
-              <Label />
-              <Input />
-            </div>
-            <CancelFieldValue />
+      <FieldBase>
+        <div tw="flex gap-3 items-center">
+          <div tw="flex-1">
+            <Label />
+            <Input />
           </div>
-        </FieldBase>
-        <FieldError />
-        <FieldInfo>hello</FieldInfo>
-      </div>
+          <CancelFieldValue />
+        </div>
+      </FieldBase>
+      <FieldError />
+      <FieldInfo>{info}</FieldInfo>
     </FieldRoot>
   )
 }
