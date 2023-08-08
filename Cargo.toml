@@ -7,14 +7,14 @@ name = "pani-puri"
 version = "0.1.0"
 edition = "2021"
 
-# workspace that incldes pani-puri-macro-derive
 [workspace]
 members = [
     ".",
-    "pani-puri-macro-drive",
+    "say_hi_macro_derive",
 ]
 
 [dependencies]
+say_hi_macro_derive = { path = "./say_hi_macro_derive" }
 actix-web = "4.3.1"
 async-graphql = "5.0.10"
 async-graphql-actix-web = "5.0.10"

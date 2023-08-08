@@ -1,8 +1,0 @@
-# these files are for experimenting with rust only
-# to restore `git restore --source 9557d8a ./src/bin`
-
-_*.rs
-gql.rs
-mongo.rs
-dangling_references.rs
-closure-traits.rs

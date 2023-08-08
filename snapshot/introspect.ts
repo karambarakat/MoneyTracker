@@ -8,7 +8,7 @@ async function main() {
 
 main().catch((err) => console.log("error", err));
 
-const introspectGraphql = `
+const introspectGraphql = `#graphql
 query  {
   __schema {
     queryType {
