@@ -15,20 +15,20 @@ members = [
 
 [dependencies]
 say_hi_macro_derive = { path = "./say_hi_macro_derive" }
+sqlx = { version = "0.7", features = [ "runtime-tokio", "tls-rustls", "postgres","chrono", "json" ] }
 actix-web = "4.3.1"
 async-graphql = "5.0.10"
 async-graphql-actix-web = "5.0.10"
 base64 = "0.21.2"
 bcrypt = "0.15.0"
-bson = "2.6.1"
 data-encoding = "2.4.0"
 dotenv = "0.15.0"
 futures = "0.3.28"
 futures-util = "0.3.28"
-hmac = "0.12.1"
 jwt = "0.16.0"
-mongodb = "2.6.0"
 rand = "0.8.5"
 serde = { version= "1.0.176", features = ["derive"] }
 sha2 = "0.10.7"
 tokio = { version = "1", features = ["full"] }
+chrono = "0.4.26"
+serde_json = "1.0.104"

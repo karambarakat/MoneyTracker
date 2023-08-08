@@ -1,0 +1,616 @@
+// @ts-nocheck
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/ 1`] = `
+Object {
+  "body": Object {},
+  "status": 404,
+  "type": "text/html",
+}
+`;
+
+exports[`/api/v1 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": null,
+    "message": "api is working",
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/auth/local/login 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": null,
+      "message": "email and password not provided",
+      "name": "BadBasicToken",
+      "status": 401,
+    },
+  },
+  "status": 401,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/auth/local/login 2`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example3@web.com",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/auth/local/login 3`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": null,
+      "message": "email/password were/was wrong or not provided",
+      "name": "EmailOrPasswordIncorrect",
+      "status": 401,
+    },
+  },
+  "status": 401,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/auth/local/register 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": null,
+      "message": "email and password not provided",
+      "name": "BadBasicToken",
+      "status": 401,
+    },
+  },
+  "status": 401,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/auth/local/register 2`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example@web.com",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 201,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/auth/local/register 3`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example2@web.com",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 201,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category delete 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category delete 2`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": null,
+      "message": "could not find the target",
+      "name": "ResourceWasNotFound",
+      "status": 404,
+    },
+  },
+  "status": 404,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category get 1`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdBy": Any<String>,
+      "title": "cat-2",
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category get 2`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": Object {
+        "errors": Object {
+          "_id": "\`_id\` is required",
+        },
+      },
+      "message": "these fields are required: _id",
+      "name": "SomeFieldsRequired",
+      "status": 400,
+    },
+  },
+  "status": 400,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category get all 1`] = `
+Object {
+  "__v": 0,
+  "_id": Any<String>,
+  "color": "#000000",
+  "createdBy": Any<String>,
+  "icon": "icon",
+  "title": "cat-3",
+}
+`;
+
+exports[`/api/v1/category get empty 1`] = `
+Object {
+  "body": Object {
+    "data": Array [],
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category post 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": Object {
+        "errors": Object {
+          "title": "\`title\` is required",
+        },
+      },
+      "message": "these fields are required: title",
+      "name": "SomeFieldsRequired",
+      "status": 400,
+    },
+  },
+  "status": 400,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category post 2`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "color": null,
+      "createdBy": Any<String>,
+      "icon": null,
+      "title": "cat-2",
+    },
+  },
+  "status": 201,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category post 3`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "color": "#000000",
+      "createdBy": Any<String>,
+      "icon": "icon",
+      "title": "cat-3",
+    },
+  },
+  "status": 201,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category protected 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": Object {
+        "name": "NoTokenWasProvided",
+      },
+      "message": "authorization failed",
+      "name": "TokenFailed",
+      "status": 401,
+    },
+  },
+  "status": 401,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/category put 1`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "color": "#000001",
+      "createdBy": Any<String>,
+      "icon": "icon_new",
+      "title": "cat-1-new",
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log delete 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log delete 2`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": null,
+      "message": "could not find the target",
+      "name": "ResourceWasNotFound",
+      "status": 404,
+    },
+  },
+  "status": 404,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log get 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": Object {
+        "errors": Object {
+          "_id": "\`_id\` is required",
+        },
+      },
+      "message": "these fields are required: _id",
+      "name": "SomeFieldsRequired",
+      "status": 400,
+    },
+  },
+  "status": 400,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log get 2`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "amount": 100,
+      "category": null,
+      "createdAt": Any<String>,
+      "createdBy": Any<String>,
+      "title": "log-1",
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log get all 1`] = `
+Object {
+  "__v": 0,
+  "_id": Any<String>,
+  "amount": 200,
+  "category": Object {
+    "_id": Any<String>,
+    "color": "#000000",
+    "icon": "icon",
+    "title": "cat-1",
+  },
+  "createdAt": Any<String>,
+  "createdBy": Any<String>,
+  "note": "note",
+  "title": "log-2",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`/api/v1/log get empty 1`] = `
+Object {
+  "body": Object {
+    "data": Array [],
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log post 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": Object {
+        "errors": Object {
+          "amount": "\`amount\` is required",
+          "title": "\`title\` is required",
+        },
+      },
+      "message": "these fields are required: title, amount",
+      "name": "SomeFieldsRequired",
+      "status": 400,
+    },
+  },
+  "status": 400,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log post 2`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "amount": 100,
+      "category": null,
+      "createdAt": Any<String>,
+      "createdBy": Any<String>,
+      "note": null,
+      "title": "log-1",
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 201,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log post 3`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "amount": 200,
+      "category": Object {
+        "_id": Any<String>,
+        "color": "#000000",
+        "icon": "icon",
+        "title": "cat-1",
+      },
+      "createdAt": Any<String>,
+      "createdBy": Any<String>,
+      "note": "note",
+      "title": "log-2",
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 201,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/log put 1`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "amount": 1000,
+      "category": Object {
+        "_id": Any<String>,
+        "color": "#000000",
+        "icon": "icon",
+        "title": "cat-1",
+      },
+      "createdAt": Any<String>,
+      "createdBy": Any<String>,
+      "note": "new_note",
+      "title": "log-1-new",
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/profile/ get 1`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example4@web.com",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/profile/ put 1`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example4@web.com",
+      "picture": "https://example.com/picture",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/profile/password 1`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example4@web.com",
+      "picture": "https://example.com/picture",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/profile/password 2`] = `
+Object {
+  "body": Object {
+    "data": Object {
+      "__v": 0,
+      "_id": Any<String>,
+      "createdAt": Any<String>,
+      "displayName": Any<String>,
+      "email": "example4@web.com",
+      "picture": "https://example.com/picture",
+      "providers": Array [
+        "local",
+      ],
+      "token": StringMatching /\\^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/,
+      "updatedAt": Any<String>,
+    },
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/profile/status 1`] = `
+Object {
+  "body": Object {
+    "data": Array [],
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`/api/v1/profile/status 2`] = `
+Object {
+  "body": Object {
+    "data": Array [
+      "local",
+    ],
+  },
+  "status": 200,
+  "type": "application/json",
+}
+`;
+
+exports[`protected /api/v1/log 1`] = `
+Object {
+  "body": Object {
+    "data": null,
+    "error": Object {
+      "details": Object {
+        "name": "NoTokenWasProvided",
+      },
+      "message": "authorization failed",
+      "name": "TokenFailed",
+      "status": 401,
+    },
+  },
+  "status": 401,
+  "type": "application/json",
+}
+`;
