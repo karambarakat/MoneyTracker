@@ -8,7 +8,7 @@ import {
   FieldProps,
   FieldRoot,
   Input,
-  Label,
+  Title,
 } from './_Field'
 import { EyeOff, Eye } from 'tabler-icons-react'
 import { useState } from 'react'
@@ -24,9 +24,9 @@ export default function SecretField({ info, ...props }: Props) {
       <FieldBase>
         <div tw="flex gap-1 items-center">
           <div tw="flex-1">
-            <Label />
-            <Input asChild>
-              <input type={visible ? 'text' : 'password'} />
+            <Title />
+            <Input>
+              {p => <input {...p} type={visible ? 'text' : 'password'} />}
             </Input>
           </div>
           <CancelFieldValue />

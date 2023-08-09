@@ -7,7 +7,7 @@ import { ColorModeProvider } from '../src/colorMode/provider'
 import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
-import Providers from '../../../apps/frontend/storybook-decorator'
+import Providers from '../../../apps/frontend/.storybook/storybook-decorator'
 import { Form } from '../src/components/forms/_Form'
 import { action } from '@storybook/addon-actions'
 

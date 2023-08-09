@@ -109,7 +109,7 @@ function Navbar() {
             <img src={LogoPng} />
           </div>
         </Link>
-        <ToggleColorTheme />
+        <ToggleColorTheme label="toggle color scheme" />
       </div>
       <Divider />
       {[
@@ -210,7 +210,13 @@ function Header() {
             mounted={width !== 'lg'}
             transition={fade_from_bottom}
           >
-            {styles => <ToggleColorTheme css={styles} variant="subtle" />}
+            {styles => (
+              <ToggleColorTheme
+                label="toggle color scheme"
+                css={styles}
+                variant="subtle"
+              />
+            )}
           </Transition>
           <Transition
             keepMounted={false}

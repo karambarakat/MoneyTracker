@@ -89,8 +89,9 @@ function useGoBack(action: (p: any) => Promise<any>) {
     onSuccess: res => {
       setProfile(res)
 
-      if (!location.state || 'goBackTo' in location.state === false) return
-      navigate(location.state.goBackTo)
+      const to = location.state?.goBackTo ?? '/'
+
+      navigate(to)
     },
   })
 

@@ -7,7 +7,7 @@
   "scripts": {
     "build::json": "ts-node ./src/scripts/build-json.ts && ts-node ./src/scripts/build-json-helper.ts && ts-node ./src/scripts/build-oapi.ts",
     "build::ts": "ts-node ./src/scripts/build-ts.ts && ts-node ./src/scripts/build-http-helper.ts",
-    "pre-commit": "pnpm run \"/build::/\"",
+    "pre-commit": "pnpm run \"/build::/\" && git add ./dist",
     "build": "rm -rf dist && pnpm run \"/build::/\""
   },
   "author": "",

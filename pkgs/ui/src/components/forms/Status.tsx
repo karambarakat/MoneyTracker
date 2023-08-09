@@ -1,28 +1,38 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import 'twin.macro'
 import { useFormikContext } from 'formik'
-import { WithChildren } from '../../utils/WithChildren'
+import { WithChildren, WithComponent } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
+import tw, { css } from 'twin.macro'
 
-type WithChild<T extends object | 'empty' = 'empty'> = T extends 'empty'
-  ? { children?: (props: WithChildren) => JSX.Element }
-  : T & { children?: (props: WithChildren) => JSX.Element }
-
-export default function Status(props: WithChild<{ onSuccess?: string }>) {
+export default function Status(
+  props: WithComponent<any, { onSuccess?: string }>,
+) {
   const { status } = useFormikContext()
 
-  const Component = props.children ?? ((p: WithChildren) => <>{p.children}</>)
+  const Component =
+    props.children ?? ((p: WithChildren) => <div {...p}>{p.children}</div>)
 
-  const children =
-    typeof status?.error === 'string' ? (
-      status.error
-    ) : typeof status?.success === 'string' ? (
-      status.success
-    ) : status?.success ? (
-      props.onSuccess
-    ) : (
-      <></>
+  if (typeof status?.error === 'string') {
+    return (
+      <Component tw="text-red-500">
+        <span>Error: </span>
+        <span>{status.error}</span>
+      </Component>
     )
+  }
 
-  return <Component>{children}</Component>
+  if (status?.success) {
+    return (
+      <Component tw="text-green-500">
+        <span>Success:</span>
+        <span>
+          {typeof status?.success === 'string'
+            ? status.success
+            : props.onSuccess}
+        </span>
+      </Component>
+    )
+  }
+  return null
 }

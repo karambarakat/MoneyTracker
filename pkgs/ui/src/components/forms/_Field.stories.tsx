@@ -7,7 +7,7 @@ import {
   FieldInfo,
   FieldRoot,
   Input,
-  Label,
+  Title,
 } from './_Field'
 
 export default {
@@ -31,7 +31,7 @@ export const Basic = {
         <FieldBase>
           {/* <div tw="flex gap-3 items-center"> */}
           {/* <div tw="flex-1"> */}
-          <Label />
+          <Title />
           <Input />
           {/* </div> */}
           {/* <CancelFieldValue /> */}
@@ -78,7 +78,7 @@ export const WithIcon = {
         <FieldBase>
           <div tw="flex gap-3 items-center">
             <div tw="flex-1">
-              <Label />
+              <Title />
               <Input />
             </div>
             <CancelFieldValue />
@@ -100,7 +100,7 @@ export const WithInfo = {
         <FieldBase>
           {/* <div tw="flex gap-3 items-center"> */}
           {/* <div tw="flex-1"> */}
-          <Label />
+          <Title />
           <Input />
           {/* </div> */}
           {/* <CancelFieldValue /> */}

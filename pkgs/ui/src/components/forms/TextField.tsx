@@ -9,9 +9,8 @@ import {
   FieldInfo,
   FieldRoot,
   Input,
-  Label,
+  Title,
 } from './_Field'
-import { useField, useFormik, useFormikContext } from 'formik'
 
 interface Props {
   /**
@@ -32,7 +31,7 @@ export default function TextField(props: Props) {
         <FieldBase>
           <div tw="flex gap-3 items-center">
             <div tw="flex-1">
-              <Label />
+              <Title />
               <Input />
             </div>
             <CancelFieldValue />

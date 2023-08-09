@@ -5,9 +5,13 @@ import {
   FieldProps as FormikFieldProps,
   useField,
 } from 'formik'
-import { WithAsChild, WithChildren } from '../../utils/WithChildren'
+import {
+  WithAsChild,
+  WithChildren,
+  WithComponent,
+} from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
-import { createContext, useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { capitalCase } from 'change-case'
 import { useId } from '@mantine/hooks'
 import { X } from 'tabler-icons-react'
@@ -99,6 +103,7 @@ export function FieldRoot({
 
 export function FieldError(props: JSX.IntrinsicAttributes) {
   const { meta } = useFieldContext()
+
   return (
     <div tw="text-red-600 text-sm" {...props}>
       {meta.touched && meta.error}
@@ -114,6 +119,7 @@ export function FieldBase(props: WithChildren) {
   const {
     meta_ext: { id },
   } = useFieldContext()
+
   return (
     <label tw="hover:cursor-text">
       {props.children}
@@ -152,7 +158,7 @@ export const field_icon_css: stylable = css`
   }
 `
 
-export function Label() {
+export function Title() {
   const {
     meta_ext: { id, req, title, name: fieldName },
   } = useFieldContext()
@@ -181,19 +187,31 @@ export function Label() {
   )
 }
 
-export function Input(p: WithAsChild) {
-  const Component = p.asChild ? Slot : 'input'
+type requiredInput = {
+  required?: boolean
+  value: string
+  children?: never
+}
+
+export function Input({ children, ...p }: WithComponent<requiredInput>) {
+  const Component = useMemo(() => {
+    return children ?? ((p: requiredInput) => <input {...p} />)
+  }, [children])
+
   const {
     props,
     meta_ext: { req },
   } = useFieldContext()
   return (
-    <Component
-      tw="w-full bg-transparent pb-1 focus-visible:outline-none"
-      required={req}
-      {...props}
-      children={p.asChild ? p.children : undefined}
-      value={props.value ?? ''}
-    />
+    <Slot>
+      <Component
+        tw="w-full bg-transparent pb-1 focus-visible:outline-none"
+        {...p}
+        required={req}
+        {...props}
+        value={props.value ?? ''}
+        children={undefined}
+      />
+    </Slot>
   )
 }
