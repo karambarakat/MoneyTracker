@@ -7,6 +7,7 @@
     "node": "18.x.x"
   },
   "scripts": {
+    "e2e:dep": "echo waiting on port 4202 && wait-on -t 60000 tcp:4202 && echo test is ready to run",
     "e2e:pre": "dotenv -c e2e -- node ephemeral-db.mjs",
     "e2e": "docker compose -f docker-compose-e2e.yaml up --detach && dotenv -c e2e -- node ephemeral-db-client.mjs"
   },

@@ -17,5 +17,20 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
+    {
+      name: 'offline',
+      use: {
+        ...devices['Desktop Chrome'],
+        offline: true,
+      },
+    },
+    {
+      name: 'pwa',
+      use: {
+        ...devices['Desktop Chrome'],
+        offline: true,
+      },
+    },
   ],
+  reporter: process.env.CI ? 'github' : 'list',
 })

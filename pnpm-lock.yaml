@@ -30,6 +30,9 @@ importers:
       turbo:
         specifier: latest
         version: 1.10.7
+      wait-on:
+        specifier: 7.0.1
+        version: 7.0.1
 
   apps/backend:
     dependencies:

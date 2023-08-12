@@ -7,6 +7,7 @@
     "lint": "eslint --fix .",
     "typecheck": "tsc --noEmit",
     "build": "tsc && vite build",
+    "e2e:dep": "echo waiting on port 4201 && wait-on -t 60000 http://localhost:4201 && echo test is ready to run",
     "e2e:pre": "tsc && vite build --outDir dist-e2e --mode e2e",
     "e2e": "vite preview --outDir dist-e2e --port 4201 --mode e2e",
     "storybook": "dotenv -c storybook -- storybook dev -p 6007",

@@ -20,7 +20,7 @@
     "lint": "prettier --write . && turbo run lint ",
     "prettier": "prettier --write .",
     "// e2e test, used by github/workflows/e2e.yaml": "",
-    "e2e-dep": "echo waiting on 4200 4201 4202 && wait-on -t 60000 tcp:4200 && wait-on -t 60000 http://localhost:4201 && wait-on -t 60000 tcp:4202 && echo e2e is ready to run",
+    "e2e:dep": "pnpm -r --parallel e2e:dep",
     "e2e:pre": "turbo e2e:pre",
     "e2e": "turbo e2e",
     "e2e-run": "pnpm e2e-dep && pnpm --F e2e run pw test",
