@@ -31,3 +31,6 @@ jobs:
 
       - name: 🏗 Build
         run: turbo build
+
+      - name: 🔼⏺️⏹️ Typecheck
+        run: turbo typecheck

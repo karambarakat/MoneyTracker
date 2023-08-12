@@ -15,7 +15,13 @@ export default function SubmitButton({
   const { isSubmitting } = useFormikContext()
 
   return (
-    <ButtonBase variant="filled" disabled={isSubmitting} {...props} asChild>
+    <ButtonBase
+      tw="py-[0.5rem]"
+      variant="filled"
+      disabled={isSubmitting}
+      {...props}
+      asChild
+    >
       <Component type="submit">{props.children || 'Submit'}</Component>
     </ButtonBase>
   )

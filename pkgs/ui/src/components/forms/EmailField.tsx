@@ -1,4 +1,5 @@
 import 'twin.macro'
+import React from 'react'
 import {
   CancelFieldValue,
   FieldBase,
@@ -7,12 +8,14 @@ import {
   FieldProps,
   FieldRoot,
   Input,
-  Label,
+  Title,
 } from './_Field'
 
-type Props = FieldProps
+interface Props extends FieldProps {
+  info?: string
+}
 
-export default function EmailField(props: Props) {
+export default function EmailField({ info, ...props }: Props) {
   return (
     <FieldRoot
       {...props}
@@ -22,19 +25,17 @@ export default function EmailField(props: Props) {
         }
       }}
     >
-      <div>
-        <FieldBase>
-          <div tw="flex gap-3 items-center">
-            <div tw="flex-1">
-              <Label />
-              <Input />
-            </div>
-            <CancelFieldValue />
+      <FieldBase>
+        <div tw="flex gap-3 items-center">
+          <div tw="flex-1">
+            <Title />
+            <Input />
           </div>
-        </FieldBase>
-        <FieldError />
-        <FieldInfo>hello</FieldInfo>
-      </div>
+          <CancelFieldValue />
+        </div>
+      </FieldBase>
+      <FieldError />
+      <FieldInfo>{info}</FieldInfo>
     </FieldRoot>
   )
 }

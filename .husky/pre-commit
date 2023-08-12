@@ -3,4 +3,3 @@
 
 npx lint-staged
 turbo pre-commit
-git add pkgs/types/dist

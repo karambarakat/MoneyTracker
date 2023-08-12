@@ -1,19 +1,19 @@
 import React from 'react'
 import 'twin.macro'
 
-import PasswordField from './PasswordField'
+import SecretField from './SecretField'
 
 export default {
-  title: 'forms/PasswordField',
+  title: 'forms/SecretField',
   parameters: {
     form: {
       asField: {},
     },
   },
-  component: PasswordField,
-} satisfies SB.Meta<typeof PasswordField>
+  component: SecretField,
+} satisfies SB.Meta<typeof SecretField>
 
-export const Default = {} satisfies SB.Story<typeof PasswordField>
+export const Default = {} satisfies SB.Story<typeof SecretField>
 export const Filled = {
   parameters: {
     form: {
@@ -23,7 +23,7 @@ export const Filled = {
     },
   },
   args: {},
-} satisfies SB.Story<typeof PasswordField>
+} satisfies SB.Story<typeof SecretField>
 
 export const Long = {
   parameters: {
@@ -35,7 +35,7 @@ export const Long = {
     },
   },
   args: {},
-} satisfies SB.Story<typeof PasswordField>
+} satisfies SB.Story<typeof SecretField>
 
 export const Errored = {
   parameters: {
@@ -46,4 +46,4 @@ export const Errored = {
       },
     },
   },
-} satisfies SB.Story<typeof PasswordField>
+} satisfies SB.Story<typeof SecretField>

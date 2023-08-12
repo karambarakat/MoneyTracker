@@ -1,6 +1,8 @@
 packages:
   - 'apps/**'
   - 'pkgs/**'
+  - 'e2e'
+  - 'e2e/db'
   # exclude packages that are inside test directories
   - '!**/test/**'
   - '!apps/frontend_dep'

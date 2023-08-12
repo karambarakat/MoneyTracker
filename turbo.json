@@ -12,19 +12,25 @@
       "outputs": ["dist/**", ".next/**"]
     },
     "pre-commit": {},
-    "e2e:pre": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
-    },
     "test": {
       "dependsOn": []
     },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "e2e:pre": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "dist-e2e/**", ".next/**"]
+    },
+    "e2e": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["e2e:pre"]
     }
   },
   "globalEnv": [
+    "CI",
     "NODE_ENV",
     "PORT",
     "SALT",

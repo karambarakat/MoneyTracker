@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Jwt } from 'types/dist/ts/api'
 import { SchemaProfile } from 'types/dist/ts/schema'
 
 const event = new EventTarget()
@@ -30,4 +31,23 @@ export function useProfile() {
   }, [])
 
   return profile
+}
+
+class _Token {
+  constructor(public token: string) {
+    this.token = token
+  }
+
+  expired() {
+    if (!this.token) return false
+
+    return (
+      (JSON.parse(atob(this.token.split('.')[1])) as Jwt).exp <
+      Date.now() / 1000
+    )
+  }
+}
+
+export function Token(token: string) {
+  return new _Token(token)
 }

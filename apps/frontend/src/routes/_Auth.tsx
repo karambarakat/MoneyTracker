@@ -1,31 +1,35 @@
 import React from 'react'
 import 'twin.macro'
-import { useProfile } from '../utils/localProfile'
-import { Link, Navigate, Outlet, useLocation, useMatch } from 'react-router-dom'
+import { Token, setProfile, useProfile } from '../utils/localProfile'
+import {
+  Navigate,
+  Outlet,
+  useLocation,
+  useMatch,
+  useNavigate,
+} from 'react-router-dom'
 import Text from 'ui/src/components/Text'
-import { WithAsChild, WithChildren } from 'ui/src/utils/WithChildren'
-import Signup from '../components/forms/Signup'
-import Login from '../components/forms/Login'
+import { WithAsChild } from 'ui/src/utils/WithChildren'
 
 import Brand from '../components/Brand'
 import tw from 'twin.macro'
 import { SchemaProfile } from 'types/dist/ts/schema'
-import TextField from 'ui/src/components/forms/TextField'
-import PasswordField from 'ui/src/components/forms/PasswordField'
+import SecretField from 'ui/src/components/forms/SecretField'
 import EmailField from 'ui/src/components/forms/EmailField'
 import { useMutation } from '@tanstack/react-query'
-import { login } from '../api'
-import { useFormik } from 'formik'
+import { login, register } from '../api'
 import { Form, FormBody } from 'ui/src/components/forms/_Form'
 
 import { Slot } from '@radix-ui/react-slot'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { ILink } from '../lib/react-router-dom'
+import Status from 'ui/src/components/forms/Status'
+import TextField from 'ui/src/components/forms/TextField'
+import { Jwt } from 'types/dist/ts/api'
 
 export function Protected() {
   const profile = useProfile()
   const location = useLocation()
-
   if (!profile || Token(profile.token).expired()) {
     return <Navigate to={'/auth'} state={{ goBackTo: location.pathname }} />
   }
@@ -37,17 +41,33 @@ export function Protected() {
   )
 }
 
-class Token_ {
-  constructor(public token: string) {
-    this.token = token
-  }
-  expired() {
-    return true
-  }
-}
+export function Authentication() {
+  const match = useMatch('/auth/*')
 
-function Token(token: string) {
-  return new Token_(token)
+  match?.params['*'] === ''
+
+  if (!match) {
+    throw new Error('No match')
+  }
+
+  const subPage: '' | 'register' = match.params['*'] as any
+
+  return (
+    <div
+      tw="grid space-y-8 my-10 mx-auto max-w-[350px]"
+      css={{ '& > *': tw`!mx-auto` }}
+    >
+      <Brand />
+      <_Card>{subPage === 'register' ? <Register /> : <LogIn />}</_Card>
+      {subPage === 'register' ? (
+        <span>
+          Have an existing account? <ILink to="../">Log in</ILink>
+        </span>
+      ) : (
+        <ILink to="./register">Create an account</ILink>
+      )}
+    </div>
+  )
 }
 
 function _Card(p: WithAsChild) {
@@ -60,52 +80,77 @@ function _Card(p: WithAsChild) {
   )
 }
 
+function useGoBack(action: (p: any) => Promise<any>) {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const _action = useMutation({
+    mutationFn: action,
+    onSuccess: res => {
+      setProfile(res)
+
+      const to = location.state?.goBackTo ?? '/'
+
+      navigate(to)
+    },
+  })
+
+  return _action
+}
+
 function LogIn() {
-  const login_action = useMutation({ mutationFn: login })
+  const action = useGoBack(login)
+
   return (
-    <Form values={[]} action={login_action.mutateAsync}>
+    <Form values={[]} action={action.mutateAsync}>
       <FormBody>
+        <div tw="text-center text-gray-600">Log into your account</div>
+        <Status onSuccess="Logged in" />
         <EmailField name="email" title="Email" />
-        <PasswordField name="password" />
-        <SubmitButton tw="py-[0.5rem]">Login</SubmitButton>
+        <SecretField name="password" />
+        <SubmitButton>Login</SubmitButton>
       </FormBody>
     </Form>
   )
 }
 
-export function Authentication() {
-  const match = useMatch('/auth/*')
-
-  const profile = useProfile()
+function Register() {
+  const action = useGoBack(
+    async ({
+      confirmPassword: _,
+      ...vals
+    }: Parameters<typeof register>[0] & { confirmPassword: string }) => {
+      return await register(vals)
+    },
+  )
 
   return (
-    <div
-      tw="grid space-y-8 my-10 mx-auto max-w-[350px]"
-      css={{ '& > *': tw`!mx-auto` }}
+    <Form
+      values={[]}
+      validate={vals => {
+        if (vals.password !== vals.confirmPassword) {
+          return { confirmPassword: 'Passwords donnot match' }
+        }
+      }}
+      action={action.mutateAsync}
     >
-      <Brand />
-      <_Card>
-        {match?.params['*'] ? <></> : <></>}
-        <LogIn />
-      </_Card>
-      <div tw="flex gap-2">
-        <span>
-          <ILink to={'./reset_password'}>Can't log in?</ILink>
-        </span>
-        <span>•</span>
-        <span>
-          <ILink to="./signup">Create an account</ILink>
-        </span>
-        {/* Don't have an account? <Link to={'./signup'}>Sign Up</Link>{' '} */}
-      </div>
-    </div>
+      <FormBody>
+        <div tw="text-center text-gray-600">Register New Account</div>
+        <Status onSuccess="Registered" />
+        <TextField name="displayName" title="Display Name" />
+        <EmailField name="email" title="Email" />
+        <SecretField name="password" />
+        <SecretField name="confirmPassword" title="Confirm The Password" />
+        <SubmitButton>Register</SubmitButton>
+      </FormBody>
+    </Form>
   )
 }
 
-function SessionExpired({ profile }: { profile: SchemaProfile }) {
-  return (
-    <>
-      <Text tw="text-center text-2xl">Welcome back, {profile.displayName}</Text>
-    </>
-  )
-}
+// function SessionExpired({ profile }: { profile: SchemaProfile }) {
+//   return (
+//     <>
+//       <Text tw="text-center text-2xl">Welcome back, {profile.displayName}</Text>
+//     </>
+//   )
+// }

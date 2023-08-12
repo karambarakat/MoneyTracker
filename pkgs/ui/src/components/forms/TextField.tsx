@@ -2,8 +2,15 @@ import 'twin.macro'
 import { capitalCase } from 'change-case'
 import { WithAsChild } from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
-import { FieldEx } from './_Field'
-import { useField, useFormik, useFormikContext } from 'formik'
+import {
+  CancelFieldValue,
+  FieldBase,
+  FieldError,
+  FieldInfo,
+  FieldRoot,
+  Input,
+  Title,
+} from './_Field'
 
 interface Props {
   /**
@@ -18,5 +25,21 @@ interface Props {
 }
 
 export default function TextField(props: Props) {
-  return <FieldEx name={props.name} title={props.title} />
+  return (
+    <FieldRoot name={props.name} title={props.title}>
+      <div>
+        <FieldBase>
+          <div tw="flex gap-3 items-center">
+            <div tw="flex-1">
+              <Title />
+              <Input />
+            </div>
+            <CancelFieldValue />
+          </div>
+        </FieldBase>
+        <FieldError />
+        <FieldInfo />
+      </div>
+    </FieldRoot>
+  )
 }

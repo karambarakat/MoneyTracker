@@ -18,7 +18,7 @@ COPY --from=prune /monorepo/pnpm-lock.yaml ./pnpm-lock.yaml
 
 ENV CI=true
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store/v3\
-  pnpm install --frozen-lockfile
+  pnpm install
 
 COPY --from=prune /monorepo/out/full .
 RUN turbo build

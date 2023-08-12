@@ -1,15 +1,22 @@
-import tw, { css } from 'twin.macro'
+import tw, { css, stylable } from 'twin.macro'
 import React from 'react'
-import { Field as FormikField, FormikProps, useField } from 'formik'
-import { WithAsChild, WithChildren } from '../../utils/WithChildren'
+import {
+  Field as FormikField,
+  FieldProps as FormikFieldProps,
+  useField,
+} from 'formik'
+import {
+  WithAsChild,
+  WithChildren,
+  WithComponent,
+} from '../../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
-import { createContext, useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { capitalCase } from 'change-case'
 import { useId } from '@mantine/hooks'
 import { X } from 'tabler-icons-react'
 import { formMetaInfo } from './_Form'
 import { DefinedContext } from '../../utils/definedContext'
-import { FieldProps as FormikFieldProps } from 'formik'
 // import { useDefinedContext } from '../../utils/definedContext'
 
 export interface FieldProps {
@@ -31,24 +38,6 @@ export function useFieldContext<Formik = any>() {
 }
 
 export const FieldMetaExt = new DefinedContext<FieldContext>()
-
-const Field = (p: FieldProps) => (
-  <FieldRoot {...p}>
-    <div>
-      <FieldBase>
-        <div tw="flex gap-3 items-center">
-          <div tw="flex-1">
-            <Label />
-            <Input />
-          </div>
-          <CancelFieldValue />
-        </div>
-      </FieldBase>
-      <FieldError />
-      <FieldInfo />
-    </div>
-  </FieldRoot>
-)
 
 export function FieldBasicRoot(
   P: WithAsChild<{
@@ -96,7 +85,17 @@ export function FieldRoot({
       }}
     >
       <FormikField validate={validate} name={name}>
-        {() => children}
+        {({ field, meta }: FormikFieldProps) => (
+          <div
+            id={id}
+            className={[
+              field.value ? 'value' : 'no-value',
+              meta.touched && meta.error ? 'error' : 'no-error',
+            ].join(' ')}
+          >
+            {children}
+          </div>
+        )}
       </FormikField>
     </FieldMetaExt.Provider>
   )
@@ -104,6 +103,7 @@ export function FieldRoot({
 
 export function FieldError(props: JSX.IntrinsicAttributes) {
   const { meta } = useFieldContext()
+
   return (
     <div tw="text-red-600 text-sm" {...props}>
       {meta.touched && meta.error}
@@ -118,32 +118,20 @@ export function FieldInfo(props: WithChildren) {
 export function FieldBase(props: WithChildren) {
   const {
     meta_ext: { id },
-    props: field,
-    meta,
   } = useFieldContext()
+
   return (
-    <div>
+    <label tw="hover:cursor-text">
+      {props.children}
       <div
-        id={id}
-        className={[
-          field.value ? 'value' : 'no-value',
-          meta.touched && meta.error ? 'error' : 'no-error',
-        ].join(' ')}
-        tw="hover:cursor-text"
-      >
-        <label>
-          {props.children}
-          <div
-            tw="min-h-[1px] w-full bg-slate-400/70 transition-[background-color]"
-            css={{
-              [`#${id}:focus-within &`]: tw`bg-blue-600 outline outline-1 outline-blue-600`,
-              [`#${id}.error &`]: tw`bg-red-600 outline outline-1 outline-red-600`,
-              [`#${id}:hover &`]: tw`bg-slate-600 cursor-text`,
-            }}
-          />
-        </label>
-      </div>
-    </div>
+        tw="min-h-[1px] w-full bg-slate-400/70 transition-[background-color]"
+        css={{
+          [`#${id}:focus-within &`]: tw`bg-blue-600 outline outline-1 outline-blue-600`,
+          [`#${id}.error &`]: tw`bg-red-600 outline outline-1 outline-red-600`,
+          [`#${id}:hover &`]: tw`bg-slate-600 cursor-text`,
+        }}
+      />
+    </label>
   )
 }
 
@@ -151,15 +139,26 @@ export function CancelFieldValue() {
   const { meta, actions } = useFieldContext()
   return meta.value ? (
     <div
-      tw="cursor-pointer p-2 pr-0 pb-0"
-      onClick={() => actions.setValue(undefined)}
+      onClick={() => {
+        actions.setTouched(false, false)
+        actions.setValue(undefined, false)
+      }}
+      css={field_icon_css}
     >
-      <X size={16} />
+      <X />
     </div>
   ) : null
 }
 
-export function Label() {
+export const field_icon_css: stylable = css`
+  ${tw`cursor-pointer pr-1`}
+  & svg {
+    width: 16px;
+    height: 16px;
+  }
+`
+
+export function Title() {
   const {
     meta_ext: { id, req, title, name: fieldName },
   } = useFieldContext()
@@ -188,21 +187,31 @@ export function Label() {
   )
 }
 
-export function Input(p: WithAsChild) {
-  const Component = p.asChild ? Slot : 'input'
+type requiredInput = {
+  required?: boolean
+  value: string
+  children?: never
+}
+
+export function Input({ children, ...p }: WithComponent<requiredInput>) {
+  const Component = useMemo(() => {
+    return children ?? ((p: requiredInput) => <input {...p} />)
+  }, [children])
+
   const {
     props,
     meta_ext: { req },
   } = useFieldContext()
   return (
-    <Component
-      tw="w-full bg-transparent pb-1 focus-visible:outline-none"
-      required={req}
-      {...props}
-      children={p.asChild ? p.children : undefined}
-      value={props.value ?? ''}
-    />
+    <Slot>
+      <Component
+        tw="w-full bg-transparent pb-1 focus-visible:outline-none"
+        {...p}
+        required={req}
+        {...props}
+        value={props.value ?? ''}
+        children={undefined}
+      />
+    </Slot>
   )
 }
-
-export { Field as FieldEx }
