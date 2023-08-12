@@ -7,7 +7,6 @@ import { ColorModeProvider } from '../src/colorMode/provider'
 import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
-import Providers from '../../../apps/frontend/.storybook/storybook-decorator'
 import { Form } from '../src/components/forms/_Form'
 import { action } from '@storybook/addon-actions'
 
@@ -83,13 +82,6 @@ const preview: Preview = {
 
   decorators: [
     mswDecorator,
-    (Story, ctx) => {
-      if (!Object.keys(ctx.parameters).includes('page')) {
-        return <Story />
-      }
-
-      return Providers({ Story })
-    },
     Story => {
       const sbMode = useDarkMode() ? 'dark' : 'light'
       return <ColorModeProvider mode={sbMode}>{Story()}</ColorModeProvider>

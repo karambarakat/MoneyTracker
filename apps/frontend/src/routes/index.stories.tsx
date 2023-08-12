@@ -1,4 +1,5 @@
 import Page from '.'
+import { frontend_decorator } from '../../.storybook/storybook-decorator'
 import {
   categories_data,
   empty_data,
@@ -12,6 +13,7 @@ export default {
   parameters: {
     page: true,
   },
+  decorators: [frontend_decorator],
   title: 'pages/index',
 } satisfies SB.Meta<typeof Page>
 

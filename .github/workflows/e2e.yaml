@@ -19,6 +19,9 @@ jobs:
       - name: 📥 playwright install
         run: pnpm --filter e2e exec playwright install --with-deps
 
+      - name: install turbo
+        run: pnpm install -g turbo@latest
+
       - name: 🚀 Run e2e pre scripts
         shell: bash
         run: turbo e2e:pre

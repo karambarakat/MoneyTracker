@@ -1,11 +1,13 @@
 import Page from './categories'
 import { categories_data, category_data, empty_data } from '../mockedData/msw'
+import { frontend_decorator } from '../../.storybook/storybook-decorator'
 
 export default {
   component: Page,
   parameters: {
     page: {},
   },
+  decorators: [frontend_decorator],
   title: 'pages/categories',
 } satisfies SB.Meta<typeof Page>
 
