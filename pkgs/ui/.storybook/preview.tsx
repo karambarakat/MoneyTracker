@@ -14,6 +14,9 @@ import 'twin.macro'
 import { Global, PropsOf } from '@emotion/react'
 import { colors } from '../src/utils/tw'
 import { useField, useFormik, useFormikContext } from 'formik'
+import { DarkModeDecorator, FormDecorator, TwDecoration } from './_decorator'
+import type { DarkModeStore } from 'storybook-dark-mode'
+
 fakerEN.seed(123)
 
 initialize()
@@ -72,86 +75,14 @@ const preview: Preview = {
       },
     },
     darkMode: {
-      current: 'dark',
       darkClass: ['dark', 'dark-mode-plugin-dark'],
       lightClass: ['light', 'dark-mode-plugin-light'],
       classTarget: 'html',
       stylePreview: true,
-    },
+    } satisfies Partial<DarkModeStore>,
   },
 
-  decorators: [
-    mswDecorator,
-    Story => {
-      const sbMode = useDarkMode() ? 'dark' : 'light'
-      return <ColorModeProvider mode={sbMode}>{Story()}</ColorModeProvider>
-    },
-    (Story, ctx) => {
-      const form = ctx.parameters.form as SB.Parameter['form']
-
-      if (!form) {
-        return <Story />
-      }
-
-      const StoryField = form.asField?.name || 'StoryField'
-
-      var values: PropsOf<typeof Form>['values'] = []
-
-      if (form.values) values = form.values
-
-      const asField = form.asField ? { name: StoryField } : {}
-
-      if (form.asField?.value) {
-        values = { ...values, [StoryField]: form.asField?.value }
-      }
-
-      const AutoSubmit = useMemo(() => {
-        return ({ submit }: { submit: boolean }) => {
-          const f = useFormikContext()
-          useEffect(() => {
-            submit && f.submitForm()
-          }, [])
-          return <></>
-        }
-      }, [])
-
-      return (
-        <Form
-          values={values}
-          validate={
-            form.asField?.failed
-              ? async () => {
-                  return {
-                    [StoryField]: 'this is an example error',
-                  }
-                }
-              : async () => {}
-          }
-          action={async vals => action('submit-form')}
-        >
-          <AutoSubmit submit={form.asField?.failed || false} />
-          <Story args={{ ...ctx.args, ...asField }} />
-        </Form>
-      )
-    },
-    Story => {
-      return (
-        <>
-          <GlobalStyles />
-          <Global
-            styles={{
-              '.docs-story': { background: colors.slate[50] },
-              '.dark .docs-story': {
-                background: colors.slate[700],
-                color: colors.white,
-              },
-            }}
-          />
-          {Story()}
-        </>
-      )
-    },
-  ],
+  decorators: [mswDecorator, DarkModeDecorator, FormDecorator, TwDecoration],
 }
 
 export default preview

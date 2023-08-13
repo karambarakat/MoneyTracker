@@ -30,15 +30,12 @@ import { Jwt } from 'types/dist/ts/api'
 export function Protected() {
   const profile = useProfile()
   const location = useLocation()
+
   if (!profile || Token(profile.token).expired()) {
     return <Navigate to={'/auth'} state={{ goBackTo: location.pathname }} />
   }
 
-  return (
-    <>
-      <Outlet />
-    </>
-  )
+  return <Outlet />
 }
 
 export function Authentication() {
@@ -104,7 +101,9 @@ function LogIn() {
   return (
     <Form values={[]} action={action.mutateAsync}>
       <FormBody>
-        <div tw="text-center text-gray-600">Log into your account</div>
+        <Text size="subtle" tw="text-center">
+          Log into your account
+        </Text>
         <Status onSuccess="Logged in" />
         <EmailField name="email" title="Email" />
         <SecretField name="password" />

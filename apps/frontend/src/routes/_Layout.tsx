@@ -12,6 +12,7 @@ import {
   Star,
   TableExport,
   Login,
+  List,
 } from 'tabler-icons-react'
 
 import { Outlet, Link } from 'react-router-dom'
@@ -112,52 +113,53 @@ function Navbar() {
         <ToggleColorTheme label="toggle color scheme" />
       </div>
       <Divider />
-      {[
+      <Link to={'/'}>
+        <Navbar_item icon={<List />} color={'green'} label={'Entries'} />
+      </Link>
+      <Link to={'/categories'}>
+        <Navbar_item
+          icon={<LayoutGrid />}
+          color={'orange'}
+          label={'Categories'}
+        />
+      </Link>
+      {/* {[
         {
           icon: <LayoutGrid />,
           color: 'teal' as const,
           label: 'Categories',
           link: '/categories',
         },
-        {
-          icon: <TableExport />,
-          color: 'sky' as const,
-          label: 'Export',
-          link: '/export',
-          asModal: true,
-        },
-        {
-          icon: <Settings />,
-          color: 'red' as const,
-          label: 'Setting',
-          link: '/setting',
-          asModal: true,
-        },
-        {
-          icon: <Star />,
-          color: 'yellow' as const,
-          label: 'Rate Us',
-          link: '/rate-us',
-          asModal: true,
-        },
-        {
-          icon: <InfoCircle />,
-          color: 'blue' as const,
-          label: 'About',
-          link: '/about',
-          asModal: true,
-        },
-      ].map(element => {
-        return (
-          <Link to={element.link} key={element.link}>
-            <Navbar_item
-              icon={element.icon}
-              color={element.color}
-              label={element.label}
-            />
-          </Link>
-        )
-      })}
+        // {
+        //   icon: <TableExport />,
+        //   color: 'sky' as const,
+        //   label: 'Export',
+        //   link: '/export',
+        //   asModal: true,
+        // },
+        // {
+        //   icon: <Settings />,
+        //   color: 'red' as const,
+        //   label: 'Setting',
+        //   link: '/setting',
+        //   asModal: true,
+        // },
+        // {
+        //   icon: <Star />,
+        //   color: 'yellow' as const,
+        //   label: 'Rate Us',
+        //   link: '/rate-us',
+        //   asModal: true,
+        // },
+        // {
+        //   icon: <InfoCircle />,
+        //   color: 'blue' as const,
+        //   label: 'About',
+        //   link: '/about',
+        //   asModal: true,
+        // },
+      ]} */}
+
       <span tw="flex-1" />
       <Divider />
       <UserController_NavbarItem />

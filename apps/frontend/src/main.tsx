@@ -22,7 +22,7 @@ import { queryClient } from './lib/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import * as Auth from './routes/_Auth'
-Suspense
+
 function App() {
   return (
     <ColorModeProvider>

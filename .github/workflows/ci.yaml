@@ -19,4 +19,4 @@ jobs:
         run: pnpm install -g concurrently wait-on turbo@latest
 
       - name: turbo
-        uses: ./.github/workflows/_turbo
+        uses: ./.github/workflows/_turbo.yaml

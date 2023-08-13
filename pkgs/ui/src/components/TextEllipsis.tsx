@@ -1,12 +1,16 @@
 import tw, { styled } from 'twin.macro'
+import { WithAsChild } from '../utils/WithChildren'
+import { Slot } from '@radix-ui/react-slot'
 
-interface Props {
-  width?: number
+function TextEllipsis(props: WithAsChild) {
+  const Component = props.asChild ? Slot : 'div'
+
+  return (
+    <Component
+      tw="text-ellipsis whitespace-nowrap overflow-hidden"
+      {...props}
+    />
+  )
 }
-
-const TextEllipsis = styled.div<Props>`
-  ${({ width }) => width && `width:${width}px`};
-  ${tw`text-ellipsis whitespace-nowrap overflow-hidden`};
-`
 
 export default TextEllipsis

@@ -8,6 +8,9 @@ patchedDependencies:
   '@types/json-schema@7.0.12':
     hash: 3aeipu7wefcufl6ek53p7ye2d4
     path: patches/@types__json-schema@7.0.12.patch
+  storybook-dark-mode@3.0.0:
+    hash: snbl6prudut2q2k77vjgg5bmb4
+    path: patches/storybook-dark-mode@3.0.0.patch
   twin.macro@3.3.1:
     hash: 2s4ayig7yqzjyweu7pxsjtsyaq
     path: patches/twin.macro@3.3.1.patch
@@ -407,6 +410,9 @@ importers:
       storybook:
         specifier: 7.0.24
         version: 7.0.24
+      storybook-addon-react-router-v6:
+        specifier: ^2.0.3
+        version: 2.0.3(@storybook/blocks@7.0.24)(@storybook/channels@7.2.0)(@storybook/components@7.2.0)(@storybook/core-events@7.2.0)(@storybook/manager-api@7.2.0)(@storybook/preview-api@7.2.0)(@storybook/theming@7.2.0)(react-dom@17.0.2)(react-router-dom@6.12.1)(react-router@6.12.1)(react@17.0.2)
       tailwindcss:
         specifier: ^3.3.2
         version: 3.3.2
@@ -720,9 +726,12 @@ importers:
       storybook:
         specifier: 7.0.22
         version: 7.0.22
+      storybook-addon-react-router-v6:
+        specifier: ^2.0.3
+        version: 2.0.3(@storybook/blocks@7.0.22)(@storybook/channels@7.2.0)(@storybook/components@7.2.0)(@storybook/core-events@7.2.0)(@storybook/manager-api@7.2.0)(@storybook/preview-api@7.2.0)(@storybook/theming@7.0.20)(react-dom@17.0.2)(react-router-dom@6.12.1)(react-router@6.12.1)(react@17.0.2)
       storybook-dark-mode:
         specifier: ^3.0.0
-        version: 3.0.0(react-dom@17.0.2)(react@17.0.2)
+        version: 3.0.0(patch_hash=snbl6prudut2q2k77vjgg5bmb4)(react-dom@17.0.2)(react@17.0.2)
       storybook-formik:
         specifier: ^2.4.2
         version: 2.4.2(@types/react@17.0.33)(formik@2.2.9)(react-dom@17.0.2)(react@17.0.2)
@@ -7427,7 +7436,6 @@ packages:
         integrity: sha512-EXJysQ7J3veRECd0kZFQwYYd5sJMcq2O/m60zu1W2l3oVQ9xtub8jTOtYRE0+M2iomyG/W3Ps7+vp2kna0C27Q==,
       }
     engines: { node: '>=14' }
-    dev: false
 
   /@rollup/pluginutils@4.2.1:
     resolution:
@@ -7584,7 +7592,7 @@ packages:
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      react-inspector: 6.0.1(react@17.0.2)
+      react-inspector: 6.0.2(react@17.0.2)
       telejson: 7.1.0
       ts-dedent: 2.2.0
       uuid: 9.0.0
@@ -7618,7 +7626,7 @@ packages:
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      react-inspector: 6.0.1(react@17.0.2)
+      react-inspector: 6.0.2(react@17.0.2)
       telejson: 7.1.0
       ts-dedent: 2.2.0
       uuid: 9.0.0
@@ -13960,6 +13968,13 @@ packages:
     resolution:
       {
         integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==,
+      }
+    dev: true
+
+  /compare-versions@6.1.0:
+    resolution:
+      {
+        integrity: sha512-LNZQXhqUvqUTotpZ00qLSaify3b4VFD588aRr8MKFw4CMUr98ytzCW5wDH5qx/DEY5kCDXcbcRuCqL0szEf2tg==,
       }
     dev: true
 
@@ -23472,6 +23487,17 @@ packages:
       react: 17.0.2
     dev: true
 
+  /react-inspector@6.0.2(react@17.0.2):
+    resolution:
+      {
+        integrity: sha512-x+b7LxhmHXjHoU/VrFAzw5iutsILRoYyDq97EDYdFpPLcvqtEzk4ZSZSQjnFPbr5T57tLXnHcqFYoN1pI6u8uQ==,
+      }
+    peerDependencies:
+      react: ^16.8.4 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 17.0.2
+    dev: true
+
   /react-is@16.13.1:
     resolution:
       {
@@ -23623,7 +23649,6 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
       react-router: 6.12.1(react@17.0.2)
-    dev: false
 
   /react-router@6.12.1(react@17.0.2):
     resolution:
@@ -23636,7 +23661,6 @@ packages:
     dependencies:
       '@remix-run/router': 1.6.3
       react: 17.0.2
-    dev: false
 
   /react-style-singleton@2.2.1(@types/react@17.0.33)(react@17.0.2):
     resolution:
@@ -25051,7 +25075,83 @@ packages:
       }
     dev: true
 
-  /storybook-dark-mode@3.0.0(react-dom@17.0.2)(react@17.0.2):
+  /storybook-addon-react-router-v6@2.0.3(@storybook/blocks@7.0.22)(@storybook/channels@7.2.0)(@storybook/components@7.2.0)(@storybook/core-events@7.2.0)(@storybook/manager-api@7.2.0)(@storybook/preview-api@7.2.0)(@storybook/theming@7.0.20)(react-dom@17.0.2)(react-router-dom@6.12.1)(react-router@6.12.1)(react@17.0.2):
+    resolution:
+      {
+        integrity: sha512-fUPi25I7hDuTmNai/DT/1RZfMOMrqjU6mXYe9Fbq+3NZlEo+p5J+FMVpXR/bR7mqmFA/6Rd2r+utGpwUsrCU+A==,
+      }
+    peerDependencies:
+      '@storybook/blocks': ^7.0.0
+      '@storybook/channels': ^7.0.0
+      '@storybook/components': ^7.0.0
+      '@storybook/core-events': ^7.0.0
+      '@storybook/manager-api': ^7.0.0
+      '@storybook/preview-api': ^7.0.0
+      '@storybook/theming': ^7.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-router: ^6.4.0
+      react-router-dom: ^6.4.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@storybook/blocks': 7.0.22(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/channels': 7.2.0
+      '@storybook/components': 7.2.0(@types/react-dom@17.0.10)(@types/react@17.0.33)(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/core-events': 7.2.0
+      '@storybook/manager-api': 7.2.0(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/preview-api': 7.2.0
+      '@storybook/theming': 7.0.20(react-dom@17.0.2)(react@17.0.2)
+      compare-versions: 6.1.0
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+      react-inspector: 6.0.2(react@17.0.2)
+      react-router: 6.12.1(react@17.0.2)
+      react-router-dom: 6.12.1(react-dom@17.0.2)(react@17.0.2)
+    dev: true
+
+  /storybook-addon-react-router-v6@2.0.3(@storybook/blocks@7.0.24)(@storybook/channels@7.2.0)(@storybook/components@7.2.0)(@storybook/core-events@7.2.0)(@storybook/manager-api@7.2.0)(@storybook/preview-api@7.2.0)(@storybook/theming@7.2.0)(react-dom@17.0.2)(react-router-dom@6.12.1)(react-router@6.12.1)(react@17.0.2):
+    resolution:
+      {
+        integrity: sha512-fUPi25I7hDuTmNai/DT/1RZfMOMrqjU6mXYe9Fbq+3NZlEo+p5J+FMVpXR/bR7mqmFA/6Rd2r+utGpwUsrCU+A==,
+      }
+    peerDependencies:
+      '@storybook/blocks': ^7.0.0
+      '@storybook/channels': ^7.0.0
+      '@storybook/components': ^7.0.0
+      '@storybook/core-events': ^7.0.0
+      '@storybook/manager-api': ^7.0.0
+      '@storybook/preview-api': ^7.0.0
+      '@storybook/theming': ^7.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-router: ^6.4.0
+      react-router-dom: ^6.4.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@storybook/blocks': 7.0.24(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/channels': 7.2.0
+      '@storybook/components': 7.2.0(@types/react-dom@17.0.10)(@types/react@17.0.33)(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/core-events': 7.2.0
+      '@storybook/manager-api': 7.2.0(react-dom@17.0.2)(react@17.0.2)
+      '@storybook/preview-api': 7.2.0
+      '@storybook/theming': 7.2.0(react-dom@17.0.2)(react@17.0.2)
+      compare-versions: 6.1.0
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+      react-inspector: 6.0.2(react@17.0.2)
+      react-router: 6.12.1(react@17.0.2)
+      react-router-dom: 6.12.1(react-dom@17.0.2)(react@17.0.2)
+    dev: true
+
+  /storybook-dark-mode@3.0.0(patch_hash=snbl6prudut2q2k77vjgg5bmb4)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-aeAvqP/mmdccEiCsvx6aw3M0i7mZSiXROsrAsEQN8vl1lAg3FZN+y3Xu/f+ye59wLMRuKJC/JBp7E3/H7vLBRQ==,
@@ -25076,6 +25176,7 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
     dev: true
+    patched: true
 
   /storybook-formik@2.4.2(@types/react@17.0.33)(formik@2.2.9)(react-dom@17.0.2)(react@17.0.2):
     resolution:

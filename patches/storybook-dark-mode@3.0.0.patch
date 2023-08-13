@@ -1,0 +1,22 @@
+diff --git a/dist/ts/Tool.d.ts b/dist/ts/Tool.d.ts
+index c282d5e329603587423687dac78ca1e18953ca87..fb91cf4548e8c1568580fda2eb9ad81c72ad0fb2 100644
+--- a/dist/ts/Tool.d.ts
++++ b/dist/ts/Tool.d.ts
+@@ -3,7 +3,7 @@ import { ThemeVars } from '@storybook/theming';
+ import { API } from '@storybook/api';
+ declare const modes: readonly ["light", "dark"];
+ type Mode = typeof modes[number];
+-interface DarkModeStore {
++export interface DarkModeStore {
+     /** The class target in the preview iframe */
+     classTarget: string;
+     /** The current mode the storybook is set to */
+diff --git a/dist/ts/index.d.ts b/dist/ts/index.d.ts
+index a9ddf09ec08a28642974562aeea7017921a3d0db..c6680fb7dce4899f1d50fba82a9c9b448d09a1ad 100644
+--- a/dist/ts/index.d.ts
++++ b/dist/ts/index.d.ts
+@@ -3,3 +3,4 @@
+  */
+ export declare function useDarkMode(): boolean;
+ export * from './constants';
++export { DarkModeStore } from "./Tool"

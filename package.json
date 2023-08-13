@@ -11,7 +11,7 @@
   "scripts": {
     "prepare": "husky install",
     "// development": "",
-    "dev:all": "pnpm -F backend -F frontend --parallel dev",
+    "dev:fullstack": "pnpm -F backend -F frontend --parallel dev",
     "// used by github actions turborepo.yaml": "",
     "build": "turbo run build",
     "test": "turbo run test",
@@ -30,12 +30,12 @@
     "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.yaml"
   },
   "devDependencies": {
-    "wait-on": "7.0.1",
-    "husky": "^8.0.3",
     "@playwright/test": "^1.34.3",
+    "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "wait-on": "7.0.1"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "eslint --fix",
@@ -59,7 +59,8 @@
   "pnpm": {
     "patchedDependencies": {
       "twin.macro@3.3.1": "patches/twin.macro@3.3.1.patch",
-      "@types/json-schema@7.0.12": "patches/@types__json-schema@7.0.12.patch"
+      "@types/json-schema@7.0.12": "patches/@types__json-schema@7.0.12.patch",
+      "storybook-dark-mode@3.0.0": "patches/storybook-dark-mode@3.0.0.patch"
     }
   }
 }

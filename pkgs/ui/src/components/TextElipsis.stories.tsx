@@ -1,13 +1,29 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 
-import { default as component } from './TextEllipsis'
+import { default as Component_ } from './TextEllipsis'
 import 'twin.macro'
 import { fakerEN } from '@faker-js/faker'
+import { css } from 'twin.macro'
+import { WithAsChild } from '../utils/WithChildren'
+
+const Component = ({ width, ...props }: WithAsChild<{ width: number }>) => {
+  return (
+    <Component_
+      css={[
+        width &&
+          css`
+            width: ${width}px;
+          `,
+      ]}
+      {...props}
+    />
+  )
+}
 
 export default {
   title: 'TextEllipsis',
-  component,
+  component: Component,
   argTypes: {
     width: { control: 'number' },
     children: { control: 'text' },
@@ -22,9 +38,9 @@ export default {
       </div>
     ),
   ],
-} satisfies SB.Meta<typeof component>
+} satisfies SB.Meta<typeof Component>
 
-export const WithBasicConfiguration = {} satisfies SB.Story<typeof component>
+export const WithBasicConfiguration = {} satisfies SB.Story<typeof Component>
 export const Short = { args: { width: 170 } } satisfies SB.Story<
-  typeof component
+  typeof Component
 >

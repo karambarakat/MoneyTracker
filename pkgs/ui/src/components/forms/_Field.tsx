@@ -105,7 +105,7 @@ export function FieldError(props: JSX.IntrinsicAttributes) {
   const { meta } = useFieldContext()
 
   return (
-    <div tw="text-red-600 text-sm" {...props}>
+    <div tw="text-red-600 dark:text-red-400 text-sm" {...props}>
       {meta.touched && meta.error}
     </div>
   )
@@ -124,11 +124,12 @@ export function FieldBase(props: WithChildren) {
     <label tw="hover:cursor-text">
       {props.children}
       <div
-        tw="min-h-[1px] w-full bg-slate-400/70 transition-[background-color]"
+        tw="min-h-[1px] w-full bg-slate-400/70 dark:bg-slate-600 transition-[background-color]"
         css={{
           [`#${id}:focus-within &`]: tw`bg-blue-600 outline outline-1 outline-blue-600`,
-          [`#${id}.error &`]: tw`bg-red-600 outline outline-1 outline-red-600`,
-          [`#${id}:hover &`]: tw`bg-slate-600 cursor-text`,
+          [`#${id}.error &`]: tw`bg-red-600 dark:bg-red-400 outline outline-1 outline-red-600 dark:outline-red-400`,
+          [`#${id}:hover &`]: tw`bg-slate-600 dark:bg-slate-400 cursor-text`,
+          [`#${id}:hover.error &`]: tw`bg-red-600 dark:bg-red-400 outline outline-1 outline-red-600 dark:outline-red-400`,
         }}
       />
     </label>
@@ -169,15 +170,19 @@ export function Title() {
         {
           // eslint-disable-next-line quotes
           ["&[data-required='true']::after"]: css`
-            ${tw`text-red-600`};
+            ${tw`text-red-600 dark:text-red-400`};
             content: ' *';
           `,
         },
-        tw`cursor-text h-[16px] translate-y-[16px] text-base transition-[transform,font-size] text-gray-500`,
+        tw`cursor-text h-[16px] translate-y-[16px] text-base transition-[transform,font-size] `,
+        tw`text-gray-500 dark:text-gray-300`,
+        {
+          [`#${id}:focus-within &, #${id}.value &`]: tw`text-gray-300 dark:text-gray-400`,
+        },
         {
           [`#${id}:focus-within &, #${id}.value &`]: tw`translate-y-0 text-xs `,
-          [`#${id}:focus-within &`]: tw`text-blue-600`,
-          [`#${id}.error &`]: tw`text-red-600`,
+          [`#${id}:focus-within &`]: tw`text-blue-600 dark:text-blue-400`,
+          [`#${id}.error &`]: tw`text-red-600 dark:text-red-400`,
         },
       ]}
       data-required={req}

@@ -15,7 +15,7 @@ export default function Status(
 
   if (typeof status?.error === 'string') {
     return (
-      <Component tw="text-red-500">
+      <Component tw="text-red-500 dark:text-red-400">
         <span>Error: </span>
         <span>{status.error}</span>
       </Component>
