@@ -17,7 +17,7 @@ jobs:
         run: pnpm install -g concurrently wait-on turbo@latest
 
       - name: 📥 playwright install
-        run: pnpm --filter e2e pn install --with-deps
+        run: pnpm --filter e2e pw install --with-deps
 
       - name: 🚀 Run e2e pre scripts
         shell: bash

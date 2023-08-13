@@ -134,7 +134,9 @@ function Register() {
       action={action.mutateAsync}
     >
       <FormBody>
-        <div tw="text-center text-gray-600">Register New Account</div>
+        <Text size="subtle" tw="text-center">
+          Register New Account
+        </Text>
         <Status onSuccess="Registered" />
         <TextField name="displayName" title="Display Name" />
         <EmailField name="email" title="Email" />
@@ -145,11 +147,3 @@ function Register() {
     </Form>
   )
 }
-
-// function SessionExpired({ profile }: { profile: SchemaProfile }) {
-//   return (
-//     <>
-//       <Text tw="text-center text-2xl">Welcome back, {profile.displayName}</Text>
-//     </>
-//   )
-// }

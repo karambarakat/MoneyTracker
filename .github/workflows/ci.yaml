@@ -1,10 +1,10 @@
 # write a github action's workflow to run e2e test on every push
-name: e2e test
+name: main CI workflows
 
 on: push
 
 jobs:
-  e2e-test:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: 📂 checkout files
@@ -17,6 +17,43 @@ jobs:
 
       - name: 📥 Install e2e dependencies
         run: pnpm install -g concurrently wait-on turbo@latest
+  turborepo:
+    needs: setup
+    uses: ./.github/workflows/turbo.yaml
+  e2e:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 playwright install
+        run: pnpm --filter e2e pw install --with-deps
 
-      - name: turbo
-        uses: ./.github/workflows/_turbo.yaml
+      - name: 🚀 Run e2e pre scripts
+        shell: bash
+        run: turbo e2e:build
+
+      - name: 🚀 Run e2e test
+        shell: bash
+        run: >
+          concurrently -n "bg,e2e"
+          -c "green,bgBlue.bold"
+          -s first --kill-others
+          "turbo e2e"
+          "sleep 6 && pnpm e2e:dep && pnpm --F e2e run pw test"
+
+      - name: 📤 Upload e2e report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: e2e-report
+          path: pkgs/e2e/playwright-report/
+          retention-days: 20
+
+  chromatic:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workingDir: pkgs/ui
