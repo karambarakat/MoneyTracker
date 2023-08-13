@@ -1,5 +1,5 @@
 import Page from '.'
-import { frontend_decorator } from '../../.storybook/storybook-decorator'
+import { frontend_decorator } from '../.storybook/storybook-decorator'
 import {
   categories_data,
   empty_data,

@@ -18,17 +18,10 @@ export default defineConfig({
       },
     },
     {
-      name: 'offline',
+      name: 'base',
+      expect: {},
       use: {
-        ...devices['Desktop Chrome'],
-        offline: true,
-      },
-    },
-    {
-      name: 'pwa',
-      use: {
-        ...devices['Desktop Chrome'],
-        offline: true,
+        ...devices['Desktop Firefox'],
       },
     },
   ],

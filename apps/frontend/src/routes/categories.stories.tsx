@@ -1,6 +1,6 @@
 import Page from './categories'
 import { categories_data, category_data, empty_data } from '../mockedData/msw'
-import { frontend_decorator } from '../../.storybook/storybook-decorator'
+import { frontend_decorator } from '../.storybook/storybook-decorator'
 
 export default {
   component: Page,

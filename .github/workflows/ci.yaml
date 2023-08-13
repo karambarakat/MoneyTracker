@@ -1,0 +1,22 @@
+# write a github action's workflow to run e2e test on every push
+name: e2e test
+
+on: push
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 checkout files
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
+      - name: 📥 Install e2e dependencies
+        run: pnpm install -g concurrently wait-on turbo@latest
+
+      - name: turbo
+        uses: ./.github/workflows/_turbo

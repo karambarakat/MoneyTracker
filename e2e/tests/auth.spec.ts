@@ -1,33 +1,39 @@
-import { test as base, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
+import { test as base } from '../fixture'
 
-const test = base.extend<{ ClearDb: object }>({
-  ClearDb: [
-    async ({ request }, use) => {
-      // await request.get('http://localhost:4202')
-      await use({})
+const test = base.extend<{ workerUser: { user: string } }>({
+  workerUser: [
+    async ({}, use, workerInfo) => {
+      const user = 'user-' + workerInfo.workerIndex
+
+      await use({ user })
     },
-    { auto: true },
+    { scope: 'worker' as 'test' },
   ],
 })
 
-test('test @db', async ({ page, baseURL }) => {
+test('test', async ({ page, baseURL, workerUser }) => {
+  const email = workerUser.user + '@gmail.com'
+  const password = 'very-sercure'
+  const display = workerUser.user
+
   // unauthenticated user
   await page.goto('/')
   await page.waitForTimeout(1000)
   expect(page.url()).toBe(baseURL + '/auth')
 
   // user was not found
-  await page.getByLabel('Email').fill('test@gmail.com')
-  await page.getByLabel('Password').fill('verysecure')
+  await page.getByLabel('Email').fill(email)
+  await page.getByLabel('Password').fill(password)
   await page.getByRole('button', { name: 'Login' }).click()
   await page.getByText('Error: ', { exact: false }).click()
 
   // register user
   await page.getByRole('link', { name: 'Create an account' }).click()
-  await page.getByLabel('Display Name').fill('test display')
-  await page.getByLabel('Email').fill('test@gmail.com')
-  await page.getByLabel('Password', { exact: true }).fill('verysecure')
-  await page.getByLabel('Confirm The Password').fill('verysecure')
+  await page.getByLabel('Display Name').fill(display)
+  await page.getByLabel('Email').fill(email)
+  await page.getByLabel('Password', { exact: true }).fill(password)
+  await page.getByLabel('Confirm The Password').fill(password)
   await page.getByRole('button', { name: 'Register' }).click()
 
   // automatically routed to home
@@ -41,8 +47,8 @@ test('test @db', async ({ page, baseURL }) => {
   expect(page.url()).toBe(baseURL + '/auth')
 
   // test the new user
-  await page.getByLabel('Email').fill('test@gmail.com')
-  await page.getByLabel('Password').fill('verysecure')
+  await page.getByLabel('Email').fill(email)
+  await page.getByLabel('Password').fill(password)
   await page.getByRole('button', { name: 'Login' }).click()
 
   // automatically routed to home
