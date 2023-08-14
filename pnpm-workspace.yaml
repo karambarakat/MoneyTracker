@@ -1,7 +1,7 @@
 packages:
   - 'apps/**'
   - 'pkgs/**'
-  - '__Test__/**'
+  - 'tests/api_test'
   - 'e2e'
   - 'e2e/db'
   # exclude packages that are inside test directories

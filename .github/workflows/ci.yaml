@@ -84,7 +84,7 @@ jobs:
           concurrently -n "bg,e2e"
           -c "green,bgBlue.bold"
           -s first --kill-others
-          "turbo e2e"
+          "turbo e2e:bg"
           "sleep 6 && pnpm e2e:dep && pnpm --F e2e run pw test"
 
       - name: 📤 Upload e2e report

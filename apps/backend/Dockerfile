@@ -12,14 +12,14 @@ RUN pnpm exec turbo prune --scope backend --docker
 FROM base as install
 WORKDIR /monorepo
 COPY --from=prune /monorepo/turbo.json              .
-COPY --from=prune /monorepo/out/json                .
-COPY --from=prune /monorepo/pnpm-workspace.yaml     ./pnpm-workspace.yaml
-COPY --from=prune /monorepo/pnpm-lock.yaml          ./pnpm-lock.yaml
 COPY --from=prune /monorepo/patches                 .
+COPY --from=prune /monorepo/out/json                .
+COPY --from=prune /monorepo/pnpm-workspace.yaml     .
+COPY --from=prune /monorepo/pnpm-lock.yaml          .
 
 ENV CI=true
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store/v3\
-  pnpm install --frozen-lockfile
+  pnpm install --no-frozen-lockfile
 
 COPY --from=prune /monorepo/out/full .
 RUN turbo build

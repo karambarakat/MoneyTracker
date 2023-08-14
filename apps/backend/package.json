@@ -23,7 +23,7 @@
     "e2e:dep": "echo waiting on port 4200 && wait-on -t 60000 tcp:4200 && echo test is ready to run",
     "e2e:build": "pnpm run build:base",
     "e2e:dev": "dotenv -c e2e -- pnpm run dev:base",
-    "e2e": "dotenv -c e2e -- node dist/index.bundle.js",
+    "e2e:bg": "dotenv -c e2e -- node dist/index.bundle.js",
     "build:base": "webpack",
     "build": "pnpm run build:base"
   },
