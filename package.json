@@ -3,11 +3,6 @@
   "version": "0.0.0",
   "description": "Easy to use money wallet",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "pkgs/*",
-    "e2e"
-  ],
   "scripts": {
     "prepare": "husky install",
     "// development": "",
@@ -23,7 +18,7 @@
     "e2e:dep": "pnpm -r --parallel e2e:dep",
     "e2e:dev": "pnpm -r --parallel e2e:dev",
     "e2e:build": "turbo e2e:build",
-    "e2e": "turbo e2e",
+    "e2e:bg": "turbo e2e",
     "e2e-run": "pnpm e2e:dep && pnpm --F e2e pw test",
     "// manual deployment": "",
     "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.local.yaml",

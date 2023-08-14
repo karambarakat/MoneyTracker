@@ -20,6 +20,11 @@ runs:
   using: 'composite'
 
   steps:
+    - name: 📂 checkout files
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
     - name: ⚙️ Install pnpm
       uses: pnpm/action-setup@v2
       id: pnpm-install
@@ -42,5 +47,9 @@ runs:
           ${{ runner.os }}-pnpm-store-
 
     - name: 📥 Install dependencies
-      shell: bash
+      shell: sh
       run: pnpm install --frozen-lockfile
+
+    - name: 📥 Install e2e dependencies
+      shell: sh
+      run: pnpm install -g concurrently wait-on turbo@latest

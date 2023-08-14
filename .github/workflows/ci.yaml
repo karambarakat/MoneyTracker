@@ -7,23 +7,52 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: 📂 checkout files
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
-      - name: 📥 Install e2e dependencies
-        run: pnpm install -g concurrently wait-on turbo@latest
-  turborepo:
-    needs: setup
-    uses: ./.github/workflows/turbo.yaml
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+    steps:
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
+      - name: 🧪 Test
+        run: turbo test
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+    steps:
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
+      - name: 🏗 Build
+        run: turbo build
+
+  typecheck:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+    steps:
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
+      - name: 🔼⏺️⏹️ Typecheck
+        run: turbo typecheck
+
   e2e:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
       - name: 📥 playwright install
         run: pnpm --filter e2e pw install --with-deps
 
@@ -52,6 +81,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
+
       - uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

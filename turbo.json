@@ -23,7 +23,7 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "dist-e2e/**", ".next/**"]
     },
-    "e2e": {
+    "e2e:bg": {
       "cache": false,
       "persistent": true,
       "dependsOn": ["e2e:build"]

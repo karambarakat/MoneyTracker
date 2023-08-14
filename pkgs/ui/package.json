@@ -7,7 +7,7 @@
     "dev": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006",
     "// test": "test:base is not good in cicd as it requires a running server",
-    "//     ": "test depends on build, no issue when using `turbo --scope=ui test` otherwise run test:with-build",
+    "//     ": "`test` depends on `build`, use `turbo --scope=ui test` or `pnpm --F ui test:with-build`",
     "test:base": "test-storybook",
     "test:with-build": "pnpm run build && pnpm run test",
     "test": "concurrently -n \"sb,test\" -c \"bgBlue,green\" --k -s first \"http-server dist -p 6006 --silent\" \"wait-on http://127.0.0.1:6006 && test-storybook --url http://127.0.0.1:6006\"",
