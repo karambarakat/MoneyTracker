@@ -7,15 +7,22 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
+
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
   test:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
     steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
+
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
@@ -23,11 +30,15 @@ jobs:
         run: turbo test
 
   build:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
     steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
+
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
@@ -35,11 +46,15 @@ jobs:
         run: turbo build
 
   typecheck:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
     steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
+
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
@@ -50,6 +65,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
+
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
@@ -81,6 +99,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
+
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
