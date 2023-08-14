@@ -77,29 +77,30 @@ function _Card(p: WithAsChild) {
   )
 }
 
-function useGoBack(action: (p: any) => Promise<any>) {
+function useGoBack() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const _action = useMutation({
-    mutationFn: action,
-    onSuccess: res => {
-      setProfile(res)
-
-      const to = location.state?.goBackTo ?? '/'
-
-      navigate(to)
-    },
-  })
-
-  return _action
+  return (profile: SchemaProfile) => {
+    setProfile(profile)
+    const to = location.state?.goBackTo ?? '/'
+    navigate(to)
+  }
 }
 
 function LogIn() {
-  const action = useGoBack(login)
+  const goBack = useGoBack()
+  const action = useMutation({
+    mutationFn: login,
+    onSuccess: goBack,
+  })
 
   return (
-    <Form values={[]} action={action.mutateAsync}>
+    <Form
+      required={['email', 'password']}
+      values={[]}
+      action={action.mutateAsync}
+    >
       <FormBody>
         <Text size="subtle" tw="text-center">
           Log into your account
@@ -114,24 +115,26 @@ function LogIn() {
 }
 
 function Register() {
-  const action = useGoBack(
-    async ({
-      confirmPassword: _,
-      ...vals
-    }: Parameters<typeof register>[0] & { confirmPassword: string }) => {
-      return await register(vals)
-    },
-  )
+  const goBack = useGoBack()
+  const action = useMutation({
+    mutationFn: register,
+    onSuccess: goBack,
+  })
 
   return (
     <Form
-      values={[]}
+      required={['email', 'password']}
       validate={vals => {
         if (vals.password !== vals.confirmPassword) {
-          return { confirmPassword: 'Passwords donnot match' }
+          return { confirmPassword: 'Passwords do not match' }
         }
       }}
-      action={action.mutateAsync}
+      action={async ({
+        confirmPassword,
+        ...param
+      }: Parameters<typeof register>[0] & { confirmPassword: string }) => {
+        action.mutateAsync(param)
+      }}
     >
       <FormBody>
         <Text size="subtle" tw="text-center">
@@ -142,6 +145,7 @@ function Register() {
         <EmailField name="email" title="Email" />
         <SecretField name="password" />
         <SecretField name="confirmPassword" title="Confirm The Password" />
+
         <SubmitButton>Register</SubmitButton>
       </FormBody>
     </Form>

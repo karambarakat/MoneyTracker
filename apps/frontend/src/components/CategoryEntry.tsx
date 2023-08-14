@@ -4,9 +4,8 @@ import { useOneState } from '../utils/OneOpenAtATime'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditCategory from './forms/EditCategory'
-import { useQuery } from '../lib/react-query'
+import { queryKey, useQuery } from '../api/query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '../api/type'
 
 export default function CategoryEntry({
   category,
@@ -16,7 +15,9 @@ export default function CategoryEntry({
   const [expand, setExpand] = useOneState()
   const [edit, setEdit] = useState(false)
 
-  const freshData = useQuery('find_one_category', [{ _id: category._id }])
+  const freshData = useQuery(API.queryAPI.find_one_category, {
+    _id: category._id,
+  })
 
   const data = freshData.status === 'success' ? freshData.data : category
 
@@ -24,11 +25,10 @@ export default function CategoryEntry({
   const delete_ = useMutation({
     mutationFn: delete_category,
     onSettled: () => {
-      client.invalidateQueries([
-        'find_one_category',
-        { _id: category._id },
-      ] satisfies apis)
-      client.invalidateQueries(['find_category'] satisfies apis)
+      client.invalidateQueries(
+        queryKey(API.queryAPI.find_one_category, { _id: category._id }),
+      )
+      client.invalidateQueries(queryKey(API.queryAPI.find_category))
     },
   })
 

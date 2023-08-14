@@ -29,6 +29,10 @@ export const find_log = (pagination: { page: number; pageSize: number }) => {
     .then(data => paged(data, pagination))
 }
 
+enum queryAPI {
+  find_log = 'find_log',
+}
+
 export const find_one_log = ({ _id }: { _id: string }) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
     method: 'GET',
@@ -38,6 +42,10 @@ export const find_one_log = ({ _id }: { _id: string }) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<SchemaLogOut>
+}
+
+enum queryAPI {
+  find_one_log = 'find_one_log',
 }
 
 export const create_log = (_input: SchemaLogIn) => {
@@ -50,6 +58,10 @@ export const create_log = (_input: SchemaLogIn) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<SchemaLogOut>
+}
+
+enum mutationAPI {
+  create_log = 'create_log',
 }
 
 export const update_log = ({
@@ -67,6 +79,10 @@ export const update_log = ({
     .then(handler) as Promise<SchemaLogOut>
 }
 
+enum mutationAPI {
+  update_log = 'update_log',
+}
+
 export const delete_log = ({ _id }: { _id: string }) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/log/${_id}`, {
     method: 'DELETE',
@@ -76,6 +92,10 @@ export const delete_log = ({ _id }: { _id: string }) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<null>
+}
+
+enum mutationAPI {
+  delete_log = 'delete_log',
 }
 
 export const find_category = () => {
@@ -89,6 +109,10 @@ export const find_category = () => {
     .then(handler) as Promise<SchemaCategoryOut[]>
 }
 
+enum queryAPI {
+  find_category = 'find_category',
+}
+
 export const find_one_category = ({ _id }: { _id: string }) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
     method: 'GET',
@@ -98,6 +122,10 @@ export const find_one_category = ({ _id }: { _id: string }) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<SchemaCategoryOut>
+}
+
+enum queryAPI {
+  find_one_category = 'find_one_category',
 }
 
 export const create_category = (_input: SchemaCategoryIn) => {
@@ -110,6 +138,10 @@ export const create_category = (_input: SchemaCategoryIn) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<SchemaCategoryOut>
+}
+
+enum mutationAPI {
+  create_category = 'create_category',
 }
 
 export const update_category = ({
@@ -127,6 +159,10 @@ export const update_category = ({
     .then(handler) as Promise<SchemaCategoryOut>
 }
 
+enum mutationAPI {
+  update_category = 'update_category',
+}
+
 export const delete_category = ({ _id }: { _id: string }) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}`, {
     method: 'DELETE',
@@ -138,6 +174,10 @@ export const delete_category = ({ _id }: { _id: string }) => {
     .then(handler) as Promise<null>
 }
 
+enum mutationAPI {
+  delete_category = 'delete_category',
+}
+
 export const find_all_logs_by_category = ({ _id }: { _id: string }) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/category/${_id}/logs`, {
     method: 'GET',
@@ -147,6 +187,10 @@ export const find_all_logs_by_category = ({ _id }: { _id: string }) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<SchemaLogOut[]>
+}
+
+enum queryAPI {
+  find_all_logs_by_category = 'find_all_logs_by_category',
 }
 
 export const register = ({
@@ -165,6 +209,10 @@ export const register = ({
     .then(handler) as Promise<SchemaProfile>
 }
 
+enum mutationAPI {
+  register = 'register',
+}
+
 export const login = ({ email, password }: RoutesAuthLocalLogin) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/auth/local/login`, {
     method: 'POST',
@@ -176,6 +224,10 @@ export const login = ({ email, password }: RoutesAuthLocalLogin) => {
     .then(handler) as Promise<SchemaProfile>
 }
 
+enum mutationAPI {
+  login = 'login',
+}
+
 export const email_status = ({ email }: RoutesEmailStatus) => {
   return fetch(`${import.meta.env.VITE_BACKEND_API}/profile/status`, {
     method: 'GET',
@@ -183,6 +235,10 @@ export const email_status = ({ email }: RoutesEmailStatus) => {
   })
     .then(res => res.json())
     .then(handler) as Promise<'local' | 'google'>
+}
+
+enum queryAPI {
+  email_status = 'email_status',
 }
 
 export const profile = () => {
@@ -194,6 +250,10 @@ export const profile = () => {
   })
     .then(res => res.json())
     .then(handler) as Promise<SchemaProfile>
+}
+
+enum queryAPI {
+  profile = 'profile',
 }
 
 export const update_profile = (_input: RoutesProfileUpdate) => {
@@ -208,6 +268,10 @@ export const update_profile = (_input: RoutesProfileUpdate) => {
     .then(handler) as Promise<SchemaProfile>
 }
 
+enum mutationAPI {
+  update_profile = 'update_profile',
+}
+
 export const set_password = (
   _input: RoutesUpdatePasswordLocal | RoutesUpdatePasswordNolocal,
 ) => {
@@ -218,6 +282,18 @@ export const set_password = (
     .then(res => res.json())
     .then(handler) as Promise<null>
 }
+
+enum mutationAPI {
+  set_password = 'set_password',
+}
+
+declare global {
+  namespace API {
+    export { mutationAPI, queryAPI }
+  }
+}
+
+// export { mutationAPI, queryAPI }
 
 // helpers
 

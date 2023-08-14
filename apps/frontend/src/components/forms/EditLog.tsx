@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import { useQuery } from '../../lib/react-query'
+import { useQuery } from '../../api/query'
 import { update_log } from '../../api'
 import { Form } from 'ui/src/components/forms/_Form'
 
@@ -19,7 +19,7 @@ export default function EditLog({
 }) {
   const mutate = useMutation({ mutationFn: update_log })
 
-  const categories = useQuery('find_category', []).data
+  const categories = useQuery(API.queryAPI.find_category).data
 
   if (!categories) return <div>error</div>
 

@@ -7,14 +7,14 @@ import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { create_category } from '../../api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '../../api/type'
+import { queryKey } from '../../api/query'
 
 export default function AddCategory() {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: create_category,
     onSettled: () => {
-      client.invalidateQueries(['find_category'] satisfies apis)
+      client.invalidateQueries(queryKey(API.queryAPI.find_category))
     },
   })
 

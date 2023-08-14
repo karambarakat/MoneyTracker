@@ -5,9 +5,8 @@ import moment from 'moment'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditLog from './forms/EditLog'
-import { useQuery } from '../lib/react-query'
+import { queryKey, useQuery } from '../api/query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '../api/type'
 
 export default function LogEntry({
   log,
@@ -18,7 +17,7 @@ export default function LogEntry({
   const [edit, setEdit] = useState(false)
 
   // const freshData = useLog(log._id)
-  const freshData = useQuery('find_one_log', [{ _id: log._id }])
+  const freshData = useQuery(API.queryAPI.find_one_log, { _id: log._id })
 
   const data = freshData.status === 'success' ? freshData.data : log
 
@@ -27,11 +26,12 @@ export default function LogEntry({
   const delete_ = useMutation({
     mutationFn: delete_log,
     onSettled: () => {
-      client.invalidateQueries([
-        'find_one_log',
-        { _id: log._id },
-      ] satisfies apis)
-      client.invalidateQueries(['find_log'] satisfies apis)
+      client.invalidateQueries(
+        queryKey(API.queryAPI.find_one_log, { _id: log._id }),
+      )
+      client.invalidateQueries(
+        queryKey(API.queryAPI.find_log, undefined as any),
+      )
     },
   })
 

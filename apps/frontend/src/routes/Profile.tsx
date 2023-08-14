@@ -5,12 +5,11 @@ import Button from 'ui/src/components/Button'
 import ResetPassword from '../components/forms/ResetPassword'
 import SetPassword from '../components/forms/SetPassword'
 import UpdateProfile from '../components/forms/UpdateProfile'
-import { useQuery } from '../lib/react-query'
-
+import { useQuery } from '../api/query'
 function Profile_Page_Component() {
   setTitle('Profile')
 
-  const { data } = useQuery('profile', [])
+  const { data } = useQuery(API.queryAPI.profile)
 
   if (!data) return <div>error</div>
 

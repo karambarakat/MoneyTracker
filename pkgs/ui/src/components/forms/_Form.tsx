@@ -19,7 +19,7 @@ interface Form<Values extends object, Data>
   /**
    * initial values or string of keys like ['profile.name', 'profile.meta[]']
    */
-  values: DeepPartial<Values> | string[]
+  values?: DeepPartial<Values> | string[]
   /**
    * thenable
    */
@@ -45,6 +45,8 @@ export function Form<V extends object, D>({
   ...FormikProps
 }: WithChildren<Form<V, D>>) {
   const values_ = useMemo(() => {
+    if (!values) return {}
+
     if (values instanceof Array) {
       return (values || [])
         .map(p => {

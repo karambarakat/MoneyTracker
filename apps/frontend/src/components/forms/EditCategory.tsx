@@ -1,6 +1,5 @@
 import 'twin.macro'
 import React from 'react'
-// import { OutputOfAction } from '../lib/react-query'
 import { create_category, update_category } from '../../api'
 import { Form } from 'ui/src/components/forms/_Form'
 
@@ -9,7 +8,7 @@ import HiddenField from 'ui/src/components/forms/HiddenField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import Status from 'ui/src/components/forms/Status'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apis } from '../../api/type'
+import { queryKey } from '../../api/query'
 
 export default function EditCategory({
   category,
@@ -23,7 +22,7 @@ export default function EditCategory({
   const mutate = useMutation({
     mutationFn: update_category,
     onSettled: () => {
-      client.invalidateQueries(['find_category'] satisfies apis)
+      client.invalidateQueries(queryKey(API.queryAPI.find_category))
     },
   })
 

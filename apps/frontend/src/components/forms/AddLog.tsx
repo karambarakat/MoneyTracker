@@ -7,21 +7,22 @@ import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import CategoryField from 'ui/src/components/forms/CategoryField'
 import NumberField from 'ui/src/components/forms/NumberField'
 import TextField from 'ui/src/components/forms/TextField'
-import { useQuery } from '../../lib/react-query'
+import { queryKey, useQuery } from '../../api/query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create_log } from '../../api'
-import { apis } from '../../api/type'
 
 export default function AddLog() {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: create_log,
     onSettled: () => {
-      client.invalidateQueries(['find_log'] satisfies apis)
+      client.invalidateQueries(
+        queryKey(API.queryAPI.find_log, undefined as any),
+      )
     },
   })
 
-  const categories = useQuery('find_category', []).data
+  const categories = useQuery(API.queryAPI.find_category).data
 
   if (!categories) return <div>error</div>
 
@@ -29,14 +30,14 @@ export default function AddLog() {
     <Form
       then={ctx => {
         ctx.setValues({} as any, false)
-        ctx.setStatus({ success: 'created' })
+        // ctx.setStatus({ success: 'created' })
       }}
       action={mutate.mutateAsync}
       values={[]}
       required={['title', 'amount']}
     >
       <div tw="grid grid-cols-2 gap-3">
-        <Status tw="col-span-2" />
+        <Status tw="col-span-2" onSuccess="created" />
         <TextField name="title" />
         <NumberField name="amount" />
         <TextField name="note" />
