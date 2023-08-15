@@ -103,6 +103,7 @@ it('/api/v1/auth/local/login', async () => {
       'Authorization',
       'Basic ' + Buffer.from('example3@web.com:pass').toString('base64'),
     )
+
   const res2 = await request
     .post('/api/v1/auth/local/login')
     .set(
@@ -134,6 +135,7 @@ it('/api/v1/profile/status', async () => {
   expect(info(res2)).toMatchSnapshot()
 })
 
+// continue here
 it('/api/v1/profile/ get', async () => {
   const res = await request
     .get('/api/v1/profile')

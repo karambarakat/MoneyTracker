@@ -2,7 +2,10 @@
 module.exports = {
   preset: 'ts-jest',
   transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
+    // transform js files with babel-jest
+    '^.+\\.js?$': 'babel-jest',
+    '\\.ts$': 'ts-jest',
   },
-  rootDir: '.',
+  // disable default jest transform for js files
+  transformIgnorePatterns: [],
 }

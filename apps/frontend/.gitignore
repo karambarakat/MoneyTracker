@@ -26,3 +26,5 @@ dist-e2e
 
 # restore depricated storybook config `git restore --source 424307a apps/frontend/.storybook`
 storybook-static
+
+**/*.stories.tsx

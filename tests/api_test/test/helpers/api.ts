@@ -1,8 +1,9 @@
 import NodeFetch from 'node-fetch'
+import { RequestInit } from 'node-fetch'
 
-export default async function fetch(
+export default async function api(
   url: string,
-  req?: Omit<Parameters<typeof NodeFetch>[1], 'body'> & { json?: object },
+  req?: Omit<RequestInit, 'body'> & { json?: object },
 ) {
   const { json, ...rest } = req || {}
   const body = json ? { body: JSON.stringify(json) } : {}
@@ -12,7 +13,7 @@ export default async function fetch(
     ...body,
   })
 
-  const res = await res_.json()
+  const res = (await res_.json()) as any
 
   return { url, req, res }
 }

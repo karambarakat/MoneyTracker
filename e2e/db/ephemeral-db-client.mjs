@@ -16,7 +16,7 @@ async function main() {
 
   app.get('/clean_db', async (req, res) => {
     await db.dropDatabase()
-    console.log('db cleaned')
+    console.log('helper server: db cleaned')
     res.send('db cleaned')
   })
 
@@ -27,7 +27,7 @@ async function main() {
       .collection('categories')
       .deleteMany({ user_id: req.params.user_id })
 
-    console.log(`user ${req.params.user_id} data removed`)
+    console.log(`helper server: user ${req.params.user_id} data removed`)
     res.send(`user ${req.params.user_id} data removed`)
   })
 
@@ -37,12 +37,12 @@ async function main() {
   })
 
   app.use((req, res, next) => {
-    console.log('sorry cant find that')
+    console.log('helper server: sorry cant find that', req.url)
     res.status(404).send('Sorry cant find that!')
   })
 
   app.listen(process.env.PORT, () => {
-    console.log('listening on ' + process.env.PORT)
+    console.log('helper server: listening on ' + process.env.PORT)
   })
 }
 

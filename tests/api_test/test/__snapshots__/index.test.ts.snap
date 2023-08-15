@@ -1,3 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`root 1`] = `Promise {}`;
+exports[`root 1`] = `"go to /api/v1"`;
+
+exports[`root 2`] = `
+Object {
+  "req": undefined,
+  "res": Object {
+    "data": null,
+    "error": null,
+    "message": "api is working",
+  },
+  "url": "/",
+}
+`;
