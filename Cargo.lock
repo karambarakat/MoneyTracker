@@ -706,6 +706,7 @@ dependencies = [
  "iana-time-zone",
  "js-sys",
  "num-traits",
+ "serde",
  "time 0.1.45",
  "wasm-bindgen",
  "winapi",
@@ -1679,6 +1680,7 @@ version = "0.1.0"
 dependencies = [
  "actix-session",
  "actix-web",
+ "anyhow",
  "async-graphql",
  "async-graphql-actix-web",
  "base64 0.21.2",

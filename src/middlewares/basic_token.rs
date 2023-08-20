@@ -1,8 +1,3 @@
-use std::{
-    future::{ready, Ready},
-    num::NonZeroU32,
-};
-
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
     http::header::AUTHORIZATION,
@@ -10,8 +5,12 @@ use actix_web::{
     Error, HttpMessage,
 };
 use futures_util::future::LocalBoxFuture;
+use std::{
+    future::{ready, Ready},
+    num::NonZeroU32,
+};
 
-use crate::Error::BasicTokenRequired as thisErr;
+use crate::errors::BasicTokenRequired as thisErr;
 
 pub struct Middleware;
 
@@ -66,11 +65,17 @@ where
     }
 }
 
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Clone)]
 pub struct EmailPassword {
     pub email: String,
     /// encrypted password
     pub password: [u8; ring::digest::SHA256_OUTPUT_LEN],
+}
+
+impl std::fmt::Display for EmailPassword {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "[User: {}, ****]", self.email)
+    }
 }
 
 impl EmailPassword {

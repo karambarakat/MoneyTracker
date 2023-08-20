@@ -1,19 +1,7 @@
 use async_graphql::*;
 use futures::StreamExt;
 
-#[derive(Default)]
-pub struct Date(pub chrono::DateTime<chrono::Utc>);
-
-#[Scalar]
-impl ScalarType for Date {
-    fn parse(value: Value) -> InputValueResult<Self> {
-        todo!()
-    }
-
-    fn to_value(&self) -> Value {
-        Value::String(self.0.to_rfc3339())
-    }
-}
+use crate::modules::Date;
 
 #[derive(Default, SimpleObject)]
 pub struct User {
@@ -28,6 +16,7 @@ pub struct User {
 
 use sqlx::postgres::PgRow;
 use sqlx::Row;
+
 impl<'r> sqlx::FromRow<'r, PgRow> for User {
     fn from_row(row: &'r PgRow) -> Result<Self, sqlx::Error> {
         let id: i32 = row.try_get("id")?;
