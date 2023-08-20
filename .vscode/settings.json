@@ -1,6 +1,6 @@
 {
-    "cSpell.words": ["actix"],
-    "editor.indentSize": "4",
-    "editor.tabSize": 4,
-    "cSpell.enableFiletypes": ["bat"]
+  "cSpell.words": ["actix", "chrono", "TIMESTAMPTZ"],
+  "editor.indentSize": "4",
+  "editor.tabSize": 4,
+  "cSpell.enableFiletypes": ["bat"]
 }

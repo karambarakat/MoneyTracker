@@ -1,11 +1,54 @@
 use async_graphql::*;
 use futures::StreamExt;
 
-use crate::models::category::*;
+#[derive(Default)]
+struct Date(pub chrono::DateTime<chrono::Utc>);
+
+#[Scalar]
+impl ScalarType for Date {
+    fn parse(value: Value) -> InputValueResult<Self> {
+        todo!()
+    }
+
+    fn to_value(&self) -> Value {
+        Value::String(self.0.to_rfc3339())
+    }
+}
 
 #[derive(Default, SimpleObject)]
 struct Category {
-    pub _id: ID,
+    pub id: ID,
+    pub color: Option<String>,
+    pub icon: Option<String>,
+    pub title: String,
+    pub created_at: Date,
+    pub updated_at: Date,
+}
+
+use sqlx::postgres::PgRow;
+use sqlx::Row;
+impl<'r> sqlx::FromRow<'r, PgRow> for Category {
+    fn from_row(row: &'r PgRow) -> Result<Self, sqlx::Error> {
+        let id: i32 = row.try_get("id")?;
+        let color: Option<String> = row.try_get("color")?;
+        let icon: Option<String> = row.try_get("icon")?;
+        let title: String = row.try_get("title")?;
+        let created_at: Date = Date(row.try_get("created_at")?);
+        let updated_at: Date = Date(row.try_get("updated_at")?);
+
+        Ok(Category {
+            id: id.into(),
+            color,
+            icon,
+            title,
+            created_at,
+            updated_at,
+        })
+    }
+}
+
+#[derive(InputObject, Default)]
+struct CategoryInput {
     pub color: Option<String>,
     pub icon: Option<String>,
     pub title: String,
@@ -17,24 +60,20 @@ pub struct CategoryQuery {}
 #[Object]
 impl CategoryQuery {
     async fn get_all_categories(&self, ctx: &Context<'_>) -> Vec<Category> {
-        // todo!();
-        vec![Category::default()]
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
+
+        let res = sqlx::query_as::<_, Category>("SELECT * FROM category_temp").fetch_all(pool);
+
+        res.await.unwrap()
     }
 
-    // async fn get_one_category(&self, ctx: &Context<'_>, id: ID) -> Category {
-    //     let id = ObjectId::parse_str(id.to_string()).unwrap();
+    async fn say_hi(&self, ctx: &Context<'_>) -> String {
+        let auth = ctx.data::<String>().unwrap();
 
-    //     let category = ctx
-    //         .data::<Database>()
-    //         .expect("no client?")
-    //         .collection::<CategoryDB>("category")
-    //         .find_one(doc! { "_id": id }, None)
-    //         .await
-    //         .unwrap()
-    //         .unwrap();
-
-    //     category.into()
-    // }
+        auth.to_string()
+    }
 }
 
 #[derive(Default)]
@@ -42,84 +81,23 @@ pub struct CategoryMutation;
 
 #[Object]
 impl CategoryMutation {
-    // async fn create_one_category(&self, ctx: &Context<'_>, category: Category) -> Category {
-    async fn create_one_category(&self, ctx: &Context<'_>) -> Category {
-        // todo!("create_one_category")
-        Category::default()
-        // let res = ctx
-        //     .data::<Database>()
-        //     .expect("no client?")
-        //     .collection::<CategoryInput>("category")
-        //     .insert_one(category.clone(), None)
-        //     .await
-        //     .unwrap();
+    async fn create_one_category(&self, ctx: &Context<'_>, category: CategoryInput) -> Category {
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
 
-        // category.inserted(res.inserted_id)
+        let res = sqlx::query_as::<_, Category>(
+            r#"
+            INSERT INTO category_temp (title, color, icon)
+            VALUES ($1, $2, $3)
+            RETURNING id, title, color, icon, created_at, updated_at;
+            "#,
+        )
+        .bind(category.title)
+        .bind(category.color)
+        .bind(category.icon)
+        .fetch_one(pool);
+
+        res.await.unwrap().into()
     }
-
-    //     async fn create_many_categories(
-    //         &self,
-    //         ctx: &Context<'_>,
-    //         categories: Vec<CategoryInput>,
-    //     ) -> Vec<Category> {
-    //         let res = ctx
-    //             .data::<Database>()
-    //             .expect("no client?")
-    //             .collection::<CategoryInput>("category")
-    //             .insert_many(categories.clone(), None)
-    //             .await
-    //             .unwrap();
-
-    //         categories
-    //             .into_iter()
-    //             .enumerate()
-    //             .map(|(i, category)| category.inserted(res.inserted_ids.get(&i).unwrap().clone()))
-    //             .collect()
-    //     }
-
-    //     async fn update_one_category(&self, ctx: &Context<'_>, category: CategoryUpdate) -> u64 {
-    //         let _id = ObjectId::parse_str(category._id.to_string()).unwrap();
-
-    //         let res = ctx
-    //             .data::<Database>()
-    //             .expect("no client?")
-    //             .collection::<CategoryUpdate>("category")
-    //             .update_one(
-    //                 doc! { "_id": _id },
-    //                 doc! { "$set": category.into_doc() },
-    //                 None,
-    //             )
-    //             .await;
-
-    //         res.unwrap().modified_count
-    //     }
-
-    //     async fn delete_one_category(&self, ctx: &Context<'_>, id: ID) -> u64 {
-    //         let id = ObjectId::parse_str(id.to_string()).unwrap();
-
-    //         let res = ctx
-    //             .data::<Database>()
-    //             .expect("no client?")
-    //             .collection::<CategoryUpdate>("category")
-    //             .delete_one(doc! { "_id": id }, None)
-    //             .await;
-
-    //         res.unwrap().deleted_count
-    //     }
-
-    //     async fn delete_many_categories(&self, ctx: &Context<'_>, id: Vec<ID>) -> u64 {
-    //         let ids: Vec<ObjectId> = id
-    //             .into_iter()
-    //             .map(|id| ObjectId::parse_str(id.to_string()).unwrap())
-    //             .collect();
-
-    //         let res = ctx
-    //             .data::<Database>()
-    //             .expect("no client?")
-    //             .collection::<CategoryUpdate>("category")
-    //             .delete_many(doc! { "_id": { "$in": ids } }, None)
-    //             .await;
-
-    //         res.unwrap().deleted_count
-    //     }
 }

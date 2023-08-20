@@ -32,3 +32,8 @@ sha2 = "0.10.7"
 tokio = { version = "1", features = ["full"] }
 chrono = "0.4.26"
 serde_json = "1.0.104"
+thiserror = "1.0.47"
+derive_more = "0.99.17"
+ts-rs = "7.0.0"
+actix-session = "0.7.2"
+ring = "0.16.20"
