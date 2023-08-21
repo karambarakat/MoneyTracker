@@ -52,7 +52,7 @@ where
     forward_ready!(service);
 
     fn call(&self, mut req: ServiceRequest) -> Self::Future {
-        let user: Rc<RefCell<Option<User>>> = Rc::new(RefCell::new(None));
+        let user: ReqUser = Rc::new(RefCell::new(None));
 
         req.extensions_mut().insert(user.clone());
 
@@ -97,3 +97,5 @@ pub struct User {
     pub id: String,
     pub user_name: String,
 }
+
+pub type ReqUser = Rc<RefCell<Option<User>>>;

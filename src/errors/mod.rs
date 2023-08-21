@@ -8,6 +8,8 @@ use thiserror::Error;
 
 #[derive(Debug, derive_more::Display, Error)]
 pub enum MyErrors {
+    #[display(fmt = "email already exists: {0}", _0)]
+    EmailAlreadyExists(String),
     #[display(fmt = "email or password is incorrect")]
     EmailOrPasswordIncorrect,
     #[display(fmt = "validation error: {0}", _0)]
@@ -17,13 +19,15 @@ pub enum MyErrors {
     UnknownError,
 }
 
+use convert_case::{Case, Casing};
+
 impl ResponseError for MyErrors {
     fn error_response(&self) -> HttpResponse {
         let status = self.status_code();
 
         let body = serde_json::json!({
             "status": status.as_u16(),
-            "code": status.canonical_reason().unwrap_or("unknown_error"),
+            "code": status.canonical_reason().unwrap_or("UnknownError").to_case(Case::Pascal),
             "message": self.to_string(),
             "info": null
         });
@@ -38,8 +42,9 @@ impl ResponseError for MyErrors {
             MyErrors::UnknownError => StatusCode::INTERNAL_SERVER_ERROR,
             MyErrors::ValidationError(_) => StatusCode::BAD_REQUEST,
             MyErrors::EmailOrPasswordIncorrect => StatusCode::UNAUTHORIZED,
+            MyErrors::EmailAlreadyExists(_) => StatusCode::CONFLICT,
             error => {
-                println!("{error}");
+                println!("uncoverd case: {error}");
                 StatusCode::INTERNAL_SERVER_ERROR
             }
         }

@@ -13,7 +13,7 @@ pub async fn connect() -> sqlx::PgPool {
         r#"
         CREATE TABLE IF NOT EXISTS users (
             id              SERIAL PRIMARY KEY,
-            email           VARCHAR NOT NULL,
+            email           VARCHAR NOT NULL UNIQUE,
             password        VARCHAR NOT NULL,
             display_name    VARCHAR,
             avatar          VARCHAR,

@@ -3,6 +3,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use actix_web::{post, web, HttpRequest, Responder, ResponseError};
+use sqlx::postgres::PgDatabaseError;
 use sqlx::FromRow;
 
 use crate::errors::MyErrors;
@@ -76,12 +77,18 @@ pub async fn register(
     .fetch_one(&pool)
     .await;
 
+    if let Err(sqlx::Error::Database(err)) = &res {
+        if err.code() == Some("23505".into()) {
+            return Err(MyErrors::EmailAlreadyExists(user.email.clone()));
+        }
+    }
+
     Ok(web::Json(res.unwrap()))
 }
 
 #[post("/login")]
 pub async fn login(
-    user: Option<web::ReqData<Rc<RefCell<Option<crate::middlewares::user::User>>>>>,
+    user: Option<web::ReqData<crate::middlewares::user::ReqUser>>,
     auth: Option<web::ReqData<EmailPassword>>,
     pool: web::Data<sqlx::Pool<sqlx::Postgres>>,
 ) -> Result<impl Responder, MyErrors> {

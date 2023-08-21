@@ -63,7 +63,7 @@ where
 
         let user = req
             .extensions()
-            .get::<Rc<RefCell<Option<crate::middlewares::user::User>>>>()
+            .get::<crate::middlewares::user::ReqUser>()
             .unwrap()
             .clone();
 
