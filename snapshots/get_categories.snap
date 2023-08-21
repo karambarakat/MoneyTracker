@@ -1,0 +1,11 @@
+{
+  getAllCategories {
+    id
+  }
+  getOneCategory(id:27) {
+    title
+    createdBy {
+      id
+    }
+  }
+}

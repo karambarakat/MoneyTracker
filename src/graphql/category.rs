@@ -1,58 +1,46 @@
 use async_graphql::*;
 use futures::StreamExt;
 
-#[derive(Default)]
-struct Date(pub chrono::DateTime<chrono::Utc>);
+use crate::modules::category::Category;
 
-#[Scalar]
-impl ScalarType for Date {
-    fn parse(value: Value) -> InputValueResult<Self> {
-        todo!()
-    }
+// #[derive(Default, SimpleObject)]
+// struct Category {
+//     pub id: ID,
+//     pub color: Option<String>,
+//     pub icon: Option<String>,
+//     pub title: String,
+//     pub created_at: Date,
+//     pub updated_at: Date,
+// }
 
-    fn to_value(&self) -> Value {
-        Value::String(self.0.to_rfc3339())
-    }
-}
+// use sqlx::postgres::PgRow;
+// use sqlx::Row;
+// impl<'r> sqlx::FromRow<'r, PgRow> for Category {
+//     fn from_row(row: &'r PgRow) -> Result<Self, sqlx::Error> {
+//         let id: i32 = row.try_get("id")?;
+//         let color: Option<String> = row.try_get("color")?;
+//         let icon: Option<String> = row.try_get("icon")?;
+//         let title: String = row.try_get("title")?;
+//         let created_at: Date = Date(row.try_get("created_at")?);
+//         let updated_at: Date = Date(row.try_get("updated_at")?);
 
-#[derive(Default, SimpleObject)]
-struct Category {
-    pub id: ID,
-    pub color: Option<String>,
-    pub icon: Option<String>,
-    pub title: String,
-    pub created_at: Date,
-    pub updated_at: Date,
-}
+//         Ok(Category {
+//             id: id.into(),
+//             color,
+//             icon,
+//             title,
+//             created_at,
+//             updated_at,
+//         })
+//     }
+// }
 
-use sqlx::postgres::PgRow;
-use sqlx::Row;
-impl<'r> sqlx::FromRow<'r, PgRow> for Category {
-    fn from_row(row: &'r PgRow) -> Result<Self, sqlx::Error> {
-        let id: i32 = row.try_get("id")?;
-        let color: Option<String> = row.try_get("color")?;
-        let icon: Option<String> = row.try_get("icon")?;
-        let title: String = row.try_get("title")?;
-        let created_at: Date = Date(row.try_get("created_at")?);
-        let updated_at: Date = Date(row.try_get("updated_at")?);
-
-        Ok(Category {
-            id: id.into(),
-            color,
-            icon,
-            title,
-            created_at,
-            updated_at,
-        })
-    }
-}
-
-#[derive(InputObject, Default)]
-struct CategoryInput {
-    pub color: Option<String>,
-    pub icon: Option<String>,
-    pub title: String,
-}
+// #[derive(InputObject, Default)]
+// struct CategoryInput {
+//     pub color: Option<String>,
+//     pub icon: Option<String>,
+//     pub title: String,
+// }
 
 #[derive(Default)]
 pub struct CategoryQuery {}
@@ -64,20 +52,76 @@ impl CategoryQuery {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
-        let res = sqlx::query_as::<_, Category>("SELECT * FROM category_temp").fetch_all(pool);
+        let res = sqlx::query_as::<_, Category>(
+            r#"
+            select 
+                category.id, title, color, icon,
+                category.created_at, category.updated_at,
 
-        res.await.unwrap()
+                users.id as user_id, email as user_email, 
+                display_name as user_display_name, 
+                avatar as user_avatar,
+                providers as user_providers,
+                users.created_at as user_created_at,
+                users.updated_at as user_updated_at
+            from category 
+            join users on users.id = category.created_by
+            where created_by = $1;
+            "#,
+        )
+        .bind(2_i32)
+        .fetch_all(pool)
+        .await
+        .unwrap();
+
+        res
     }
 
-    async fn say_hi(&self, ctx: &Context<'_>) -> String {
-        let auth = ctx.data::<String>().unwrap();
+    async fn get_one_category(&self, ctx: &Context<'_>, id: ID) -> Option<Category> {
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
 
-        auth.to_string()
+        let id = id.to_string().parse::<i32>().unwrap();
+
+        let res = sqlx::query_as::<_, Category>(
+            r#"
+            select 
+                category.id, title, color, icon,
+                category.created_at, category.updated_at,
+
+                users.id as user_id, email as user_email, 
+                display_name as user_display_name, 
+                avatar as user_avatar,
+                providers as user_providers,
+                users.created_at as user_created_at,
+                users.updated_at as user_updated_at
+            from category 
+            join users on users.id = category.created_by
+            where category.id = $1 and created_by = $2;
+            "#,
+        )
+        .bind(id)
+        .bind(2_i32)
+        .fetch_optional(pool)
+        .await
+        .unwrap();
+
+        res
     }
 }
 
 #[derive(Default)]
 pub struct CategoryMutation;
+
+#[derive(Debug, Default, async_graphql::InputObject)]
+pub struct CategoryInput {
+    pub title: String,
+    pub color: Option<String>,
+    pub icon: Option<String>,
+}
+
+use sqlx::Row;
 
 #[Object]
 impl CategoryMutation {
@@ -86,18 +130,176 @@ impl CategoryMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
+        let res = sqlx::query(
+            r#"
+            insert into category (created_by, title, color, icon) 
+            values               ($1, $2, $3, $4)
+            returning id;
+            "#,
+        )
+        .bind(2_i32)
+        .bind(category.title)
+        .bind(category.color)
+        .bind(category.icon)
+        .fetch_one(pool)
+        .await
+        .unwrap();
+
+        let id = res.try_get::<i32, _>("id").unwrap();
+
         let res = sqlx::query_as::<_, Category>(
             r#"
-            INSERT INTO category_temp (title, color, icon)
-            VALUES ($1, $2, $3)
-            RETURNING id, title, color, icon, created_at, updated_at;
+            select 
+                category.id, title, color, icon,
+                category.created_at, category.updated_at,
+
+                users.id as user_id, email as user_email, 
+                display_name as user_display_name, 
+                avatar as user_avatar,
+                providers as user_providers,
+                users.created_at as user_created_at,
+                users.updated_at as user_updated_at
+            from category 
+            join users on users.id = category.created_by
+            where category.id = $1;
+            "#,
+        )
+        .bind(id)
+        .fetch_one(pool)
+        .await
+        .unwrap();
+
+        res
+    }
+
+    async fn create_many_categories(
+        &self,
+        ctx: &Context<'_>,
+        categories: Vec<CategoryInput>,
+    ) -> Vec<Category> {
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
+
+        let mut tx = pool.begin().await.unwrap();
+
+        let mut ids = Vec::new();
+
+        for category in categories {
+            let res = sqlx::query(
+                r#"
+                insert into category (created_by, title, color, icon) 
+                values               ($1, $2, $3, $4)
+                returning id;
+                "#,
+            )
+            .bind(2_i32)
+            .bind(category.title)
+            .bind(category.color)
+            .bind(category.icon)
+            .fetch_one(pool)
+            .await
+            .unwrap();
+
+            let id = res.try_get::<i32, _>("id").unwrap();
+            ids.push(id);
+        }
+
+        tx.commit().await.unwrap();
+
+        let res = sqlx::query_as::<_, Category>(
+            r#"
+            select 
+                category.id, title, color, icon,
+                category.created_at, category.updated_at,
+
+                users.id as user_id, email as user_email, 
+                display_name as user_display_name, 
+                avatar as user_avatar,
+                providers as user_providers,
+                users.created_at as user_created_at,
+                users.updated_at as user_updated_at
+            from category 
+            join users on users.id = category.created_by
+            where category.id = any($1);
+            "#,
+        )
+        .bind(ids)
+        .fetch_all(pool)
+        .await
+        .unwrap();
+
+        res
+    }
+
+    async fn delete_one_category(&self, ctx: &Context<'_>, id: ID) -> bool {
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
+
+        let id = id.to_string().parse::<i32>().unwrap();
+
+        let res = sqlx::query(
+            r#"
+            delete from category where id = $1
+            "#,
+        )
+        .bind(id)
+        .execute(pool)
+        .await
+        .unwrap();
+
+        res.rows_affected() == 1
+    }
+
+    async fn delete_many_categories(&self, ctx: &Context<'_>, ids: Vec<ID>) -> u64 {
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
+
+        let ids = ids
+            .iter()
+            .map(|id| id.to_string().parse::<i32>().unwrap())
+            .collect::<Vec<_>>();
+
+        let res = sqlx::query(
+            r#"
+            delete from category where id = any($1)
+            "#,
+        )
+        .bind(ids)
+        .execute(pool)
+        .await
+        .unwrap();
+
+        res.rows_affected()
+    }
+
+    async fn update_one_category(
+        &self,
+        ctx: &Context<'_>,
+        id: ID,
+        category: CategoryInput,
+    ) -> bool {
+        let pool = ctx
+            .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
+
+        let id = id.to_string().parse::<i32>().unwrap();
+
+        let res = sqlx::query(
+            r#"
+            update category set title = $1, color = $2, icon = $3 where id = $4
             "#,
         )
         .bind(category.title)
         .bind(category.color)
         .bind(category.icon)
-        .fetch_one(pool);
+        .bind(id)
+        .execute(pool)
+        .await
+        .unwrap();
 
-        res.await.unwrap().into()
+        res.rows_affected() == 1
     }
 }

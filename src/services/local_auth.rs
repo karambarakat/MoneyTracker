@@ -105,9 +105,7 @@ pub async fn login(
                 .to_string()
                 .contains("no rows returned by a query that expected to return at least one row")
             {
-                return Err(MyErrors::ValidationError(
-                    "email or password is invalid".to_string(),
-                ));
+                return Err(MyErrors::EmailOrPasswordIncorrect);
             }
             println!("{}", err.to_string());
             return Err(MyErrors::UnknownError);

@@ -1,0 +1,11 @@
+mutation {
+  deleteOneCategory(
+  id: "30"
+  ) 
+}
+
+{
+  "data": {
+    "deleteOneCategory": true
+  }
+}

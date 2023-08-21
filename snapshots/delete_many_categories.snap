@@ -1,0 +1,12 @@
+mutation {
+  deleteManyCategories(
+  ids: ["16", "17"]
+  ) 
+}
+
+{
+  "data": {
+    "deleteManyCategories": 1
+  }
+}
+

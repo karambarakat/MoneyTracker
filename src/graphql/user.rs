@@ -52,7 +52,8 @@ pub struct UserQuery {}
 
 #[Object]
 impl UserQuery {
-    async fn get_all_users(&self, ctx: &Context<'_>) -> Vec<User> {
+    async fn update_current_user(&self, ctx: &Context<'_>) -> Vec<User> {
+        todo!();
         let pool = ctx
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
@@ -68,25 +69,14 @@ pub struct UserMutation;
 
 #[Object]
 impl UserMutation {
-    async fn create_one_user(&self, ctx: &Context<'_>, user: UserInput) -> User {
+    async fn update_current_user(&self, ctx: &Context<'_>) -> Vec<User> {
+        todo!();
         let pool = ctx
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
-        let res = sqlx::query_as::<_, User>(
-            r#"
-            INSERT INTO users (email, password, display_name, avatar, providers)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, email, display_name, avatar, providers, created_at, updated_at;
-            "#,
-        )
-        .bind(user.email)
-        .bind(user.password)
-        .bind(user.display_name)
-        .bind(user.avatar)
-        .bind("local,google")
-        .fetch_one(pool);
+        let res = sqlx::query_as::<_, User>("SELECT * FROM users").fetch_all(pool);
 
-        res.await.unwrap().into()
+        res.await.unwrap()
     }
 }

@@ -10,7 +10,7 @@ use std::{
     num::NonZeroU32,
 };
 
-use crate::errors::BasicTokenRequired as thisErr;
+use crate::errors::basic_token_error::BasicTokenRequired as the_err;
 
 pub struct Middleware;
 
@@ -74,7 +74,7 @@ pub struct EmailPassword {
 
 impl std::fmt::Display for EmailPassword {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "[User: {}, ****]", self.email)
+        write!(f, "[User: {},****]", self.email)
     }
 }
 
@@ -104,22 +104,22 @@ impl EmailPassword {
     }
 }
 
-fn process_request(req: &ServiceRequest) -> Result<EmailPassword, thisErr> {
+fn process_request(req: &ServiceRequest) -> Result<EmailPassword, the_err> {
     let header = req
         .headers()
         .get(AUTHORIZATION)
-        .ok_or(thisErr {
+        .ok_or(the_err {
             more_info: "header is not provided".to_string(),
         })?
         .to_str()
-        .map_err(|_| thisErr {
+        .map_err(|_| the_err {
             more_info: "header is not provided".to_string(),
         })?;
 
     let (email, password) = {
         let auth = header.split(" ").collect::<Vec<&str>>();
         if auth.len() != 2 || auth[0] != "Basic" {
-            return Err(thisErr {
+            return Err(the_err {
                 more_info: "not a basic token".to_string(),
             });
         }
@@ -129,15 +129,15 @@ fn process_request(req: &ServiceRequest) -> Result<EmailPassword, thisErr> {
         let auth = auth[1];
         let auth = base64::engine::general_purpose::STANDARD
             .decode(auth)
-            .map_err(|_| thisErr {
+            .map_err(|_| the_err {
                 more_info: "token decoding failed".to_string(),
             })?;
-        let auth = String::from_utf8(auth).map_err(|_| thisErr {
+        let auth = String::from_utf8(auth).map_err(|_| the_err {
             more_info: "token decoding failed, input is valid?".to_string(),
         })?;
         let auth = auth.split(":").collect::<Vec<&str>>();
         if auth.len() != 2 {
-            return Err(thisErr {
+            return Err(the_err {
                 more_info: "token is not formatted as email:password".to_string(),
             });
         }

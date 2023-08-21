@@ -2,7 +2,7 @@ use async_graphql::*;
 use sqlx::postgres::PgRow;
 use sqlx::Row;
 
-use super::Date;
+use crate::modules::Date;
 
 impl<'r> sqlx::FromRow<'r, PgRow> for User {
     fn from_row(row: &'r PgRow) -> Result<Self, sqlx::Error> {
@@ -33,6 +33,6 @@ pub struct User {
     pub display_name: Option<String>,
     pub avatar: Option<String>,
     pub providers: String,
-    pub created_at: crate::modules::Date,
-    pub updated_at: crate::modules::Date,
+    pub created_at: Date,
+    pub updated_at: Date,
 }

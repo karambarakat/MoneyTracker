@@ -7,14 +7,14 @@ pub mod root {
     #[derive(async_graphql::MergedObject, Default)]
     pub struct Query(
         super::category::CategoryQuery,
-        super::user::UserQuery,
+        // super::user::UserQuery,
         EmptyMutation,
     );
 
     #[derive(async_graphql::MergedObject, Default)]
     pub struct Mutation(
         super::category::CategoryMutation,
-        super::user::UserMutation,
+        // super::user::UserMutation,
         EmptyMutation,
     );
 }

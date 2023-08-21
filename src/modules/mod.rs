@@ -15,4 +15,5 @@ impl ScalarType for Date {
     }
 }
 
+pub mod category;
 pub mod user;
