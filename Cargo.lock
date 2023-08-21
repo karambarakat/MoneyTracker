@@ -1691,6 +1691,7 @@ dependencies = [
  "dotenv",
  "futures",
  "futures-util",
+ "hmac",
  "jwt",
  "rand",
  "ring",

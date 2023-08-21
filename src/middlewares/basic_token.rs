@@ -69,7 +69,7 @@ where
 pub struct EmailPassword {
     pub email: String,
     /// encrypted password
-    pub password: [u8; ring::digest::SHA256_OUTPUT_LEN],
+    pub password: String,
 }
 
 impl std::fmt::Display for EmailPassword {
@@ -77,18 +77,47 @@ impl std::fmt::Display for EmailPassword {
         write!(f, "[User: {},****]", self.email)
     }
 }
+use base64::Engine;
 
 impl EmailPassword {
-    pub fn new(email: String, password_: String) -> Self {
-        let mut password = [0u8; ring::digest::SHA256_OUTPUT_LEN];
+    pub fn new(email: String, password: String) -> Self {
+        let mut _password = [0u8; ring::digest::SHA256_OUTPUT_LEN];
 
-        Self::alg(&mut password, &password_);
+        Self::alg(&mut _password, &password);
+
+        // convert to hex string
+        let password = _password
+            .iter()
+            .map(|byte| format!("{:02x}", byte))
+            .collect::<Vec<String>>()
+            .join("");
 
         Self { email, password }
     }
 
-    pub fn verify(&self, value: EmailPassword) -> bool {
-        self.password == value.password && self.email == value.email
+    pub fn decode(token: &str) -> Result<Self, the_err> {
+        let token = base64::engine::general_purpose::STANDARD
+            .decode(token)
+            .map_err(|_| the_err("token decoding failed".to_string()))?;
+        let token = String::from_utf8(token)
+            .map_err(|_| the_err("token decoding failed, input is valid?".to_string()))?;
+        let token = token.split(":").collect::<Vec<&str>>();
+        if token.len() != 2 {
+            return Err(the_err(
+                "token is not formatted as email:password".to_string(),
+            ));
+        }
+
+        let (email, password) = (token[0].to_string(), token[1].to_string());
+
+        Ok(Self::new(email, password))
+    }
+
+    pub fn verify(&self, db_value: &str) -> Result<(), anyhow::Error> {
+        match db_value == self.password {
+            true => Ok(()),
+            false => Err(anyhow::anyhow!("password is incorrect")),
+        }
     }
 
     fn alg(store: &mut [u8; ring::digest::SHA256_OUTPUT_LEN], password: &str) {
@@ -108,42 +137,14 @@ fn process_request(req: &ServiceRequest) -> Result<EmailPassword, the_err> {
     let header = req
         .headers()
         .get(AUTHORIZATION)
-        .ok_or(the_err {
-            more_info: "header is not provided".to_string(),
-        })?
+        .ok_or(the_err("header is not provided".to_string()))?
         .to_str()
-        .map_err(|_| the_err {
-            more_info: "header is not provided".to_string(),
-        })?;
+        .map_err(|_| the_err("header is not provided".to_string()))?;
 
-    let (email, password) = {
-        let auth = header.split(" ").collect::<Vec<&str>>();
-        if auth.len() != 2 || auth[0] != "Basic" {
-            return Err(the_err {
-                more_info: "not a basic token".to_string(),
-            });
-        }
+    let auth = header.split(" ").collect::<Vec<&str>>();
+    if auth.len() != 2 || auth[0] != "Basic" {
+        return Err(the_err("not a basic token".to_string()));
+    }
 
-        use base64::Engine;
-
-        let auth = auth[1];
-        let auth = base64::engine::general_purpose::STANDARD
-            .decode(auth)
-            .map_err(|_| the_err {
-                more_info: "token decoding failed".to_string(),
-            })?;
-        let auth = String::from_utf8(auth).map_err(|_| the_err {
-            more_info: "token decoding failed, input is valid?".to_string(),
-        })?;
-        let auth = auth.split(":").collect::<Vec<&str>>();
-        if auth.len() != 2 {
-            return Err(the_err {
-                more_info: "token is not formatted as email:password".to_string(),
-            });
-        }
-
-        (auth[0].to_string(), auth[1].to_string())
-    };
-
-    Ok(EmailPassword::new(email, password))
+    Ok(EmailPassword::decode(auth[1])?)
 }

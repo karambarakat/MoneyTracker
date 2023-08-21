@@ -1,4 +1,9 @@
+use core::panic;
+use std::cell::RefCell;
+use std::rc::Rc;
+
 use actix_web::{post, web, HttpRequest, Responder, ResponseError};
+use sqlx::FromRow;
 
 use crate::errors::MyErrors;
 use crate::middlewares::basic_token::EmailPassword;
@@ -67,7 +72,7 @@ pub async fn register(
     .bind(user.password.clone())
     .bind(body.display_name.clone())
     .bind(body.avatar.clone())
-    .bind("local,google")
+    .bind("local")
     .fetch_one(&pool)
     .await;
 
@@ -76,43 +81,61 @@ pub async fn register(
 
 #[post("/login")]
 pub async fn login(
+    user: Option<web::ReqData<Rc<RefCell<Option<crate::middlewares::user::User>>>>>,
     auth: Option<web::ReqData<EmailPassword>>,
     pool: web::Data<sqlx::Pool<sqlx::Postgres>>,
 ) -> Result<impl Responder, MyErrors> {
     let pool = pool.into_inner().as_ref().clone();
 
-    let auth = auth.ok_or(MyErrors::ValidationError(
-        "email and password is required".to_string(),
-    ))?;
+    let auth = auth
+        .expect(
+            "app configured incorrectly, expected basic token middleware to populate EmailPassword",
+        )
+        .into_inner();
 
-    let auth = auth.into_inner();
-
-    let res = sqlx::query_as::<_, User>(
+    let res = sqlx::query(
         r#"
-    SELECT id, email, display_name, avatar, providers, created_at, updated_at
+    SELECT id, email, display_name, avatar, providers, created_at, updated_at, password
     FROM users
     WHERE email = $1
     "#,
     )
-    .bind(auth.email)
+    .bind(&auth.email)
     .fetch_one(&pool)
     .await;
 
     let res = match res {
         Ok(res) => res,
-        Err(err) => {
-            if err
-                .to_string()
-                .contains("no rows returned by a query that expected to return at least one row")
-            {
-                return Err(MyErrors::EmailOrPasswordIncorrect);
-            }
-            println!("{}", err.to_string());
-            return Err(MyErrors::UnknownError);
+        Err(sqlx::Error::RowNotFound) => return Err(MyErrors::EmailOrPasswordIncorrect),
+        _ => return Err(MyErrors::UnknownError),
+    };
+
+    use sqlx::Row;
+    let password = res.try_get::<String, _>("password").unwrap();
+    auth.verify(&password)
+        .map_err(|_| MyErrors::EmailOrPasswordIncorrect)?;
+
+    let res = User::from_row(&res).unwrap();
+
+    // authenticate user
+    let user = user.expect("app configured incorrectly").into_inner();
+
+    let mut user = user.borrow_mut();
+
+    match user.as_ref() {
+        None => {
+            *user = Some(crate::middlewares::user::User {
+                id: res.id.clone().into(),
+                email: res.email.clone(),
+                user_name: res.email.clone(),
+            });
         }
+        _ => {} // user is already attached
     };
 
     Ok(web::Json(res))
+
+    // crate::middlewares::user::Middleware will populate token on header x-token
 }
 
 pub fn config(cfg: &mut web::ServiceConfig) {

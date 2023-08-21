@@ -7,6 +7,7 @@ mod graphql;
 mod middlewares;
 mod modules;
 mod services;
+mod utils;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -29,9 +30,11 @@ async fn main() -> std::io::Result<()> {
         .finish();
 
         App::new()
+            .wrap(crate::middlewares::user::Middleware)
             .app_data(web::Data::new(pool.clone()))
             .service(
                 web::scope("/graphql")
+                    .wrap(crate::middlewares::bearer_token::Middleware)
                     .app_data(web::Data::new(schema))
                     .service(crate::graphql::graphql_playground)
                     .service(crate::graphql::graphql_endpoint),
