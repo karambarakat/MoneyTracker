@@ -10,6 +10,7 @@ use std::{
     future::{ready, Ready},
     num::NonZeroU32,
     rc::Rc,
+    sync::Arc,
 };
 
 use crate::errors::{basic_token_error::BasicTokenRequired as the_err, MyErrors};
@@ -66,6 +67,11 @@ where
             let user = user.as_ref();
 
             if let Some(user) = user {
+                // when user is available this means the user has been authenticated
+                // if so attach new x-token header to the response
+                // crate::services::local_auth::login
+                // crate::services::local_auth::register
+                // crate::middleware::bearer_token
                 res.headers_mut().insert(
                     HeaderName::from_bytes(String::from("X-token").as_bytes()).map_err(|err| {
                         println!("error: {}", err);
@@ -91,7 +97,7 @@ where
     }
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct User {
     pub email: String,
     pub id: String,

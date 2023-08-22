@@ -52,6 +52,8 @@ mod user_body {
 
 #[post("/register")]
 pub async fn register(
+    token_user: Option<web::ReqData<crate::middlewares::user::ReqUser>>,
+
     user: web::ReqData<crate::middlewares::basic_token::EmailPassword>,
     pool: web::Data<sqlx::Pool<sqlx::Postgres>>,
     body: web::Payload,
@@ -83,7 +85,25 @@ pub async fn register(
         }
     }
 
-    Ok(web::Json(res.unwrap()))
+    let res = res.unwrap();
+
+    // authenticate user
+    let token_user = token_user.expect("app configured incorrectly").into_inner();
+
+    let mut token_user = token_user.borrow_mut();
+
+    match token_user.as_ref() {
+        None => {
+            *token_user = Some(crate::middlewares::user::User {
+                id: res.id.to_string().parse().unwrap(),
+                email: res.email.clone(),
+                user_name: res.email.clone(),
+            });
+        }
+        _ => {} // user is already attached
+    };
+
+    Ok(web::Json(res))
 }
 
 #[post("/login")]
@@ -132,7 +152,7 @@ pub async fn login(
     match user.as_ref() {
         None => {
             *user = Some(crate::middlewares::user::User {
-                id: res.id.clone().into(),
+                id: res.id.to_string().parse().unwrap(),
                 email: res.email.clone(),
                 user_name: res.email.clone(),
             });

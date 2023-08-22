@@ -1,7 +1,7 @@
 use async_graphql::*;
 use chrono::serde::ts_seconds;
 
-#[derive(Debug, Default, serde::Deserialize, serde::Serialize)]
+#[derive(Debug, Clone, Default, serde::Deserialize, serde::Serialize)]
 pub struct Date(#[serde(with = "ts_seconds")] pub chrono::DateTime<chrono::Utc>);
 
 #[Scalar]
@@ -16,4 +16,5 @@ impl ScalarType for Date {
 }
 
 pub mod category;
+pub mod entry;
 pub mod user;

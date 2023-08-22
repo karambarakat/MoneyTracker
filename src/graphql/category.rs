@@ -3,45 +3,6 @@ use futures::StreamExt;
 
 use crate::modules::category::Category;
 
-// #[derive(Default, SimpleObject)]
-// struct Category {
-//     pub id: ID,
-//     pub color: Option<String>,
-//     pub icon: Option<String>,
-//     pub title: String,
-//     pub created_at: Date,
-//     pub updated_at: Date,
-// }
-
-// use sqlx::postgres::PgRow;
-// use sqlx::Row;
-// impl<'r> sqlx::FromRow<'r, PgRow> for Category {
-//     fn from_row(row: &'r PgRow) -> Result<Self, sqlx::Error> {
-//         let id: i32 = row.try_get("id")?;
-//         let color: Option<String> = row.try_get("color")?;
-//         let icon: Option<String> = row.try_get("icon")?;
-//         let title: String = row.try_get("title")?;
-//         let created_at: Date = Date(row.try_get("created_at")?);
-//         let updated_at: Date = Date(row.try_get("updated_at")?);
-
-//         Ok(Category {
-//             id: id.into(),
-//             color,
-//             icon,
-//             title,
-//             created_at,
-//             updated_at,
-//         })
-//     }
-// }
-
-// #[derive(InputObject, Default)]
-// struct CategoryInput {
-//     pub color: Option<String>,
-//     pub icon: Option<String>,
-//     pub title: String,
-// }
-
 #[derive(Default)]
 pub struct CategoryQuery {}
 
@@ -50,6 +11,10 @@ impl CategoryQuery {
     async fn get_all_categories(&self, ctx: &Context<'_>) -> Vec<Category> {
         let pool = ctx
             .data::<sqlx::Pool<sqlx::Postgres>>()
+            .expect("app configured incorrectly");
+
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
             .expect("app configured incorrectly");
 
         let res = sqlx::query_as::<_, Category>(
@@ -69,7 +34,7 @@ impl CategoryQuery {
             where created_by = $1;
             "#,
         )
-        .bind(2_i32)
+        .bind(user.id.parse::<i32>().unwrap())
         .fetch_all(pool)
         .await
         .unwrap();
@@ -82,7 +47,9 @@ impl CategoryQuery {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
-        let id = id.to_string().parse::<i32>().unwrap();
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
+            .expect("app configured incorrectly");
 
         let res = sqlx::query_as::<_, Category>(
             r#"
@@ -101,7 +68,7 @@ impl CategoryQuery {
             where category.id = $1 and created_by = $2;
             "#,
         )
-        .bind(id)
+        .bind(user.id.parse::<i32>().unwrap())
         .bind(2_i32)
         .fetch_optional(pool)
         .await
@@ -130,6 +97,10 @@ impl CategoryMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
+            .expect("app configured incorrectly");
+
         let res = sqlx::query(
             r#"
             insert into category (created_by, title, color, icon) 
@@ -137,7 +108,7 @@ impl CategoryMutation {
             returning id;
             "#,
         )
-        .bind(2_i32)
+        .bind(user.id.parse::<i32>().unwrap())
         .bind(category.title)
         .bind(category.color)
         .bind(category.icon)
@@ -161,10 +132,11 @@ impl CategoryMutation {
                 users.updated_at as user_updated_at
             from category 
             join users on users.id = category.created_by
-            where category.id = $1;
+            where category.id = $1 and created_by = $2;
             "#,
         )
         .bind(id)
+        .bind(user.id.parse::<i32>().unwrap())
         .fetch_one(pool)
         .await
         .unwrap();
@@ -181,6 +153,10 @@ impl CategoryMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
+            .expect("app configured incorrectly");
+
         let mut tx = pool.begin().await.unwrap();
 
         let mut ids = Vec::new();
@@ -193,7 +169,7 @@ impl CategoryMutation {
                 returning id;
                 "#,
             )
-            .bind(2_i32)
+            .bind(user.id.parse::<i32>().unwrap())
             .bind(category.title)
             .bind(category.color)
             .bind(category.icon)
@@ -221,10 +197,11 @@ impl CategoryMutation {
                 users.updated_at as user_updated_at
             from category 
             join users on users.id = category.created_by
-            where category.id = any($1);
+            where category.id = any($1) and created_by = $2;
             "#,
         )
         .bind(ids)
+        .bind(user.id.parse::<i32>().unwrap())
         .fetch_all(pool)
         .await
         .unwrap();
@@ -237,14 +214,19 @@ impl CategoryMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
+            .expect("app configured incorrectly");
+
         let id = id.to_string().parse::<i32>().unwrap();
 
         let res = sqlx::query(
             r#"
-            delete from category where id = $1
+            delete from category where id = $1 and created_by = $2
             "#,
         )
         .bind(id)
+        .bind(user.id.parse::<i32>().unwrap())
         .execute(pool)
         .await
         .unwrap();
@@ -257,6 +239,10 @@ impl CategoryMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
+            .expect("app configured incorrectly");
+
         let ids = ids
             .iter()
             .map(|id| id.to_string().parse::<i32>().unwrap())
@@ -264,10 +250,11 @@ impl CategoryMutation {
 
         let res = sqlx::query(
             r#"
-            delete from category where id = any($1)
+            delete from category where id = any($1) and created_by = $2
             "#,
         )
         .bind(ids)
+        .bind(user.id.parse::<i32>().unwrap())
         .execute(pool)
         .await
         .unwrap();
@@ -285,17 +272,22 @@ impl CategoryMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
+        let user = ctx
+            .data::<crate::middlewares::user::User>()
+            .expect("app configured incorrectly");
+
         let id = id.to_string().parse::<i32>().unwrap();
 
         let res = sqlx::query(
             r#"
-            update category set title = $1, color = $2, icon = $3 where id = $4
+            update category set title = $1, color = $2, icon = $3 where id = $4 and created_by = $5
             "#,
         )
         .bind(category.title)
         .bind(category.color)
         .bind(category.icon)
         .bind(id)
+        .bind(user.id.parse::<i32>().unwrap())
         .execute(pool)
         .await
         .unwrap();

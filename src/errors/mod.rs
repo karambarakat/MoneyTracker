@@ -14,7 +14,7 @@ pub enum MyErrors {
     EmailOrPasswordIncorrect,
     #[display(fmt = "validation error: {0}", _0)]
     ValidationError(String),
-    /// ultimately, we should not use this error, improve the code or provide more descriptive error
+    /// ultimately, we should not use this error, improve the code or provide more a descriptive error
     #[display(fmt = "internal error")]
     UnknownError,
 }

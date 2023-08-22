@@ -33,11 +33,15 @@ async fn main() -> std::io::Result<()> {
             .wrap(crate::middlewares::user::Middleware)
             .app_data(web::Data::new(pool.clone()))
             .service(
-                web::scope("/graphql")
-                    .wrap(crate::middlewares::bearer_token::Middleware)
+                web::resource("/gqli")
+                    .app_data(web::Data::new(schema.clone()))
+                    .route(web::get().to(crate::graphql::graphql_playground)),
+            )
+            .service(
+                web::resource("/graphql")
                     .app_data(web::Data::new(schema))
-                    .service(crate::graphql::graphql_playground)
-                    .service(crate::graphql::graphql_endpoint),
+                    .wrap(crate::middlewares::bearer_token::Middleware)
+                    .route(web::post().to(crate::graphql::graphql_endpoint)),
             )
             .service(
                 web::scope("/auth/local")

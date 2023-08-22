@@ -26,7 +26,7 @@ impl<'r> sqlx::FromRow<'r, PgRow> for User {
     }
 }
 
-#[derive(Debug, Default, async_graphql::SimpleObject, serde::Serialize)]
+#[derive(Debug, Clone, Default, async_graphql::SimpleObject, serde::Serialize)]
 pub struct User {
     pub id: async_graphql::ID,
     pub email: String,
