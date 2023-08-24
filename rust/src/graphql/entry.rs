@@ -20,7 +20,7 @@ impl EntryQuery {
         let res = sqlx::query_as::<_, Entry>(
             r#"
             select 
-                entry.id, title, amount, note,
+                entry.id, entry.title, amount, note,
                 entry.created_at, entry.updated_at,
 
                 users.id as user_id, email as user_email,
@@ -36,8 +36,8 @@ impl EntryQuery {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            left join category on category.id = entry.category_id
-            where created_by = $1;
+            join category on category.id = entry.category
+            where entry.created_by = $1;
             "#,
         )
         .bind(user.id.parse::<i32>().unwrap())
@@ -60,7 +60,7 @@ impl EntryQuery {
         let res = sqlx::query_as::<_, Entry>(
             r#"
             select 
-                entry.id, title, amount, note,
+                entry.id, entry.title, amount, note,
                 entry.created_at, entry.updated_at,
 
                 users.id as user_id, email as user_email,
@@ -76,8 +76,8 @@ impl EntryQuery {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category_id
-            where entry.id = $1 and created_by = $2;
+            join category on category.id = entry.category
+            where entry.id = $1 and entry.created_by = $2;
             "#,
         )
         .bind(id.to_string().parse::<i32>().unwrap())
@@ -116,7 +116,7 @@ impl EntryMutation {
 
         let res = sqlx::query(
             r#"
-            insert into entry (created_by, title, amount, note, category_id)
+            insert into entry (created_by, title, amount, note, category)
             values               ($1, $2, $3, $4, $5)
             returning id;
             "#,
@@ -139,7 +139,7 @@ impl EntryMutation {
         let res = sqlx::query_as::<_, Entry>(
             r#"
             select 
-                entry.id, title, amount, note,
+                entry.id, entry.title, amount, note,
                 entry.created_at, entry.updated_at,
 
                 users.id as user_id, email as user_email,
@@ -155,8 +155,8 @@ impl EntryMutation {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category_id
-            where entry.id = $1 and created_by = $2;
+            join category on category.id = entry.category
+            where entry.id = $1 and entry.created_by = $2;
             "#,
         )
         .bind(id)
@@ -211,7 +211,7 @@ impl EntryMutation {
         let res = sqlx::query_as::<_, Entry>(
             r#"
             select 
-                entry.id, title, amount, note,
+                entry.id, entry.title, amount, note,
                 entry.created_at, entry.updated_at,
 
                 users.id as user_id, email as user_email,
@@ -227,8 +227,8 @@ impl EntryMutation {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category_id
-            where entry.id = any($1) and created_by = $2;
+            join category on category.id = entry.category
+            where entry.id = any($1) and entry.created_by = $2;
             "#,
         )
         .bind(ids)

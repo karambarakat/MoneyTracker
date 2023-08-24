@@ -1,6 +1,7 @@
-data
-target
+/target
 .env
 # `git restore --source fc61a9c45bb3503661206ab746727d270cdd5a59 ./scr_mongo
 src_mongo
 bevy
+
+data

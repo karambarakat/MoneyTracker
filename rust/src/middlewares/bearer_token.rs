@@ -54,8 +54,6 @@ where
     forward_ready!(service);
 
     fn call(&self, mut req: ServiceRequest) -> Self::Future {
-        print!("k,hjm");
-
         let credential = process_request(&req);
 
         let credential = match credential {

@@ -3,8 +3,6 @@ mod entry;
 mod user;
 
 pub mod root {
-    use async_graphql::*;
-
     #[derive(async_graphql::MergedObject, Default)]
     pub struct Query(
         super::category::CategoryQuery,
@@ -20,10 +18,7 @@ pub mod root {
     );
 }
 
-use std::sync::Arc;
-
 use actix_web::{
-    get, post,
     web::{self, ReqData},
     HttpResponse,
 };

@@ -18,7 +18,11 @@ async fn main() -> std::io::Result<()> {
         .parse::<u16>()
         .expect("port is not a number");
 
+    println!("connecting to db");
+
     let pool = db::connect().await;
+
+    println!("connected to db, binding on port {port}");
 
     HttpServer::new(move || {
         let schema = Schema::build(
@@ -32,11 +36,6 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(crate::middlewares::user::Middleware)
             .app_data(web::Data::new(pool.clone()))
-            .service(
-                web::resource("/gqli")
-                    .app_data(web::Data::new(schema.clone()))
-                    .route(web::get().to(crate::graphql::graphql_playground)),
-            )
             .service(
                 web::resource("/graphql")
                     .app_data(web::Data::new(schema))
@@ -57,4 +56,8 @@ async fn main() -> std::io::Result<()> {
     .bind(("127.0.0.1", port))?
     .run()
     .await
+    .map_err(|val| {
+        println!("app is not running");
+        val
+    })
 }

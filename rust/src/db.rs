@@ -3,6 +3,10 @@ use sqlx::postgres::PgPoolOptions;
 pub async fn connect() -> sqlx::PgPool {
     let db_connection = std::env::var("POSTGRES_DB").expect("no database url");
 
+    if (db_connection.len() == 0) {
+        panic!("no database url");
+    }
+
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .connect(&db_connection)

@@ -7,14 +7,7 @@ name = "pani-puri"
 version = "0.1.0"
 edition = "2021"
 
-[workspace]
-members = [
-    ".",
-    "say_hi_macro_derive",
-]
-
 [dependencies]
-say_hi_macro_derive = { path = "./say_hi_macro_derive" }
 sqlx = { version = "0.7", features = [ "runtime-tokio", "tls-rustls", "postgres","chrono", "json" ] }
 actix-web = "4.3.1"
 async-graphql = "5.0.10"
