@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`root 1`] = `
-Object {
-  "doc": "",
-}
-`;
-
-exports[`test1 1`] = `Promise {}`;

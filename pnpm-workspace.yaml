@@ -1,0 +1,3 @@
+packages:
+  - 'pkgs/gql_client'
+  - 'db'

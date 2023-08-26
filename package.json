@@ -1,0 +1,10 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "scripts": {
+    "db": "docker compose up --detach",
+    "s1": "cargo watch -x run",
+    "s2": "pnpm -F it jest:watch",
+    "bg": "pnpm -r --parallel bg"
+  }
+}

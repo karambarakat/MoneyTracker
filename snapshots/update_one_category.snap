@@ -1,9 +1,0 @@
-mutation {
-	updateOneCategory(id:8, category: {title: "new title"})
-}
-
-{
-  "data": {
-    "updateOneCategory": true
-  }
-}
