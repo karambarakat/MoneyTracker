@@ -1,0 +1,4 @@
+# ignore for rust project
+
+**/*
+!apps

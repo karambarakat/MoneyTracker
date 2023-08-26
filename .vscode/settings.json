@@ -26,7 +26,7 @@
     "TCICD",
     "Turborepo",
     "typecheck",
-    "viewports"
+    "viewports","actix", "chrono", "TIMESTAMPTZ"
   ],
   "eslint.options": {
     "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]
@@ -38,5 +38,6 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "cSpell.enableFiletypes": ["bat"]
 }

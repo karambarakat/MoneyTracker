@@ -22,3 +22,9 @@ do_app_spec_prod.yaml
 
 # scripts
 *.log
+
+# postgres docker compose
+data
+
+# rust
+target
