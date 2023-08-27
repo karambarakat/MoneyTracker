@@ -43,7 +43,7 @@ impl<'r> sqlx::FromRow<'r, PgRow> for Category {
     }
 }
 
-#[derive(Debug, Default, async_graphql::SimpleObject, serde::Serialize)]
+#[derive(Clone, Debug, Default, async_graphql::SimpleObject, serde::Serialize)]
 pub struct Category {
     pub id: async_graphql::ID,
     pub title: String,

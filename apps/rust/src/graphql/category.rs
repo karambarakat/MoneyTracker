@@ -68,8 +68,8 @@ impl CategoryQuery {
             where category.id = $1 and created_by = $2;
             "#,
         )
+        .bind(id.to_string().parse::<i32>().unwrap())
         .bind(user.id.parse::<i32>().unwrap())
-        .bind(2_i32)
         .fetch_optional(pool)
         .await
         .unwrap();

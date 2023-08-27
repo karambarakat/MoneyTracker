@@ -2,6 +2,7 @@ use actix_web::{web, App, HttpResponse, HttpServer};
 use async_graphql::{EmptySubscription, Schema};
 
 mod db;
+mod env;
 mod errors;
 mod graphql;
 mod middlewares;
@@ -9,14 +10,12 @@ mod modules;
 mod services;
 mod utils;
 
-const HI: &str = "new str";
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    dotenv::dotenv().ok();
+    env::load_env();
 
     let port = std::env::var("PORT")
-        .unwrap_or("8080".to_string())
+        .unwrap_or("808".to_string())
         .parse::<u16>()
         .expect("port is not a number");
 

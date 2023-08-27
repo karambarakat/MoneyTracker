@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic token bad basic token 1`] = `
+Array [
+  "http://localhost:4200/auth/local/register",
+  Object {
+    "headers": Object {
+      "authorization": "Basic badToken",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`basic token bad basic token 2`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "basic_token_required",
+    "info": Object {
+      "reason": "token decoding failed, input is valid?",
+    },
+    "message": "internal error, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token good basic token 1`] = `
+Array [
+  "http://localhost:4200/auth/local/register",
+  Object {
+    "body": "{}",
+    "headers": Object {
+      "authorization": "Basic YWRtaW46cGFzcw==",
+      "content": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`basic token good basic token 2`] = `
+Object {
+  "avatar": null,
+  "created_at": Any<Number>,
+  "display_name": null,
+  "email": "admin",
+  "id": Any<String>,
+  "providers": "local",
+  "updated_at": Any<Number>,
+}
+`;
+
+exports[`basic token not a basic token 1`] = `
+Array [
+  "http://localhost:4200/auth/local/register",
+  Object {
+    "headers": Object {
+      "authorization": "Bearer badToken",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`basic token not a basic token 2`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "basic_token_required",
+    "info": Object {
+      "reason": "not a basic token",
+    },
+    "message": "internal error, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token protected by token 1`] = `
+Array [
+  "http://localhost:4200/auth/local",
+  Object {},
+]
+`;
+
+exports[`basic token protected by token 2`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "basic_token_required",
+    "info": Object {
+      "reason": "header is not provided",
+    },
+    "message": "internal error, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token protected by token: login 1`] = `
+Array [
+  "http://localhost:4200/auth/local/login",
+  Object {
+    "method": "POST",
+  },
+]
+`;
+
+exports[`basic token protected by token: login 2`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "basic_token_required",
+    "info": Object {
+      "reason": "header is not provided",
+    },
+    "message": "internal error, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token protected by token: register 1`] = `
+Array [
+  "http://localhost:4200/auth/local/register",
+  Object {
+    "method": "POST",
+  },
+]
+`;
+
+exports[`basic token protected by token: register 2`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "basic_token_required",
+    "info": Object {
+      "reason": "header is not provided",
+    },
+    "message": "internal error, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`local auth login 1`] = `
+Array [
+  "http://localhost:4200/auth/local/login",
+  Object {
+    "body": "{}",
+    "headers": Object {
+      "authorization": "Basic YWRtaW46cGFzcw==",
+      "content": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;
+
+exports[`local auth login 2`] = `
+Object {
+  "avatar": null,
+  "created_at": Any<Number>,
+  "display_name": null,
+  "email": "admin",
+  "id": Any<String>,
+  "providers": "local",
+  "updated_at": Any<Number>,
+}
+`;

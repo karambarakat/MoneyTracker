@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get_current_profile 1`] = `
+Object {
+  "avatar": null,
+  "createdAt": Any<String>,
+  "displayName": null,
+  "email": "testing_profile@m.c",
+  "id": Any<String>,
+  "providers": "local",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`get_current_profile 2`] = `
+"
+    query get_current_profile {
+      getCurrentUser { id email displayName avatar providers createdAt updatedAt }
+    }
+  "
+`;
+
+exports[`update_current_user 1`] = `
+Object {
+  "user": Object {
+    "avatar": "new avatar",
+    "displayName": "new_display_name",
+  },
+}
+`;
+
+exports[`update_current_user 2`] = `
+Object {
+  "avatar": "new avatar",
+  "createdAt": Any<String>,
+  "displayName": "new_display_name",
+  "email": "testing_profile@m.c",
+  "id": Any<String>,
+  "providers": "local",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`update_current_user 3`] = `
+"
+    mutation update_current_user($user: UserInput!) {
+      updateCurrentUser(user: $user) { id email displayName avatar providers createdAt updatedAt }
+    }
+  "
+`;
+
+exports[`update_password 1`] = `true`;
+
+exports[`update_password 2`] = `
+"
+    mutation update_password($password: String!) {
+      updatePassword(password: $password)
+    }
+  "
+`;

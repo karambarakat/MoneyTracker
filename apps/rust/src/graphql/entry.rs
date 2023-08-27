@@ -36,7 +36,7 @@ impl EntryQuery {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category
+            left join category on category.id = entry.category
             where entry.created_by = $1;
             "#,
         )
@@ -76,7 +76,7 @@ impl EntryQuery {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category
+            left join category on category.id = entry.category
             where entry.id = $1 and entry.created_by = $2;
             "#,
         )
@@ -91,12 +91,13 @@ impl EntryQuery {
 }
 
 #[derive(Default)]
+
 pub struct EntryMutation;
 
 #[derive(Debug, Default, async_graphql::InputObject)]
 pub struct EntryInput {
     pub title: String,
-    pub amount: Option<f64>,
+    pub amount: f32,
     pub note: Option<String>,
     pub category: Option<async_graphql::ID>,
 }
@@ -155,7 +156,7 @@ impl EntryMutation {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category
+            left join category on category.id = entry.category
             where entry.id = $1 and entry.created_by = $2;
             "#,
         )
@@ -184,7 +185,7 @@ impl EntryMutation {
         for entry in entries {
             let res = sqlx::query(
                 r#"
-                insert into entry (created_by, title, amount, note, category_id) 
+                insert into entry (created_by, title, amount, note, category) 
                 values               ($1, $2, $3, $4, $5)
                 returning id;
                 "#,
@@ -227,7 +228,7 @@ impl EntryMutation {
                 category.updated_at as category_updated_at
             from entry
             join users on users.id = entry.created_by
-            join category on category.id = entry.category
+            left join category on category.id = entry.category
             where entry.id = any($1) and entry.created_by = $2;
             "#,
         )
@@ -306,7 +307,7 @@ impl EntryMutation {
 
         let res = sqlx::query(
             r#"
-            update entry set title = $1, amount = $2, note = $3, category_id = $4
+            update entry set title = $1, amount = $2, note = $3, category = $4
             where id = $5 and created_by = $6
             "#,
         )

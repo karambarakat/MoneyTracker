@@ -19,17 +19,18 @@
       "cache": false,
       "persistent": true
     },
-    "e2e:build": {
+    "it:build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "dist-e2e/**", ".next/**"]
+      "outputs": ["dist/**", "dist-it/**", ".next/**"]
     },
-    "e2e:bg": {
+    "it:bg": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["e2e:build"]
+      "dependsOn": ["it:build"]
     }
   },
   "globalEnv": [
+    "DATABASE_URL",
     "CI",
     "NODE_ENV",
     "PORT",

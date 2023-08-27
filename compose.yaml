@@ -1,10 +1,7 @@
-# docker compose to run postgresql server
-# docker-compose -f postgress.compose.yaml up -d
-# docker-compose -f postgress.compose.yaml down
 name: postgresql
-version: '3.7'
 services:
-  postgresql:
+  db:
+    # # psql -U postgres -p 5430
     image: postgres:12.1-alpine
     container_name: postgresql
     restart: always
@@ -13,6 +10,5 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
     volumes:
       - ./data:/var/lib/postgresql/data

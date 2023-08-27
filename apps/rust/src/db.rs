@@ -68,7 +68,7 @@ pub async fn connect() -> sqlx::PgPool {
         CREATE TABLE IF NOT EXISTS entry (
             id          SERIAL PRIMARY KEY,
             title       VARCHAR NOT NULL,
-            amount      NUMERIC NOT NULL,
+            amount      REAL NOT NULL,
             category    integer,
             created_by  integer NOT NULL,
             note        VARCHAR,
