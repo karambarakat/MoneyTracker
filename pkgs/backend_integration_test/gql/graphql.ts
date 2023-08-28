@@ -49,7 +49,7 @@ export type CategoryInput = {
 export type Entry = {
   __typename?: 'Entry'
   amount: Scalars['Float']['output']
-  category: Category
+  category?: Maybe<Category>
   createdAt: Scalars['Date']['output']
   createdBy: User
   id: Scalars['ID']['output']
@@ -131,13 +131,30 @@ export type MutationUpdatePasswordArgs = {
   password: Scalars['String']['input']
 }
 
+export type PaginationRequest = {
+  page: Scalars['Int']['input']
+  pageSize: Scalars['Int']['input']
+}
+
+export type PaginationResponse = {
+  __typename?: 'PaginationResponse'
+  data: Array<Entry>
+  page: Scalars['Int']['output']
+  pageSize: Scalars['Int']['output']
+  total: Scalars['Int']['output']
+}
+
 export type Query = {
   __typename?: 'Query'
   getAllCategories: Array<Category>
-  getAllEntries: Array<Entry>
+  getAllEntries: PaginationResponse
   getCurrentUser: User
   getOneCategory?: Maybe<Category>
   getOneEntry?: Maybe<Entry>
+}
+
+export type QueryGetAllEntriesArgs = {
+  pagination: PaginationRequest
 }
 
 export type QueryGetOneCategoryArgs = {

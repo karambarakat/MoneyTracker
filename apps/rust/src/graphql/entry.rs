@@ -7,9 +7,31 @@ use crate::modules::{entry::Entry, numeric::Numeric};
 #[derive(Default)]
 pub struct EntryQuery {}
 
+#[derive(Default, async_graphql::InputObject)]
+struct PaginationRequest {
+    page: i32,
+    page_size: i32,
+}
+
+#[derive(Default, async_graphql::SimpleObject)]
+struct PaginationResponse<T>
+where
+    T: async_graphql::OutputType + Send + Sync,
+{
+    data: Vec<T>,
+    total: i32,
+    total_pages: i32,
+    page: i32,
+    page_size: i32,
+}
+
 #[Object]
 impl EntryQuery {
-    async fn get_all_entries(&self, ctx: &Context<'_>) -> Vec<Entry> {
+    async fn get_all_entries(
+        &self,
+        ctx: &Context<'_>,
+        pagination: PaginationRequest,
+    ) -> PaginationResponse<Entry> {
         let pool = ctx
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
@@ -38,15 +60,37 @@ impl EntryQuery {
             from entry
             join users on users.id = entry.created_by
             left join category on category.id = entry.category
-            where entry.created_by = $1;
+            where entry.created_by = $1
+            order by entry.created_at desc
+            limit $2 offset $3;
             "#,
         )
         .bind(user.id.parse::<i32>().unwrap())
+        .bind(pagination.page_size as i32)
+        .bind((pagination.page - 1) * pagination.page_size)
         .fetch_all(pool)
         .await
         .unwrap();
 
-        res
+        let total = sqlx::query(
+            r#"
+            select count(*) as total from entry where created_by = $1;
+            "#,
+        )
+        .bind(user.id.parse::<i32>().unwrap())
+        .fetch_one(pool)
+        .await
+        .unwrap()
+        .try_get::<i64, _>("total")
+        .unwrap();
+
+        PaginationResponse {
+            data: res,
+            total: total as i32,
+            total_pages: (total as f64 / pagination.page_size as f64).ceil() as i32,
+            page: pagination.page,
+            page_size: pagination.page_size,
+        }
     }
 
     async fn get_one_entry(&self, ctx: &Context<'_>, id: ID) -> Option<Entry> {

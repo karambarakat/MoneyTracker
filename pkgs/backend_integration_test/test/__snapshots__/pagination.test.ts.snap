@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create many entries 1`] = `
+Object {
+  "data2": Object {
+    "getAllEntries": Object {
+      "data": Array [
+        Object {
+          "amount": 46.5,
+          "title": "title 35",
+        },
+        Object {
+          "amount": 45.2,
+          "title": "title 34",
+        },
+        Object {
+          "amount": 43.9,
+          "title": "title 33",
+        },
+        Object {
+          "amount": 42.6,
+          "title": "title 32",
+        },
+        Object {
+          "amount": 41.3,
+          "title": "title 31",
+        },
+        Object {
+          "amount": 40,
+          "title": "title 30",
+        },
+        Object {
+          "amount": 38.7,
+          "title": "title 29",
+        },
+        Object {
+          "amount": 37.4,
+          "title": "title 28",
+        },
+        Object {
+          "amount": 36.1,
+          "title": "title 27",
+        },
+        Object {
+          "amount": 34.8,
+          "title": "title 26",
+        },
+      ],
+      "page": 1,
+      "pageSize": 10,
+      "total": 36,
+      "totalPages": 4,
+    },
+  },
+  "data3": Object {
+    "getAllEntries": Object {
+      "data": Array [
+        Object {
+          "amount": 33.5,
+          "title": "title 25",
+        },
+        Object {
+          "amount": 32.2,
+          "title": "title 24",
+        },
+        Object {
+          "amount": 30.9,
+          "title": "title 23",
+        },
+        Object {
+          "amount": 29.6,
+          "title": "title 22",
+        },
+        Object {
+          "amount": 28.3,
+          "title": "title 21",
+        },
+        Object {
+          "amount": 27,
+          "title": "title 20",
+        },
+        Object {
+          "amount": 25.7,
+          "title": "title 19",
+        },
+        Object {
+          "amount": 24.4,
+          "title": "title 18",
+        },
+        Object {
+          "amount": 23.1,
+          "title": "title 17",
+        },
+        Object {
+          "amount": 21.8,
+          "title": "title 16",
+        },
+      ],
+      "page": 2,
+      "pageSize": 10,
+      "total": 36,
+      "totalPages": 4,
+    },
+  },
+  "data4": Object {
+    "getAllEntries": Object {
+      "data": Array [
+        Object {
+          "amount": 20.5,
+          "title": "title 15",
+        },
+        Object {
+          "amount": 19.2,
+          "title": "title 14",
+        },
+        Object {
+          "amount": 17.9,
+          "title": "title 13",
+        },
+        Object {
+          "amount": 16.6,
+          "title": "title 12",
+        },
+        Object {
+          "amount": 15.3,
+          "title": "title 11",
+        },
+        Object {
+          "amount": 14,
+          "title": "title 10",
+        },
+        Object {
+          "amount": 12.7,
+          "title": "title 9",
+        },
+        Object {
+          "amount": 11.4,
+          "title": "title 8",
+        },
+        Object {
+          "amount": 10.1,
+          "title": "title 7",
+        },
+        Object {
+          "amount": 8.8,
+          "title": "title 6",
+        },
+      ],
+      "page": 3,
+      "pageSize": 10,
+      "total": 36,
+      "totalPages": 4,
+    },
+  },
+  "data5": Object {
+    "getAllEntries": Object {
+      "data": Array [
+        Object {
+          "amount": 7.5,
+          "title": "title 5",
+        },
+        Object {
+          "amount": 6.2,
+          "title": "title 4",
+        },
+        Object {
+          "amount": 4.9,
+          "title": "title 3",
+        },
+        Object {
+          "amount": 3.6,
+          "title": "title 2",
+        },
+        Object {
+          "amount": 2.3,
+          "title": "title 1",
+        },
+        Object {
+          "amount": 1,
+          "title": "title 0",
+        },
+      ],
+      "page": 4,
+      "pageSize": 10,
+      "total": 36,
+      "totalPages": 4,
+    },
+  },
+}
+`;

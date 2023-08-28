@@ -16,8 +16,8 @@ import {
 
 const ctx: any = {
   ids: [],
-  credential: 'testing_category@m.c:pass',
-  credential2: 'testing_category2@m.c:pass2',
+  credential: 'testing_entry@m.c:pass',
+  credential2: 'testing_entry2@m.c:pass2',
 }
 
 beforeAll(async () => {
