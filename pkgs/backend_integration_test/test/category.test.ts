@@ -4,7 +4,6 @@ import fetch from 'node-fetch'
 import { HELPER_SERVER, REST_API } from '../utils/constants'
 import { categoryGQL } from '../utils/expect'
 import {
-  Query,
   Mutation,
   MutationCreateOneCategoryArgs,
   MutationCreateManyCategoriesArgs,
@@ -86,7 +85,6 @@ it('create_one_category', async () => {
   ctx.cat1.vars = vars.category
 
   expect(data.createOneCategory).toMatchSnapshot(categoryGQL)
-  expect(input.input).toMatchSnapshot()
 })
 
 it('create_many_categories', async () => {
@@ -126,7 +124,6 @@ it('create_many_categories', async () => {
   ctx.cat3.vars = vars.categories[1]
 
   expect(data.createManyCategories[0]).toMatchSnapshot(categoryGQL)
-  expect(input.input).toMatchSnapshot()
 
   const data2 = await fetchQql(ctx.user.headers, '{ getAllCategories { id } }')
 
@@ -184,7 +181,6 @@ it('update_one_category', async () => {
   >(ctx.user.headers, input.input, vars)
 
   expect(data.updateOneCategory).toBe(true)
-  expect(input.input).toMatchSnapshot()
 
   const data2 = await fetchQql(
     ctx.user.headers,

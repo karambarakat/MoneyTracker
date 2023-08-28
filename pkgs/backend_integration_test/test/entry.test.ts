@@ -120,7 +120,7 @@ it('create_one_entry', async () => {
   ctx.entry.vars = Object.assign({}, vars.entry)
 
   expect(data.createOneEntry).toMatchSnapshot(entryGQL)
-  expect(input.input).toMatchSnapshot()
+
   expect(vars.entry).toMatchSnapshot(entryInput)
 
   const var2 = {
@@ -184,7 +184,6 @@ it('create_many_entries', async () => {
   expect(vars.entries[1]).toMatchSnapshot()
   expect(data.createManyEntries[0]).toMatchSnapshot(entryGQL)
   expect(data.createManyEntries[1]).toMatchSnapshot(entryNoCat)
-  expect(input.input).toMatchSnapshot()
 })
 
 it('create results', async () => {
@@ -196,32 +195,24 @@ it('create results', async () => {
   expect(data.getAllEntries.length).toBe(4)
   expect(data.getAllEntries[0].id).toBe(ctx.entry.id)
   expect(data.getAllEntries[0].title).toBe(ctx.entry.vars.title)
-  expect(Number(Number(data.getAllEntries[0].amount).toFixed(2))).toBe(
-    ctx.entry.vars.amount,
-  )
+  expect(data.getAllEntries[0].amount).toBe(ctx.entry.vars.amount)
   expect(data.getAllEntries[0].category.id).toBe(ctx.entry.vars.category)
   expect(data.getAllEntries[0].createdBy.id).toBe(ctx.user.id)
 
   expect(data.getAllEntries[1].id).toBe(ctx.entry2.id)
   expect(data.getAllEntries[1].title).toBe(ctx.entry2.vars.title)
-  expect(Number(Number(data.getAllEntries[1].amount).toFixed(2))).toBe(
-    ctx.entry2.vars.amount,
-  )
+  expect(data.getAllEntries[1].amount).toBe(ctx.entry2.vars.amount)
   expect(data.getAllEntries[1].category).toBe(null)
   expect(data.getAllEntries[1].createdBy.id).toBe(ctx.user.id)
 
   expect(data.getAllEntries[2].id).toBe(ctx.entry4.id)
   expect(data.getAllEntries[2].title).toBe(ctx.entry4.vars.title)
-  expect(Number(Number(data.getAllEntries[2].amount).toFixed(2))).toBe(
-    ctx.entry4.vars.amount,
-  )
+  expect(data.getAllEntries[2].amount).toBe(ctx.entry4.vars.amount)
   expect(data.getAllEntries[2].category.id).toBe(ctx.entry4.vars.category)
 
   expect(data.getAllEntries[3].id).toBe(ctx.entry3.id)
   expect(data.getAllEntries[3].title).toBe(ctx.entry3.vars.title)
-  expect(Number(Number(data.getAllEntries[3].amount).toFixed(2))).toBe(
-    ctx.entry3.vars.amount,
-  )
+  expect(data.getAllEntries[3].amount).toBe(ctx.entry3.vars.amount)
   expect(data.getAllEntries[3].category).toBe(null)
 })
 
@@ -248,7 +239,6 @@ it('update_one_entry', async () => {
   >(ctx.user.headers, input.input, vars)
 
   expect(data.updateOneEntry).toBe(true)
-  expect(input.input).toMatchSnapshot()
 
   const data2 = await fetchQql(
     ctx.user.headers,
@@ -313,116 +303,3 @@ it('delete_many_entries', async () => {
   expect(data2.getAllEntries.length).toBe(1)
   expect(data2.getAllEntries[0].id).toBe(ctx.entry4.id)
 })
-
-// it('create results', async () => {
-//   const data = await fetchQql(
-//     ctx.user.headers,
-//     '{ getAllCategories { id title color icon createdBy { id } } }',
-//   )
-
-//   expect(data.getAllCategories.length).toBe(3)
-//   expect(data.getAllCategories[1].id).toBe(ctx.cat2.id)
-//   expect(data.getAllCategories[1].title).toBe(ctx.cat2.vars.title)
-//   expect(data.getAllCategories[1].color).toBe(ctx.cat2.vars.color)
-//   expect(data.getAllCategories[1].icon).toBe(ctx.cat2.vars.icon)
-//   expect(data.getAllCategories[1].createdBy.id).toBe(ctx.user.id)
-
-//   const data2 = await fetchQql(
-//     ctx.user.headers,
-//     `{ getOneCategory(id: "${ctx.cat1.id}") { ${gql.category} } }`,
-//   )
-
-//   expect(data2.getOneCategory).toMatchSnapshot(categoryGQL)
-
-//   const data3 = await fetchQql(ctx.user2.headers, '{ getAllCategories { id } }')
-
-//   expect(data3.getAllCategories.length).toBe(0)
-// })
-
-// it('update_one_category', async () => {
-//   const input = gql`
-//     mutation update_one_category($id: ID!, $category: CategoryInput!) {
-//       updateOneCategory(id: $id, category: $category)
-//     }
-//   `
-//   const vars = {
-//     id: ctx.cat1.id,
-//     category: {
-//       title: 'new_title',
-//       color: 'new_color',
-//       icon: 'new_icon',
-//     },
-//   } satisfies MutationUpdateOneCategoryArgs
-
-//   const data = await fetchQql<
-//     {
-//       updateOneCategory: Mutation['updateOneCategory']
-//     },
-//     MutationUpdateOneCategoryArgs
-//   >(ctx.user.headers, input.input, vars)
-
-//   expect(data.updateOneCategory).toBe(true)
-//   expect(input.input).toMatchSnapshot()
-
-//   const data2 = await fetchQql(
-//     ctx.user.headers,
-//     `{ getOneCategory(id: "${ctx.cat1.id}") { ${gql.category} } }`,
-//   )
-
-//   expect(data2.getOneCategory).toMatchSnapshot(categoryGQL)
-//   expect(data2.getOneCategory.title).toBe('new_title')
-//   expect(data2.getOneCategory.color).toBe('new_color')
-//   expect(data2.getOneCategory.icon).toBe('new_icon')
-// })
-
-// it('delete_one_category', async () => {
-//   const input = gql`
-//     mutation delete_one_category($id: ID!) {
-//       deleteOneCategory(id: $id)
-//     }
-//   `
-
-//   const vars = {
-//     id: ctx.cat1.id,
-//   } satisfies MutationDeleteOneCategoryArgs
-
-//   const data = await fetchQql<
-//     {
-//       deleteOneCategory: Mutation['deleteOneCategory']
-//     },
-//     MutationDeleteOneCategoryArgs
-//   >(ctx.user.headers, input.input, vars)
-
-//   expect(data.deleteOneCategory).toBe(true)
-
-//   const data2 = await fetchQql(ctx.user.headers, '{ getAllCategories { id } }')
-
-//   expect(data2.getAllCategories.length).toBe(2)
-//   expect(data2.getAllCategories[0].id).toBe(ctx.cat2.id)
-//   expect(data2.getAllCategories[1].id).toBe(ctx.cat3.id)
-// })
-
-// it('delete_many_categories', async () => {
-//   const input = gql`
-//     mutation delete_many_categories($ids: [ID!]!) {
-//       deleteManyCategories(ids: $ids)
-//     }
-//   `
-
-//   const vars = {
-//     ids: [ctx.cat2.id, ctx.cat3.id],
-//   } satisfies MutationDeleteManyCategoriesArgs
-
-//   const data = await fetchQql<
-//     {
-//       deleteManyCategories: Mutation['deleteManyCategories']
-//     },
-//     MutationDeleteManyCategoriesArgs
-//   >(ctx.user.headers, input.input, vars)
-
-//   expect(data.deleteManyCategories).toBe(2)
-
-//   const data2 = await fetchQql(ctx.user.headers, '{ getAllCategories { id } }')
-
-//   expect(data2.getAllCategories.length).toBe(0)
-// })

@@ -1,22 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`api is working 1`] = `
-Array [
-  "http://localhost:4200/",
-  Object {},
-]
-`;
-
-exports[`api is working 2`] = `"api is working"`;
+exports[`api is working 1`] = `"api is working"`;
 
 exports[`not found 1`] = `
-Array [
-  "http://localhost:4200/notFound",
-  Object {},
-]
-`;
-
-exports[`not found 2`] = `
 Object {
   "data": null,
   "error": Object {

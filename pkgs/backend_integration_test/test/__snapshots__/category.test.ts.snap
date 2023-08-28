@@ -45,14 +45,6 @@ Object {
 }
 `;
 
-exports[`create_many_categories 2`] = `
-"
-    mutation create_many_categories($categories: [CategoryInput!]!) {
-      createManyCategories(categories: $categories) { id title icon color createdAt updatedAt createdBy { id email displayName avatar providers createdAt updatedAt } }
-    }
-  "
-`;
-
 exports[`create_one_category 1`] = `
 Object {
   "color": null,
@@ -76,23 +68,7 @@ Object {
 }
 `;
 
-exports[`create_one_category 2`] = `
-"
-    mutation create_one_category($category: CategoryInput!) {
-      createOneCategory(category: $category) { id title icon color createdAt updatedAt createdBy { id email displayName avatar providers createdAt updatedAt } }
-    }
-  "
-`;
-
 exports[`update_one_category 1`] = `
-"
-    mutation update_one_category($id: ID!, $category: CategoryInput!) {
-      updateOneCategory(id: $id, category: $category)
-    }
-  "
-`;
-
-exports[`update_one_category 2`] = `
 Object {
   "color": "new_color",
   "createdAt": Any<String>,

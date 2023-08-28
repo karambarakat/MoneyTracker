@@ -1,7 +1,8 @@
 use async_graphql::*;
 use futures::StreamExt;
+use rust_decimal::Decimal;
 
-use crate::modules::entry::Entry;
+use crate::modules::{entry::Entry, numeric::Numeric};
 
 #[derive(Default)]
 pub struct EntryQuery {}
@@ -97,7 +98,7 @@ pub struct EntryMutation;
 #[derive(Debug, Default, async_graphql::InputObject)]
 pub struct EntryInput {
     pub title: String,
-    pub amount: f32,
+    pub amount: Numeric,
     pub note: Option<String>,
     pub category: Option<async_graphql::ID>,
 }
@@ -124,7 +125,7 @@ impl EntryMutation {
         )
         .bind(user.id.parse::<i32>().unwrap())
         .bind(entry.title)
-        .bind(entry.amount)
+        .bind(entry.amount.0)
         .bind(entry.note)
         .bind(
             entry
@@ -192,7 +193,7 @@ impl EntryMutation {
             )
             .bind(user.id.parse::<i32>().unwrap())
             .bind(entry.title)
-            .bind(entry.amount)
+            .bind(entry.amount.0)
             .bind(entry.note)
             .bind(
                 entry
@@ -312,7 +313,7 @@ impl EntryMutation {
             "#,
         )
         .bind(entry.title)
-        .bind(entry.amount)
+        .bind(entry.amount.0)
         .bind(entry.note)
         .bind(
             entry

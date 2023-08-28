@@ -1302,6 +1302,41 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6fb8d784f27acf97159b40fc4db5ecd8aa23b9ad5ef69cdd136d3bc80665f0c0"
 
 [[package]]
+name = "graphql-backend"
+version = "0.1.0"
+dependencies = [
+ "actix-session",
+ "actix-web",
+ "anyhow",
+ "async-graphql",
+ "async-graphql-actix-web",
+ "async-trait",
+ "base64 0.21.2",
+ "bcrypt",
+ "chrono",
+ "convert_case 0.6.0",
+ "data-encoding",
+ "derive_more",
+ "dotenv",
+ "futures",
+ "futures-util",
+ "hmac",
+ "jwt",
+ "rand",
+ "ring",
+ "rust_decimal",
+ "rust_decimal_macros",
+ "serde",
+ "serde_json",
+ "sha2",
+ "sqlx",
+ "sqlx-postgres",
+ "thiserror",
+ "tokio",
+ "ts-rs",
+]
+
+[[package]]
 name = "h2"
 version = "0.3.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1705,6 +1740,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "num-bigint"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f93ab6289c7b344a8a9f60f88d80aa20032336fe78da341afc91c8a2341fc75f"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
 name = "num-bigint-dig"
 version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1782,39 +1828,6 @@ name = "opaque-debug"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
-
-[[package]]
-name = "pani-puri"
-version = "0.1.0"
-dependencies = [
- "actix-session",
- "actix-web",
- "anyhow",
- "async-graphql",
- "async-graphql-actix-web",
- "base64 0.21.2",
- "bcrypt",
- "chrono",
- "convert_case 0.6.0",
- "data-encoding",
- "derive_more",
- "dotenv",
- "futures",
- "futures-util",
- "hmac",
- "jwt",
- "rand",
- "ring",
- "rust_decimal",
- "rust_decimal_macros",
- "serde",
- "serde_json",
- "sha2",
- "sqlx",
- "thiserror",
- "tokio",
- "ts-rs",
-]
 
 [[package]]
 name = "parking_lot"
@@ -2699,8 +2712,10 @@ dependencies = [
  "log",
  "md-5",
  "memchr",
+ "num-bigint",
  "once_cell",
  "rand",
+ "rust_decimal",
  "serde",
  "serde_json",
  "sha1",

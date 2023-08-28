@@ -16,7 +16,10 @@ impl ScalarType for Date {
 }
 
 pub mod numeric {
-    use sqlx::Encode;
+    use std::str::FromStr;
+
+    use async_graphql::{Positioned, Value};
+    use rust_decimal::Decimal;
 
     #[derive(Debug, Default, async_graphql::InputObject)]
     pub struct EntryInput {
@@ -26,14 +29,14 @@ pub mod numeric {
         pub category: Option<async_graphql::ID>,
     }
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Clone, Default, serde::Serialize)]
     pub struct Numeric(pub rust_decimal::Decimal);
 
     impl async_graphql::InputType for Numeric {
         type RawValueType = rust_decimal::Decimal;
 
         fn type_name() -> std::borrow::Cow<'static, str> {
-            "DECIMAL".into()
+            "DECIMAL NUMBER".into()
         }
 
         fn create_type_info(registry: &mut async_graphql::registry::Registry) -> String {
@@ -41,18 +44,18 @@ pub mod numeric {
         }
 
         fn parse(value: Option<async_graphql::Value>) -> async_graphql::InputValueResult<Self> {
-            let result = match value {
-                Some(async_graphql::Value::Number(n)) => {
-                    n.to_string().parse::<rust_decimal::Decimal>().unwrap()
-                }
+            let rt: String = match value {
+                Some(Value::Number(num)) => num.to_string(),
                 _ => {
                     return Err(async_graphql::InputValueError::expected_type(
-                        value.unwrap_or_default(),
+                        value.unwrap_or(Value::Null),
                     ))
                 }
             };
 
-            Ok(Self(result))
+            Ok(Numeric(Decimal::from_str(&rt).map_err(|_| {
+                async_graphql::InputValueError::custom("invalid decimal number")
+            })?))
         }
 
         fn to_value(&self) -> async_graphql::Value {
@@ -65,16 +68,27 @@ pub mod numeric {
             Some(&self.0)
         }
     }
-    impl<'q> sqlx::Encode<'q, sqlx::Postgres> for Numeric {
-        fn encode_by_ref(
-            &self,
-            buf: &mut <sqlx::Postgres as sqlx::database::HasArguments<'q>>::ArgumentBuffer,
-        ) -> sqlx::encode::IsNull {
-            <String as sqlx::Encode<sqlx::Postgres>>::encode_by_ref(&self.0.to_string(), buf)
+
+    #[async_trait::async_trait]
+    impl async_graphql::OutputType for Numeric {
+        fn type_name() -> std::borrow::Cow<'static, str> {
+            "DECIMAL".into()
         }
 
-        fn size_hint(&self) -> usize {
-            <String as sqlx::Encode<sqlx::Postgres>>::size_hint(&self.0.to_string())
+        fn create_type_info(registry: &mut async_graphql::registry::Registry) -> String {
+            <f32 as async_graphql::OutputType>::create_type_info(registry)
+        }
+
+        async fn resolve(
+            &self,
+            _: &async_graphql::ContextSelectionSet<'_>,
+            field: &Positioned<async_graphql::parser::types::Field>,
+        ) -> async_graphql::ServerResult<async_graphql::Value> {
+            let res = serde_json::Number::from_str(&self.0.to_string()).map_err(|_| {
+                async_graphql::ServerError::new("can't retrieve decimal number", Some(field.pos))
+            })?;
+
+            Ok(async_graphql::Value::Number(res))
         }
     }
 

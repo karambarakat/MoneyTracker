@@ -1,17 +1,19 @@
 use async_graphql::*;
+use rust_decimal::Decimal;
 use sqlx::postgres::PgRow;
 use sqlx::Row;
 
 use crate::modules::Date;
 
 use super::category::Category;
+use super::numeric::Numeric;
 use super::user::User;
 
 #[derive(Debug, Default, serde::Serialize, async_graphql::SimpleObject)]
 pub struct Entry {
     pub id: async_graphql::ID,
     pub title: String,
-    pub amount: f32,
+    pub amount: Numeric,
     pub note: Option<String>,
 
     pub created_by: User,
@@ -25,7 +27,8 @@ impl sqlx::FromRow<'_, PgRow> for Entry {
     fn from_row(row: &PgRow) -> Result<Self, sqlx::Error> {
         let id: i32 = row.try_get("id")?;
         let title: String = row.try_get("title")?;
-        let amount: f32 = row.try_get("amount")?;
+        let amount: Decimal = row.try_get("amount")?;
+        let amount: Numeric = Numeric(amount);
         let note: Option<String> = row.try_get("note")?;
 
         let created_at: Date = Date(row.try_get("created_at")?);

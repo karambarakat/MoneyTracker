@@ -12,14 +12,6 @@ Object {
 }
 `;
 
-exports[`get_current_profile 2`] = `
-"
-    query get_current_profile {
-      getCurrentUser { id email displayName avatar providers createdAt updatedAt }
-    }
-  "
-`;
-
 exports[`update_current_user 1`] = `
 Object {
   "user": Object {
@@ -41,20 +33,4 @@ Object {
 }
 `;
 
-exports[`update_current_user 3`] = `
-"
-    mutation update_current_user($user: UserInput!) {
-      updateCurrentUser(user: $user) { id email displayName avatar providers createdAt updatedAt }
-    }
-  "
-`;
-
 exports[`update_password 1`] = `true`;
-
-exports[`update_password 2`] = `
-"
-    mutation update_password($password: String!) {
-      updatePassword(password: $password)
-    }
-  "
-`;

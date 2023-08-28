@@ -17,7 +17,7 @@ Object {
 
 exports[`create_many_entries 3`] = `
 Object {
-  "amount": 20.8799991607666,
+  "amount": 20.88,
   "category": Object {
     "color": "color1",
     "createdAt": Any<String>,
@@ -73,16 +73,6 @@ Object {
 }
 `;
 
-exports[`create_many_entries 5`] = `
-"
-    mutation create_many_entries($entries: [EntryInput!]!) {
-      createManyEntries(entries: $entries) {
-        id title amount note createdAt updatedAt createdBy { id email displayName avatar providers createdAt updatedAt } category { id title icon color createdAt updatedAt createdBy { id email displayName avatar providers createdAt updatedAt } }
-      }
-    }
-  "
-`;
-
 exports[`create_one_entry 1`] = `
 Object {
   "amount": 100,
@@ -121,16 +111,6 @@ Object {
 `;
 
 exports[`create_one_entry 2`] = `
-"
-    mutation create_one_entry($entry: EntryInput!) {
-      createOneEntry(entry: $entry) {
-        id title amount note createdAt updatedAt createdBy { id email displayName avatar providers createdAt updatedAt } category { id title icon color createdAt updatedAt createdBy { id email displayName avatar providers createdAt updatedAt } }
-      }
-    }
-  "
-`;
-
-exports[`create_one_entry 3`] = `
 Object {
   "amount": 100,
   "category": Any<String>,
@@ -138,7 +118,7 @@ Object {
 }
 `;
 
-exports[`create_one_entry 4`] = `
+exports[`create_one_entry 3`] = `
 Object {
   "amount": 200,
   "category": null,
@@ -159,7 +139,7 @@ Object {
 }
 `;
 
-exports[`create_one_entry 5`] = `
+exports[`create_one_entry 4`] = `
 Object {
   "amount": 200,
   "title": "title2",
@@ -167,14 +147,6 @@ Object {
 `;
 
 exports[`update_one_entry 1`] = `
-"
-    mutation update_one_entry($id: ID!, $entry: EntryInput!) {
-      updateOneEntry(id: $id, entry: $entry)
-    }
-  "
-`;
-
-exports[`update_one_entry 2`] = `
 Object {
   "amount": 1000,
   "category": Object {

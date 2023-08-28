@@ -46,7 +46,6 @@ it('get_current_profile', async () => {
   )
 
   expect(data.getCurrentUser).toMatchSnapshot(profileGQL)
-  expect(input.input).toMatchSnapshot()
 })
 
 it('update_current_user', async () => {
@@ -72,7 +71,6 @@ it('update_current_user', async () => {
 
   expect(vars).toMatchSnapshot()
   expect(data.updateCurrentUser).toMatchSnapshot(profileGQL)
-  expect(input.input).toMatchSnapshot()
 })
 
 it('update_password', async () => {
@@ -94,7 +92,6 @@ it('update_password', async () => {
   >(ctx.user.headers, input.input, vars)
 
   expect(data.updatePassword).toMatchSnapshot()
-  expect(input.input).toMatchSnapshot()
 
   const tryLogin = await fetch(REST_API + '/auth/local/login', {
     method: 'POST',

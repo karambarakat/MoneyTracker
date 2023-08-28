@@ -1,18 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`basic token bad basic token 1`] = `
-Array [
-  "http://localhost:4200/auth/local/register",
-  Object {
-    "headers": Object {
-      "authorization": "Basic badToken",
-    },
-    "method": "POST",
-  },
-]
-`;
-
-exports[`basic token bad basic token 2`] = `
 Object {
   "data": null,
   "error": Object {
@@ -27,20 +15,6 @@ Object {
 `;
 
 exports[`basic token good basic token 1`] = `
-Array [
-  "http://localhost:4200/auth/local/register",
-  Object {
-    "body": "{}",
-    "headers": Object {
-      "authorization": "Basic YWRtaW46cGFzcw==",
-      "content": "application/json",
-    },
-    "method": "POST",
-  },
-]
-`;
-
-exports[`basic token good basic token 2`] = `
 Object {
   "avatar": null,
   "created_at": Any<Number>,
@@ -53,18 +27,6 @@ Object {
 `;
 
 exports[`basic token not a basic token 1`] = `
-Array [
-  "http://localhost:4200/auth/local/register",
-  Object {
-    "headers": Object {
-      "authorization": "Bearer badToken",
-    },
-    "method": "POST",
-  },
-]
-`;
-
-exports[`basic token not a basic token 2`] = `
 Object {
   "data": null,
   "error": Object {
@@ -79,13 +41,6 @@ Object {
 `;
 
 exports[`basic token protected by token 1`] = `
-Array [
-  "http://localhost:4200/auth/local",
-  Object {},
-]
-`;
-
-exports[`basic token protected by token 2`] = `
 Object {
   "data": null,
   "error": Object {
@@ -100,15 +55,6 @@ Object {
 `;
 
 exports[`basic token protected by token: login 1`] = `
-Array [
-  "http://localhost:4200/auth/local/login",
-  Object {
-    "method": "POST",
-  },
-]
-`;
-
-exports[`basic token protected by token: login 2`] = `
 Object {
   "data": null,
   "error": Object {
@@ -123,15 +69,6 @@ Object {
 `;
 
 exports[`basic token protected by token: register 1`] = `
-Array [
-  "http://localhost:4200/auth/local/register",
-  Object {
-    "method": "POST",
-  },
-]
-`;
-
-exports[`basic token protected by token: register 2`] = `
 Object {
   "data": null,
   "error": Object {
@@ -146,20 +83,6 @@ Object {
 `;
 
 exports[`local auth login 1`] = `
-Array [
-  "http://localhost:4200/auth/local/login",
-  Object {
-    "body": "{}",
-    "headers": Object {
-      "authorization": "Basic YWRtaW46cGFzcw==",
-      "content": "application/json",
-    },
-    "method": "POST",
-  },
-]
-`;
-
-exports[`local auth login 2`] = `
 Object {
   "avatar": null,
   "created_at": Any<Number>,

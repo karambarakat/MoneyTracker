@@ -8,9 +8,9 @@
       "type": "lldb",
       "request": "launch",
       "name": "debug rust",
-      "program": "${workspaceFolder}/rust/target/debug/pani-puri",
+      "program": "${workspaceFolder}/target/debug/graphql-backend",
       "args": [],
-      "cwd": "${workspaceFolder}/rust/target/debug/",
+      "cwd": "${workspaceFolder}/target/debug/",
       "sourceLanguages": ["rust"]
     }
   ]

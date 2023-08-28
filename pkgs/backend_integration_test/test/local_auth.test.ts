@@ -12,7 +12,6 @@ describe('basic token', () => {
     const input = [REST_API + '/auth/local', {}] as const
     const res = await fetch(...input).then(res => res.json())
 
-    expect(input).toMatchSnapshot()
     expect(res).toMatchSnapshot()
   })
 
@@ -25,7 +24,6 @@ describe('basic token', () => {
     ] satisfies Parameters<typeof fetch>
     const res = await fetch(...input).then(res => res.json())
 
-    expect(input).toMatchSnapshot()
     expect(res).toMatchSnapshot()
   })
 
@@ -38,7 +36,6 @@ describe('basic token', () => {
     ] satisfies Parameters<typeof fetch>
     const res = await fetch(...input).then(res => res.json())
 
-    expect(input).toMatchSnapshot()
     expect(res).toMatchSnapshot()
   })
 
@@ -55,7 +52,6 @@ describe('basic token', () => {
 
     const res = await fetch(...input).then(res => res.json())
 
-    expect(input).toMatchSnapshot()
     expect(res).toMatchSnapshot()
   })
 
@@ -72,7 +68,6 @@ describe('basic token', () => {
 
     const res = await fetch(...input).then(res => res.json())
 
-    expect(input).toMatchSnapshot()
     expect(res).toMatchSnapshot()
   })
 
@@ -99,7 +94,7 @@ describe('basic token', () => {
     ctx.user.token = res.headers.get('x-token')
 
     expect(json.email).toBe('admin')
-    expect(input).toMatchSnapshot()
+
     expect(json).toMatchSnapshot(profileRest)
   })
   console // left intentionally
@@ -125,7 +120,6 @@ describe('local auth', () => {
 
     expectResponse(res)
 
-    expect(input).toMatchSnapshot()
     expect(json).toMatchSnapshot(profileRest)
   })
 

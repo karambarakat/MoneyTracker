@@ -2,8 +2,8 @@
 debug = true
 
 [package]
-default-run="pani-puri"
-name = "pani-puri"
+default-run="graphql-backend"
+name = "graphql-backend"
 version = "0.1.0"
 edition = "2021"
 
@@ -12,6 +12,7 @@ rust_decimal = { version = "1.32", features = ["serde", "tokio-pg", "db-tokio-po
 rust_decimal_macros = "1.32"
 
 sqlx = { version = "0.7", features = [ "runtime-tokio", "tls-rustls", "postgres","chrono", "json" ] }
+sqlx-postgres = { version = "0.7.1", features = [ "rust_decimal" ] }
 actix-web = "4.3.1"
 async-graphql = "5.0.10"
 async-graphql-actix-web = "5.0.10"
@@ -36,3 +37,4 @@ ring = "0.16.20"
 anyhow = "1.0.75"
 hmac = "0.12.1"
 convert_case = "0.6.0"
+async-trait = "0.1.73"
