@@ -5,7 +5,7 @@ import { Form } from 'ui/src/components/forms/_Form'
 import SecretField from 'ui/src/components/forms/SecretField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { set_password } from '../../api'
+import { set_password } from '../../api/mutations'
 import { useMutation } from '@tanstack/react-query'
 
 export default function SetPassword() {

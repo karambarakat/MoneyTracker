@@ -13,27 +13,6 @@ pub async fn connect() -> sqlx::PgPool {
         .await
         .expect("no database connection");
 
-    // delete table if exists
-
-    sqlx::query(
-        r#"
-            DROP TABLE IF EXISTS test_table;
-        "#,
-    )
-    .execute(&pool)
-    .await
-    .unwrap();
-
-    sqlx::query(
-        r#"
-            CREATE TABLE IF NOT EXISTS test_table (
-                mem numeric(16,2) NOT NULL
-            );"#,
-    )
-    .execute(&pool)
-    .await
-    .unwrap();
-
     sqlx::query(
         r#"
         CREATE TABLE IF NOT EXISTS users (
@@ -63,21 +42,6 @@ pub async fn connect() -> sqlx::PgPool {
             updated_at  TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
             
             FOREIGN KEY (created_by) REFERENCES users(id)
-        );"#,
-    )
-    .execute(&pool)
-    .await
-    .unwrap();
-
-    sqlx::query(
-        r#"
-        CREATE TABLE IF NOT EXISTS category_temp (
-            id              SERIAL PRIMARY KEY,
-            title           VARCHAR NOT NULL,
-            color           VARCHAR,
-            icon            VARCHAR,
-            created_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at      TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
         );"#,
     )
     .execute(&pool)

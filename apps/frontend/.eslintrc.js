@@ -11,4 +11,7 @@ module.exports = {
     'plugin:storybook/recommended',
   ],
   plugins: ['@tanstack/query'],
+  rules: {
+    '@tanstack/query/exhaustive-deps': 'off',
+  },
 }

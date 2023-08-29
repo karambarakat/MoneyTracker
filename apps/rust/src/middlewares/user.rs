@@ -10,10 +10,11 @@ use std::{
     future::{ready, Ready},
     num::NonZeroU32,
     rc::Rc,
+    str::FromStr,
     sync::Arc,
 };
 
-use crate::errors::{basic_token_error::BasicTokenRequired as the_err, MyErrors};
+use crate::errors::MyErrors;
 
 use crate::utils::jwt::Jwt;
 
@@ -72,24 +73,14 @@ where
                 // crate::services::local_auth::login
                 // crate::services::local_auth::register
                 // crate::middleware::bearer_token
-                res.headers_mut().insert(
-                    HeaderName::from_bytes(String::from("X-token").as_bytes()).map_err(|err| {
-                        println!("error: {}", err);
-                        MyErrors::UnknownError
-                    })?,
-                    HeaderValue::from_str(
-                        Jwt::sign(&user.id, &user.email, &user.email)
-                            .map_err(|err| {
-                                println!("error: {}", err);
-                                MyErrors::UnknownError
-                            })?
-                            .as_str(),
-                    )
-                    .map_err(|err| {
-                        println!("error: {}", err);
-                        MyErrors::UnknownError
-                    })?,
-                );
+                let header = HeaderName::from_str("X-token")
+                    .map_err(|err| MyErrors::Backend(Box::new(err)))?;
+                let jwt = Jwt::sign(&user.id, &user.email, &user.email)
+                    .map_err(|err| MyErrors::Backend(Box::new(err)))?;
+                let val =
+                    HeaderValue::from_str(&jwt).map_err(|err| MyErrors::Backend(Box::new(err)))?;
+
+                res.headers_mut().insert(header, val);
             }
 
             Ok(res)

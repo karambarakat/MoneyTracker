@@ -6,6 +6,9 @@
   "scripts": {
     "db": "docker compose up -d db",
     "prepare": "husky install",
+    "graphql": "cross-env RUST_ENV=dev cargo test && cross-env RUST_ENV=dev cargo run --bin schema && pnpm --filter types build",
+    "rust:dev": "cross-env RUST_ENV=dev cargo watch -x run",
+    "rust": "cross-env RUST_ENV=prod cargo run",
     "// development": "",
     "dev:fullstack": "pnpm -F backend -F frontend --parallel dev",
     "// used by github actions turborepo.yaml": "",
@@ -58,5 +61,8 @@
       "@types/json-schema@7.0.12": "patches/@types__json-schema@7.0.12.patch",
       "storybook-dark-mode@3.0.0": "patches/storybook-dark-mode@3.0.0.patch"
     }
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
   }
 }

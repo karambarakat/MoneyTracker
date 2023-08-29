@@ -6,9 +6,7 @@
     "jest": "dotenv -c it -- jest --runInBand",
     "graphql_codegen": "graphql-codegen",
     "it:build": "graphql-codegen",
-    "it:dev": "nodemon -e ts --exec graphql-codegen",
-    "prestart": "graphql-codegen",
-    "predev": "graphql-codegen"
+    "it:dev": "nodemon -e ts --exec graphql-codegen"
   },
   "version": "0.0.1",
   "devDependencies": {
@@ -33,7 +31,8 @@
     "ts-jest": "^27.1.4",
     "typescript": "^4.9.5",
     "webpack-graphql-loader": "^1.0.2",
-    "dotenv-cli": "^7.0.0"
+    "dotenv-cli": "^7.0.0",
+    "types": "workspace:*"
   },
   "dependencies": {
     "graphql": "^16.8.0",

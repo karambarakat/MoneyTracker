@@ -1,7 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import { useQuery } from '../../api/query'
-import { update_log } from '../../api'
+import { update_log } from '../../api/mutations'
 import { Form } from 'ui/src/components/forms/_Form'
 
 import Status from 'ui/src/components/forms/Status'
@@ -10,7 +9,8 @@ import HiddenField from 'ui/src/components/forms/HiddenField'
 import NumberField from 'ui/src/components/forms/NumberField'
 import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { queries, queryKeys } from '../../api'
 
 export default function EditLog({
   log,
@@ -19,7 +19,12 @@ export default function EditLog({
 }) {
   const mutate = useMutation({ mutationFn: update_log })
 
-  const categories = useQuery(API.queryAPI.find_category).data
+  // const categories = useQuery(queryAPI.find_category).data
+  const categories = useQuery({
+    queryFn: () => queries.find_category(),
+    // queryKey: getQueryKey('find_category'),
+    queryKey: ['find_category'] satisfies queryKeys,
+  }).data
 
   if (!categories) return <div>error</div>
 

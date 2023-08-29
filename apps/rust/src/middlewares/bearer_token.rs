@@ -14,7 +14,7 @@ use std::{
 };
 use ts_rs::TS;
 
-use crate::errors::bearer_token_error::BearerTokenErr as the_err;
+use crate::errors::MyErrors;
 use crate::utils::jwt::Jwt;
 use chrono::{DateTime, Duration, Utc};
 
@@ -89,21 +89,18 @@ where
     }
 }
 
-fn process_request(req: &ServiceRequest) -> Result<Jwt, the_err> {
+fn process_request(req: &ServiceRequest) -> Result<Jwt, MyErrors> {
     let header = req
         .headers()
         .get(AUTHORIZATION)
-        .ok_or(the_err::ForDev("no authorization header".to_string()))?
+        .ok_or(MyErrors::Frontend("no authorization header".to_string()))?
         .to_str()
-        .map_err(|_| the_err::ForDev("invalid header".to_string()))?;
+        .map_err(|_| MyErrors::Frontend("invalid header".to_string()))?;
 
     let auth = header.split(" ").collect::<Vec<&str>>();
     if auth.len() != 2 || auth[0] != "Bearer" {
-        return Err(the_err::ForDev("not a bearer token".to_string()));
+        return Err(MyErrors::Frontend("not a bearer token".to_string()));
     }
 
-    Ok(Jwt::validate(auth[1]).map_err(|err| {
-        println!("{err}");
-        the_err::ForDev("invalid token".to_string())
-    })?)
+    Ok(Jwt::validate(auth[1])?)
 }

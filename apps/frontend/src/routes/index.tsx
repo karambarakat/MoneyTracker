@@ -9,19 +9,18 @@ import LogEntry from '../components/LogEntry'
 import { setTitle } from './_MetaContext'
 import { DividerWithLabel } from 'ui/src/components/Divider'
 import groupBy from 'lodash/groupBy'
-import { useQuery, useQueryOption } from '../api/query'
+import { useQuery } from '@tanstack/react-query'
+import { queries, queryKeys } from '../api'
 function Index_Page_Component() {
   setTitle('Home')
 
   const [page, setPage] = useState(1)
 
-  const { data } = useQueryOption(
-    {
-      keepPreviousData: true,
-    },
-    API.queryAPI.find_log,
-    { page, pageSize: 10 },
-  )
+  const { data } = useQuery({
+    queryFn: () => queries.find_log({ page, pageSize: 10 }),
+    queryKey: ['find_log', { page, pageSize: 10 }] satisfies queryKeys,
+    keepPreviousData: true,
+  })
 
   if (!data) return <div>error</div>
 

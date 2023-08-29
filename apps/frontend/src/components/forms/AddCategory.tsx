@@ -5,16 +5,18 @@ import { Form, FormBody } from 'ui/src/components/forms/_Form'
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { create_category } from '../../api'
+import { create_category } from '../../api/mutations'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { queryKey } from '../../api/query'
+import { getQueryKey, queryKeys } from '../../api'
 
 export default function AddCategory() {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: create_category,
     onSettled: () => {
-      client.invalidateQueries(queryKey(API.queryAPI.find_category))
+      client.invalidateQueries([
+        create_category.shouldInvalidate[0],
+      ] satisfies queryKeys)
     },
   })
 

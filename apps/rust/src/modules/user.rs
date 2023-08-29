@@ -36,3 +36,16 @@ pub struct User {
     pub created_at: Date,
     pub updated_at: Date,
 }
+
+// for some limitation for ts_rs, this exists for the sake of simplicity
+#[derive(ts_rs::TS)]
+#[ts(export)]
+struct UserRestResponse {
+    pub id: String,
+    pub email: String,
+    pub display_name: Option<String>,
+    pub avatar: Option<String>,
+    pub providers: String,
+    pub created_at: i64,
+    pub updated_at: i64,
+}

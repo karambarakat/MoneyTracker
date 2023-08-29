@@ -77,7 +77,7 @@ impl UserMutation {
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
 
-        let encrypt = crate::middlewares::basic_token::EmailPassword::new("".to_string(), password);
+        let encrypt = crate::middlewares::basic_token::BasicToken::new("".to_string(), password);
 
         let authenticated = ctx
             .data::<crate::middlewares::user::User>()

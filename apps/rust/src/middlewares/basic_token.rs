@@ -10,7 +10,7 @@ use std::{
     num::NonZeroU32,
 };
 
-use crate::errors::basic_token_error::BasicTokenRequired as the_err;
+use crate::errors::MyErrors;
 
 pub struct Middleware;
 
@@ -65,21 +65,22 @@ where
     }
 }
 
-#[derive(Default, Clone)]
-pub struct EmailPassword {
+#[derive(Default, Clone, ts_rs::TS)]
+#[ts(export)]
+pub struct BasicToken {
     pub email: String,
     /// encrypted password
     pub password: String,
 }
 
-impl std::fmt::Display for EmailPassword {
+impl std::fmt::Display for BasicToken {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "[User: {},****]", self.email)
     }
 }
 use base64::Engine;
 
-impl EmailPassword {
+impl BasicToken {
     pub fn new(email: String, password: String) -> Self {
         let mut _password = [0u8; ring::digest::SHA256_OUTPUT_LEN];
 
@@ -95,15 +96,16 @@ impl EmailPassword {
         Self { email, password }
     }
 
-    pub fn decode(token: &str) -> Result<Self, the_err> {
+    pub fn decode(token: &str) -> Result<Self, MyErrors> {
         let token = base64::engine::general_purpose::STANDARD
             .decode(token)
-            .map_err(|_| the_err("token decoding failed".to_string()))?;
-        let token = String::from_utf8(token)
-            .map_err(|_| the_err("token decoding failed, input is valid?".to_string()))?;
+            .map_err(|_| MyErrors::Frontend("token decoding failed".to_string()))?;
+        let token = String::from_utf8(token).map_err(|_| {
+            MyErrors::Frontend("token decoding failed, input is valid?".to_string())
+        })?;
         let token = token.split(":").collect::<Vec<&str>>();
         if token.len() != 2 {
-            return Err(the_err(
+            return Err(MyErrors::Frontend(
                 "token is not formatted as email:password".to_string(),
             ));
         }
@@ -133,18 +135,18 @@ impl EmailPassword {
     }
 }
 
-fn process_request(req: &ServiceRequest) -> Result<EmailPassword, the_err> {
+fn process_request(req: &ServiceRequest) -> Result<BasicToken, MyErrors> {
     let header = req
         .headers()
         .get(AUTHORIZATION)
-        .ok_or(the_err("header is not provided".to_string()))?
+        .ok_or(MyErrors::Frontend("header is not provided".to_string()))?
         .to_str()
-        .map_err(|_| the_err("header is not provided".to_string()))?;
+        .map_err(|_| MyErrors::Frontend("header is not provided".to_string()))?;
 
     let auth = header.split(" ").collect::<Vec<&str>>();
     if auth.len() != 2 || auth[0] != "Basic" {
-        return Err(the_err("not a basic token".to_string()));
+        return Err(MyErrors::Frontend("not a basic token".to_string()));
     }
 
-    Ok(EmailPassword::decode(auth[1])?)
+    Ok(BasicToken::decode(auth[1])?)
 }

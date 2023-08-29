@@ -5,11 +5,15 @@ import Button from 'ui/src/components/Button'
 import ResetPassword from '../components/forms/ResetPassword'
 import SetPassword from '../components/forms/SetPassword'
 import UpdateProfile from '../components/forms/UpdateProfile'
-import { useQuery } from '../api/query'
+import { useQuery } from '@tanstack/react-query'
+import { queries, queryKeys } from '../api'
 function Profile_Page_Component() {
   setTitle('Profile')
 
-  const { data } = useQuery(API.queryAPI.profile)
+  const { data } = useQuery({
+    queryFn: () => queries.profile(),
+    queryKey: ['profile'] satisfies queryKeys,
+  })
 
   if (!data) return <div>error</div>
 

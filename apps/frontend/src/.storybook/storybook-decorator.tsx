@@ -6,7 +6,7 @@ import { BrowserRouter, Router } from 'react-router-dom'
 import Loading from '../routes/_Loading'
 import ErrorComponent from '../routes/_Error'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '../lib/react-query'
+import { queryClient } from '../api/client'
 
 export default function Providers({ Story }: { Story: () => JSX.Element }) {
   return (

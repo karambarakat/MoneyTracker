@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import { create_category, update_category } from '../../api'
+import { update_category } from '../../api/mutations'
 import { Form } from 'ui/src/components/forms/_Form'
 
 import TextField from 'ui/src/components/forms/TextField'
@@ -8,21 +8,25 @@ import HiddenField from 'ui/src/components/forms/HiddenField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import Status from 'ui/src/components/forms/Status'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { queryKey } from '../../api/query'
+import { getQueryKey, queryKeys } from '../../api'
 
 export default function EditCategory({
   category,
 }: {
-  // category: OutputOfAction<typeof update_category>
   category: Awaited<ReturnType<typeof update_category>>
 }) {
-  // const mutate = useUpdateCategory()
   const client = useQueryClient()
 
   const mutate = useMutation({
     mutationFn: update_category,
     onSettled: () => {
-      client.invalidateQueries(queryKey(API.queryAPI.find_category))
+      client.invalidateQueries([
+        update_category.shouldInvalidate[0],
+      ] satisfies queryKeys)
+      client.invalidateQueries([
+        update_category.shouldInvalidate[1],
+        { _id: category._id },
+      ] satisfies queryKeys)
     },
   })
 

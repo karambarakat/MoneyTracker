@@ -3,23 +3,25 @@ import tw from 'twin.macro'
 import { OneStateProvider } from '../utils/OneOpenAtATime'
 import { setTitle } from './_MetaContext'
 import CategoryEntry from '../components/CategoryEntry'
-import { queryKey, useQuery } from '../api/query'
 import { Form, FormBody } from 'ui/src/components/forms/_Form'
 import Status from 'ui/src/components/forms/Status'
 import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
-import { create_category } from '../api'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { create_category } from '../api/mutations'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { mutations, queries, queryKeys } from '../api'
 
 function AddCategory() {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: create_category,
     onSettled: () => {
-      client.invalidateQueries(queryKey(API.queryAPI.find_category))
+      client.invalidateQueries([
+        create_category.shouldInvalidate[0],
+      ] satisfies queryKeys)
     },
   })
-
+  //
   return (
     <Form
       then={ctx => {
@@ -28,11 +30,11 @@ function AddCategory() {
       }}
       action={mutate.mutateAsync}
       values={[]}
-      required={['title']}
+      // required={['title']}
     >
       <FormBody>
         <div tw="grid grid-cols-2 gap-3">
-          <Status tw="col-span-2" />
+          <Status tw="col-span-2 " onSuccess="category Created" />
           <TextField name="title" />
           <TextField name="color" />
           <TextField name="note" />
@@ -49,7 +51,10 @@ function AddCategory() {
 function Index_Page_Component() {
   setTitle('Categories')
 
-  const { data } = useQuery(API.queryAPI.find_category)
+  const { data } = useQuery({
+    queryFn: () => queries.find_category(),
+    queryKey: ['find_category'] satisfies queryKeys,
+  })
 
   if (!data) return <div>error</div>
 

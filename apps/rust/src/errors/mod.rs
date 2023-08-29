@@ -4,23 +4,34 @@ use actix_web::{
     http::{header::ContentType, StatusCode},
     Handler, HttpRequest, HttpResponse, HttpResponseBuilder, Responder, ResponseError,
 };
+use serde_json::Number;
 
 use std::fmt::Debug;
 use thiserror::Error;
 
-#[derive(Debug, derive_more::Display, Error)]
+#[derive(Debug, derive_more::Display, Error, serde::Serialize, ts_rs::TS)]
+#[ts(export)]
 pub enum MyErrors {
-    #[display(fmt = "email already exists: {0}", _0)]
+    #[display(fmt = "EmailAlreadyExists: email already exists: {0}", _0)]
     EmailAlreadyExists(String),
-    #[display(fmt = "email or password is incorrect")]
+    #[display(fmt = "EmailOrPasswordIncorrect: email or password is incorrect")]
     EmailOrPasswordIncorrect,
-    #[display(fmt = "validation error: {0}", _0)]
+    #[display(fmt = "ValidationError: validation error: {0}", _0)]
     ValidationError(String),
-    /// ultimately, we should not use this error, improve the code or provide more a descriptive error
-    #[display(fmt = "internal error")]
-    UnknownError,
-    #[display(fmt = "404 not found")]
+    #[display(fmt = "NotFound: 404 not found")]
     NotFound,
+    #[display(fmt = "ExpiredBearerToken: token expired")]
+    ExpiredBearerToken,
+
+    /// error that should not happened if my code is correct
+    #[display(fmt = "internal error")]
+    #[serde(skip)]
+    Backend(Box<dyn std::error::Error>),
+
+    /// error that is the frontend dev`s responsibility. With a non-user-facing error message
+    #[display(fmt = "bad request")]
+    #[serde(skip)]
+    Frontend(String),
 }
 
 use convert_case::{Case, Casing};
@@ -34,15 +45,38 @@ impl Responder for MyErrors {
 
 impl ResponseError for MyErrors {
     fn error_response(&self) -> HttpResponse {
+        if let Self::Backend(reason) = self {
+            println!("internal error: {:?}", reason);
+        }
+
+        let info = match self {
+            Self::Frontend(reason) => {
+                serde_json::json!({
+                    "reason": reason,
+                })
+            }
+            _ => serde_json::json!(null),
+        };
+
         let status = self.status_code();
+
+        let code_and_message = self.to_string();
+        let code_and_message = code_and_message.split(":").collect::<Vec<&str>>();
+        let code_and_message = match code_and_message.len() {
+            2 => (code_and_message[0], code_and_message[1]),
+            _ => (
+                status.canonical_reason().unwrap_or("UnknownError"),
+                code_and_message[0],
+            ),
+        };
 
         let body = serde_json::json!({
             "data": null,
             "error": {
                 "status": status.as_u16(),
-                "code": status.canonical_reason().unwrap_or("UnknownError").to_case(Case::Pascal),
-                "message": self.to_string(),
-                "info": null
+                "code": code_and_message.0.to_case(Case::Pascal),
+                "message": code_and_message.1,
+                "info": info
             }
         });
 
@@ -53,107 +87,14 @@ impl ResponseError for MyErrors {
 
     fn status_code(&self) -> StatusCode {
         match self {
-            MyErrors::UnknownError => StatusCode::INTERNAL_SERVER_ERROR,
-            MyErrors::ValidationError(_) => StatusCode::BAD_REQUEST,
-            MyErrors::EmailOrPasswordIncorrect => StatusCode::UNAUTHORIZED,
-            MyErrors::EmailAlreadyExists(_) => StatusCode::CONFLICT,
-            MyErrors::NotFound => StatusCode::NOT_FOUND,
-        }
-    }
-}
+            Self::Backend(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            Self::Frontend(_) => StatusCode::BAD_REQUEST,
 
-pub mod basic_token_error {
-    use actix_web::{
-        http::{header::ContentType, StatusCode},
-        HttpResponse, ResponseError,
-    };
-
-    use std::fmt::Debug;
-
-    use serde::{Deserialize, Serialize};
-
-    #[derive(Debug, Deserialize, Serialize, thiserror::Error)]
-    pub struct BasicTokenRequired(pub String);
-
-    impl std::fmt::Display for BasicTokenRequired {
-        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            write!(f, "internal error, please try again")
-        }
-    }
-
-    impl ResponseError for BasicTokenRequired {
-        fn error_response(&self) -> HttpResponse {
-            let status = StatusCode::BAD_REQUEST;
-
-            let code = "basic_token_required";
-
-            let body = serde_json::json!({
-                "data": null,
-                "error": {
-                    "status": status.as_u16(),
-                    "code": code,
-                    "message": self.to_string(),
-                    "info": {
-                        "reason": self.0
-                    }
-                }
-            });
-
-            HttpResponse::build(status)
-                .insert_header(ContentType::json())
-                .body(body.to_string())
-        }
-    }
-}
-
-pub mod bearer_token_error {
-    use actix_web::{
-        http::{header::ContentType, StatusCode},
-        HttpResponse, ResponseError,
-    };
-
-    use std::fmt::Debug;
-
-    use serde::{Deserialize, Serialize};
-
-    #[derive(Debug, Deserialize, Serialize, thiserror::Error, derive_more::Display)]
-    pub enum BearerTokenErr {
-        #[display(fmt = "token expired")]
-        Expired,
-        #[display(fmt = "user not found")]
-        UserNotFound,
-        #[display(fmt = "internal error, please try again")]
-        ForDev(String),
-    }
-
-    impl ResponseError for BearerTokenErr {
-        fn error_response(&self) -> HttpResponse {
-            let status = StatusCode::BAD_REQUEST;
-
-            let code = "bearer_token_error";
-
-            let info = match self {
-                BearerTokenErr::ForDev(reason) => {
-                    serde_json::json!({
-                        "reason": reason
-                    })
-                }
-                _ => serde_json::json!(null),
-            };
-
-            let body = serde_json::json!({
-                "data": null,
-                "error": {
-                    "status": status.as_u16(),
-                    "code": code,
-                    "message": self.to_string(),
-                    "info": info
-                }
-            });
-
-            HttpResponse::build(status)
-                .insert_header(ContentType::json())
-                .body(body.to_string())
+            Self::ValidationError(_) => StatusCode::BAD_REQUEST,
+            Self::EmailOrPasswordIncorrect => StatusCode::UNAUTHORIZED,
+            Self::EmailAlreadyExists(_) => StatusCode::CONFLICT,
+            Self::NotFound => StatusCode::NOT_FOUND,
+            Self::ExpiredBearerToken => StatusCode::UNAUTHORIZED,
         }
     }
 }

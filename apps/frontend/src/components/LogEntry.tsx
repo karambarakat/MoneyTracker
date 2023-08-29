@@ -1,23 +1,27 @@
 import React from 'react'
-import { delete_log, find_one_log } from '../api'
+import { delete_log } from '../api/mutations'
 import { useOneState } from '../utils/OneOpenAtATime'
 import moment from 'moment'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditLog from './forms/EditLog'
-import { queryKey, useQuery } from '../api/query'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getQueryKey, queries, queryKeys } from '../api'
+
+type Defined<T> = T extends undefined | null ? never : T
 
 export default function LogEntry({
   log,
 }: {
-  log: Awaited<ReturnType<typeof find_one_log>>
+  log: Defined<Awaited<ReturnType<typeof queries.find_one_log>>>
 }) {
   const [expand, setExpand] = useOneState()
   const [edit, setEdit] = useState(false)
 
-  // const freshData = useLog(log._id)
-  const freshData = useQuery(API.queryAPI.find_one_log, { _id: log._id })
+  const freshData = useQuery({
+    queryKey: ['find_one_log', { id: log.id }] satisfies queryKeys,
+    queryFn: () => queries.find_one_log({ id: log.id }),
+  })
 
   const data = freshData.status === 'success' ? freshData.data : log
 
@@ -26,12 +30,16 @@ export default function LogEntry({
   const delete_ = useMutation({
     mutationFn: delete_log,
     onSettled: () => {
-      client.invalidateQueries(
-        queryKey(API.queryAPI.find_one_log, { _id: log._id }),
-      )
-      client.invalidateQueries(
-        queryKey(API.queryAPI.find_log, undefined as any),
-      )
+      // client.invalidateQueries(getQueryKey('find_one_log', { id: log.id }))
+      // client.invalidateQueries(getQueryKey('find_log', undefined as any))'
+      client.invalidateQueries([
+        delete_log.shouldInvalidate[0],
+        undefined as never, // pagination
+      ] satisfies queryKeys)
+      client.invalidateQueries([
+        delete_log.shouldInvalidate[1],
+        { id: log.id },
+      ] satisfies queryKeys)
     },
   })
 
@@ -63,7 +71,7 @@ export default function LogEntry({
               <button tw="mr-3" onClick={() => setEdit(false)}>
                 close editing
               </button>
-              <EditLog log={{ ...data, category: data.category?._id }} />
+              <EditLog log={{ ...data, category: data.category?.id }} />
             </>
           ) : (
             <button tw="mr-3" onClick={() => setEdit(true)}>
@@ -75,7 +83,7 @@ export default function LogEntry({
             css={
               delete_.status !== 'idle' && tw`text-gray-300 pointer-events-none`
             }
-            onClick={() => delete_.mutate({ _id: data._id })}
+            onClick={() => delete_.mutate({ id: data.id })}
           >
             click to delete
           </button>

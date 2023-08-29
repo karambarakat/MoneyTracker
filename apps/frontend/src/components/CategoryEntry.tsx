@@ -1,22 +1,29 @@
 import React from 'react'
-import { delete_category, find_one_category } from '../api'
+import { delete_category } from '../api/mutations'
 import { useOneState } from '../utils/OneOpenAtATime'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditCategory from './forms/EditCategory'
-import { queryKey, useQuery } from '../api/query'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { getQueryKey, queryKeys } from '../api/index'
+import {
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
+import { queries } from '../api'
 
 export default function CategoryEntry({
   category,
 }: {
-  category: Awaited<ReturnType<typeof find_one_category>>
+  category: Awaited<ReturnType<typeof queries.find_one_category>>
 }) {
   const [expand, setExpand] = useOneState()
   const [edit, setEdit] = useState(false)
 
-  const freshData = useQuery(API.queryAPI.find_one_category, {
-    _id: category._id,
+  const freshData = useQuery({
+    queryFn: () => queries.find_one_category({ id: category.id }),
+    queryKey: ['find_one_category', { id: category.id }] satisfies queryKeys,
   })
 
   const data = freshData.status === 'success' ? freshData.data : category
@@ -25,10 +32,13 @@ export default function CategoryEntry({
   const delete_ = useMutation({
     mutationFn: delete_category,
     onSettled: () => {
-      client.invalidateQueries(
-        queryKey(API.queryAPI.find_one_category, { _id: category._id }),
-      )
-      client.invalidateQueries(queryKey(API.queryAPI.find_category))
+      client.invalidateQueries([
+        delete_category.shouldInvalidate[0],
+      ] satisfies queryKeys)
+      client.invalidateQueries([
+        delete_category.shouldInvalidate[1],
+        { id: category.id },
+      ] satisfies queryKeys)
     },
   })
 

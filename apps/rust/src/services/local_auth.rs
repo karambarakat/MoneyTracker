@@ -7,7 +7,7 @@ use sqlx::postgres::PgDatabaseError;
 use sqlx::FromRow;
 
 use crate::errors::MyErrors;
-use crate::middlewares::basic_token::EmailPassword;
+use crate::middlewares::basic_token::BasicToken;
 use crate::modules::user::{self, User};
 
 mod user_body {
@@ -15,24 +15,27 @@ mod user_body {
     use futures::StreamExt;
     use serde_json::Value;
 
-    #[derive(serde::Deserialize)]
-    pub struct Info {
+    use crate::errors::MyErrors;
+
+    #[derive(serde::Deserialize, ts_rs::TS)]
+    #[ts(export)]
+    pub struct RegisterUserBody {
         pub display_name: Option<String>,
         pub avatar: Option<String>,
     }
 
-    pub async fn extract(mut payload: web::Payload) -> anyhow::Result<Info> {
+    pub async fn extract(mut payload: web::Payload) -> Result<RegisterUserBody, MyErrors> {
         const MAX_SIZE: usize = 262_144; // max payload size is 256k
         let mut body = web::BytesMut::new();
         while let Some(chunk) = payload.next().await {
-            let chunk = chunk?;
+            let chunk = chunk.map_err(|_| MyErrors::Frontend("payload error".to_string()))?;
             if (body.len() + chunk.len()) > MAX_SIZE {
-                anyhow::bail!("overflow");
+                return Err(MyErrors::Frontend("overflow".to_string()));
             }
             body.extend_from_slice(&chunk);
         }
 
-        let body = serde_json::from_slice::<Info>(&body);
+        let body = serde_json::from_slice::<RegisterUserBody>(&body);
 
         match body {
             Err(err) => {
@@ -41,9 +44,9 @@ mod user_body {
                     // stri will end with ` at line 2 column 1` I want to remove that
                     let stri = stri.split(" at line ").collect::<Vec<&str>>()[0];
 
-                    anyhow::bail!("data {stri}");
+                    return Err(MyErrors::ValidationError(stri.to_string()));
                 }
-                anyhow::bail!("json is invalid: {err}");
+                return Err(MyErrors::Frontend(format!("json is invalid {err}")));
             }
             Ok(body) => return Ok(body),
         };
@@ -52,17 +55,15 @@ mod user_body {
 
 #[post("/register")]
 pub async fn register(
-    token_user: Option<web::ReqData<crate::middlewares::user::ReqUser>>,
-
-    user: web::ReqData<crate::middlewares::basic_token::EmailPassword>,
+    authenticate: Option<web::ReqData<crate::middlewares::user::ReqUser>>,
+    basic_token: web::ReqData<crate::middlewares::basic_token::BasicToken>,
     pool: web::Data<sqlx::Pool<sqlx::Postgres>>,
     body: web::Payload,
 ) -> Result<impl Responder, MyErrors> {
     let pool = pool.into_inner().as_ref().clone();
 
-    let body: user_body::Info = user_body::extract(body)
-        .await
-        .map_err(|x| MyErrors::ValidationError(x.to_string()))?;
+    // Todo: make this actix extractor instead of web::Payload
+    let body: user_body::RegisterUserBody = user_body::extract(body).await?;
 
     let res = sqlx::query_as::<_, User>(
         r#"
@@ -71,8 +72,8 @@ pub async fn register(
     RETURNING id, email, display_name, avatar, providers, created_at, updated_at;
     "#,
     )
-    .bind(user.email.clone())
-    .bind(user.password.clone())
+    .bind(basic_token.email.clone())
+    .bind(basic_token.password.clone())
     .bind(body.display_name.clone())
     .bind(body.avatar.clone())
     .bind("local")
@@ -81,20 +82,22 @@ pub async fn register(
 
     if let Err(sqlx::Error::Database(err)) = &res {
         if err.code() == Some("23505".into()) {
-            return Err(MyErrors::EmailAlreadyExists(user.email.clone()));
+            return Err(MyErrors::EmailAlreadyExists(basic_token.email.clone()));
         }
     }
 
     let res = res.unwrap();
 
     // authenticate user
-    let token_user = token_user.expect("app configured incorrectly").into_inner();
+    let authenticate = authenticate
+        .expect("app configured incorrectly")
+        .into_inner();
 
-    let mut token_user = token_user.borrow_mut();
+    let mut authenticate = authenticate.borrow_mut();
 
-    match token_user.as_ref() {
+    match authenticate.as_ref() {
         None => {
-            *token_user = Some(crate::middlewares::user::User {
+            *authenticate = Some(crate::middlewares::user::User {
                 id: res.id.to_string().parse().unwrap(),
                 email: res.email.clone(),
                 user_name: res.email.clone(),
@@ -103,13 +106,13 @@ pub async fn register(
         _ => {} // user is already attached
     };
 
-    Ok(web::Json(res))
+    Ok(web::Json(serde_json::json!({"data":res})))
 }
 
 #[post("/login")]
 pub async fn login(
     user: Option<web::ReqData<crate::middlewares::user::ReqUser>>,
-    auth: Option<web::ReqData<EmailPassword>>,
+    auth: Option<web::ReqData<BasicToken>>,
     pool: web::Data<sqlx::Pool<sqlx::Postgres>>,
 ) -> Result<impl Responder, MyErrors> {
     let pool = pool.into_inner().as_ref().clone();
@@ -134,7 +137,7 @@ pub async fn login(
     let res = match res {
         Ok(res) => res,
         Err(sqlx::Error::RowNotFound) => return Err(MyErrors::EmailOrPasswordIncorrect),
-        _ => return Err(MyErrors::UnknownError),
+        Err(err) => return Err(MyErrors::Backend(Box::new(err))),
     };
 
     use sqlx::Row;
@@ -160,7 +163,7 @@ pub async fn login(
         _ => {} // user is already attached
     };
 
-    Ok(web::Json(res))
+    Ok(web::Json(serde_json::json!({"data":res})))
 
     // crate::middlewares::user::Middleware will populate token on header x-token
 }

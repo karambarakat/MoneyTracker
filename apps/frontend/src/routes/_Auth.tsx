@@ -17,7 +17,7 @@ import { SchemaProfile } from 'types/dist/ts/schema'
 import SecretField from 'ui/src/components/forms/SecretField'
 import EmailField from 'ui/src/components/forms/EmailField'
 import { useMutation } from '@tanstack/react-query'
-import { login, register } from '../api'
+import { login, register } from '../api/mutations'
 import { Form, FormBody } from 'ui/src/components/forms/_Form'
 
 import { Slot } from '@radix-ui/react-slot'

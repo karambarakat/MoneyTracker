@@ -6,7 +6,7 @@ import SecretField from 'ui/src/components/forms/SecretField'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useMutation } from '@tanstack/react-query'
-import { set_password } from '../../api'
+import { set_password } from '../../api/mutations'
 
 export default function ResetPassword() {
   const mutate = useMutation({ mutationFn: set_password })

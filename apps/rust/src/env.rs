@@ -1,4 +1,4 @@
-static RUST_ENV: &str = env!("RUST_ENV");
+static RUST_ENV: &str = "dev";
 
 pub fn load_env() {
     dotenv::from_filename(format!("apps/rust/.env.{}.local", RUST_ENV)).ok();
@@ -10,9 +10,8 @@ pub fn load_env() {
     std::env::var("JWT_SALT").expect("JWT_SALT is not set");
 
     std::env::var("SALT").expect("SALT is not set");
-
     std::env::var("PORT")
         .expect("PORT is not set")
-        .parse::<u16>()
+        .parse::<std::num::NonZeroU16>()
         .expect("PORT is not a number");
 }

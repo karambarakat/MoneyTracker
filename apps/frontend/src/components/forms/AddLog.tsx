@@ -7,22 +7,27 @@ import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import CategoryField from 'ui/src/components/forms/CategoryField'
 import NumberField from 'ui/src/components/forms/NumberField'
 import TextField from 'ui/src/components/forms/TextField'
-import { queryKey, useQuery } from '../../api/query'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { create_log } from '../../api'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { create_log } from '../../api/mutations'
+import { getQueryKey, queries, queryKeys } from '../../api'
 
 export default function AddLog() {
   const client = useQueryClient()
   const mutate = useMutation({
     mutationFn: create_log,
     onSettled: () => {
-      client.invalidateQueries(
-        queryKey(API.queryAPI.find_log, undefined as any),
-      )
+      client.invalidateQueries([
+        create_log.shouldInvalidate[0],
+        undefined as never,
+      ] satisfies queryKeys)
     },
   })
 
-  const categories = useQuery(API.queryAPI.find_category).data
+  const categories = useQuery({
+    queryFn: () => queries.find_category(),
+    // queryKey: getQueryKey('find_category'),
+    queryKey: ['find_category'] satisfies queryKeys,
+  }).data
 
   if (!categories) return <div>error</div>
 

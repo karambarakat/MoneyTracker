@@ -3,6 +3,12 @@ node_modules
 
 .env.*.local
 
+# rewrite backend to rust
+# to restore `git restore --source c92f370 apps/backend pkgs/types apps/openapi-docs`
+# pkgs/types
+# apps/backend
+# apps/openapi-docs
+
 # prevent suppling production with any env by mistake
 .env
 .env.local
