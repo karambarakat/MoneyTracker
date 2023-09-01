@@ -8,6 +8,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+backend_macro = { path = "../../pkgs/backend_macro" }
+
 rust_decimal = { version = "1.32", features = ["serde", "tokio-pg", "db-tokio-postgres", "db-postgres"] }
 rust_decimal_macros = "1.32"
 

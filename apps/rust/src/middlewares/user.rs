@@ -1,17 +1,14 @@
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
-    http::header::{HeaderName, HeaderValue, AUTHORIZATION},
-    web::{self},
+    http::header::{HeaderName, HeaderValue},
     Error, HttpMessage,
 };
 use futures_util::future::LocalBoxFuture;
 use std::{
     cell::RefCell,
     future::{ready, Ready},
-    num::NonZeroU32,
     rc::Rc,
     str::FromStr,
-    sync::Arc,
 };
 
 use crate::errors::MyErrors;
@@ -53,7 +50,7 @@ where
 
     forward_ready!(service);
 
-    fn call(&self, mut req: ServiceRequest) -> Self::Future {
+    fn call(&self, req: ServiceRequest) -> Self::Future {
         let user: ReqUser = Rc::new(RefCell::new(None));
 
         req.extensions_mut().insert(user.clone());
@@ -74,11 +71,11 @@ where
                 // crate::services::local_auth::register
                 // crate::middleware::bearer_token
                 let header = HeaderName::from_str("X-token")
-                    .map_err(|err| MyErrors::Backend(Box::new(err)))?;
+                    .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
                 let jwt = Jwt::sign(&user.id, &user.email, &user.email)
-                    .map_err(|err| MyErrors::Backend(Box::new(err)))?;
-                let val =
-                    HeaderValue::from_str(&jwt).map_err(|err| MyErrors::Backend(Box::new(err)))?;
+                    .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
+                let val = HeaderValue::from_str(&jwt)
+                    .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
 
                 res.headers_mut().insert(header, val);
             }

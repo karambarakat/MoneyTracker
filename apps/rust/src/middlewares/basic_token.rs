@@ -1,7 +1,6 @@
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
     http::header::AUTHORIZATION,
-    web::{self},
     Error, HttpMessage,
 };
 use futures_util::future::LocalBoxFuture;
@@ -47,7 +46,7 @@ where
 
     forward_ready!(service);
 
-    fn call(&self, mut req: ServiceRequest) -> Self::Future {
+    fn call(&self, req: ServiceRequest) -> Self::Future {
         let credential = process_request(&req);
 
         let credential = match credential {
@@ -99,13 +98,13 @@ impl BasicToken {
     pub fn decode(token: &str) -> Result<Self, MyErrors> {
         let token = base64::engine::general_purpose::STANDARD
             .decode(token)
-            .map_err(|_| MyErrors::Frontend("token decoding failed".to_string()))?;
+            .map_err(|_| MyErrors::BadRequest("token decoding failed".to_string()))?;
         let token = String::from_utf8(token).map_err(|_| {
-            MyErrors::Frontend("token decoding failed, input is valid?".to_string())
+            MyErrors::BadRequest("token decoding failed, input is valid?".to_string())
         })?;
         let token = token.split(":").collect::<Vec<&str>>();
         if token.len() != 2 {
-            return Err(MyErrors::Frontend(
+            return Err(MyErrors::BadRequest(
                 "token is not formatted as email:password".to_string(),
             ));
         }
@@ -139,13 +138,13 @@ fn process_request(req: &ServiceRequest) -> Result<BasicToken, MyErrors> {
     let header = req
         .headers()
         .get(AUTHORIZATION)
-        .ok_or(MyErrors::Frontend("header is not provided".to_string()))?
+        .ok_or(MyErrors::BadRequest("header is not provided".to_string()))?
         .to_str()
-        .map_err(|_| MyErrors::Frontend("header is not provided".to_string()))?;
+        .map_err(|_| MyErrors::BadRequest("header is not provided".to_string()))?;
 
     let auth = header.split(" ").collect::<Vec<&str>>();
     if auth.len() != 2 || auth[0] != "Basic" {
-        return Err(MyErrors::Frontend("not a basic token".to_string()));
+        return Err(MyErrors::BadRequest("not a basic token".to_string()));
     }
 
     Ok(BasicToken::decode(auth[1])?)

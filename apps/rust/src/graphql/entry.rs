@@ -1,6 +1,4 @@
 use async_graphql::*;
-use futures::StreamExt;
-use rust_decimal::Decimal;
 
 use crate::modules::{entry::Entry, numeric::Numeric};
 
@@ -223,7 +221,7 @@ impl EntryMutation {
             .data::<crate::middlewares::user::User>()
             .expect("app configured incorrectly");
 
-        let mut tx = pool.begin().await.unwrap();
+        let tx = pool.begin().await.unwrap();
 
         let mut ids = Vec::new();
 

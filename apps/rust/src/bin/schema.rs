@@ -2,9 +2,6 @@
 
 extern crate graphql_backend;
 
-use graphql_backend::graphql::root::Mutation;
-use graphql_backend::graphql::root::Query;
-
 use async_graphql::{EmptySubscription, Schema};
 
 use serde_json::json;

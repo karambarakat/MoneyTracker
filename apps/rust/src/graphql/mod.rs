@@ -19,10 +19,7 @@ pub mod root {
     );
 }
 
-use actix_web::{
-    web::{self, ReqData},
-    HttpResponse,
-};
+use actix_web::web::{self, ReqData};
 use async_graphql::{EmptySubscription, Schema};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 
@@ -46,12 +43,12 @@ pub async fn graphql_endpoint(
     schema.execute(req.into_inner().data(user)).await.into()
 }
 
-pub async fn graphql_playground() -> HttpResponse {
-    HttpResponse::Ok()
-        .content_type("text/html; charset=utf-8")
-        .body(
-            async_graphql::http::GraphiQLSource::build()
-                .endpoint("/graphql")
-                .finish(),
-        )
-}
+// pub async fn graphql_playground() -> HttpResponse {
+//     HttpResponse::Ok()
+//         .content_type("text/html; charset=utf-8")
+//         .body(
+//             async_graphql::http::GraphiQLSource::build()
+//                 .endpoint("/graphql")
+//                 .finish(),
+//         )
+// }

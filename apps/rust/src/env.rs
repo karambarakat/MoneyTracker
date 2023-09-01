@@ -1,4 +1,5 @@
 static RUST_ENV: &str = "dev";
+// static RUST_ENV: &str = env!("RUST_ENV");
 
 pub fn load_env() {
     dotenv::from_filename(format!("apps/rust/.env.{}.local", RUST_ENV)).ok();

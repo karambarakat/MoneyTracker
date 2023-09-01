@@ -1,56 +1,54 @@
 use actix_web::{
     body::BoxBody,
-    dev::Response,
-    http::{header::ContentType, StatusCode},
-    Handler, HttpRequest, HttpResponse, HttpResponseBuilder, Responder, ResponseError,
+    http::{header::ContentType, StatusCode}, HttpRequest, HttpResponse, Responder, ResponseError,
 };
-use serde_json::Number;
+use backend_macro::HttpError;
+
 
 use std::fmt::Debug;
 use thiserror::Error;
 
-#[derive(Debug, derive_more::Display, Error, serde::Serialize, ts_rs::TS)]
+#[derive(Debug, derive_more::Display, Error, serde::Serialize, ts_rs::TS, HttpError)]
 #[ts(export)]
 pub enum MyErrors {
-    #[display(fmt = "EmailAlreadyExists: email already exists: {0}", _0)]
+    #[display(fmt = "email already exists: {0}", _0)]
+    #[http_error(status = "409")]
     EmailAlreadyExists(String),
-    #[display(fmt = "EmailOrPasswordIncorrect: email or password is incorrect")]
+    #[display(fmt = "email or password is incorrect")]
+    #[http_error(status = "401")]
     EmailOrPasswordIncorrect,
-    #[display(fmt = "ValidationError: validation error: {0}", _0)]
+    #[display(fmt = "validation error: {0}", _0)]
+    #[http_error(status = "400")]
     ValidationError(String),
-    #[display(fmt = "NotFound: 404 not found")]
+    #[display(fmt = "not found")]
+    #[http_error(status = "404")]
     NotFound,
-    #[display(fmt = "ExpiredBearerToken: token expired")]
+    #[display(fmt = "token expired")]
+    #[http_error(status = "401")]
     ExpiredBearerToken,
 
     /// error that should not happened if my code is correct
     #[display(fmt = "internal error")]
+    #[http_error(status = "500")]
     #[serde(skip)]
-    Backend(Box<dyn std::error::Error>),
+    InternalError(Box<dyn std::error::Error>),
 
     /// error that is the frontend dev`s responsibility. With a non-user-facing error message
     #[display(fmt = "bad request")]
-    #[serde(skip)]
-    Frontend(String),
+    #[http_error(status = "400")]
+    BadRequest(String),
 }
 
 use convert_case::{Case, Casing};
 
-impl Responder for MyErrors {
-    type Body = BoxBody;
-    fn respond_to(self, _: &HttpRequest) -> HttpResponse<Self::Body> {
-        self.error_response()
-    }
-}
-
 impl ResponseError for MyErrors {
     fn error_response(&self) -> HttpResponse {
-        if let Self::Backend(reason) = self {
+        if let Self::InternalError(reason) = self {
             println!("internal error: {:?}", reason);
         }
 
         let info = match self {
-            Self::Frontend(reason) => {
+            Self::BadRequest(reason) => {
                 serde_json::json!({
                     "reason": reason,
                 })
@@ -60,22 +58,12 @@ impl ResponseError for MyErrors {
 
         let status = self.status_code();
 
-        let code_and_message = self.to_string();
-        let code_and_message = code_and_message.split(":").collect::<Vec<&str>>();
-        let code_and_message = match code_and_message.len() {
-            2 => (code_and_message[0], code_and_message[1]),
-            _ => (
-                status.canonical_reason().unwrap_or("UnknownError"),
-                code_and_message[0],
-            ),
-        };
-
         let body = serde_json::json!({
             "data": null,
             "error": {
-                "status": status.as_u16(),
-                "code": code_and_message.0.to_case(Case::Pascal),
-                "message": code_and_message.1,
+                "status": self.error_status_u16(),
+                "code": self.error_code().to_case(Case::Pascal),
+                "message": self.to_string(),
                 "info": info
             }
         });
@@ -86,15 +74,13 @@ impl ResponseError for MyErrors {
     }
 
     fn status_code(&self) -> StatusCode {
-        match self {
-            Self::Backend(_) => StatusCode::INTERNAL_SERVER_ERROR,
-            Self::Frontend(_) => StatusCode::BAD_REQUEST,
+        StatusCode::from_u16(self.error_status_u16()).unwrap()
+    }
+}
 
-            Self::ValidationError(_) => StatusCode::BAD_REQUEST,
-            Self::EmailOrPasswordIncorrect => StatusCode::UNAUTHORIZED,
-            Self::EmailAlreadyExists(_) => StatusCode::CONFLICT,
-            Self::NotFound => StatusCode::NOT_FOUND,
-            Self::ExpiredBearerToken => StatusCode::UNAUTHORIZED,
-        }
+impl Responder for MyErrors {
+    type Body = BoxBody;
+    fn respond_to(self, _: &HttpRequest) -> HttpResponse<Self::Body> {
+        self.error_response()
     }
 }

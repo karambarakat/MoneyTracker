@@ -550,6 +550,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
+name = "backend_macro"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "http_error_derive",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1311,6 +1319,7 @@ dependencies = [
  "async-graphql",
  "async-graphql-actix-web",
  "async-trait",
+ "backend_macro",
  "base64 0.21.2",
  "bcrypt",
  "chrono",
@@ -1454,6 +1463,15 @@ dependencies = [
  "bytes",
  "fnv",
  "itoa",
+]
+
+[[package]]
+name = "http_error_derive"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "quote",
+ "syn 2.0.29",
 ]
 
 [[package]]

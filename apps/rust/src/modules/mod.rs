@@ -6,7 +6,7 @@ pub struct Date(#[serde(with = "ts_seconds")] pub chrono::DateTime<chrono::Utc>)
 
 #[Scalar]
 impl ScalarType for Date {
-    fn parse(value: Value) -> InputValueResult<Self> {
+    fn parse(_value: Value) -> InputValueResult<Self> {
         todo!()
     }
 

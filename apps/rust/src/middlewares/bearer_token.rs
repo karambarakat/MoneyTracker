@@ -1,22 +1,17 @@
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
     http::header::AUTHORIZATION,
-    web::{self},
     Error, HttpMessage,
 };
 use futures_util::future::LocalBoxFuture;
 use std::{
-    cell::RefCell,
-    default,
     future::{ready, Ready},
-    num::NonZeroU32,
-    rc::Rc,
 };
-use ts_rs::TS;
+
 
 use crate::errors::MyErrors;
 use crate::utils::jwt::Jwt;
-use chrono::{DateTime, Duration, Utc};
+
 
 pub struct Middleware;
 
@@ -53,7 +48,7 @@ where
 
     forward_ready!(service);
 
-    fn call(&self, mut req: ServiceRequest) -> Self::Future {
+    fn call(&self, req: ServiceRequest) -> Self::Future {
         let credential = process_request(&req);
 
         let credential = match credential {
@@ -93,13 +88,13 @@ fn process_request(req: &ServiceRequest) -> Result<Jwt, MyErrors> {
     let header = req
         .headers()
         .get(AUTHORIZATION)
-        .ok_or(MyErrors::Frontend("no authorization header".to_string()))?
+        .ok_or(MyErrors::BadRequest("no authorization header".to_string()))?
         .to_str()
-        .map_err(|_| MyErrors::Frontend("invalid header".to_string()))?;
+        .map_err(|_| MyErrors::BadRequest("invalid header".to_string()))?;
 
     let auth = header.split(" ").collect::<Vec<&str>>();
     if auth.len() != 2 || auth[0] != "Bearer" {
-        return Err(MyErrors::Frontend("not a bearer token".to_string()));
+        return Err(MyErrors::BadRequest("not a bearer token".to_string()));
     }
 
     Ok(Jwt::validate(auth[1])?)

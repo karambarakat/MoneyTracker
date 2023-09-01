@@ -1,5 +1,4 @@
 use async_graphql::*;
-use futures::StreamExt;
 
 use crate::modules::user::User;
 

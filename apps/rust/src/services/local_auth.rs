@@ -1,19 +1,19 @@
-use core::panic;
-use std::cell::RefCell;
-use std::rc::Rc;
 
-use actix_web::{post, web, HttpRequest, Responder, ResponseError};
-use sqlx::postgres::PgDatabaseError;
+
+
+
+use actix_web::{post, web, Responder};
+
 use sqlx::FromRow;
 
 use crate::errors::MyErrors;
 use crate::middlewares::basic_token::BasicToken;
-use crate::modules::user::{self, User};
+use crate::modules::user::{User};
 
 mod user_body {
-    use actix_web::{error, web};
+    use actix_web::{web};
     use futures::StreamExt;
-    use serde_json::Value;
+    
 
     use crate::errors::MyErrors;
 
@@ -28,9 +28,9 @@ mod user_body {
         const MAX_SIZE: usize = 262_144; // max payload size is 256k
         let mut body = web::BytesMut::new();
         while let Some(chunk) = payload.next().await {
-            let chunk = chunk.map_err(|_| MyErrors::Frontend("payload error".to_string()))?;
+            let chunk = chunk.map_err(|_| MyErrors::BadRequest("payload error".to_string()))?;
             if (body.len() + chunk.len()) > MAX_SIZE {
-                return Err(MyErrors::Frontend("overflow".to_string()));
+                return Err(MyErrors::BadRequest("overflow".to_string()));
             }
             body.extend_from_slice(&chunk);
         }
@@ -46,7 +46,7 @@ mod user_body {
 
                     return Err(MyErrors::ValidationError(stri.to_string()));
                 }
-                return Err(MyErrors::Frontend(format!("json is invalid {err}")));
+                return Err(MyErrors::BadRequest(format!("json is invalid {err}")));
             }
             Ok(body) => return Ok(body),
         };
@@ -137,7 +137,7 @@ pub async fn login(
     let res = match res {
         Ok(res) => res,
         Err(sqlx::Error::RowNotFound) => return Err(MyErrors::EmailOrPasswordIncorrect),
-        Err(err) => return Err(MyErrors::Backend(Box::new(err))),
+        Err(err) => return Err(MyErrors::InternalError(Box::new(err))),
     };
 
     use sqlx::Row;

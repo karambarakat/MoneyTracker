@@ -1,22 +1,16 @@
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
-    http::{header::AUTHORIZATION, StatusCode},
-    web::{self},
-    Error, HttpMessage, HttpRequest, HttpResponse, ResponseError,
+    Error,
 };
 use futures_util::future::LocalBoxFuture;
 use std::{
-    cell::RefCell,
-    default,
     future::{ready, Ready},
-    num::NonZeroU32,
-    rc::Rc,
 };
-use ts_rs::TS;
 
-use crate::errors::MyErrors as the_err;
-use crate::utils::jwt::Jwt;
-use chrono::{DateTime, Duration, Utc};
+
+
+
+
 
 pub struct Middleware;
 
@@ -53,7 +47,7 @@ where
 
     forward_ready!(service);
 
-    fn call(&self, mut req: ServiceRequest) -> Self::Future {
+    fn call(&self, req: ServiceRequest) -> Self::Future {
         let fut = self.service.call(req);
 
         Box::pin(async move {

@@ -1,5 +1,4 @@
 use async_graphql::*;
-use futures::StreamExt;
 
 use crate::modules::category::Category;
 
@@ -157,7 +156,7 @@ impl CategoryMutation {
             .data::<crate::middlewares::user::User>()
             .expect("app configured incorrectly");
 
-        let mut tx = pool.begin().await.unwrap();
+        let tx = pool.begin().await.unwrap();
 
         let mut ids = Vec::new();
 

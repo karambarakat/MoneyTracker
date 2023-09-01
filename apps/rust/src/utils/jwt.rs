@@ -20,12 +20,12 @@ impl Jwt {
     pub fn validate(str: &str) -> Result<Self, MyErrors> {
         let env = std::env::var("JWT_SALT").expect("JWT_SALT is not set");
 
-        let key: Hmac<Sha256> =
-            Hmac::new_from_slice(env.as_bytes()).map_err(|err| MyErrors::Backend(Box::new(err)))?;
+        let key: Hmac<Sha256> = Hmac::new_from_slice(env.as_bytes())
+            .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
 
         let claims: BTreeMap<String, String> = str
             .verify_with_key(&key)
-            .map_err(|err| MyErrors::Backend(Box::new(err)))?;
+            .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
 
         let exp = claims.get("exp");
 
@@ -34,9 +34,11 @@ impl Jwt {
                 // test if expirted
                 let exp = exp
                     .parse::<i64>()
-                    .map_err(|err| MyErrors::Backend(Box::new(err)))?;
-                let exp =
-                    DateTime::<Utc>::from_utc(chrono::NaiveDateTime::from_timestamp(exp, 0), Utc);
+                    .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
+                let exp = DateTime::<Utc>::from_utc(
+                    chrono::NaiveDateTime::from_timestamp_opt(exp, 0).unwrap(),
+                    Utc,
+                );
 
                 if exp < Utc::now() {
                     return Err(MyErrors::ExpiredBearerToken);
@@ -53,14 +55,15 @@ impl Jwt {
             user_id: claims.get("user_id").unwrap().to_string(),
             exp,
             iat: DateTime::<Utc>::from_utc(
-                chrono::NaiveDateTime::from_timestamp(
+                chrono::NaiveDateTime::from_timestamp_opt(
                     claims
                         .get("iat")
                         .unwrap()
                         .parse::<i64>()
-                        .map_err(|err| MyErrors::Backend(Box::new(err)))?,
+                        .map_err(|err| MyErrors::InternalError(Box::new(err)))?,
                     0,
-                ),
+                )
+                .unwrap(),
                 Utc,
             ),
         })
@@ -69,8 +72,8 @@ impl Jwt {
     pub fn sign(id: &str, email: &str, user_id: &str) -> Result<String, MyErrors> {
         let env = std::env::var("JWT_SALT").expect("JWT_SALT is not set");
 
-        let key: Hmac<Sha256> =
-            Hmac::new_from_slice(env.as_bytes()).map_err(|err| MyErrors::Backend(Box::new(err)))?;
+        let key: Hmac<Sha256> = Hmac::new_from_slice(env.as_bytes())
+            .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
 
         let claims = {
             let mut claims: BTreeMap<String, String> = BTreeMap::new();
@@ -89,7 +92,7 @@ impl Jwt {
 
         let token_str = claims
             .sign_with_key(&key)
-            .map_err(|err| MyErrors::Backend(Box::new(err)))?;
+            .map_err(|err| MyErrors::InternalError(Box::new(err)))?;
 
         Ok(token_str)
     }

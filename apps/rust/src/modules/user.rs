@@ -37,6 +37,7 @@ pub struct User {
     pub updated_at: Date,
 }
 
+#[allow(dead_code)]
 // for some limitation for ts_rs, this exists for the sake of simplicity
 #[derive(ts_rs::TS)]
 #[ts(export)]
