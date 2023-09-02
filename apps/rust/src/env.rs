@@ -1,9 +1,17 @@
-static RUST_ENV: &str = "dev";
+static RUST_ENV: Option<&'static str> = option_env!("RUST_ENV");
 // static RUST_ENV: &str = env!("RUST_ENV");
 
 pub fn load_env() {
-    dotenv::from_filename(format!("apps/rust/.env.{}.local", RUST_ENV)).ok();
-    dotenv::from_filename(format!("apps/rust/.env.{}", RUST_ENV)).ok();
+    let env = match (cfg!(debug_assertions), cfg!(test)) {
+        (true, _) => "dev",
+        (false, true) => "test",
+        (false, false) => "prod",
+    };
+
+    let rust_env = RUST_ENV.unwrap_or(env);
+
+    dotenv::from_filename(format!("apps/rust/.env.{}.local", rust_env)).ok();
+    dotenv::from_filename(format!("apps/rust/.env.{}", rust_env)).ok();
     dotenv::from_filename("apps/rust/.env").ok();
 
     std::env::var("DATABASE_URL").expect("DATABASE_URL is not set");

@@ -1470,6 +1470,7 @@ name = "http_error_derive"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "proc-macro2",
  "quote",
  "syn 2.0.29",
 ]

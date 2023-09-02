@@ -1,9 +1,9 @@
 use actix_web::{
     body::BoxBody,
-    http::{header::ContentType, StatusCode}, HttpRequest, HttpResponse, Responder, ResponseError,
+    http::{header::ContentType, StatusCode},
+    HttpRequest, HttpResponse, Responder, ResponseError,
 };
 use backend_macro::HttpError;
-
 
 use std::fmt::Debug;
 use thiserror::Error;
@@ -12,30 +12,30 @@ use thiserror::Error;
 #[ts(export)]
 pub enum MyErrors {
     #[display(fmt = "email already exists: {0}", _0)]
-    #[http_error(status = "409")]
+    #[http_error(status = 409)]
     EmailAlreadyExists(String),
     #[display(fmt = "email or password is incorrect")]
-    #[http_error(status = "401")]
+    #[http_error(status = 401)]
     EmailOrPasswordIncorrect,
     #[display(fmt = "validation error: {0}", _0)]
-    #[http_error(status = "400")]
+    #[http_error(status = 400)]
     ValidationError(String),
     #[display(fmt = "not found")]
-    #[http_error(status = "404")]
+    #[http_error(status = 404)]
     NotFound,
     #[display(fmt = "token expired")]
-    #[http_error(status = "401")]
+    #[http_error(status = 401)]
     ExpiredBearerToken,
 
     /// error that should not happened if my code is correct
     #[display(fmt = "internal error")]
-    #[http_error(status = "500")]
+    #[http_error(status = 500)]
     #[serde(skip)]
     InternalError(Box<dyn std::error::Error>),
 
     /// error that is the frontend dev`s responsibility. With a non-user-facing error message
     #[display(fmt = "bad request")]
-    #[http_error(status = "400")]
+    #[http_error(status = 400)]
     BadRequest(String),
 }
 
