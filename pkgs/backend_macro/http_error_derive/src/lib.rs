@@ -78,6 +78,15 @@ fn impl_http_error(ast: &syn::DeriveInput) -> TokenStream {
             _ => panic!("third item of http_error attribute must be a literal"),
         };
 
+        let status_code_num = status_code
+            .to_string()
+            .parse::<u16>()
+            .expect("status code must be a number");
+
+        if status_code_num < 400 || status_code_num > 599 {
+            panic!("status code must be between 400 and 599")
+        }
+
         (name, fields, status_code)
     });
 
@@ -116,5 +125,6 @@ fn impl_http_error(ast: &syn::DeriveInput) -> TokenStream {
             }
         }
     };
+
     gen.into()
 }

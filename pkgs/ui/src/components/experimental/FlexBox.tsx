@@ -32,7 +32,9 @@ interface Props {
 }
 
 const Root = styled.div<Props>`
-  transition: width ${p => p.animation}, height ${p => p.animation};
+  transition:
+    width ${p => p.animation},
+    height ${p => p.animation};
 `
 
 export default function ({

@@ -4,13 +4,8 @@ import { useOneState } from '../utils/OneOpenAtATime'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditCategory from './forms/EditCategory'
-import { getQueryKey, queryKeys } from '../api/index'
-import {
-  UseQueryOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { queryKeys } from '../api/index'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { queries } from '../api'
 
 export default function CategoryEntry({

@@ -49,7 +49,3 @@ runs:
     - name: 📥 Install dependencies
       shell: sh
       run: pnpm install --frozen-lockfile
-
-    - name: 📥 Install e2e dependencies
-      shell: sh
-      run: pnpm install -g concurrently wait-on turbo@latest

@@ -1,10 +1,10 @@
 /* eslint-env node */
 module.exports = {
   client: {
-    includes: ["./**/*.ts"],
+    includes: ['./**/*.ts'],
     service: {
-      name: "test",
-      localSchemaFile: "./schema.json",
+      name: 'test',
+      localSchemaFile: './schema.json',
     },
   },
-};
+}

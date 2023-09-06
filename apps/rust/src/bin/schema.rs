@@ -125,6 +125,5 @@ async fn main() {
         .await;
 
     // output to file "schema.json"
-    std::fs::write("schema.json", json!(result).to_string()).unwrap();
     std::fs::write("pkgs/types/schema.json", json!(result).to_string()).unwrap();
 }

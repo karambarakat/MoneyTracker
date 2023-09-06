@@ -1,2 +1,19 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
+
+if [git status -s | grep -e "^??" | wc -l]
+then
+  echo "You have untracked files. Please commit or stash them before running pre-commit hook."
+  exit 1
+fi
+
+git stash -q
+
+../ci/pre-commit.sh
+
+RESULT=$?
+[ $RESULT -ne 0 ] && exit 1
+
+git add .
+
+git stash pop -q

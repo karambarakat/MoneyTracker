@@ -6,18 +6,12 @@
   "scripts": {
     "db": "docker compose up -d db",
     "prepare": "husky install",
-    "graphql": "cross-env RUST_ENV=dev cargo test && cross-env RUST_ENV=dev cargo run --bin schema && pnpm --filter types build",
-    "rust:dev": "cross-env RUST_ENV=dev cargo watch -x run",
-    "rust": "cross-env RUST_ENV=prod cargo run",
     "// development": "",
     "dev:fullstack": "pnpm -F backend -F frontend --parallel dev",
     "// used by github actions turborepo.yaml": "",
     "build": "turbo run build",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "// linters and checkers": "",
-    "lint": "prettier --write . && turbo run lint ",
-    "prettier": "prettier --write .",
     "// e2e test, used by github/workflows/e2e.yaml": "",
     "it:dep": "pnpm -r --parallel it:dep",
     "it:build": "turbo it:build",
@@ -31,7 +25,6 @@
   "devDependencies": {
     "@playwright/test": "^1.34.3",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.2",
     "prettier": "latest",
     "turbo": "latest",
     "wait-on": "7.0.1"

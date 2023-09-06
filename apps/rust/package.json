@@ -1,0 +1,4 @@
+{
+  "name": "rust_backend",
+  "types": "./types.ts"
+}

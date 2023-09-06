@@ -9,6 +9,8 @@
     "ms-playwright.playwright",
     "esbenp.prettier-vscode",
     "rvest.vs-code-prettier-eslint",
-    "bradlc.vscode-tailwindcss","jinxdash.prettier-rust", "apollographql.vscode-apollo"
+    "bradlc.vscode-tailwindcss",
+    "jinxdash.prettier-rust",
+    "apollographql.vscode-apollo"
   ]
 }

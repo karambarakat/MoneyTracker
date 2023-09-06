@@ -5,7 +5,7 @@ import { Formik, FormikConfig, Form as FormikForm, FormikHelpers } from 'formik'
 import { WithChildren } from '../../utils/WithChildren'
 import React, { createContext, useMemo } from 'react'
 import requires from '../../utils/requires'
-import HttpError from 'types/dist/helpers/http_error'
+import HttpError from 'types/'
 import { DefinedContext } from '../../utils/definedContext'
 
 export const formMetaInfo = new DefinedContext<{ required: string[] }>()

@@ -1,4 +1,4 @@
-import { MyErrors } from 'types/backend'
+import { MyErrors } from './backend'
 
 export class RestError extends Error {
   status: Payload['status']

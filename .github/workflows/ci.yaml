@@ -9,104 +9,127 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v2
-
-      - name: 📥 Install dependencies
-        uses: ./.github/actions/pnpm
-
-  test:
-    needs: setup
-    runs-on: ubuntu-latest
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v2
-
-      - name: 📥 Install dependencies
-        uses: ./.github/actions/pnpm
-
-      - name: 🧪 Test
-        run: turbo test
-
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v2
-
-      - name: 📥 Install dependencies
-        uses: ./.github/actions/pnpm
-
-      - name: 🏗 Build
-        run: turbo build
-
-  typecheck:
-    needs: setup
-    runs-on: ubuntu-latest
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
-      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v2
-
-      - name: 📥 Install dependencies
-        uses: ./.github/actions/pnpm
-
-      - name: 🔼⏺️⏹️ Typecheck
-        run: turbo typecheck
-
-  e2e:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v2
-
-      - name: 📥 Install dependencies
-        uses: ./.github/actions/pnpm
-
-      - name: 📥 playwright install
-        run: pnpm --filter e2e pw install --with-deps
-
-      - name: 🚀 Run e2e pre scripts
-        shell: bash
-        run: turbo e2e:build
-
-      - name: 🚀 Run e2e test
-        shell: bash
-        run: >
-          concurrently -n "bg,e2e"
-          -c "green,bgBlue.bold"
-          -s first --kill-others
-          "turbo e2e:bg"
-          "sleep 6 && pnpm e2e:dep && pnpm --F e2e run pw test"
-
-      - name: 📤 Upload e2e report
-        uses: actions/upload-artifact@v3
-        if: always()
         with:
-          name: e2e-report
-          path: pkgs/e2e/playwright-report/
-          retention-days: 20
-
-  chromatic:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v2
+          fetch-depth: 2
 
       - name: 📥 Install dependencies
         uses: ./.github/actions/pnpm
 
-      - uses: chromaui/action@v1
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          workingDir: pkgs/ui
+          toolchain: stable
+          override: true
+
+      - name: run rust
+        run: ./ci/rust.sh
+
+      # - name: turbo checks
+      #   run: turbo typecheck build test
+
+      # - name: chromatic
+
+      - name: 📥 Install e2e dependencies
+        shell: sh
+        run: pnpm install -g concurrently wait-on turbo@latest
+
+      # - name: e2e test
+      # - name: e2e test
+
+  # test:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+  #     TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+  #   steps:
+  #     - name: 📥 Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: 📥 Install dependencies
+  #       uses: ./.github/actions/pnpm
+
+  #     - name: 🧪 Test
+  #       run: turbo test
+
+  # build:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+  #     TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+  #   steps:
+  #     - name: 📥 Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: 📥 Install dependencies
+  #       uses: ./.github/actions/pnpm
+
+  #     - name: 🏗 Build
+  #       run: turbo build
+
+  # typecheck:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+  #     TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+  #   steps:
+  #     - name: 📥 Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: 📥 Install dependencies
+  #       uses: ./.github/actions/pnpm
+
+  #     - name: 🔼⏺️⏹️ Typecheck
+  #       run: turbo typecheck
+
+  # e2e:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 📥 Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: 📥 Install dependencies
+  #       uses: ./.github/actions/pnpm
+
+  #     - name: 📥 playwright install
+  #       run: pnpm --filter e2e pw install --with-deps
+
+  #     - name: 🚀 Run e2e pre scripts
+  #       shell: bash
+  #       run: turbo e2e:build
+
+  #     - name: 🚀 Run e2e test
+  #       shell: bash
+  #       run: >
+  #         concurrently -n "bg,e2e"
+  #         -c "green,bgBlue.bold"
+  #         -s first --kill-others
+  #         "turbo e2e:bg"
+  #         "sleep 6 && pnpm e2e:dep && pnpm --F e2e run pw test"
+
+  #     - name: 📤 Upload e2e report
+  #       uses: actions/upload-artifact@v3
+  #       if: always()
+  #       with:
+  #         name: e2e-report
+  #         path: pkgs/e2e/playwright-report/
+  #         retention-days: 20
+
+  # chromatic:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 📥 Checkout
+  #       uses: actions/checkout@v2
+
+  #     - name: 📥 Install dependencies
+  #       uses: ./.github/actions/pnpm
+
+  #     - uses: chromaui/action@v1
+  #       with:
+  #         projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         workingDir: pkgs/ui

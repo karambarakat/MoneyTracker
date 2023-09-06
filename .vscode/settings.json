@@ -26,7 +26,10 @@
     "TCICD",
     "Turborepo",
     "typecheck",
-    "viewports","actix", "chrono", "TIMESTAMPTZ"
+    "viewports",
+    "actix",
+    "chrono",
+    "TIMESTAMPTZ"
   ],
   "eslint.options": {
     "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]

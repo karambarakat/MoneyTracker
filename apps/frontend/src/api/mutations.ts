@@ -1,9 +1,7 @@
 /* eslint-disable no-empty-pattern */
 import * as queries from './queries'
-import { RegisterUserBody } from 'types/backend/RegisterUserBody'
-import { BasicToken } from 'types/backend/BasicToken'
-import { UserRestResponse } from 'types/backend/UserRestResponse'
-import { GraphqlError, RestError } from '../utils/HttpError'
+import { UserRestResponse, BasicToken, RegisterUserBody } from 'types/backend'
+import { GraphqlError, RestError } from 'types/HttpError'
 import {
   Mutation,
   MutationCreateOneEntryArgs,
