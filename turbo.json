@@ -8,7 +8,7 @@
     },
     "typecheck": {},
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^lint", "^typecheck"],
       "outputs": ["dist/**", ".next/**"]
     },
     "pre-commit": {},

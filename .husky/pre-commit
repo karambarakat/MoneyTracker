@@ -1,15 +1,30 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 . "$(dirname -- "$0")/_/husky.sh"
 
-if [git status -s | grep -e "^??" | wc -l]
+# exit 0 # some bug
+
+cleanup() {
+  echo 'Error raised. Exiting!'
+  # git stash pop -q
+}
+
+trap 'cleanup' ERR
+
+set -eo pipefail
+
+untracked=$(git ls-files -o --exclude-standard | wc -l)
+
+if [ $untracked -ne 0 ]
 then
-  echo "You have untracked files. Please commit or stash them before running pre-commit hook."
+  echo "You have $untracked untracked files. Please commit or stash them before running pre-commit hook."
   exit 1
 fi
 
+echo no untracked files
+
 git stash -q
 
-../ci/pre-commit.sh
+./ci/pre-commit.sh
 
 RESULT=$?
 [ $RESULT -ne 0 ] && exit 1

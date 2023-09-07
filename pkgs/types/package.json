@@ -5,6 +5,11 @@
   "scripts": {
     "build": "graphql-codegen"
   },
+  "files": [
+    "./backend.ts",
+    "./HttpError.ts",
+    "./gql/**/*.ts"
+  ],
   "dependencies": {
     "rust_backend": "workspace:*"
   },

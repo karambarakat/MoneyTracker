@@ -39,7 +39,7 @@ export default function CategoryEntry({
 
   return (
     <div tw="hover:bg-slate-200/50 dark:hover:bg-slate-600/10 rounded-md p-3 py-1">
-      <div tw="text-indigo-600">
+      <div tw="text-indigo-600 text[#004299]">
         {delete_.status === 'loading' && 'deleting'}
         {delete_.status === 'success' && 'deleted'}
       </div>
