@@ -12,7 +12,7 @@ import {
   MutationCreateManyEntriesArgs,
   MutationDeleteManyEntriesArgs,
   MutationCreateManyCategoriesArgs,
-} from '../gql/graphql'
+} from 'types/gql/graphql'
 
 const ctx: any = {
   ids: [],

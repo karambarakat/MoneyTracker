@@ -6,6 +6,10 @@ on: push
 jobs:
   setup:
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
+
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v2
@@ -24,17 +28,27 @@ jobs:
       - name: run rust
         run: ./ci/rust.sh
 
-      # - name: turbo checks
-      #   run: turbo typecheck build test
-
-      # - name: chromatic
-
       - name: 📥 Install e2e dependencies
         shell: sh
         run: pnpm install -g concurrently wait-on turbo@latest
 
-      # - name: e2e test
-      # - name: e2e test
+      - name: storybook tests
+        run: ./ci/test-sb.sh
+
+        # - name: chromatic
+
+      # - name: turbo test
+      #   run: turbo test
+
+      # - name: turbo typecheck
+      #   run: turbo typecheck
+
+      # - name: turbo build
+      #   run: turbo build
+
+      - name: file changes
+        run: '[ $(git diff --name-only HEAD^ HEAD | wc -l) -ne 0 ] && echo there are some changes || echo no changes'
+        shell: bash
 
   # test:
   #   needs: setup

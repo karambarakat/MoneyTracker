@@ -8,7 +8,7 @@ import {
   MutationCreateManyEntriesArgs,
   Query,
   QueryGetAllEntriesArgs,
-} from '../gql/graphql'
+} from 'types/gql/graphql'
 import { inspect } from 'util'
 
 const ctx: any = {

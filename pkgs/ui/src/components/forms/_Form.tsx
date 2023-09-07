@@ -1,11 +1,18 @@
 import tw from 'twin.macro'
 import set from 'lodash/set'
+import React from 'react'
 import merge from 'lodash/merge'
-import { Formik, FormikConfig, Form as FormikForm, FormikHelpers } from 'formik'
+import {
+  Formik,
+  FormikConfig,
+  FormikErrors,
+  Form as FormikForm,
+  FormikHelpers,
+} from 'formik'
 import { WithChildren } from '../../utils/WithChildren'
-import React, { createContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import requires from '../../utils/requires'
-import HttpError from 'types/'
+import { RestError } from 'types/HttpError'
 import { DefinedContext } from '../../utils/definedContext'
 
 export const formMetaInfo = new DefinedContext<{ required: string[] }>()
@@ -83,13 +90,13 @@ export function Form<V extends object, D>({
               then && then(ctx)
             })
             .catch(error => {
-              if (!(error instanceof HttpError)) {
+              if (!(error instanceof RestError)) {
                 console.error('submit unknown error', error)
                 ctx.setStatus({ error: 'some error, please try later' })
                 return
               }
 
-              const fields = error.getErrorFields()
+              const fields = error.getFields() as FormikErrors<V>
               fields && ctx.setErrors(fields)
               ctx.setStatus({ error: error.message })
             })

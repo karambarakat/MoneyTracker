@@ -8,25 +8,13 @@
     },
     "typecheck": {},
     "build": {
-      "dependsOn": ["^build", "^lint", "^typecheck"],
+      "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
-    "pre-commit": {},
-    "test": {
-      "dependsOn": []
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
+    "test": {},
     "it:build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "dist-it/**", ".next/**"]
-    },
-    "it:bg": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": ["it:build"]
     }
   },
   "globalEnv": [

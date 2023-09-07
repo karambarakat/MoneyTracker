@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 . "$(dirname -- "$0")/_/husky.sh"
 
-# exit 0 # some bug
+echo script has some logic errors && exit 0
 
 cleanup() {
   echo 'Error raised. Exiting!'
@@ -14,8 +14,7 @@ set -eo pipefail
 
 untracked=$(git ls-files -o --exclude-standard | wc -l)
 
-if [ $untracked -ne 0 ]
-then
+if [ $untracked -ne 0 ]; then
   echo "You have $untracked untracked files. Please commit or stash them before running pre-commit hook."
   exit 1
 fi

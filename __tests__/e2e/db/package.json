@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "it:dep": "echo waiting on port 4202 && wait-on -t 60000 tcp:4202 && echo test is ready to run",
-    "it:bg": "dotenv -c it node index.js",
-    "it:dev": "pnpm run it:bg"
+    "it:start": "dotenv -c it node index.js",
+    "it:dev": "dotenv -c it node index.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",

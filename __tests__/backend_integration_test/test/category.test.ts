@@ -10,7 +10,7 @@ import {
   MutationDeleteOneCategoryArgs,
   MutationDeleteManyCategoriesArgs,
   MutationUpdateOneCategoryArgs,
-} from '../gql/graphql'
+} from 'types/gql/graphql'
 
 const ctx: any = {
   ids: [],

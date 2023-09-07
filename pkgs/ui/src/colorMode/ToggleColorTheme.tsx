@@ -39,6 +39,7 @@ function ToggleColorScheme(props: PropsOf<typeof ButtonIcon>) {
       color={dark ? 'yellow' : 'blue'}
       variant="outline"
       label="Toggle color scheme"
+      asChild
     >
       <button onClick={toggle}>
         {isSystem ? (

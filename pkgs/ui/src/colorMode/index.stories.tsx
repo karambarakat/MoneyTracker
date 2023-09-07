@@ -49,7 +49,7 @@ function component() {
       <div tw="pb-2">system prefers is turned {isSystem ? 'on' : 'off'}</div>
 
       <div>
-        <ToggleColorTheme />
+        <ToggleColorTheme label="toggle color schema" />
       </div>
     </div>
   )

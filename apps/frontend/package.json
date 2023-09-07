@@ -11,7 +11,7 @@
     "it:dep": "echo waiting on port 4201 && wait-on -t 60000 tcp:4201 && echo test is ready to run",
     "it:build": "pnpm build:base && vite build --outDir dist-it --mode it",
     "it:dev": "vite --mode it --port 4201",
-    "it:bg": "vite preview --outDir dist-it --port 4201 --mode it"
+    "it:start": "vite preview --outDir dist-it --port 4201 --mode it"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",

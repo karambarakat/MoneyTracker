@@ -8,7 +8,7 @@ import {
   Mutation,
   MutationUpdateCurrentUserArgs,
   MutationUpdatePasswordArgs,
-} from '../gql/graphql'
+} from 'types/gql/graphql'
 
 const ctx: any = {
   ids: [],

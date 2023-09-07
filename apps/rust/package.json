@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "it:dep": "echo waiting for port 4200 && wait-on tcp:4200 && echo port 4200 is open"
+  },
   "name": "rust_backend",
   "types": "./types.ts"
 }

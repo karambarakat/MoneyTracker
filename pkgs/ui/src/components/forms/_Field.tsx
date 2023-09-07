@@ -17,6 +17,7 @@ import { useId } from '@mantine/hooks'
 import { X } from 'tabler-icons-react'
 import { formMetaInfo } from './_Form'
 import { DefinedContext } from '../../utils/definedContext'
+import Text from '../Text'
 // import { useDefinedContext } from '../../utils/definedContext'
 
 export interface FieldProps {
@@ -112,7 +113,7 @@ export function FieldError(props: JSX.IntrinsicAttributes) {
 }
 
 export function FieldInfo(props: WithChildren) {
-  return <div tw="text-sm text-slate-500/70" {...props} />
+  return <Text size="subtle" tw="text-sm  " {...props} />
 }
 
 export function FieldBase(props: WithChildren) {
@@ -176,9 +177,9 @@ export function Title() {
         },
         tw`cursor-text h-[16px] translate-y-[16px] text-base transition-[transform,font-size] `,
         tw`text-gray-500 dark:text-gray-300`,
-        {
-          [`#${id}:focus-within &, #${id}.value &`]: tw`text-gray-300 dark:text-gray-400`,
-        },
+        // {
+        //   [`#${id}:focus-within &, #${id}.value &`]: tw`text-gray-300 dark:text-gray-400`,
+        // },
         {
           [`#${id}:focus-within &, #${id}.value &`]: tw`translate-y-0 text-xs `,
           [`#${id}:focus-within &`]: tw`text-blue-600 dark:text-blue-400`,

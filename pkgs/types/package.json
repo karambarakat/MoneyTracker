@@ -2,14 +2,10 @@
   "name": "types",
   "version": "1.0.0",
   "description": "generate graphql types from json",
+  "type": "module",
   "scripts": {
     "build": "graphql-codegen"
   },
-  "files": [
-    "./backend.ts",
-    "./HttpError.ts",
-    "./gql/**/*.ts"
-  ],
   "dependencies": {
     "rust_backend": "workspace:*"
   },
