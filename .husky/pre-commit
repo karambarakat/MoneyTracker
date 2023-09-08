@@ -1,2 +1,29 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
+
+echo script has some logic errors && exit 0
+
+commit=git log --pretty=format:%h -1
+
+set -eo pipefail
+
+untracked=$(git ls-files -o --exclude-standard | wc -l)
+
+if [ $untracked -ne 0 ]; then
+  echo "You have $untracked untracked files. Please commit or stash them before running pre-commit hook."
+  exit 1
+fi
+
+git stash -q --keep-index -m "pre-commit on $commit"
+
+./ci/pre-commit
+
+RESULT=$?
+[ $RESULT -ne 0 ] && exit 1
+
+precommited=$(git status -s --porcelain | grep -e "^[\sA-Z?][A-Z?]" | wc -l)
+[ -n "$precommited" ] && echo "You have uncommited changes after pre-commit hook. Please commit or stash them before running pre-commit hook." && exit 1
+
+git stash -q --keep-index -m "pre-commit on $commit"
+
+git stash pop -q
