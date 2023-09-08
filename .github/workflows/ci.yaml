@@ -27,6 +27,7 @@ jobs:
 
       - name: run rust
         run: ./ci/rust.sh
+        shell: bash
 
       - name: 📥 Install e2e dependencies
         shell: sh
@@ -34,6 +35,7 @@ jobs:
 
       - name: storybook tests
         run: ./ci/test-sb.sh
+        shell: bash
 
         # - name: chromatic
 
