@@ -30,8 +30,8 @@ beforeAll(async () => {
     body: JSON.stringify({}),
   })
   const json: any = await res.json()
-  ctx.user = Object.assign({}, json)
-  ctx.ids.push(json.id)
+  ctx.user = Object.assign({}, json.data)
+  ctx.ids.push(json.data.id)
   ctx.user.token = res.headers.get('x-token')
   ctx.user.headers = {
     authorization: 'Bearer ' + ctx.user.token,
@@ -47,8 +47,8 @@ beforeAll(async () => {
   })
 
   const json2: any = await res2.json()
-  ctx.user2 = Object.assign({}, json2)
-  ctx.ids.push(json2.id)
+  ctx.user2 = Object.assign({}, json2.data)
+  ctx.ids.push(json2.data.id)
   ctx.user2.token = res2.headers.get('x-token')
   ctx.user2.headers = {
     authorization: 'Bearer ' + ctx.user2.token,
@@ -189,31 +189,31 @@ it('create_many_entries', async () => {
 it('create results', async () => {
   const data = await fetchQql(
     ctx.user.headers,
-    '{ getAllEntries { id title amount category { id } createdBy { id } } }',
+    '{ getAllEntries  (pagination: { page: 1, pageSize: 20 }) { data { id title amount category { id } createdBy { id } } } }',
   )
 
-  expect(data.getAllEntries.length).toBe(4)
-  expect(data.getAllEntries[0].id).toBe(ctx.entry.id)
-  expect(data.getAllEntries[0].title).toBe(ctx.entry.vars.title)
-  expect(data.getAllEntries[0].amount).toBe(ctx.entry.vars.amount)
-  expect(data.getAllEntries[0].category.id).toBe(ctx.entry.vars.category)
-  expect(data.getAllEntries[0].createdBy.id).toBe(ctx.user.id)
+  expect(data.getAllEntries.data.length).toBe(4)
+  expect(data.getAllEntries.data[3].id).toBe(ctx.entry.id)
+  expect(data.getAllEntries.data[3].title).toBe(ctx.entry.vars.title)
+  expect(data.getAllEntries.data[3].amount).toBe(ctx.entry.vars.amount)
+  expect(data.getAllEntries.data[3].category.id).toBe(ctx.entry.vars.category)
+  expect(data.getAllEntries.data[3].createdBy.id).toBe(ctx.user.id)
 
-  expect(data.getAllEntries[1].id).toBe(ctx.entry2.id)
-  expect(data.getAllEntries[1].title).toBe(ctx.entry2.vars.title)
-  expect(data.getAllEntries[1].amount).toBe(ctx.entry2.vars.amount)
-  expect(data.getAllEntries[1].category).toBe(null)
-  expect(data.getAllEntries[1].createdBy.id).toBe(ctx.user.id)
+  expect(data.getAllEntries.data[2].id).toBe(ctx.entry2.id)
+  expect(data.getAllEntries.data[2].title).toBe(ctx.entry2.vars.title)
+  expect(data.getAllEntries.data[2].amount).toBe(ctx.entry2.vars.amount)
+  expect(data.getAllEntries.data[2].category).toBe(null)
+  expect(data.getAllEntries.data[2].createdBy.id).toBe(ctx.user.id)
 
-  expect(data.getAllEntries[2].id).toBe(ctx.entry4.id)
-  expect(data.getAllEntries[2].title).toBe(ctx.entry4.vars.title)
-  expect(data.getAllEntries[2].amount).toBe(ctx.entry4.vars.amount)
-  expect(data.getAllEntries[2].category.id).toBe(ctx.entry4.vars.category)
+  expect(data.getAllEntries.data[1].id).toBe(ctx.entry4.id)
+  expect(data.getAllEntries.data[1].title).toBe(ctx.entry4.vars.title)
+  expect(data.getAllEntries.data[1].amount).toBe(ctx.entry4.vars.amount)
+  expect(data.getAllEntries.data[1].category.id).toBe(ctx.entry4.vars.category)
 
-  expect(data.getAllEntries[3].id).toBe(ctx.entry3.id)
-  expect(data.getAllEntries[3].title).toBe(ctx.entry3.vars.title)
-  expect(data.getAllEntries[3].amount).toBe(ctx.entry3.vars.amount)
-  expect(data.getAllEntries[3].category).toBe(null)
+  expect(data.getAllEntries.data[0].id).toBe(ctx.entry3.id)
+  expect(data.getAllEntries.data[0].title).toBe(ctx.entry3.vars.title)
+  expect(data.getAllEntries.data[0].amount).toBe(ctx.entry3.vars.amount)
+  expect(data.getAllEntries.data[0].category).toBe(null)
 })
 
 it('update_one_entry', async () => {
@@ -271,12 +271,12 @@ it('delete_one_entry', async () => {
 
   expect(data.deleteOneEntry).toBe(true)
 
-  const data2 = await fetchQql(ctx.user.headers, '{ getAllEntries { id } }')
+  const data2 = await fetchQql(ctx.user.headers, '{ getAllEntries (pagination: { page: 1, pageSize: 20 }) { data { id } } }')
 
-  expect(data2.getAllEntries.length).toBe(3)
-  expect(data2.getAllEntries[0].id).toBe(ctx.entry2.id)
-  expect(data2.getAllEntries[1].id).toBe(ctx.entry4.id)
-  expect(data2.getAllEntries[2].id).toBe(ctx.entry3.id)
+  expect(data2.getAllEntries.data.length).toBe(3)
+  expect(data2.getAllEntries.data[2].id).toBe(ctx.entry2.id)
+  expect(data2.getAllEntries.data[1].id).toBe(ctx.entry4.id)
+  expect(data2.getAllEntries.data[0].id).toBe(ctx.entry3.id)
 })
 
 it('delete_many_entries', async () => {
@@ -298,8 +298,8 @@ it('delete_many_entries', async () => {
 
   expect(data.deleteManyEntries).toBe(2)
 
-  const data2 = await fetchQql(ctx.user.headers, '{ getAllEntries { id } }')
+  const data2 = await fetchQql(ctx.user.headers, '{ getAllEntries  (pagination: { page: 1, pageSize: 20 }) { data { id } } }')
 
-  expect(data2.getAllEntries.length).toBe(1)
-  expect(data2.getAllEntries[0].id).toBe(ctx.entry4.id)
+  expect(data2.getAllEntries.data.length).toBe(1)
+  expect(data2.getAllEntries.data[0].id).toBe(ctx.entry4.id)
 })

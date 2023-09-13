@@ -4,7 +4,7 @@ name: main CI workflows
 on: push
 
 jobs:
-  setup:
+  ci:
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
@@ -26,7 +26,7 @@ jobs:
           override: true
 
       - name: run rust
-        run: ./ci/rust
+        run: ./ci/rust.sh
         shell: bash
 
       - name: 📥 Install e2e dependencies
@@ -34,10 +34,28 @@ jobs:
         run: pnpm install -g concurrently wait-on turbo@latest
 
       - name: storybook tests
-        run: ./ci/test-sb
+        run: ./ci/test-sb.sh
         shell: bash
 
-        # - name: chromatic
+        
+
+      # - name: chromatic
+      #   uses: chromaui/action@v1
+      #   with:
+      #     projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     workingDir: pkgs/ui
+
+      # - name: e2e test
+      # - name: backend test
+        # - name: stoty book test
+  #     - name: 📤 Upload e2e report
+  #       uses: actions/upload-artifact@v3
+  #       if: always()
+  #       with:
+  #         name: e2e-report
+  #         path: _tests__/e2e/playwright-report/
+  #         retention-days: 20
 
       # - name: turbo test
       #   run: turbo test
@@ -94,7 +112,7 @@ jobs:
   #     - name: 📥 Checkout
   #       uses: actions/checkout@v2
 
-  #     - name: 📥 Install dependencies
+        #     - name: 📥 Install dependencies
   #       uses: ./.github/actions/pnpm
 
   #     - name: 🔼⏺️⏹️ Typecheck
@@ -126,13 +144,7 @@ jobs:
   #         "turbo e2e:bg"
   #         "sleep 6 && pnpm e2e:dep && pnpm --F e2e run pw test"
 
-  #     - name: 📤 Upload e2e report
-  #       uses: actions/upload-artifact@v3
-  #       if: always()
-  #       with:
-  #         name: e2e-report
-  #         path: pkgs/e2e/playwright-report/
-  #         retention-days: 20
+
 
   # chromatic:
   #   needs: setup
@@ -144,8 +156,4 @@ jobs:
   #     - name: 📥 Install dependencies
   #       uses: ./.github/actions/pnpm
 
-  #     - uses: chromaui/action@v1
-  #       with:
-  #         projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         workingDir: pkgs/ui
+

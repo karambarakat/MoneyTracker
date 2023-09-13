@@ -1,14 +1,11 @@
-static RUST_ENV: Option<&'static str> = option_env!("RUST_ENV");
-// static RUST_ENV: &str = env!("RUST_ENV");
-
 pub fn load_env() {
-    let env = match (cfg!(debug_assertions), cfg!(test)) {
+    let default_env = match (cfg!(debug_assertions), cfg!(test)) {
         (true, _) => "dev",
         (false, true) => "test",
         (false, false) => "prod",
     };
 
-    let rust_env = RUST_ENV.unwrap_or(env);
+    let rust_env = std::env::var("RUST_ENV").unwrap_or(default_env.to_string());
 
     dotenv::from_filename(format!("apps/rust/.env.{}.local", rust_env)).ok();
     dotenv::from_filename(format!("apps/rust/.env.{}", rust_env)).ok();

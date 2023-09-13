@@ -1,14 +1,28 @@
 name: postgresql
 services:
-  db:
+  dbit:
     # # psql -U postgres -p 5430
     image: postgres:12.1-alpine
-    container_name: postgresql
+    container_name: postgresql-integration-test
     restart: always
     ports:
       - 5430:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: integration_test
+    volumes:
+      - ./data:/var/lib/postgresql/data-it
+  db:
+    # # psql -U postgres -p 5430
+    image: postgres:12.1-alpine
+    container_name: postgresql
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     volumes:
       - ./data:/var/lib/postgresql/data

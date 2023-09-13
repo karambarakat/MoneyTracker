@@ -43,7 +43,7 @@ pub enum MyErrors {
     ForTsRs,
 
     /// error that is the frontend dev`s responsibility. With a non-user-facing error message
-    #[display(fmt = "bad request")]
+    #[display(fmt = "Ops, some error occured, please try again")]
     #[http_error(status = 400, reason)]
     BadRequest(String),
 }

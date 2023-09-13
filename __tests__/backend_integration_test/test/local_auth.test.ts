@@ -89,13 +89,13 @@ describe('basic token', () => {
     const json: any = await res.json()
 
     expectResponse(res)
-    ctx.user = Object.assign({}, json)
-    ctx.ids.push(json.id)
+    ctx.user = Object.assign({}, json.data)
+    ctx.ids.push(json.data.id)
     ctx.user.token = res.headers.get('x-token')
 
-    expect(json.email).toBe('admin')
+    expect(json.data.email).toBe('admin')
 
-    expect(json).toMatchSnapshot(profileRest)
+    expect(json.data).toMatchSnapshot(profileRest)
   })
   console // left intentionally
 })
@@ -120,7 +120,7 @@ describe('local auth', () => {
 
     expectResponse(res)
 
-    expect(json).toMatchSnapshot(profileRest)
+    expect(json.data).toMatchSnapshot(profileRest)
   })
 
   it('usable returned token', async () => {

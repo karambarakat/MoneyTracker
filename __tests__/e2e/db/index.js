@@ -34,12 +34,12 @@ async function main() {
   app.get(
     '/clean_db',
     $(async (req, res) => {
-      await client.query('DELETE FROM users;')
-
       await client.query('DELETE FROM entry;')
 
       await client.query('DELETE FROM category;')
 
+      await client.query('DELETE FROM users;')
+      
       console.log('db cleaned')
       res.send('db cleaned')
     }),

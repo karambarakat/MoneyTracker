@@ -7,8 +7,8 @@ Object {
   "data": null,
   "error": Object {
     "code": "NotFound",
-    "info": null,
-    "message": "404 not found",
+    "info": Object {},
+    "message": "not found",
     "status": 404,
   },
 }

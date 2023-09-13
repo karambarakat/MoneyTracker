@@ -4,11 +4,11 @@ exports[`basic token bad basic token 1`] = `
 Object {
   "data": null,
   "error": Object {
-    "code": "basic_token_required",
+    "code": "BadRequest",
     "info": Object {
       "reason": "token decoding failed, input is valid?",
     },
-    "message": "internal error, please try again",
+    "message": "Ops, some error occured, please try again",
     "status": 400,
   },
 }
@@ -30,11 +30,11 @@ exports[`basic token not a basic token 1`] = `
 Object {
   "data": null,
   "error": Object {
-    "code": "basic_token_required",
+    "code": "BadRequest",
     "info": Object {
       "reason": "not a basic token",
     },
-    "message": "internal error, please try again",
+    "message": "Ops, some error occured, please try again",
     "status": 400,
   },
 }
@@ -44,11 +44,11 @@ exports[`basic token protected by token 1`] = `
 Object {
   "data": null,
   "error": Object {
-    "code": "basic_token_required",
+    "code": "BadRequest",
     "info": Object {
       "reason": "header is not provided",
     },
-    "message": "internal error, please try again",
+    "message": "Ops, some error occured, please try again",
     "status": 400,
   },
 }
@@ -58,11 +58,11 @@ exports[`basic token protected by token: login 1`] = `
 Object {
   "data": null,
   "error": Object {
-    "code": "basic_token_required",
+    "code": "BadRequest",
     "info": Object {
       "reason": "header is not provided",
     },
-    "message": "internal error, please try again",
+    "message": "Ops, some error occured, please try again",
     "status": 400,
   },
 }
@@ -72,11 +72,11 @@ exports[`basic token protected by token: register 1`] = `
 Object {
   "data": null,
   "error": Object {
-    "code": "basic_token_required",
+    "code": "BadRequest",
     "info": Object {
       "reason": "header is not provided",
     },
-    "message": "internal error, please try again",
+    "message": "Ops, some error occured, please try again",
     "status": 400,
   },
 }

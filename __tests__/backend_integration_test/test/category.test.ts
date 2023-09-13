@@ -28,8 +28,8 @@ beforeAll(async () => {
     body: JSON.stringify({}),
   })
   const json: any = await res.json()
-  ctx.user = Object.assign({}, json)
-  ctx.ids.push(json.id)
+  ctx.user = Object.assign({}, json.data)
+  ctx.ids.push(json.data.id)
   ctx.user.token = res.headers.get('x-token')
   ctx.user.headers = {
     authorization: 'Bearer ' + ctx.user.token,
@@ -138,7 +138,6 @@ it('create results', async () => {
     ctx.user.headers,
     '{ getAllCategories { id title color icon createdBy { id } } }',
   )
-
   expect(data.getAllCategories.length).toBe(3)
   expect(data.getAllCategories[1].id).toBe(ctx.cat2.id)
   expect(data.getAllCategories[1].title).toBe(ctx.cat2.vars.title)

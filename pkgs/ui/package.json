@@ -5,9 +5,8 @@
   "scripts": {
     "sb": "storybook dev -p 6006",
     "tsb": "test-storybook",
-    "build": "storybook build -o dist",
     "serve": "http-server dist",
-    "build-storybook": "storybook build -o dist",
+    "build-storybook": "storybook build",
     "lint": "eslint --fix .",
     "chromatic": "chromatic"
   },

@@ -1,6 +1,3 @@
-[rust]
-debug = true
-
 [package]
 default-run="graphql-backend"
 name = "graphql-backend"

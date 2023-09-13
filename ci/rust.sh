@@ -1,9 +1,6 @@
 set -eo pipefail
 
 cargo check | sed -e 's/^/[check] /';
-
 cargo test | sed -e 's/^/[test] /';
-
 cargo run --bin schema | sed -e 's/^/[schema] /';
-
-pnpm --filter types build | sed -e 's/^/[types] /';
+turbo --filter types build | sed -e 's/^/[types] /';
