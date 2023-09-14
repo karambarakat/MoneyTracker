@@ -5,6 +5,7 @@
   "scripts": {
     "sb": "storybook dev -p 6006",
     "tsb": "test-storybook",
+    "test": "test-storybook",
     "serve": "http-server dist",
     "build-storybook": "storybook build",
     "lint": "eslint --fix .",

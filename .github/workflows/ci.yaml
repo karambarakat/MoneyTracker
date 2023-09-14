@@ -25,20 +25,26 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: run rust
-        run: ./ci/rust.sh
-        shell: bash
-
       - name: 📥 Install e2e dependencies
         shell: sh
         run: pnpm install -g concurrently wait-on turbo@latest
+
+      - name: playwright dependencies
+        shell: sh
+        run: npx playwright install && npx playwright install-deps
+
+      - name: run rust
+        run: ./ci/rust.sh
+        shell: bash
 
       - name: storybook tests
         run: ./ci/test-sb.sh
         shell: bash
 
+      - name: backend integration test
+        run: ./ci/test-be.sh
+        shell: sh
         
-
       # - name: chromatic
       #   uses: chromaui/action@v1
       #   with:
@@ -69,7 +75,10 @@ jobs:
       - name: file changes
         run: '[ $(git diff --name-only HEAD^ HEAD | wc -l) -ne 0 ] && echo there are some changes || echo no changes'
         shell: bash
-
+ 
+      - name: clean up
+        run: docker compose down
+        shell: sh
   # test:
   #   needs: setup
   #   runs-on: ubuntu-latest

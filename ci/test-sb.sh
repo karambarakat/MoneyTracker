@@ -16,8 +16,12 @@ fi
 
 turbo --filter ui build || exit 1;
 
-concurrently -n "sb,test" -c "bgBlue,green" --k -s first \
-    "pnpm --filter ui serve -p 9005" \
-    "wait-on tcp:9005 && pnpm --filter ui tsb --url http://127.0.0.1:9005"
+pnpm --filter ui serve -p 9005 &
+job1=$!
 
-exit $?;
+wait-on tcp:9005 && pnpm --filter ui tsb --url http://localhost:9005
+result=$?
+
+kill $job1
+
+exit $result;

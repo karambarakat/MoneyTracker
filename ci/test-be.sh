@@ -14,9 +14,21 @@ cargo build || exit 1
 docker compose up -d dbit
 # trap "docker compose down" EXIT ERR
 
-concurrently -n "bg,test" -c "bgBlue,green" --k -s first \
-	"RUST_ENV=it cargo run & pnpm --filter db start" \
-	"pnpm --filter db --filter rust_backend it:dep && pnpm --filter be_it jest"
+RUST_ENV=it cargo run &
+job1=$!
+pnpm --filter db start &
+job2=$!
+
+pnpm --filter db --filter rust_backend it:dep && pnpm --filter db clean_db && pnpm --filter be_it jest
+status=$?
+
+
+kill $job1
+kill $job2
+
+exit $status
+
+
 
 # RUST_ENV=it cargo run | sed -e 's/^/[be] /' &
 
