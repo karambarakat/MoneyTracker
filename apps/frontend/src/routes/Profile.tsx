@@ -24,7 +24,7 @@ function Profile_Page_Component() {
       <h1>Profile</h1>
       <div>Name: {data.displayName}</div>
       <div>Email: {data.email}</div>
-      <div>Picture: {data.picture || 'no picture'}</div>
+      <div>Picture: {data.avatar || 'no picture'}</div>
       <div>
         Providers:
         {(['google', 'local'] as const)

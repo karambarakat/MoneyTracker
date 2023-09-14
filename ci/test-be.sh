@@ -14,9 +14,9 @@ cargo build || exit 1
 docker compose up -d dbit
 # trap "docker compose down" EXIT ERR
 
-RUST_ENV=it cargo run &
+RUST_ENV=it cargo run || exit 1 &
 job1=$!
-pnpm --filter db start &
+pnpm --filter db start || exit 1 &
 job2=$!
 
 pnpm --filter db --filter rust_backend it:dep && pnpm --filter db clean_db && pnpm --filter be_it jest

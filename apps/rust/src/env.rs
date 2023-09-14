@@ -15,6 +15,8 @@ pub fn load_env() {
 
     std::env::var("JWT_SALT").expect("JWT_SALT is not set");
 
+    std::env::var("FE_URL").expect("The Frontend URL is necessary to set CORS");
+
     std::env::var("SALT").expect("SALT is not set");
     std::env::var("PORT")
         .expect("PORT is not set")

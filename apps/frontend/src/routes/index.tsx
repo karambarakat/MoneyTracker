@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
 import { OneStateProvider } from '../utils/OneOpenAtATime'
-import AddLog from '../components/forms/AddLog'
+import AddEntry from '../components/forms/AddEntry'
 import LogEntry from '../components/LogEntry'
 import { setTitle } from './_MetaContext'
 import { DividerWithLabel } from 'ui/src/components/Divider'
@@ -16,22 +16,20 @@ function Index_Page_Component() {
 
   const [page, setPage] = useState(1)
 
-  const { data } = useQuery({
+  const { data: data_ } = useQuery({
     queryFn: () => queries.find_log({ page, pageSize: 10 }),
     queryKey: ['find_log', { page, pageSize: 10 }] satisfies queryKeys,
     keepPreviousData: true,
   })
 
-  if (!data) return <div>error</div>
+  if (!data_) return <div>error</div>
 
-  const pagination = data.meta.pagination
+  const { data, ...pagination } = data_
 
   const logs = useMemo(() => {
-    if (!data?.data || !(data?.data instanceof Array)) return []
+    if (!data || !(data instanceof Array)) return []
 
-    const migrate = groupBy(data?.data, log =>
-      moment(log.createdAt).format('l'),
-    )
+    const migrate = groupBy(data, log => moment(log.createdAt).format('l'))
 
     return Object.entries(migrate)
       .map(([key, subList]) => {
@@ -46,12 +44,12 @@ function Index_Page_Component() {
         }
       })
       .reverse()
-  }, [data?.data])
+  }, [data])
 
   return (
     <OneStateProvider>
       <div css={{ '&>*': tw`mt-4` }}>
-        <AddLog />
+        <AddEntry />
         {logs.map((logs_, i) => (
           <Fragment key={logs_.key}>
             <div key={logs_.key}>
@@ -60,12 +58,12 @@ function Index_Page_Component() {
               </DividerWithLabel>
             </div>
             {logs_.subList.map(log => (
-              <LogEntry key={log._id} log={log} />
+              <LogEntry key={log.id} log={log} />
             ))}
           </Fragment>
         ))}
       </div>
-      {pagination.pageCount > 1 && (
+      {pagination.totalPages > 1 && (
         <div tw="flex justify-center gap-4">
           <button
             onClick={() => setPage(page - 1)}
@@ -75,12 +73,12 @@ function Index_Page_Component() {
             Previous
           </button>
           <div>
-            {pagination.page}/{pagination.pageCount}
+            {pagination.page}/{pagination.totalPages}
           </div>
           <button
             onClick={() => setPage(page + 1)}
-            disabled={page === pagination.pageCount}
-            css={page === pagination.pageCount && tw`text-gray-400/50`}
+            disabled={page === pagination.totalPages}
+            css={page === pagination.totalPages && tw`text-gray-400/50`}
           >
             Next
           </button>

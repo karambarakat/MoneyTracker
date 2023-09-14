@@ -33,6 +33,10 @@ jobs:
         shell: sh
         run: npx playwright install && npx playwright install-deps
 
+      - name: turbo
+        run: turbo test build typecheck
+        shell: sh
+
       - name: run rust
         run: ./ci/rust.sh
         shell: bash
@@ -44,88 +48,25 @@ jobs:
       - name: backend integration test
         run: ./ci/test-be.sh
         shell: sh
-        
-      # - name: chromatic
-      #   uses: chromaui/action@v1
-      #   with:
-      #     projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     workingDir: pkgs/ui
 
       # - name: e2e test
       # - name: backend test
-        # - name: stoty book test
-  #     - name: 📤 Upload e2e report
-  #       uses: actions/upload-artifact@v3
-  #       if: always()
-  #       with:
-  #         name: e2e-report
-  #         path: _tests__/e2e/playwright-report/
-  #         retention-days: 20
-
-      # - name: turbo test
-      #   run: turbo test
-
-      # - name: turbo typecheck
-      #   run: turbo typecheck
-
-      # - name: turbo build
-      #   run: turbo build
+      # - name: stoty book test
+      #     - name: 📤 Upload e2e report
+      #       uses: actions/upload-artifact@v3
+      #       if: always()
+      #       with:
+      #         name: e2e-report
+      #         path: _tests__/e2e/playwright-report/
+      #         retention-days: 20
 
       - name: file changes
         run: '[ $(git diff --name-only HEAD^ HEAD | wc -l) -ne 0 ] && echo there are some changes || echo no changes'
         shell: bash
- 
+
       - name: clean up
         run: docker compose down
         shell: sh
-  # test:
-  #   needs: setup
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
-  #     TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
-  #   steps:
-  #     - name: 📥 Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: 📥 Install dependencies
-  #       uses: ./.github/actions/pnpm
-
-  #     - name: 🧪 Test
-  #       run: turbo test
-
-  # build:
-  #   needs: setup
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
-  #     TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
-  #   steps:
-  #     - name: 📥 Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: 📥 Install dependencies
-  #       uses: ./.github/actions/pnpm
-
-  #     - name: 🏗 Build
-  #       run: turbo build
-
-  # typecheck:
-  #   needs: setup
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     TURBO_TOKEN: ${{ secrets.TURBO_REPO_CACHE_TOKEN }}
-  #     TURBO_TEAM: ${{ secrets.TURBO_REPO_CACHE_TEAM }}
-  #   steps:
-  #     - name: 📥 Checkout
-  #       uses: actions/checkout@v2
-
-        #     - name: 📥 Install dependencies
-  #       uses: ./.github/actions/pnpm
-
-  #     - name: 🔼⏺️⏹️ Typecheck
-  #       run: turbo typecheck
 
   # e2e:
   #   needs: setup
@@ -153,8 +94,6 @@ jobs:
   #         "turbo e2e:bg"
   #         "sleep 6 && pnpm e2e:dep && pnpm --F e2e run pw test"
 
-
-
   # chromatic:
   #   needs: setup
   #   runs-on: ubuntu-latest
@@ -164,5 +103,9 @@ jobs:
 
   #     - name: 📥 Install dependencies
   #       uses: ./.github/actions/pnpm
-
-
+  # - name: chromatic
+  #   uses: chromaui/action@v1
+  #   with:
+  #     projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+  #     token: ${{ secrets.GITHUB_TOKEN }}
+  #     workingDir: pkgs/ui

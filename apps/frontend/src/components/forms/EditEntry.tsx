@@ -1,6 +1,5 @@
 import 'twin.macro'
 import React from 'react'
-import { update_log } from '../../api/mutations'
 import { Form } from 'ui/src/components/forms/_Form'
 
 import Status from 'ui/src/components/forms/Status'
@@ -11,22 +10,28 @@ import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { queries, queryKeys } from '../../api'
+import {
+  MutationUpdateOneCategoryArgs,
+  MutationUpdateOneEntryArgs,
+} from 'types/gql/graphql'
+import { find_category } from '../../api/queries'
+import { update_entry } from '../../api/mutations'
 
-export default function EditLog({
-  log,
+export default function EditEntry({
+  entry,
 }: {
-  log: Parameters<typeof update_log>[0]
+  entry: MutationUpdateOneEntryArgs
 }) {
-  const mutate = useMutation({ mutationFn: update_log })
+  const mutate = useMutation({ mutationFn: update_entry })
 
   // const categories = useQuery(queryAPI.find_category).data
-  const categories = useQuery({
-    queryFn: () => queries.find_category(),
+  const category = useQuery({
+    queryFn: () => find_category(),
     // queryKey: getQueryKey('find_category'),
     queryKey: ['find_category'] satisfies queryKeys,
   }).data
 
-  if (!categories) return <div>error</div>
+  if (!category) return <div>error</div>
 
   return (
     <Form
@@ -35,7 +40,7 @@ export default function EditLog({
         ctx.setStatus({ success: 'edited' })
       }}
       action={mutate.mutateAsync}
-      values={log}
+      values={entry}
     >
       <div tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" />
@@ -44,7 +49,7 @@ export default function EditLog({
         <NumberField name="amount" />
         <TextField name="note" />
         <CategoryField
-          options={categories.map(v => ({ value: v._id, label: v.title }))}
+          options={category.map(v => ({ value: v.id, label: v.title }))}
           name="category"
         />
         <SubmitButton tw="col-span-2 mt-2" size="lg">

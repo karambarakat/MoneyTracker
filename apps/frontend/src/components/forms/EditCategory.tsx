@@ -8,13 +8,10 @@ import HiddenField from 'ui/src/components/forms/HiddenField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import Status from 'ui/src/components/forms/Status'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { getQueryKey, queryKeys } from '../../api'
+import { queryKeys } from '../../api'
+import { Category } from 'types/gql/graphql'
 
-export default function EditCategory({
-  category,
-}: {
-  category: Awaited<ReturnType<typeof update_category>>
-}) {
+export default function EditCategory({ category }: { category: Category }) {
   const client = useQueryClient()
 
   const mutate = useMutation({
@@ -25,7 +22,7 @@ export default function EditCategory({
       ] satisfies queryKeys)
       client.invalidateQueries([
         update_category.shouldInvalidate[1],
-        { _id: category._id },
+        { id: category.id },
       ] satisfies queryKeys)
     },
   })

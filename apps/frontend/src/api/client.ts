@@ -1,5 +1,6 @@
 import { QueryClient, UseQueryOptions } from '@tanstack/react-query'
-import HttpError from 'types/dist/helpers/http_error'
+// import HttpError from 'types/dist/helpers/http_error'
+import { RestError } from 'types/HttpError'
 import { useQuery as useQuery_ } from '@tanstack/react-query'
 
 import * as apis from '../api/mutations'
@@ -15,9 +16,9 @@ export const queryClient = new QueryClient({
         )
           return false
 
-        if (!(error instanceof HttpError)) return false
+        if (!(error instanceof RestError)) return false
 
-        if (error.payload.name === 'TokenFailed') return false
+        if (error.code === 'ExpiredBearerToken') return false
 
         if (failureCount > 2) return false
 

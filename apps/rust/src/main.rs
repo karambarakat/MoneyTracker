@@ -34,7 +34,14 @@ async fn main() -> std::io::Result<()> {
         .data(pool.clone())
         .finish();
 
+        let cors = actix_cors::Cors::default()
+            .allowed_origin(std::env::var("FE_URL").unwrap().as_str())
+            .allow_any_method()
+            .allow_any_header()
+            .max_age(3600);
+
         App::new()
+            .wrap(cors)
             .wrap(crate::middlewares::respond::Middleware)
             .wrap(crate::middlewares::user::Middleware)
             .app_data(web::Data::new(pool.clone()))

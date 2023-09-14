@@ -63,7 +63,7 @@ function Index_Page_Component() {
       <AddCategory />
       <OneStateProvider>
         {data.reverse().map(cat => (
-          <CategoryEntry key={cat._id} category={cat} />
+          <CategoryEntry key={cat.id} category={cat} />
         ))}
       </OneStateProvider>
     </div>

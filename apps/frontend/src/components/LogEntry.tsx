@@ -1,43 +1,41 @@
 import React from 'react'
-import { delete_log } from '../api/mutations'
+import { delete_entry } from '../api/mutations'
 import { useOneState } from '../utils/OneOpenAtATime'
 import moment from 'moment'
 import { useState } from 'react'
 import tw from 'twin.macro'
-import EditLog from './forms/EditLog'
+import EditEntry from './forms/EditEntry'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getQueryKey, queries, queryKeys } from '../api'
+import { Entry } from 'types/gql/graphql'
 
 type Defined<T> = T extends undefined | null ? never : T
 
-export default function LogEntry({
-  log,
-}: {
-  log: Defined<Awaited<ReturnType<typeof queries.find_one_log>>>
-}) {
+export default function LogEntry({ log }: { log: Entry }) {
   const [expand, setExpand] = useOneState()
   const [edit, setEdit] = useState(false)
 
-  const freshData = useQuery({
+  const freshData_ = useQuery({
     queryKey: ['find_one_log', { id: log.id }] satisfies queryKeys,
     queryFn: () => queries.find_one_log({ id: log.id }),
   })
+  const freshData = freshData_.status === 'success' && freshData_.data
 
-  const data = freshData.status === 'success' ? freshData.data : log
+  const data = freshData ? freshData : log
 
   // const delete_ = useDeleteLog()
   const client = useQueryClient()
   const delete_ = useMutation({
-    mutationFn: delete_log,
+    mutationFn: delete_entry,
     onSettled: () => {
       // client.invalidateQueries(getQueryKey('find_one_log', { id: log.id }))
       // client.invalidateQueries(getQueryKey('find_log', undefined as any))'
       client.invalidateQueries([
-        delete_log.shouldInvalidate[0],
+        delete_entry.shouldInvalidate[0],
         undefined as never, // pagination
       ] satisfies queryKeys)
       client.invalidateQueries([
-        delete_log.shouldInvalidate[1],
+        delete_entry.shouldInvalidate[1],
         { id: log.id },
       ] satisfies queryKeys)
     },
@@ -71,7 +69,12 @@ export default function LogEntry({
               <button tw="mr-3" onClick={() => setEdit(false)}>
                 close editing
               </button>
-              <EditLog log={{ ...data, category: data.category?.id }} />
+              <EditEntry
+                entry={{
+                  entry: { ...data, category: data.category?.id },
+                  id: data.id,
+                }}
+              />
             </>
           ) : (
             <button tw="mr-3" onClick={() => setEdit(true)}>

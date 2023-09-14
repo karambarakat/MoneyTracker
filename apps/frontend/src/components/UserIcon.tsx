@@ -6,7 +6,15 @@ import { PlugConnected, UserCircle } from 'tabler-icons-react'
 export default function UserIcon() {
   const profile = getProfile()
 
-  return <>{profile ? <Avatar src={profile.picture} /> : <PlugConnected />}</>
+  return (
+    <>
+      {profile ? (
+        <Avatar src={profile.avatar || undefined} />
+      ) : (
+        <PlugConnected />
+      )}
+    </>
+  )
 }
 
 function Avatar({ src }: { src?: string }) {

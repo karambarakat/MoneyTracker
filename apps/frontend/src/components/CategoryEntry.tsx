@@ -7,21 +7,20 @@ import EditCategory from './forms/EditCategory'
 import { queryKeys } from '../api/index'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { queries } from '../api'
+import { Category } from 'types/gql/graphql'
 
-export default function CategoryEntry({
-  category,
-}: {
-  category: Awaited<ReturnType<typeof queries.find_one_category>>
-}) {
+export default function CategoryEntry({ category }: { category: Category }) {
   const [expand, setExpand] = useOneState()
   const [edit, setEdit] = useState(false)
 
-  const freshData = useQuery({
+  const freshData_ = useQuery({
     queryFn: () => queries.find_one_category({ id: category.id }),
     queryKey: ['find_one_category', { id: category.id }] satisfies queryKeys,
   })
 
-  const data = freshData.status === 'success' ? freshData.data : category
+  const freshData = freshData_.status === 'success' && freshData_.data
+
+  const data = freshData ? freshData : category
 
   const client = useQueryClient()
   const delete_ = useMutation({
@@ -39,7 +38,7 @@ export default function CategoryEntry({
 
   return (
     <div tw="hover:bg-slate-200/50 dark:hover:bg-slate-600/10 rounded-md p-3 py-1">
-      <div tw="text-indigo-600 text[#004299]">
+      <div tw="text-[#004299]">
         {delete_.status === 'loading' && 'deleting'}
         {delete_.status === 'success' && 'deleted'}
       </div>
@@ -70,7 +69,7 @@ export default function CategoryEntry({
             css={
               delete_.status !== 'idle' && tw`text-gray-300 pointer-events-none`
             }
-            onClick={() => delete_.mutate({ _id: data._id })}
+            onClick={() => delete_.mutate({ id: data.id })}
           >
             click to delete
           </button>

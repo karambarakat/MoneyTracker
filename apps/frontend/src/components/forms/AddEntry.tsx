@@ -8,16 +8,16 @@ import CategoryField from 'ui/src/components/forms/CategoryField'
 import NumberField from 'ui/src/components/forms/NumberField'
 import TextField from 'ui/src/components/forms/TextField'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { create_log } from '../../api/mutations'
-import { getQueryKey, queries, queryKeys } from '../../api'
+import { queries, queryKeys } from '../../api'
+import { create_entry } from '../../api/mutations'
 
-export default function AddLog() {
+export default function AddEntry() {
   const client = useQueryClient()
   const mutate = useMutation({
-    mutationFn: create_log,
+    mutationFn: create_entry,
     onSettled: () => {
       client.invalidateQueries([
-        create_log.shouldInvalidate[0],
+        create_entry.shouldInvalidate[0],
         undefined as never,
       ] satisfies queryKeys)
     },
@@ -47,7 +47,7 @@ export default function AddLog() {
         <NumberField name="amount" />
         <TextField name="note" />
         <CategoryField
-          options={categories.map(v => ({ value: v._id, label: v.title }))}
+          options={categories.map(v => ({ value: v.id, label: v.title }))}
           name="category"
         />
         <SubmitButton tw="col-span-2 mt-2" size="lg">

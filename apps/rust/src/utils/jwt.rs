@@ -1,3 +1,15 @@
+#[allow(dead_code)]
+// for some limitation for ts_rs, this exists for the sake of simplicity
+#[derive(ts_rs::TS)]
+#[ts(export)]
+pub struct Jwt_ {
+    pub id: String,
+    pub email: String,
+    pub user_id: String,
+    pub exp: String,
+    pub iat: String,
+}
+
 pub struct Jwt {
     pub id: String,
     pub email: String,

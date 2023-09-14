@@ -47,6 +47,6 @@ struct UserRestResponse {
     pub display_name: Option<String>,
     pub avatar: Option<String>,
     pub providers: String,
-    pub created_at: i64,
-    pub updated_at: i64,
+    pub created_at: i32,
+    pub updated_at: i32,
 }

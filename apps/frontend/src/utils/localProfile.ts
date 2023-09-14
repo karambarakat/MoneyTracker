@@ -1,13 +1,27 @@
 import { useEffect, useState } from 'react'
-import { Jwt } from 'types/dist/ts/api'
-import { SchemaProfile } from 'types/dist/ts/schema'
+import { Jwt_ } from 'types/backend'
+import { User } from 'types/gql/graphql'
 
 const event = new EventTarget()
 
-export function setProfile(profile: SchemaProfile | undefined) {
+export type Profile = Omit<User, 'createdAt' | 'updatedAt' | '__typename'>
+
+export function setProfile(profile: Profile | undefined) {
   if (!profile) localStorage.removeItem('profile')
   else localStorage.setItem('profile', JSON.stringify(profile))
   event.dispatchEvent(new Event('update'))
+}
+
+export function setToken(token: string) {
+  localStorage.setItem('token', token)
+}
+
+export function getToken() {
+  const token = localStorage.getItem('token')
+
+  if (!token) return
+
+  return token
 }
 
 export function getProfile() {
@@ -15,7 +29,7 @@ export function getProfile() {
 
   if (!profile) return
 
-  return JSON.parse(profile) as SchemaProfile
+  return JSON.parse(profile) as Profile
 }
 
 export function useProfile() {
@@ -42,7 +56,7 @@ class _Token {
     if (!this.token) return false
 
     return (
-      (JSON.parse(atob(this.token.split('.')[1])) as Jwt).exp <
+      Number((JSON.parse(atob(this.token.split('.')[1])) as Jwt_).exp) <
       Date.now() / 1000
     )
   }

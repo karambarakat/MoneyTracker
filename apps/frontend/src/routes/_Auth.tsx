@@ -1,6 +1,12 @@
 import React from 'react'
 import 'twin.macro'
-import { Token, setProfile, useProfile } from '../utils/localProfile'
+import {
+  Profile,
+  Token,
+  getToken,
+  setProfile,
+  useProfile,
+} from '../utils/localProfile'
 import {
   Navigate,
   Outlet,
@@ -13,7 +19,6 @@ import { WithAsChild } from 'ui/src/utils/WithChildren'
 
 import Brand from '../components/Brand'
 import tw from 'twin.macro'
-import { SchemaProfile } from 'types/dist/ts/schema'
 import SecretField from 'ui/src/components/forms/SecretField'
 import EmailField from 'ui/src/components/forms/EmailField'
 import { useMutation } from '@tanstack/react-query'
@@ -25,13 +30,14 @@ import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { ILink } from '../lib/react-router-dom'
 import Status from 'ui/src/components/forms/Status'
 import TextField from 'ui/src/components/forms/TextField'
-import { Jwt } from 'types/dist/ts/api'
+import { User } from 'types/gql/graphql'
 
 export function Protected() {
   const profile = useProfile()
+  const token = getToken()
   const location = useLocation()
 
-  if (!profile || Token(profile.token).expired()) {
+  if (!token || Token(token).expired()) {
     return <Navigate to={'/auth'} state={{ goBackTo: location.pathname }} />
   }
 
@@ -81,7 +87,7 @@ function useGoBack() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  return (profile: SchemaProfile) => {
+  return (profile: Profile) => {
     setProfile(profile)
     const to = location.state?.goBackTo ?? '/'
     navigate(to)
@@ -92,7 +98,7 @@ function LogIn() {
   const goBack = useGoBack()
   const action = useMutation({
     mutationFn: login,
-    onSuccess: goBack,
+    onSuccess: data => goBack(data),
   })
 
   return (
@@ -118,7 +124,7 @@ function Register() {
   const goBack = useGoBack()
   const action = useMutation({
     mutationFn: register,
-    onSuccess: goBack,
+    // onSuccess: data => goBack,
   })
 
   return (
@@ -133,7 +139,7 @@ function Register() {
         confirmPassword,
         ...param
       }: Parameters<typeof register>[0] & { confirmPassword: string }) => {
-        action.mutateAsync(param)
+        return await action.mutateAsync(param)
       }}
     >
       <FormBody>

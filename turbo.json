@@ -12,6 +12,7 @@
       "outputs": ["dist/**", ".next/**"]
     },
     "test": {},
+    "it:test": {},
     "it:build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "dist-it/**", ".next/**"]

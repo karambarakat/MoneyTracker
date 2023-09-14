@@ -11,6 +11,7 @@ import { getQueryKey, queryKeys } from '../../api'
 
 export default function AddCategory() {
   const client = useQueryClient()
+
   const mutate = useMutation({
     mutationFn: create_category,
     onSettled: () => {

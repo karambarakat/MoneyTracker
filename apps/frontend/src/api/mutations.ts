@@ -4,19 +4,22 @@ import { UserRestResponse, BasicToken, RegisterUserBody } from 'types/backend'
 import { GraphqlError, RestError } from 'types/HttpError'
 import {
   Mutation,
+  MutationCreateOneCategoryArgs,
   MutationCreateOneEntryArgs,
   MutationDeleteOneCategoryArgs,
+  MutationDeleteOneEntryArgs,
   MutationUpdateCurrentUserArgs,
   MutationUpdateOneCategoryArgs,
+  MutationUpdateOneEntryArgs,
   MutationUpdatePasswordArgs,
 } from 'types/gql/graphql'
-import { getProfile } from '../utils/localProfile'
+import { getProfile, getToken, setToken } from '../utils/localProfile'
 
 export const user = 'id email displayName avatar providers createdAt updatedAt'
 export const category = `id title color createdAt updatedAt createdBy { ${user} }`
 export const entry = `id title amount note createdAt updatedAt createdBy { ${user} } category { ${category} }`
 
-export const create_log = async (_input: MutationCreateOneEntryArgs) => {
+export const create_entry = async (_input: MutationCreateOneEntryArgs) => {
   const res = await gql(
     `mutation mutate($entry: EntryInput!) {
       createOneEntry(entry: $entry) {
@@ -29,48 +32,50 @@ export const create_log = async (_input: MutationCreateOneEntryArgs) => {
   return (await handler(res)) as Mutation['createOneEntry']
 }
 
-create_log.shouldInvalidate = ['find_log'] as const satisfies Readonly<
+create_entry.shouldInvalidate = ['find_log'] as const satisfies Readonly<
   (keyof typeof queries)[]
 >
 
-export const update_log = async ({
-  category,
+export const update_entry = async ({
+  entry,
   id,
-}: MutationUpdateOneCategoryArgs) => {
+}: MutationUpdateOneEntryArgs) => {
   const res = await gql(
-    `mutation mutate($category: CategoryInput!, $id: ID!) {
-      updateOneCategory(category: $category, id: $id) 
+    `mutation mutate($entry: EntryInput!, $id: ID!) {
+      updateOneEntry(entry: $entry, id: $id) 
     }`,
-    { category, id },
+    { entry, id },
   )
 
-  return (await handler(res)) as Mutation['updateOneCategory']
+  return (await handler(res)) as Mutation['updateOneEntry']
 }
 
-export const delete_log = async ({ id }: MutationDeleteOneCategoryArgs) => {
+export const delete_entry = async ({ id }: MutationDeleteOneEntryArgs) => {
   const res = await gql(
     `mutation mutate($id: ID!) {
-      deleteOneCategory(id: $id)
+      deleteOneEntry(idMutationDeleteOneEntryArgs: $id)
     }`,
     { id },
   )
 
-  return (await handler(res)) as Mutation['deleteOneCategory']
+  return (await handler(res)) as Mutation['deleteOneEntry']
 }
 
-delete_log.shouldInvalidate = [
+delete_entry.shouldInvalidate = [
   'find_log',
   'find_one_log',
 ] as const satisfies Readonly<(keyof typeof queries)[]>
 
-export const create_category = async (_input: MutationCreateOneEntryArgs) => {
+export const create_category = async ({
+  category,
+}: MutationCreateOneCategoryArgs) => {
   const res = await gql(
-    `mutation mutate($entry: EntryInput!) {
-      createOneEntry(entry: $entry) {
-        ${entry}
+    `mutation mutate($category: CategoryInput!) {
+      createOneCategory(category: $category) {
+        ${category}
       }
     }`,
-    { entry: _input.entry },
+    { category },
   )
 
   return (await handler(res)) as Mutation['createOneEntry']
@@ -118,8 +123,8 @@ delete_category.shouldInvalidate = [
 ] as const satisfies Readonly<(keyof typeof queries)[]>
 
 export const register = async (
-  { email, password }: BasicToken,
-  body: RegisterUserBody,
+  { email, password, ...body }: BasicToken & RegisterUserBody,
+  // body: RegisterUserBody,
 ) => {
   const res = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/auth/local/register`,
@@ -148,25 +153,29 @@ export const login = async ({ email, password }: BasicToken) => {
   return (await handler(res)) as UserRestResponse
 }
 
-export const update_profile = async (_input: MutationUpdateCurrentUserArgs) => {
+export const update_profile = async ({
+  user,
+}: MutationUpdateCurrentUserArgs) => {
   const res = await gql(
     `mutation mutate($user: UserInput!) {
       updateCurrentUser(user: $user) {
         ${user}
       }
     }`,
-    { user: _input.user },
+    { user },
   )
 
   return (await handler(res)) as Mutation['updateCurrentUser']
 }
 
-export const set_password = async (_input: MutationUpdatePasswordArgs) => {
+export const set_password = async ({
+  password,
+}: MutationUpdatePasswordArgs) => {
   const res = await gql(
     `mutation mutate($password: String!) {
       updatePassword(password: $password)
     }`,
-    { password: _input.password },
+    { password },
   )
 
   return (await handler(res)) as Mutation['updatePassword']
@@ -178,6 +187,9 @@ export async function handler(res: Response) {
   if (!res.headers.get('content-type')?.includes('application/json')) {
     throw new Error('Response is not JSON')
   }
+
+  const token = res.headers.get('x-token')
+  token && setToken(token)
 
   const json = await res.json()
 
@@ -202,7 +214,7 @@ export function gql(query: string, variables?: object) {
     body: JSON.stringify({ query, variables }),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getProfile()?.token}`,
+      Authorization: `Bearer ${getToken()}`,
     },
   })
 }

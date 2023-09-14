@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { SchemaProfile } from 'types/dist/ts/schema'
+import { User } from 'types/gql/graphql'
 
 export interface LocalStorage {
-  profile: SchemaProfile
+  profile: User
   hmm: string
 }
 

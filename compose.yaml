@@ -14,12 +14,12 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data-it
   db:
-    # # psql -U postgres -p 5430
+    # # psql -U postgres -p 5431
     image: postgres:12.1-alpine
     container_name: postgresql
     restart: always
     ports:
-      - 5432:5432
+      - 5431:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

@@ -5,9 +5,10 @@
   "scripts": {
     "sb": "storybook dev -p 6006",
     "tsb": "test-storybook",
-    "test": "test-storybook",
-    "serve": "http-server dist",
-    "build-storybook": "storybook build",
+    "it:test": "test-storybook --url http://localhost:9005",
+    "serve": "http-server storybook-static",
+    "build": "storybook build",
+    "storybook-build": "build-storybook",
     "lint": "eslint --fix .",
     "chromatic": "chromatic"
   },
