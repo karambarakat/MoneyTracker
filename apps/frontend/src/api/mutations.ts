@@ -155,6 +155,7 @@ export const login = async ({ email, password }: BasicToken) => {
   )
   return _hack((await handler(res)) as UserRestResponse)
 }
+
 import { DateTime } from 'luxon'
 
 // graphql does some transformation that actix-web does not

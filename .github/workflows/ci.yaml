@@ -83,12 +83,14 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          workingDir: pkgs/ui
+          # workingDir: pkgs/ui
+          storybookBuildDir: pkgs/ui/storybook-static
+          buildScriptName: turbo --filter ui build
 
       - name: 📤 Upload e2e report
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: e2e-report
-          path: _tests__/e2e/playwright-report/
+          path: __tests__/e2e/playwright-report/
           retention-days: 20

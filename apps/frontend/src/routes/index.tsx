@@ -11,6 +11,16 @@ import { DividerWithLabel } from 'ui/src/components/Divider'
 import groupBy from 'lodash/groupBy'
 import { useQuery } from '@tanstack/react-query'
 import { queries, queryKeys } from '../api'
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useNavigation,
+  useNavigationType,
+} from 'react-router-dom'
 function Index_Page_Component() {
   setTitle('Home')
 
@@ -36,11 +46,6 @@ function Index_Page_Component() {
 
     return Object.entries(migrate)
       .map(([key, subList]) => {
-        // let newKey = moment(key).calendar()
-        // newKey = !Number.parseInt(newKey) ? newKey : moment(key).format('dddd')
-        // newKey =
-        //   newKey.replace(/ (at \d).*/, '') +
-        //   moment(key).format(', MMM Do, YYYY')
         const newKey = luxon.DateTime.fromISO(key)
         const newKey2 = newKey.toRelative() + newKey.toFormat(', MMM Do, YYYY')
 
@@ -94,4 +99,14 @@ function Index_Page_Component() {
   )
 }
 
-export default Index_Page_Component
+// export default Index_Page_Component
+export default function Hello() {
+  setTitle('Home')
+
+  return (
+    <div>
+      hello
+      <br />
+    </div>
+  )
+}

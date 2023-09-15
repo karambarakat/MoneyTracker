@@ -1,3 +1,5 @@
+./ci/pre-commit.sh || exit 1;
+
 turbo test build typecheck && 
 ./ci/test-sb.sh && 
 ./ci/rust.sh && 

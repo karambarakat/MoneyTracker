@@ -9,7 +9,7 @@
     "it:test": "test-storybook --url http://localhost:9005",
     "serve": "http-server storybook-static",
     "build": "storybook build",
-    "storybook-build": "build-storybook",
+    "build-storybook": "build-storybook",
     "lint": "eslint --fix .",
     "chromatic": "chromatic"
   },

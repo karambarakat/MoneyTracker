@@ -1,0 +1,11 @@
+# $ trunk serve --open apps/leptos/index.html --port 2000
+
+[package]
+name = "leptos"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+leptos = { version = "0.5.0-rc2", features = ["csr"] }

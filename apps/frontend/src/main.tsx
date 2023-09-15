@@ -35,6 +35,8 @@ function App() {
                   <Route element={<Auth.Protected />}>
                     <Route element={<AppShellLayout />}>
                       <Route index element={<Index />} />
+                      <Route path="home/*" element={<Index />} />
+                      {/* <Route index element={() => <>hello</>} /> */}
                       <Route path="categories" element={<Categories />} />
 
                       <Route path="profile" element={<Profile />} />

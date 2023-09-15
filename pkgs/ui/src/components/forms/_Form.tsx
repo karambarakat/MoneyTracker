@@ -76,7 +76,6 @@ export function Form<V extends object, D>({
         initialValues={values_}
         onSubmit={(v, ctx) => {
           ctx.setStatus({})
-
           const [errors, values] = requires(v, required ?? [])
 
           if (errors) {
@@ -84,7 +83,6 @@ export function Form<V extends object, D>({
             ctx.setSubmitting(false)
             return
           }
-
           action(values as V)
             .then(() => {
               then && then(ctx)
