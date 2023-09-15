@@ -1,13 +1,13 @@
 import React from 'react'
 import { delete_entry } from '../api/mutations'
 import { useOneState } from '../utils/OneOpenAtATime'
-import moment from 'moment'
 import { useState } from 'react'
 import tw from 'twin.macro'
 import EditEntry from './forms/EditEntry'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getQueryKey, queries, queryKeys } from '../api'
 import { Entry } from 'types/gql/graphql'
+import { DateTime } from 'luxon'
 
 type Defined<T> = T extends undefined | null ? never : T
 
@@ -60,8 +60,11 @@ export default function LogEntry({ log }: { log: Entry }) {
         <div>
           <div>
             last updated:{' '}
-            {moment(data.updatedAt || data.createdAt)
+            {/* {moment(data.updatedAt || data.createdAt)
               .format('MMM Do, YYYY ___ h:mm a')
+              .replace('___', 'at')} */}
+            {DateTime.fromISO(data.updatedAt || data.createdAt)
+              .toFormat('MMM dd, yyyy ___ h:mm a')
               .replace('___', 'at')}
           </div>
           {edit ? (

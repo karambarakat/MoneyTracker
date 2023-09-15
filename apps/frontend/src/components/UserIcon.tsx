@@ -1,15 +1,13 @@
 import 'twin.macro'
 import React from 'react'
-import { getProfile } from '../utils/localProfile'
+import { profile } from '../utils/localStorage'
 import { PlugConnected, UserCircle } from 'tabler-icons-react'
 
 export default function UserIcon() {
-  const profile = getProfile()
-
   return (
     <>
       {profile ? (
-        <Avatar src={profile.avatar || undefined} />
+        <Avatar src={profile.getItem()?.avatar || undefined} />
       ) : (
         <PlugConnected />
       )}

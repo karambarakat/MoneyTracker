@@ -31,8 +31,8 @@ import FlexBox from 'ui/src/components/experimental/FlexBox'
 import UserIcon from '../components/UserIcon'
 import { Logout } from 'tabler-icons-react'
 import { getTitle } from './_MetaContext'
-import { getProfile, setProfile, useProfile } from '../utils/localProfile'
 import { ILink } from '../lib/react-router-dom'
+import { profile, token } from '../utils/localStorage'
 
 export default function Main_Layout_Component() {
   return (
@@ -168,11 +168,12 @@ function Navbar() {
 }
 
 function UserController_NavbarItem() {
-  const profile = useProfile()
+  const profile_ = profile.use()
+  const token_ = token.use()
 
   return (
     <div>
-      {profile ? (
+      {profile_._item ? (
         <>
           <ILink to={'/profile'}>
             <Navbar_item
@@ -181,12 +182,22 @@ function UserController_NavbarItem() {
               label={'profile'}
             />
           </ILink>
-          <div onClick={() => setProfile(undefined)}>
+          <div
+            onClick={() => {
+              profile_.setItem(undefined)
+              token_.setItem(undefined)
+            }}
+          >
             <Navbar_item icon={<Logout />} color={'indigo'} label={'log out'} />
           </div>
         </>
       ) : (
-        <div onClick={() => setProfile(undefined)}>
+        <div
+          onClick={() => {
+            profile_.setItem(undefined)
+            token_.setItem(undefined)
+          }}
+        >
           <Navbar_item icon={<Login />} color={'indigo'} label={'log out'} />
         </div>
       )}

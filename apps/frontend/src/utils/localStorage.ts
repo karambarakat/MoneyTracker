@@ -1,42 +1,63 @@
 import { useEffect, useState } from 'react'
+import { Jwt_ } from 'types/backend'
 import { User } from 'types/gql/graphql'
 
-export interface LocalStorage {
-  profile: User
-  hmm: string
+const eventTarget = new EventTarget()
+
+class LocalItem<T> {
+  /**
+   * @private
+   */
+  _item: T | undefined
+  key: string
+  constructor(key: string) {
+    this.key = key
+    const localItem = localStorage.getItem(key)
+    this._item = localItem ? JSON.parse(localItem as string) : undefined
+  }
+
+  setItem(item: T | undefined) {
+    if (!item) localStorage.removeItem(this.key)
+    else localStorage.setItem(this.key, JSON.stringify(item))
+
+    this._item = item
+
+    // React
+    eventTarget.dispatchEvent(new Event(this.key))
+  }
+
+  getItem() {
+    const item = localStorage.getItem(this.key)
+
+    if (!item) return
+
+    return JSON.parse(item) as T
+  }
+
+  use() {
+    const [item, setItem] = useState<LocalItem<T>>(this)
+
+    useEffect(() => {
+      const handler = () => setItem(new LocalItem(this.key))
+      eventTarget.addEventListener(this.key, handler)
+      return () => eventTarget.removeEventListener(this.key, handler)
+    }, [])
+
+    return item
+  }
 }
 
-const event = new EventTarget()
+export const profile = new LocalItem<User>('profile')
 
-export function useLocal(key: keyof LocalStorage) {
-  const [internal, setInternal] = useState(() => getLocal(key))
-  useEffect(() => {
-    const handler = () => setInternal(getLocal(key))
+export const token = Object.assign(new LocalItem<string>('token'), {
+  valid(this: LocalItem<string>) {
+    const item = this.getItem()
 
-    event.addEventListener('update:' + key, handler)
+    if (!item) return false
 
-    return () => {
-      event.removeEventListener('update:' + key, handler)
-    }
-  }, [])
-
-  return internal
-}
-
-export function getLocal<T extends keyof LocalStorage>(key: T) {
-  const profile = localStorage.getItem(key)
-
-  if (!profile) return
-
-  return JSON.parse(profile) as LocalStorage[T]
-}
-
-export function setLocal<T extends keyof LocalStorage>(
-  key: T,
-  value: LocalStorage[T] | undefined,
-) {
-  if (!value) localStorage.removeItem('profile')
-  else localStorage.setItem('profile', JSON.stringify(value))
-
-  event.dispatchEvent(new Event('update:' + key))
-}
+    return (
+      Number((JSON.parse(atob(item.split('.')[1])) as Jwt_).exp) >=
+      Date.now() / 1000
+    )
+  },
+})

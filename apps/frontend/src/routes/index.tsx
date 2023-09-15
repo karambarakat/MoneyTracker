@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 // import { Accordion, Divider, Stack } from '@mantine/core'
 import { useMemo, useState } from 'react'
-import moment from 'moment'
+import * as luxon from 'luxon'
 import tw from 'twin.macro'
 import { OneStateProvider } from '../utils/OneOpenAtATime'
 import AddEntry from '../components/forms/AddEntry'
@@ -29,17 +29,23 @@ function Index_Page_Component() {
   const logs = useMemo(() => {
     if (!data || !(data instanceof Array)) return []
 
-    const migrate = groupBy(data, log => moment(log.createdAt).format('l'))
+    //.format('l'))
+    const migrate = groupBy(data, log =>
+      luxon.DateTime.fromISO(log.createdAt).toFormat('l'),
+    )
 
     return Object.entries(migrate)
       .map(([key, subList]) => {
-        let newKey = moment(key).calendar()
-        newKey = !Number.parseInt(newKey) ? newKey : moment(key).format('dddd')
-        newKey =
-          newKey.replace(/ (at \d).*/, '') +
-          moment(key).format(', MMM Do, YYYY')
+        // let newKey = moment(key).calendar()
+        // newKey = !Number.parseInt(newKey) ? newKey : moment(key).format('dddd')
+        // newKey =
+        //   newKey.replace(/ (at \d).*/, '') +
+        //   moment(key).format(', MMM Do, YYYY')
+        const newKey = luxon.DateTime.fromISO(key)
+        const newKey2 = newKey.toRelative() + newKey.toFormat(', MMM Do, YYYY')
+
         return {
-          key: newKey,
+          key: newKey2,
           subList,
         }
       })

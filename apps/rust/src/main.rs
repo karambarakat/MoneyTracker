@@ -38,6 +38,7 @@ async fn main() -> std::io::Result<()> {
             .allowed_origin(std::env::var("FE_URL").unwrap().as_str())
             .allow_any_method()
             .allow_any_header()
+            .expose_headers(vec!["X-Token"])
             .max_age(3600);
 
         App::new()

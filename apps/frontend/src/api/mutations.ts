@@ -12,8 +12,9 @@ import {
   MutationUpdateOneCategoryArgs,
   MutationUpdateOneEntryArgs,
   MutationUpdatePasswordArgs,
+  User,
 } from 'types/gql/graphql'
-import { getProfile, getToken, setToken } from '../utils/localProfile'
+import { token } from '../utils/localStorage'
 
 export const user = 'id email displayName avatar providers createdAt updatedAt'
 export const category = `id title color createdAt updatedAt createdBy { ${user} }`
@@ -29,7 +30,7 @@ export const create_entry = async (_input: MutationCreateOneEntryArgs) => {
     { entry: _input.entry },
   )
 
-  return (await handler(res)) as Mutation['createOneEntry']
+  return (await handler(res)).createOneEntry as Mutation['createOneEntry']
 }
 
 create_entry.shouldInvalidate = ['find_log'] as const satisfies Readonly<
@@ -47,7 +48,7 @@ export const update_entry = async ({
     { entry, id },
   )
 
-  return (await handler(res)) as Mutation['updateOneEntry']
+  return (await handler(res)).updateOneEntry as Mutation['updateOneEntry']
 }
 
 export const delete_entry = async ({ id }: MutationDeleteOneEntryArgs) => {
@@ -58,7 +59,7 @@ export const delete_entry = async ({ id }: MutationDeleteOneEntryArgs) => {
     { id },
   )
 
-  return (await handler(res)) as Mutation['deleteOneEntry']
+  return (await handler(res)).deleteOneEntry as Mutation['deleteOneEntry']
 }
 
 delete_entry.shouldInvalidate = [
@@ -78,7 +79,7 @@ export const create_category = async ({
     { category },
   )
 
-  return (await handler(res)) as Mutation['createOneEntry']
+  return (await handler(res)).createOneCategory as Mutation['createOneCategory']
 }
 
 create_category.shouldInvalidate = [
@@ -96,7 +97,7 @@ export const update_category = async ({
     { category, id },
   )
 
-  return (await handler(res)) as Mutation['updateOneCategory']
+  return (await handler(res)).updateOneCategory as Mutation['updateOneCategory']
 }
 
 update_category.shouldInvalidate = [
@@ -114,7 +115,7 @@ export const delete_category = async ({
     { id },
   )
 
-  return (await handler(res)) as Mutation['deleteOneCategory']
+  return (await handler(res)).deleteOneCategory as Mutation['deleteOneCategory']
 }
 
 delete_category.shouldInvalidate = [
@@ -126,6 +127,8 @@ export const register = async (
   { email, password, ...body }: BasicToken & RegisterUserBody,
   // body: RegisterUserBody,
 ) => {
+  if ('displayName' in body) throw new Error('updated the backend ?')
+
   const res = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/auth/local/register`,
     {
@@ -137,7 +140,7 @@ export const register = async (
       },
     },
   )
-  return (await handler(res)) as UserRestResponse
+  return _hack((await handler(res)) as UserRestResponse)
 }
 
 export const login = async ({ email, password }: BasicToken) => {
@@ -150,9 +153,21 @@ export const login = async ({ email, password }: BasicToken) => {
       },
     },
   )
-  return (await handler(res)) as UserRestResponse
+  return _hack((await handler(res)) as UserRestResponse)
 }
+import { DateTime } from 'luxon'
 
+// graphql does some transformation that actix-web does not
+// this is a hack to unify the two
+// todo: refactor the backend
+function _hack(user: UserRestResponse) {
+  return {
+    ...user,
+    createdAt: DateTime.fromMillis(user.created_at).toISO(),
+    displayName: user.display_name,
+    updatedAt: DateTime.fromMillis(user.updated_at).toISO(),
+  } as User
+}
 export const update_profile = async ({
   user,
 }: MutationUpdateCurrentUserArgs) => {
@@ -165,7 +180,7 @@ export const update_profile = async ({
     { user },
   )
 
-  return (await handler(res)) as Mutation['updateCurrentUser']
+  return (await handler(res)).updateCurrentUser as Mutation['updateCurrentUser']
 }
 
 export const set_password = async ({
@@ -178,7 +193,7 @@ export const set_password = async ({
     { password },
   )
 
-  return (await handler(res)) as Mutation['updatePassword']
+  return (await handler(res)).updatePassword as Mutation['updatePassword']
 }
 
 // helpers
@@ -188,9 +203,13 @@ export async function handler(res: Response) {
     throw new Error('Response is not JSON')
   }
 
-  const token = res.headers.get('x-token')
-  token && setToken(token)
-
+  const token_ = res.headers.get('X-Token')
+  token_
+    ? token.setItem(token_)
+    : console.warn(
+        'api should always return token on successful requests',
+        res.headers.forEach(console.warn),
+      )
   const json = await res.json()
 
   if (String(res.status).startsWith('4') && 'error' in json) {
@@ -214,7 +233,7 @@ export function gql(query: string, variables?: object) {
     body: JSON.stringify({ query, variables }),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${token.getItem()}`,
     },
   })
 }

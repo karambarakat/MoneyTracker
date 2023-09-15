@@ -26,7 +26,13 @@ export default function SecretField({ info, ...props }: Props) {
           <div tw="flex-1">
             <Title />
             <Input>
-              {p => <input {...p} type={visible ? 'text' : 'password'} />}
+              {p => (
+                <input
+                  {...p}
+                  autoComplete={props.name}
+                  type={visible ? 'text' : 'password'}
+                />
+              )}
             </Input>
           </div>
           <CancelFieldValue />

@@ -1,12 +1,6 @@
 import React from 'react'
 import 'twin.macro'
-import {
-  Profile,
-  Token,
-  getToken,
-  setProfile,
-  useProfile,
-} from '../utils/localProfile'
+import { profile, token } from '../utils/localStorage'
 import {
   Navigate,
   Outlet,
@@ -33,11 +27,10 @@ import TextField from 'ui/src/components/forms/TextField'
 import { User } from 'types/gql/graphql'
 
 export function Protected() {
-  const profile = useProfile()
-  const token = getToken()
   const location = useLocation()
+  const _token = token.use()
 
-  if (!token || Token(token).expired()) {
+  if (!_token.getItem()) {
     return <Navigate to={'/auth'} state={{ goBackTo: location.pathname }} />
   }
 
@@ -87,18 +80,23 @@ function useGoBack() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  return (profile: Profile) => {
-    setProfile(profile)
+  return (profile_: User) => {
+    profile.setItem(profile_)
     const to = location.state?.goBackTo ?? '/'
     navigate(to)
   }
 }
 
 function LogIn() {
-  const goBack = useGoBack()
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const action = useMutation({
     mutationFn: login,
-    onSuccess: data => goBack(data),
+    onSuccess: data => {
+      profile.setItem(data)
+      navigate(location.state?.goBackTo ?? '/')
+    },
   })
 
   return (
@@ -124,12 +122,12 @@ function Register() {
   const goBack = useGoBack()
   const action = useMutation({
     mutationFn: register,
-    // onSuccess: data => goBack,
+    onSuccess: data => goBack(data),
   })
 
   return (
     <Form
-      required={['email', 'password']}
+      required={['email', 'password', 'confirmPassword']}
       validate={vals => {
         if (vals.password !== vals.confirmPassword) {
           return { confirmPassword: 'Passwords do not match' }
@@ -147,7 +145,7 @@ function Register() {
           Register New Account
         </Text>
         <Status onSuccess="Registered" />
-        <TextField name="displayName" title="Display Name" />
+        <TextField name="display_name" title="Display Name" />
         <EmailField name="email" title="Email" />
         <SecretField name="password" />
         <SecretField name="confirmPassword" title="Confirm The Password" />

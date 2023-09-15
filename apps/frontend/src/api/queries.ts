@@ -4,7 +4,6 @@ import {
   QueryGetOneCategoryArgs,
   QueryGetOneEntryArgs,
 } from 'types/gql/graphql'
-import { getProfile } from '../utils/localProfile'
 import { category, entry, gql, handler, user } from './mutations'
 
 export const find_log = async (
@@ -23,7 +22,7 @@ export const find_log = async (
     { pagination },
   )
 
-  return (await handler(res)) as Query['getAllEntries']
+  return (await handler(res)).getAllEntries as Query['getAllEntries']
 }
 
 export const find_one_log = async ({ id }: QueryGetOneEntryArgs) => {
@@ -36,7 +35,7 @@ export const find_one_log = async ({ id }: QueryGetOneEntryArgs) => {
     { id },
   )
 
-  return (await handler(res)) as Query['getOneEntry']
+  return (await handler(res)).getOneEntry as Query['getOneEntry']
 }
 
 export const find_category = async () => {
@@ -49,7 +48,7 @@ export const find_category = async () => {
     {},
   )
 
-  return (await handler(res)) as Query['getAllCategories']
+  return (await handler(res)).getAllCategories as Query['getAllCategories']
 }
 
 export const find_one_category = async ({ id }: QueryGetOneCategoryArgs) => {
@@ -62,7 +61,7 @@ export const find_one_category = async ({ id }: QueryGetOneCategoryArgs) => {
     { id },
   )
 
-  return (await handler(res)) as Query['getOneCategory']
+  return (await handler(res)).getOneCategory as Query['getOneCategory']
 }
 
 export const profile = async () => {
@@ -75,5 +74,5 @@ export const profile = async () => {
     {},
   )
 
-  return (await handler(res)) as Query['getCurrentUser']
+  return (await handler(res)).getCurrentUser as Query['getCurrentUser']
 }
