@@ -38,7 +38,7 @@ export function Authentication() {
         <Routes>
           <Route path="/login" element={<LogIn />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route path="*" element={<Navigate to="./register" />}></Route>
+          <Route path="*" element={<Navigate to="./login" />}></Route>
         </Routes>
       </div>
     </div>
@@ -98,7 +98,7 @@ function LogIn() {
             </Text>
             <Status onSuccess="Logged in" />
             <EmailField name="email" title="Email" />
-            <SecretField name="password" />
+            <SecretField name="password" autoComplete="current-password" />
             <SubmitButton>Login</SubmitButton>
           </FormBody>
         </Form>
@@ -139,8 +139,12 @@ function Register() {
             <Status onSuccess="Registered" />
             <TextField name="display_name" title="Display Name" />
             <EmailField name="email" title="Email" />
-            <SecretField name="password" />
-            <SecretField name="confirmPassword" title="Confirm The Password" />
+            <SecretField name="password" autoComplete="current-password" />
+            <SecretField
+              name="confirmPassword"
+              title="Confirm The Password"
+              autoComplete="current-password"
+            />
 
             <SubmitButton>Register</SubmitButton>
           </FormBody>

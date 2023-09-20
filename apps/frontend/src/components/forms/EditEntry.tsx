@@ -5,7 +5,7 @@ import { Form } from 'ui/src/components/forms/_Form'
 import Status from 'ui/src/components/forms/Status'
 import CategoryField from 'ui/src/components/forms/CategoryField'
 import HiddenField from 'ui/src/components/forms/HiddenField'
-import NumberField from 'ui/src/components/forms/NumberField'
+import SimpleNumberField from 'ui/src/components/forms/SimpleNumberField'
 import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -46,7 +46,7 @@ export default function EditEntry({
         <Status tw="col-span-2" />
         <HiddenField name="_id" />
         <TextField name="title" />
-        <NumberField name="amount" />
+        <SimpleNumberField name="amount" />
         <TextField name="note" />
         <CategoryField
           options={category.map(v => ({ value: v.id, label: v.title }))}

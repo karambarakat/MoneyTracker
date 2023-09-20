@@ -1,7 +1,6 @@
 import { expect } from '@jest/globals'
 import { Response } from 'node-fetch'
 
-
 expect.extend({
   toSuccess(received: string) {
     const pass = received[0] === '2'
@@ -36,8 +35,6 @@ export function expectResponse(res: Response) {
   expect(String(res.status)).toSuccess()
   expect(res.headers.get('x-token'))
 }
-
-
 
 export const profileRest = {
   created_at: expect.any(Number),

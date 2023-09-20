@@ -10,6 +10,9 @@ export default {
       asField: {},
     },
   },
+  args: {
+    autoComplete: 'new-password',
+  },
   component: SecretField,
 } satisfies SB.Meta<typeof SecretField>
 

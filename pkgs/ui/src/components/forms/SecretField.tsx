@@ -15,6 +15,11 @@ import { useState } from 'react'
 
 interface Props extends FieldProps {
   info?: string
+  /**
+   * triggers browser automated assistance to fill out some fields,
+   * see full list https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+   */
+  autoComplete: 'current-password' | 'new-password' | 'email' | 'username'
 }
 
 export default function SecretField({ info, ...props }: Props) {
@@ -29,7 +34,7 @@ export default function SecretField({ info, ...props }: Props) {
               {p => (
                 <input
                   {...p}
-                  autoComplete={props.name}
+                  autoComplete={props.autoComplete}
                   type={visible ? 'text' : 'password'}
                 />
               )}

@@ -271,7 +271,10 @@ it('delete_one_entry', async () => {
 
   expect(data.deleteOneEntry).toBe(true)
 
-  const data2 = await fetchQql(ctx.user.headers, '{ getAllEntries (pagination: { page: 1, pageSize: 20 }) { data { id } } }')
+  const data2 = await fetchQql(
+    ctx.user.headers,
+    '{ getAllEntries (pagination: { page: 1, pageSize: 20 }) { data { id } } }',
+  )
 
   expect(data2.getAllEntries.data.length).toBe(3)
   expect(data2.getAllEntries.data[2].id).toBe(ctx.entry2.id)
@@ -298,7 +301,10 @@ it('delete_many_entries', async () => {
 
   expect(data.deleteManyEntries).toBe(2)
 
-  const data2 = await fetchQql(ctx.user.headers, '{ getAllEntries  (pagination: { page: 1, pageSize: 20 }) { data { id } } }')
+  const data2 = await fetchQql(
+    ctx.user.headers,
+    '{ getAllEntries  (pagination: { page: 1, pageSize: 20 }) { data { id } } }',
+  )
 
   expect(data2.getAllEntries.data.length).toBe(1)
   expect(data2.getAllEntries.data[0].id).toBe(ctx.entry4.id)

@@ -39,7 +39,7 @@ async function main() {
       await client.query('DELETE FROM category;')
 
       await client.query('DELETE FROM users;')
-      
+
       console.log('db cleaned')
       res.send('db cleaned')
     }),

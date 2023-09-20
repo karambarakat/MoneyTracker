@@ -5,23 +5,19 @@ while getopts d flag
 do
     case "${flag}" in
         d) dev=true;;
-        # a) age=${OPTARG};;
     esac
 done
 
-cargo build || exit 1
+set -eo pipefail
+trap "kill 0" EXIT
 
+cargo build
 docker compose up -d dbit
 
-RUST_ENV=it cargo run || exit 1 &
-job1=$!
-pnpm --filter db start || exit 1 &
-job2=$!
+RUST_ENV=it cargo run &
+pnpm --filter db start &
 
-pnpm --filter db --filter rust_backend it:dep && pnpm --filter db clean_db && pnpm --filter be_it jest
+wait-on tcp:4200 -t 60000 && pnpm --filter db clean_db && pnpm --filter be_it jest
 status=$?
-
-kill $job1
-kill $job2
 
 exit $status

@@ -5,7 +5,6 @@ while getopts db flag
 do
     case "${flag}" in
         b) background=true;;
-        # a) age=${OPTARG};;
     esac
 done
 
@@ -23,25 +22,20 @@ if $background; then
     exit 1;
 fi
 
-cargo build || exit 1;
-turbo --filter frontend it:build || exit 1;
+set -eo pipefail
+trap "kill 0" EXIT
 
-docker compose up -d dbit || exit 1
+cargo build
+turbo --filter frontend it:build
+docker compose up -d dbit
 
-RUST_ENV=it cargo run || exit 1 &
-job1=$!
-pnpm --filter db start || exit 1 &
-job2=$!
-pnpm --filter frontend it:start || exit 1 &
-job3=$!
+RUST_ENV=it cargo run &
+pnpm --filter db start &
+pnpm --filter frontend it:start &
 
 pnpm --filter rust_backend --filter db --filter frontend it:dep && 
   pnpm --filter e2e pw test
 
 status=$?
-
-kill $job1
-kill $job2
-kill $job3
 
 exit $status

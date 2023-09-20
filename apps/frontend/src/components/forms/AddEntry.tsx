@@ -5,7 +5,7 @@ import { Form } from 'ui/src/components/forms/_Form'
 import Status from 'ui/src/components/forms/Status'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import CategoryField from 'ui/src/components/forms/CategoryField'
-import NumberField from 'ui/src/components/forms/NumberField'
+// import NumberField from 'ui/src/components/forms/NumberField'
 import TextField from 'ui/src/components/forms/TextField'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { queries, queryKeys } from '../../api'
@@ -44,7 +44,7 @@ export default function AddEntry() {
       <div tw="grid grid-cols-2 gap-3">
         <Status tw="col-span-2" onSuccess="created" />
         <TextField name="title" />
-        <NumberField name="amount" />
+        {/* <NumberField name="amount" /> */}
         <TextField name="note" />
         <CategoryField
           options={categories.map(v => ({ value: v.id, label: v.title }))}

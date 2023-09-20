@@ -49,3 +49,7 @@ runs:
     - name: 📥 Install dependencies
       shell: sh
       run: pnpm install --frozen-lockfile
+
+    - name: install turbo
+      shell: sh
+      run: pnpm install -g turbo

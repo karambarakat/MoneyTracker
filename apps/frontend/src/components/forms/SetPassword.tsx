@@ -23,7 +23,7 @@ export default function SetPassword() {
     >
       <div>
         <Status />
-        <SecretField name="oldPassword" />
+        <SecretField name="oldPassword" autoComplete="current-password" />
         <SubmitButton tw="mt-2" size="lg">
           submit
         </SubmitButton>

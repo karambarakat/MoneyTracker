@@ -9,3 +9,4 @@ edition = "2021"
 
 [dependencies]
 leptos = { version = "0.5.0-rc2", features = ["csr"] }
+unocss-classes = "1.1.1"

@@ -20,7 +20,7 @@ declare global {
   namespace SB {
     export type Decorator = Decorator
 
-    export type Parameter = Parameter
+    // export type Parameter = Parameter
 
     export type Meta<C extends (P: any) => JSX.Element> = Omit<
       Meta_<C>,
@@ -34,7 +34,7 @@ declare global {
       StoryObj<C>,
       'parameters' | 'tags'
     > & {
-      parameters?: _Parameter
+      parameters?: Parameter
       tags?: Tags[]
     }
 

@@ -3,13 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "sb": "storybook dev -p 6006",
+    "dev": "storybook dev -p 6006",
     "tsb": "test-storybook",
     "it:dev": "storybook dev -p 9005",
-    "it:test": "test-storybook --url http://localhost:9005",
+    "it:test": "test-storybook --url http://127.0.0.1:9005",
     "serve": "http-server storybook-static",
     "build": "storybook build",
-    "build-storybook": "build-storybook",
     "lint": "eslint --fix .",
     "chromatic": "chromatic"
   },

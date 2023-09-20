@@ -902,6 +902,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "classes"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5603d514e43c7439b594a021fa63bf6bfde2b47b6af966023624fd777d4dd8b3"
+
+[[package]]
 name = "collection_literals"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1917,6 +1923,7 @@ name = "leptos"
 version = "0.1.0"
 dependencies = [
  "leptos 0.5.0-rc2",
+ "unocss-classes",
 ]
 
 [[package]]
@@ -2752,6 +2759,12 @@ dependencies = [
  "memchr",
  "regex-syntax",
 ]
+
+[[package]]
+name = "regex-lite"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f96ede7f386ba6e910092e7ccdc04176cface62abebea07ed6b46d870ed95ca2"
 
 [[package]]
 name = "regex-syntax"
@@ -3903,6 +3916,38 @@ checksum = "fc1de2c688dc15305988b563c3854064043356019f97a4b46276fe734c4f07ea"
 dependencies = [
  "crypto-common",
  "subtle",
+]
+
+[[package]]
+name = "unocss-classes"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "95dcbe07d4fb8efc112a43d2f64b45a9275721c1fa968ff6b8bf89330e2d716b"
+dependencies = [
+ "classes",
+ "unocss-classes-macros",
+]
+
+[[package]]
+name = "unocss-classes-macros"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bd003900600ff788796af209fc7b3677e75bf8a49cf1e4ac31e28c71ed4b3b68"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.32",
+ "unocss-classes-utils",
+]
+
+[[package]]
+name = "unocss-classes-utils"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a433609370cbf4147d918af07724f736d8ce551810924898bdd00466d7262b95"
+dependencies = [
+ "once_cell",
+ "regex-lite",
 ]
 
 [[package]]

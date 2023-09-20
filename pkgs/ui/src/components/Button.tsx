@@ -7,7 +7,11 @@ import { fontSizes } from './Text'
 import { WithAsChild } from '../utils/WithChildren'
 import { Slot } from '@radix-ui/react-slot'
 
-interface Props {
+interface ButtonBase {
+  onClick?: () => void
+}
+
+interface Props extends ButtonBase {
   color?: color
   variant?: 'filled' | 'light' | 'outline' | 'subtle'
   size?: 'sm' | 'md' | 'lg'

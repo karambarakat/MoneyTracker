@@ -20,7 +20,7 @@ test('test', async ({ page, baseURL, workerUser }) => {
   // unauthenticated user
   await page.goto('/')
   await page.waitForTimeout(1000)
-  expect(page.url()).toBe(baseURL + '/auth')
+  expect(page.url()).toBe(baseURL + '/auth/login')
 
   // user was not found
   await page.getByLabel('Email').fill(email)
@@ -44,7 +44,7 @@ test('test', async ({ page, baseURL, workerUser }) => {
   // log out
   await page.getByRole('button', { name: 'log out' }).click()
   await page.waitForTimeout(1000)
-  expect(page.url()).toBe(baseURL + '/auth')
+  expect(page.url()).toBe(baseURL + '/auth/login')
 
   // test the new user
   await page.getByLabel('Email').fill(email)

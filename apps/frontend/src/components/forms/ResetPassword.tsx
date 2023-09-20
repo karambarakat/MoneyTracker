@@ -23,8 +23,8 @@ export default function ResetPassword() {
     >
       <div>
         <Status />
-        <SecretField name="oldPassword" />
-        <SecretField name="newPassword" />
+        <SecretField name="oldPassword" autoComplete="current-password" />
+        <SecretField name="newPassword" autoComplete="new-password" />
         <SubmitButton tw="mt-2" size="lg">
           submit
         </SubmitButton>
