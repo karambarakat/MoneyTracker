@@ -1,17 +1,17 @@
-import FlexBox_ from './FlexBox'
+import FlexBox_ from './FlexSize'
 import React from 'react'
 import { PropsOf } from '@emotion/react'
 import useListForTesting, { finalList } from '../../utils/useListForTesting'
 import tw from 'twin.macro'
-import { Transition } from '../Transition/Transition'
-import { fade_from_bottom } from '../Transition/transitions'
+import { Transition } from './Transition'
+import { fade_from_bottom } from './transitions'
 
 function FlexBox(Props: PropsOf<typeof FlexBox_>) {
   return <FlexBox_ {...Props} tw="outline outline-2 outline-red-500/50" />
 }
 
 export default {
-  title: 'experimental/FlexBox',
+  title: 'experimental/FlexSize',
   component: FlexBox,
   tags: ['autodocs'],
   argTypes: {
@@ -45,6 +45,24 @@ export const Row = {
     const list = useListForTesting()
     return (
       <div tw="flex gap-2">
+        <FlexBox {...args}>
+          <div tw="flex gap-2">
+            {list.map((item, i) => (
+              <div key={item}>element_{i}</div>
+            ))}
+          </div>
+        </FlexBox>
+        <div>post element</div>
+      </div>
+    )
+  },
+} satisfies SB.Story<typeof FlexBox>
+
+export const RowBug1 = {
+  render: args => {
+    const list = useListForTesting()
+    return (
+      <div tw="flex gap-2 w-[400px]">
         <FlexBox {...args}>
           <div tw="flex gap-2">
             {list.map((item, i) => (

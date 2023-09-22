@@ -41,14 +41,17 @@ jobs:
         shell: bash
 
       - name: storybook tests
+        if: always()
         run: ./ci/test-sb.sh
         shell: bash
 
       - name: backend integration test
+        if: always()
         run: ./ci/test-be.sh
         shell: sh
 
       - name: run end-to-end test
+        if: always()
         run: ./ci/test-e2e.sh
         shell: bash
 
@@ -62,28 +65,28 @@ jobs:
         shell: sh
         if: always()
 
-  # chromatic:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: 📥 Checkout
-  #       uses: actions/checkout@v2
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
 
-  #     - name: 📥 Install dependencies
-  #       uses: ./.github/actions/pnpm
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
 
-  #     - run: turbo --filter ui build
+      - run: turbo --filter ui build
 
-  #     - name: chromatic
-  #       uses: chromaui/action@v1
-  #       with:
-  #         projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         storybookBuildDir: pkgs/ui/storybook-static
+      - name: chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          storybookBuildDir: pkgs/ui/storybook-static
 
-  #     - name: 📤 Upload e2e report
-  #       uses: actions/upload-artifact@v3
-  #       if: always()
-  #       with:
-  #         name: e2e-report
-  #         path: __tests__/e2e/playwright-report/
-  #         retention-days: 20
+      - name: 📤 Upload e2e report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: e2e-report
+          path: __tests__/e2e/playwright-report/
+          retention-days: 20

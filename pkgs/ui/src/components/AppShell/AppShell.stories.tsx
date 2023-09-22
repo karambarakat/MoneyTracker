@@ -1,12 +1,9 @@
 /// <reference types="@types/testing-library__jest-dom" />
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import * as AppShell from './AppShell'
-import { userEvent, within } from '@storybook/testing-library'
 import {
-  Back_debug,
-  Back_normal,
   Children,
   Children_long,
   SideBar,

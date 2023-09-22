@@ -5,7 +5,7 @@ import { ReactRouterAddonStoryParameters } from 'storybook-addon-react-router-v6
 export interface Parameter {
   layout?: 'fullscreen' | 'centered'
   form?: Form
-  page?: Page
+  query?: boolean
   msw?: MswParameters['msw']
   mode?: 'dark' | 'light'
   reactRouter?: ReactRouterAddonStoryParameters
@@ -20,7 +20,7 @@ declare global {
   namespace SB {
     export type Decorator = Decorator
 
-    // export type Parameter = Parameter
+    export type _Parameter = Parameter
 
     export type Meta<C extends (P: any) => JSX.Element> = Omit<
       Meta_<C>,
@@ -51,6 +51,3 @@ interface Form {
     failed?: true
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Page {}

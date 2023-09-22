@@ -1,21 +1,13 @@
 /// <reference path="../types/SB.d.ts"/>
 import '../src/tailwind.css'
 import type { Preview } from '@storybook/react'
-import React, { useEffect, useMemo } from 'react'
-import { useDarkMode } from 'storybook-dark-mode'
-import { ColorModeProvider } from '../src/colorMode/provider'
-import GlobalStyles from '../src/GlobalStyles'
 import { fakerEN } from '@faker-js/faker'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
-import { Form } from '../src/components/forms/_Form'
-import { action } from '@storybook/addon-actions'
 
 import 'twin.macro'
-import { Global, PropsOf } from '@emotion/react'
-import { colors } from '../src/utils/tw'
-import { useField, useFormik, useFormikContext } from 'formik'
 import { DarkModeDecorator, FormDecorator, TwDecoration } from './_decorator'
 import type { DarkModeStore } from 'storybook-dark-mode'
+import { frontend_decorator } from '../../../apps/frontend/src/.storybook/storybook-decorator'
 
 fakerEN.seed(123)
 
@@ -82,7 +74,13 @@ const preview: Preview = {
     } satisfies Partial<DarkModeStore>,
   },
 
-  decorators: [mswDecorator, DarkModeDecorator, FormDecorator, TwDecoration],
+  decorators: [
+    mswDecorator,
+    DarkModeDecorator,
+    FormDecorator,
+    TwDecoration,
+    frontend_decorator,
+  ],
 }
 
 export default preview

@@ -37,7 +37,7 @@ function ToggleColorScheme(props: PropsOf<typeof ButtonIcon>) {
     <ButtonIcon
       {...props}
       color={dark ? 'yellow' : 'blue'}
-      variant="outline"
+      variant="subtle"
       label="Toggle color scheme"
       asChild
     >

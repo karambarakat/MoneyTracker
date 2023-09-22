@@ -43,7 +43,7 @@ export const TwDecoration: SB.Decorator = Story => {
 }
 
 export const FormDecorator: SB.Decorator = (Story, ctx) => {
-  const form = ctx.parameters.form as SB.Parameter['form']
+  const form = ctx.parameters.form as SB._Parameter['form']
 
   if (!form) {
     return <Story />

@@ -9,6 +9,7 @@ const sizes = {
   sm: tw`w-[18px] h-[18px] min-h-[18px] min-w-[18px] p-[4px]`,
   md: tw`w-[30px] h-[30px] min-h-[30px] min-w-[30px] p-[4px]`,
   lg: tw`w-[44px] h-[44px] min-h-[44px] min-w-[36px] p-[6px]`,
+  null: tw``,
 }
 
 const base = tw`flex items-center justify-center`

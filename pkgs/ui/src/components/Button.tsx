@@ -13,8 +13,9 @@ interface ButtonBase {
 
 interface Props extends ButtonBase {
   color?: color
-  variant?: 'filled' | 'light' | 'outline' | 'subtle'
-  size?: 'sm' | 'md' | 'lg'
+  variant?: 'filled' | 'light' | 'outline' | 'subtle' | 'colored'
+  size?: 'sm' | 'md' | 'lg' | 'null'
+
   disabled?: boolean
 }
 
@@ -31,6 +32,8 @@ function Button({
     switch (variant) {
       case 'subtle':
         return subtle(color)
+      case 'colored':
+        return colored(color)
       case 'filled':
         return filled(color)
       case 'light':
@@ -62,24 +65,34 @@ function Button({
 // `
 const subtle = (c: color) => css`
   background-color: transparent;
-  color: ${colors[c][700]};
+  /* color: ${colors[c][700]}; */
 
   &:enabled:hover {
-    background-color: ${colors[c][50]};
+    background-color: ${colors[c][200]};
   }
 
-  .dark & {
+  /* .dark & {
     color: ${colors[c][200]};
-  }
+  } */
 
   .dark &:enabled:hover {
     background-color: ${colors[c][500] + '40'};
   }
 `
 
+const colored = (c: color) => css`
+  /* background-color: transparent; */
+  ${subtle(c)}
+  color: ${colors[c][700]};
+
+  .dark & {
+    color: ${colors[c][200]};
+  }
+`
+
 const filled = (c: color) => css`
   background-color: ${colors[c][700]};
-  color: ${colors[c][50]};
+  color: white;
 
   &:enabled:hover {
     background-color: ${colors[c][700]};
@@ -91,7 +104,7 @@ const filled = (c: color) => css`
 `
 
 const light = (c: color) => css`
-  color: ${colors[c][900]};
+  /* color: ${colors[c][900]}; */
   background-color: ${colors[c][100]};
 
   &:enabled:hover {
@@ -99,7 +112,7 @@ const light = (c: color) => css`
   }
 
   .dark & {
-    color: ${colors[c][100]};
+    /* color: ${colors[c][100]}; */
     background-color: ${colors[c][200] + '20'};
   }
 
@@ -135,6 +148,7 @@ const sizes = {
   sm: tw`px-[0.5rem] py-[0.20rem]`,
   md: tw`px-[0.75rem] py-[0.375rem]`,
   lg: tw`px-[1rem] py-[0.5rem]`,
+  null: tw`font-normal `,
 }
 
 // x * 16 = 19, x = 1.1875

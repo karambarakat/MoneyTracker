@@ -14,6 +14,7 @@ export const fontSizes = {
   h2: tw`text-[1.5rem] font-[400] leading-[2rem]`,
   h1: tw`text-[2rem] font-[600] leading-[2rem]`,
   subtle: tw`text-gray-600 dark:text-gray-400`,
+  null: tw``,
 }
 
 type Preferred = 'span' | 'h1' | 'h2'

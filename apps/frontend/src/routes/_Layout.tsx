@@ -27,18 +27,19 @@ import ButtonIcon from 'ui/src/components/ButtonIcon'
 import Transition from 'ui/src/components/Transition'
 import Button from 'ui/src/components/Button'
 import { fade_from_bottom } from 'ui/src/components/Transition/transitions'
-import FlexBox from 'ui/src/components/experimental/FlexBox'
+import FlexBox from 'ui/src/components/Transition/FlexSize'
 import UserIcon from '../components/UserIcon'
 import { Logout } from 'tabler-icons-react'
 import { getTitle } from './_MetaContext'
 import { ILink } from '../lib/react-router-dom'
 import { profile, token } from '../utils/localStorage'
+import ScrollArea from 'ui/src/components/ScrollArea'
 
 export default function Main_Layout_Component() {
   return (
     <AppShell.Root bp_sm={639} bp_md={767} sidebar_sm="64px" sidebar_md="250px">
       <AppShell.SideBar>
-        <div tw="bg-slate-100 dark:bg-slate-900 h-full">
+        <div tw="bg-slate-100 dark:bg-slate-800 h-full">
           <Navbar />
           <AppShell.Expand asChild>
             <Expand />
@@ -47,10 +48,10 @@ export default function Main_Layout_Component() {
       </AppShell.SideBar>
       <AppShell.Overlay />
       <AppShell.Content>
-        <div tw="border-black/30 p-4 max-w-[700px] m-auto">
-          <Header />
+        <ScrollArea tw="h-screen px-4 max-w-[700px] m-auto relative">
+          <Header tw="pt-4" />
           <Outlet />
-        </div>
+        </ScrollArea>
       </AppShell.Content>
     </AppShell.Root>
   )
@@ -205,7 +206,7 @@ function UserController_NavbarItem() {
   )
 }
 
-function Header() {
+function Header(p: object) {
   const {
     query: { width },
     state: { setOpen },
@@ -214,7 +215,7 @@ function Header() {
   const title = getTitle()
 
   return (
-    <div tw="flex justify-between items-center">
+    <div tw="flex justify-between items-center" {...p}>
       <Text size="h1">{title}</Text>
       <FlexBox no_y>
         <div tw="flex gap-2 overflow-hidden">
@@ -239,6 +240,7 @@ function Header() {
             {styles => (
               <ButtonIcon
                 css={styles}
+                color="slate"
                 variant="subtle"
                 asChild
                 label="open menu"
@@ -271,7 +273,7 @@ function Navbar_item({
   return (
     <Button
       tw="w-full flex items-center justify-stretch gap-5"
-      variant="subtle"
+      variant="colored"
       color={color}
     >
       <span tw="w-[24px] h-[24px]">{icon}</span>

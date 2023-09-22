@@ -14,13 +14,11 @@ interface Props {
   title?: string
 }
 
-export default function SimpleTextField(props: Props) {
+export default function SimpleTextField({ name, title, ...props }: Props) {
   return (
-    <FieldRoot name={props.name} title={props.title}>
-      <Input>
-        {p => (
-          <input placeholder={props.title || capitalCase(props.name)} {...p} />
-        )}
+    <FieldRoot name={name} title={title}>
+      <Input {...props}>
+        {p => <input placeholder={title || capitalCase(name)} {...p} />}
       </Input>
     </FieldRoot>
   )
