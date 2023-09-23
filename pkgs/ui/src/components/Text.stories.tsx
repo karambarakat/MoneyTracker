@@ -59,3 +59,9 @@ export const Small = {
     size: 'sm',
   },
 } satisfies SB.Story<typeof component>
+
+export const Null = {
+  args: {
+    size: 'null',
+  },
+} satisfies SB.Story<typeof component>

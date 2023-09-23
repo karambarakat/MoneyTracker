@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import { WithAsChild } from '../utils/WithChildren'
 
 interface Props {
-  size?: 'sm' | 'md' | 'lg' | 'h1' | 'h2' | 'subtle'
+  size?: 'sm' | 'md' | 'lg' | 'h1' | 'h2' | 'subtle' | 'null'
 }
 
 export const fontSizes = {

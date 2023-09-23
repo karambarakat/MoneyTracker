@@ -101,6 +101,12 @@ export const Filled = {
   },
 } satisfies SB.Story<typeof Component>
 
+export const Null = {
+  args: {
+    size: 'null',
+  },
+} satisfies SB.Story<typeof Component>
+
 export const Light = {
   args: {
     variant: 'light',

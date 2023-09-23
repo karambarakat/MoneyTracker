@@ -47,3 +47,9 @@ export const Large = {
     size: 'lg',
   },
 } satisfies SB.Story<typeof ButtonIcon>
+
+export const Null = {
+  args: {
+    size: 'null',
+  },
+} satisfies SB.Story<typeof ButtonIcon>

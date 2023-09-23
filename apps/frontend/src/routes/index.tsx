@@ -7,6 +7,8 @@ import { Form } from 'ui/src/components/forms/_Form'
 import SimpleNumberField from 'ui/src/components/forms/SimpleNumberField'
 import SimpleTextField from 'ui/src/components/forms/SimpleTextField'
 import Button from 'ui/src/components/Button'
+import { PropsOf } from '@emotion/react'
+import AddEntry from '../components/AddEntry'
 
 // function Index_Page_Component() {
 //   setTitle('Home')
@@ -94,8 +96,11 @@ export default function Index_Page_Component() {
   return (
     <div>
       <Dialog
-        content={<AddNewEntry />}
-        open
+        content={
+          <div tw="z-50 fixed inset-0 m-auto h-fit shadow-2xl w-[550px] max-w-[80vw]">
+            <AddEntry action={async values => console.log(values)} />
+          </div>
+        }
         trigger={
           <div
             aria-label="add new entry"
@@ -120,41 +125,37 @@ export default function Index_Page_Component() {
   )
 }
 
-function AddNewEntry() {
-  return (
-    <div
-      aria-label="Add new Entry"
-      tw="z-50 fixed inset-0 shadow-2xl w-[550px] max-w-[80vw] p-4 rounded-md h-fit m-auto bg-slate-800 border-slate-500 border"
-    >
-      <Form
-        then={ctx => ctx.setValues({}, false)}
-        action={async v => console.log(v)}
-        required={['title', 'amount']}
-      >
-        <div tw="flex gap-2">
-          <svg
-            tw="h-[32px]"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 64 64"
-          >
-            <path d="m44,20V6h-6v16h-12V6h-6v14c0,4.94-3.06,8-8,8v30h40v-30c-4.94,0-8-3.06-8-8Zm-2,27l-10,5-10-5v-11h20v11Z"></path>
-          </svg>
-          <SimpleTextField tw="text-2xl" name="title" title="Entry Title" />
-        </div>
-        <SimpleNumberField name="amount" />
-        <SimpleTextField name="note" />
-        <Divider tw="-mx-4 my-4" />
-        <div tw="flex gap-3 justify-end">
-          <Dialog.Close asChild>
-            <Button variant="subtle" color="slate" size="null" tw="py-1 px-2">
-              Close
-            </Button>
-          </Dialog.Close>
-          <Button variant="filled" size="null" tw="py-1 px-2">
-            Submit
-          </Button>
-        </div>
-      </Form>
-    </div>
-  )
-}
+// function AddEntry(props: Omit<PropsOf<typeof Form>, 'required' | 'values'>) {
+//   return (
+//     <div
+//       aria-label="Add new Entry"
+//       tw="z-50 fixed inset-0 shadow-2xl w-[550px] max-w-[80vw] p-4 rounded-md h-fit m-auto bg-slate-800 border-slate-500 border"
+//     >
+//       <Form required={['title', 'amount']} {...props}>
+//         <div tw="flex gap-2">
+//           <svg
+//             tw="h-[32px]"
+//             xmlns="http://www.w3.org/2000/svg"
+//             viewBox="0 0 64 64"
+//           >
+//             <path d="m44,20V6h-6v16h-12V6h-6v14c0,4.94-3.06,8-8,8v30h40v-30c-4.94,0-8-3.06-8-8Zm-2,27l-10,5-10-5v-11h20v11Z"></path>
+//           </svg>
+//           <SimpleTextField tw="text-2xl" name="title" title="Entry Title" />
+//         </div>
+//         <SimpleNumberField name="amount" />
+//         <SimpleTextField name="note" />
+//         <Divider tw="-mx-4 my-4" />
+//         <div tw="flex gap-3 justify-end">
+//           <Dialog.Close asChild>
+//             <Button variant="subtle" color="slate" size="null" tw="py-1 px-2">
+//               Close
+//             </Button>
+//           </Dialog.Close>
+//           <Button variant="filled" size="null" tw="py-1 px-2">
+//             Submit
+//           </Button>
+//         </div>
+//       </Form>
+//     </div>
+//   )
+// }
