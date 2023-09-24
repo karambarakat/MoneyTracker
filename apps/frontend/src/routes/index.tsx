@@ -8,7 +8,7 @@ import SimpleNumberField from 'ui/src/components/forms/SimpleNumberField'
 import SimpleTextField from 'ui/src/components/forms/SimpleTextField'
 import Button from 'ui/src/components/Button'
 import { PropsOf } from '@emotion/react'
-import AddEntry from '../components/AddEntry'
+import EntryForm from '../components/AddEntry'
 
 // function Index_Page_Component() {
 //   setTitle('Home')
@@ -98,7 +98,7 @@ export default function Index_Page_Component() {
       <Dialog
         content={
           <div tw="z-50 fixed inset-0 m-auto h-fit shadow-2xl w-[550px] max-w-[80vw]">
-            <AddEntry action={async values => console.log(values)} />
+            <EntryForm action={async values => console.log(values)} />
           </div>
         }
         trigger={

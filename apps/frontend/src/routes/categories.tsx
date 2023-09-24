@@ -9,7 +9,8 @@ import TextField from 'ui/src/components/forms/TextField'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
 import { create_category } from '../api/mutations'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { mutations, queries, queryKeys } from '../api'
+import { queries, queryKeys } from '../api'
+import CategoryForm from '../components/CategoryForm'
 
 function AddCategory() {
   const client = useQueryClient()
@@ -48,7 +49,7 @@ function AddCategory() {
   )
 }
 
-function Index_Page_Component() {
+function Category_Page_Component() {
   setTitle('Categories')
 
   const { data } = useQuery({
@@ -60,14 +61,14 @@ function Index_Page_Component() {
 
   return (
     <div css={{ '&>*': tw`mt-4` }}>
-      <AddCategory />
+      <CategoryForm action={async v => console.log(v)} />
       <OneStateProvider>
-        {data.reverse().map(cat => (
+        {/* {data.reverse().map(cat => (
           <CategoryEntry key={cat.id} category={cat} />
-        ))}
+        ))} */}
       </OneStateProvider>
     </div>
   )
 }
 
-export default Index_Page_Component
+export default Category_Page_Component

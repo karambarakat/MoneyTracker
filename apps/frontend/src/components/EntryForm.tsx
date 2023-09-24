@@ -8,8 +8,8 @@ import { Form } from 'ui/src/components/forms/_Form'
 import Tooltip from 'ui/src/components/Tooltip'
 import 'twin.macro'
 
-export default function AddEntry(
-  props: Omit<PropsOf<typeof Form>, 'required' | 'values'>,
+export default function EntryForm(
+  props: Omit<PropsOf<typeof Form>, 'required'>,
 ) {
   return (
     <div
@@ -33,7 +33,7 @@ export default function AddEntry(
         </div>
         <SimpleNumberField name="amount" />
         <SimpleTextField name="note" />
-        <Divider tw="-mx-4 my-4" />
+        <Divider tw="-mx-4 my-4 dark:bg-slate-500 bg-slate-400" />
         <div tw="flex gap-3 justify-end">
           <Dialog.Close asChild>
             <Button variant="subtle" color="slate" size="null" tw="py-1 px-2">

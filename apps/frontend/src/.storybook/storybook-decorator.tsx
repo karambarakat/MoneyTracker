@@ -6,7 +6,7 @@ import MetaContext from '../routes/_MetaContext'
 import { BrowserRouter, Router } from 'react-router-dom'
 import Loading from '../routes/_Loading'
 import ErrorComponent from '../routes/_Error'
-import { QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider, useQueryClient } from '@tanstack/react-query'
 import { queryClient } from '../api/client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -32,25 +32,29 @@ export function ProvidersDeprecated({ Story }: { Story: () => JSX.Element }) {
   )
 }
 
-export function Providers({ Story }: { Story: () => JSX.Element }) {
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        {
-          Story() // prettier 😠
-        }
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-      </QueryClientProvider>
-    </>
-  )
-}
+// import {  } from '@storybook/react'
+// import {} from 'SB'
 
-import { Decorator } from '@storybook/react'
+export const frontend_decorator: SB.Decorator[] = [
+  (Story, ctx) => {
+    return (
+      <>
+        <QueryClientProvider client={queryClient}>
+          {
+            Story() // prettier 😠
+          }
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        </QueryClientProvider>
+      </>
+    )
+  },
 
-export const frontend_decorator: Decorator = (Story: any, ctx: any) => {
-  if ((ctx as SB.Story<any>).parameters?.query) {
-    return Providers({ Story })
-  }
+  (Story, ctx) => {
+    if (ctx.parameters?.query) {
+      useQueryClient().clear()
+      return <Story />
+    }
 
-  return <Story />
-}
+    return <Story />
+  },
+]

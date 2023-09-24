@@ -42,22 +42,18 @@ export default {
   component: Component,
   parameters: {
     query: true,
-    msw: [
-      rest.get('/icons', async (req, res, ctx) => {
-        await new Promise(() => {
-          /* sleep */
-        })
-        return res(ctx.json({ data: 'hello' }))
-      }),
-    ],
   },
-  decorators: [
-    (Story: any, ctx: any) => {
-      useQueryClient().clear()
-
-      return <Story />
-    },
-  ],
 } satisfies SB.Meta<typeof Component>
 
 export const Base = {} satisfies SB.Story<typeof Component>
+export const Sleep = {
+  parameters: {
+    msw: [
+      rest.get('/icons', (req, res, ctx) => {
+        return new Promise(() => {
+          /* sleep */
+        })
+      }),
+    ],
+  },
+} satisfies SB.Story<typeof Component>

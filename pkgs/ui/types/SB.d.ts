@@ -1,53 +1,54 @@
 import { MswParameters } from 'msw-storybook-addon'
-import { StoryObj, Meta as Meta_ } from '@storybook/react'
+import { StoryObj, Meta as OrgMeta } from '@storybook/react'
 import { ReactRouterAddonStoryParameters } from 'storybook-addon-react-router-v6'
+import { Decorator as OrgDecorator } from '@storybook/react'
 
-export interface Parameter {
+export interface ExpParameter {
   layout?: 'fullscreen' | 'centered'
-  form?: Form
+  form?: {
+    values?: object
+    validate?: (values: object) => object
+    asField?: {
+      name?: string
+      value?: unknown
+      failed?: true
+    }
+  }
   query?: boolean
   msw?: MswParameters['msw']
   mode?: 'dark' | 'light'
   reactRouter?: ReactRouterAddonStoryParameters
 }
 
-export type Tags = 'autodocs'
-export type Decorator = NonNullable<Meta_['decorators']> extends Array<infer T>
-  ? T
-  : never
+export type ExpTags = 'autodocs'
+
+export type ExpDecorator = (
+  S: () => JSX.Element,
+  ctx: { parameters?: ExpParameter; tags?: ExpTags[] },
+) => JSX.Element
 
 declare global {
   namespace SB {
-    export type Decorator = Decorator
+    export type Decorator = ExpDecorator
 
-    export type _Parameter = Parameter
+    export type Parameter = ExpParameter
 
     export type Meta<C extends (P: any) => JSX.Element> = Omit<
-      Meta_<C>,
+      OrgMeta<C>,
       'parameters' | 'tags'
     > & {
-      parameters?: Parameter
-      tags?: Tags[]
+      parameters?: ExpParameter
+      tags?: ExpTags[]
     }
 
     export type Story<C extends (P: any) => JSX.Element> = Omit<
       StoryObj<C>,
       'parameters' | 'tags'
     > & {
-      parameters?: Parameter
-      tags?: Tags[]
+      parameters?: ExpParameter
+      tags?: ExpTags[]
     }
 
-    type Tags = 'autodocs'
-  }
-}
-
-interface Form {
-  values?: object
-  validate?: (values: object) => object
-  asField?: {
-    name?: string
-    value?: unknown
-    failed?: true
+    export type Tags = ExpTags
   }
 }

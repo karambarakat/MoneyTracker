@@ -8,6 +8,7 @@ import 'twin.macro'
 import { DarkModeDecorator, FormDecorator, TwDecoration } from './_decorator'
 import type { DarkModeStore } from 'storybook-dark-mode'
 import { frontend_decorator } from '../../../apps/frontend/src/.storybook/storybook-decorator'
+import type { Decorator } from '@storybook/react'
 
 fakerEN.seed(123)
 
@@ -75,12 +76,13 @@ const preview: Preview = {
   },
 
   decorators: [
-    mswDecorator,
+    // @ts-expect-error ts(2322)
+    mswDecorator as Decorator,
     DarkModeDecorator,
     FormDecorator,
     TwDecoration,
-    frontend_decorator,
-  ],
+    ...frontend_decorator,
+  ] satisfies SB.Decorator[] as Decorator[],
 }
 
 export default preview
