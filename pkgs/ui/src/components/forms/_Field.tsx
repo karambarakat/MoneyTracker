@@ -18,7 +18,6 @@ import { X } from 'tabler-icons-react'
 import { formMetaInfo } from './_Form'
 import { DefinedContext } from '../../utils/definedContext'
 import Text from '../Text'
-// import { useDefinedContext } from '../../utils/definedContext'
 
 export interface FieldProps {
   name: string
@@ -29,7 +28,7 @@ export interface FieldProps {
 export interface FieldContext extends Omit<FieldProps, 'validate'> {
   id: string
   req: boolean
-  title?: string
+  title: string
 }
 
 export function useFieldContext<Formik = any>() {
@@ -208,6 +207,7 @@ export function Input({ children, ...p }: WithComponent<requiredInput>) {
     props,
     meta_ext: { req },
   } = useFieldContext()
+
   return (
     <Slot>
       <Component

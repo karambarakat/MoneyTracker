@@ -8,7 +8,7 @@ import SimpleNumberField from 'ui/src/components/forms/SimpleNumberField'
 import SimpleTextField from 'ui/src/components/forms/SimpleTextField'
 import Button from 'ui/src/components/Button'
 import { PropsOf } from '@emotion/react'
-import EntryForm from '../components/AddEntry'
+import EntryForm from '../components/EntryForm'
 
 // function Index_Page_Component() {
 //   setTitle('Home')

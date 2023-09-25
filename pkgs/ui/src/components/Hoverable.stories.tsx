@@ -5,7 +5,6 @@ import { AiFillCheckCircle } from 'react-icons/ai'
 export default {
   title: 'Hoverable',
   component,
-  // param
   decorators: [
     S => (
       <div tw="w-[30px] h-[30px]">
