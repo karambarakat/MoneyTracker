@@ -43,7 +43,9 @@ export const frontend_decorator: SB.Decorator[] = [
           {
             Story() // prettier 😠
           }
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          <div tabIndex={-1}>
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          </div>
         </QueryClientProvider>
       </>
     )

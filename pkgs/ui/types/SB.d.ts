@@ -2,6 +2,7 @@ import { MswParameters } from 'msw-storybook-addon'
 import { StoryObj, Meta as OrgMeta } from '@storybook/react'
 import { ReactRouterAddonStoryParameters } from 'storybook-addon-react-router-v6'
 import { Decorator as OrgDecorator } from '@storybook/react'
+import type { A11yParameters } from '@storybook/addon-a11y'
 
 export interface ExpParameter {
   layout?: 'fullscreen' | 'centered'
@@ -18,6 +19,7 @@ export interface ExpParameter {
   msw?: MswParameters['msw']
   mode?: 'dark' | 'light'
   reactRouter?: ReactRouterAddonStoryParameters
+  a11y?: A11yParameters['config']
 }
 
 export type ExpTags = 'autodocs'

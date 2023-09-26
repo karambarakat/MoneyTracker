@@ -13,6 +13,7 @@ const config: StorybookConfig = {
     VITE_BACKEND_API: 'http://localhost:8080/api/v1',
   },
   addons: [
+    'addon-screen-reader',
     'storybook-addon-react-router-v6',
     '@storybook/addon-links',
     '@storybook/addon-essentials',

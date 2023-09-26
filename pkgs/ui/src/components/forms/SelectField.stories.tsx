@@ -1,5 +1,5 @@
 import { PropsOf } from '@emotion/react'
-import ListBoxField, { SubComponent } from './ListBoxField'
+import SelectField, { SubComponent } from './SelectField'
 import { useFieldContext } from './_Field'
 import tw from 'twin.macro'
 import { AiFillCheckCircle, AiOutlineMinusCircle } from 'react-icons/ai'
@@ -30,20 +30,12 @@ function Component(props: {
   data: PropsOf<SubComponent>[]
 }) {
   return (
-    <ListBoxField
-      name="ex"
-      Children={props.data.map(e => {
-        return {
-          Component: props.consumer,
-          ...e,
-        }
-      })}
-    />
+    <SelectField SubComponent={props.consumer} name="ex" data={props.data} />
   )
 }
 
 export default {
-  title: 'Forms/ListBoxField',
+  title: 'Forms/SelectField',
   component: Component,
   parameters: {
     form: {

@@ -7,6 +7,14 @@ export default {
   title: 'app/EntryForm',
   parameters: {
     layout: 'centered',
+    a11y: {
+      rules: [
+        {
+          id: 'aria-hidden-focus',
+          enabled: false,
+        },
+      ],
+    },
   },
   args: {
     action: async values => console.log(values),

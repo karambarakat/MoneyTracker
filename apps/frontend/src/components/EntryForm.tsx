@@ -7,78 +7,7 @@ import SimpleTextField from 'ui/src/components/forms/SimpleTextField'
 import { Form } from 'ui/src/components/forms/_Form'
 import Tooltip from 'ui/src/components/Tooltip'
 import 'twin.macro'
-import { useField } from 'formik'
-import { useQuery } from '@tanstack/react-query'
-import { colorNames, colors } from './CategoryForm'
-
-function CategoryIconSVG({
-  icon,
-  color,
-  ...p
-}: {
-  icon: string
-  color: colorNames
-}) {
-  return (
-    <svg
-      tw="h-[32px] cursor-pointer"
-      css={{
-        fill:
-          colors.find(e => e.name === color)?.color ||
-          colors.find(e => e.name === 'Grey')?.color,
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      {...p}
-    >
-      <path d={icon}></path>
-    </svg>
-  )
-}
-
-function CategoryIcon({ icon, color }: { icon: string; color: colorNames }) {
-  const { data, status, fetchStatus } = useQuery({
-    queryFn: async () => {
-      const target = Number(icon)
-      if (!icon || isNaN(target)) return undefined
-
-      // @ts-expect-error
-      const res = await import('./icons')
-      console.log({ icon, res })
-
-      return (res.default.split('\n') as string[])[target]
-    },
-    suspense: false,
-    queryKey: ['icon', icon],
-  })
-
-  console.log(data)
-
-  const defaultIcon =
-    'm38.49,32h-14.49V8h24v18h-6.04l-3.46,6Zm-18.49,4v-14c-7.73,0-14,6.27-14,14s6.27,14,14,14,14-6.27,14-14h-14Zm27.73-6h-3.46l-12.12,21c.77,1.33.96,1.67,1.73,3h24.25c.77-1.33.96-1.67,1.73-3l-12.12-21Z'
-
-  if (status === 'loading')
-    return (
-      <CategoryIconSVG
-        icon={defaultIcon}
-        color="Grey"
-        tw="animate-pulse duration-100"
-      />
-    )
-  const resIcon = data || defaultIcon
-
-  return <CategoryIconSVG color={color} icon={resIcon} />
-}
-
-function CategoryIconFromForm({
-  names,
-}: {
-  names: { icon: string; color: string }
-}) {
-  const icon = useField(names.icon)[1].value
-  const color = useField(names.color)[1].value
-  return <CategoryIcon color={color} icon={icon} />
-}
+import { CategoryIconFromForm } from './category_utils/CategoryIcon'
 
 export default function EntryForm(
   props: Omit<PropsOf<typeof Form>, 'required'>,
