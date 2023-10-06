@@ -10,7 +10,7 @@ import { WithChildren } from '../utils/WithChildren'
 import { css } from 'twin.macro'
 
 interface Props {
-  content: JSX.Element
+  content: JSX.Element | string
 }
 
 export default function Tooltip(props: WithChildren<Props>) {

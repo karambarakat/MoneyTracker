@@ -9,6 +9,7 @@ import { Slot } from '@radix-ui/react-slot'
 
 interface ButtonBase {
   onClick?: () => void
+  type?: 'button' | 'submit' | 'reset' | undefined
 }
 
 interface Props extends ButtonBase {

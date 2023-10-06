@@ -3,6 +3,8 @@ import * as queries from './queries'
 import { UserRestResponse, BasicToken, RegisterUserBody } from 'types/backend'
 import { GraphqlError, RestError } from 'types/HttpError'
 import {
+  CategoryFragment,
+  EntryFragment,
   Mutation,
   MutationCreateOneCategoryArgs,
   MutationCreateOneEntryArgs,
@@ -12,30 +14,35 @@ import {
   MutationUpdateOneCategoryArgs,
   MutationUpdateOneEntryArgs,
   MutationUpdatePasswordArgs,
+  QueryGetAllEntriesArgs,
   User,
+  UserFragment,
 } from 'types/gql/graphql'
 import { token } from '../utils/localStorage'
-
-export const user = 'id email displayName avatar providers createdAt updatedAt'
-export const category = `id title color createdAt updatedAt createdBy { ${user} }`
-export const entry = `id title amount note createdAt updatedAt createdBy { ${user} } category { ${category} }`
+import { QueryClient } from '@tanstack/react-query'
+import { Category, Entry, User as User_F } from 'types/fragments'
 
 export const create_entry = async (_input: MutationCreateOneEntryArgs) => {
   const res = await gql(
     `mutation mutate($entry: EntryInput!) {
       createOneEntry(entry: $entry) {
-        ${entry}
+        ...Entry
       }
-    }`,
+    }
+    ${Entry}
+    `,
     { entry: _input.entry },
   )
 
-  return (await handler(res)).createOneEntry as Mutation['createOneEntry']
+  return (await handler(res)).createOneEntry as EntryFragment
 }
 
-create_entry.shouldInvalidate = ['find_log'] as const satisfies Readonly<
-  (keyof typeof queries)[]
->
+create_entry.shouldInvalidate = (
+  c: QueryClient,
+  p: QueryGetAllEntriesArgs['pagination'],
+) => {
+  c.invalidateQueries(['find_log', p] satisfies queryKeys)
+}
 
 export const update_entry = async ({
   entry,
@@ -62,10 +69,14 @@ export const delete_entry = async ({ id }: MutationDeleteOneEntryArgs) => {
   return (await handler(res)).deleteOneEntry as Mutation['deleteOneEntry']
 }
 
-delete_entry.shouldInvalidate = [
-  'find_log',
-  'find_one_log',
-] as const satisfies Readonly<(keyof typeof queries)[]>
+delete_entry.shouldInvalidate = (
+  c: QueryClient,
+  pagination: QueryGetAllEntriesArgs['pagination'],
+  id: { id: string },
+) => {
+  c.invalidateQueries(['find_log', pagination] satisfies queryKeys)
+  c.invalidateQueries(['find_one_log', id] satisfies queryKeys)
+}
 
 export const create_category = async ({
   category,
@@ -73,18 +84,20 @@ export const create_category = async ({
   const res = await gql(
     `mutation mutate($category: CategoryInput!) {
       createOneCategory(category: $category) {
-        ${category}
+        ...Category
       }
-    }`,
+    }
+    ${Category}
+    `,
     { category },
   )
 
-  return (await handler(res)).createOneCategory as Mutation['createOneCategory']
+  return (await handler(res)).createOneCategory as CategoryFragment
 }
 
-create_category.shouldInvalidate = [
-  'find_category',
-] as const satisfies Readonly<(keyof typeof queries)[]>
+create_category.shouldInvalidate = (c: QueryClient) => {
+  c.invalidateQueries(['find_category'] satisfies queryKeys)
+}
 
 export const update_category = async ({
   category,
@@ -100,10 +113,10 @@ export const update_category = async ({
   return (await handler(res)).updateOneCategory as Mutation['updateOneCategory']
 }
 
-update_category.shouldInvalidate = [
-  'find_category',
-  'find_one_category',
-] as const satisfies Readonly<(keyof typeof queries)[]>
+update_category.shouldInvalidate = (c: QueryClient, id: { id: string }) => {
+  c.invalidateQueries(['find_category'] satisfies queryKeys)
+  c.invalidateQueries(['find_one_category', id] satisfies queryKeys)
+}
 
 export const delete_category = async ({
   id,
@@ -118,10 +131,10 @@ export const delete_category = async ({
   return (await handler(res)).deleteOneCategory as Mutation['deleteOneCategory']
 }
 
-delete_category.shouldInvalidate = [
-  'find_category',
-  'find_one_category',
-] as const satisfies Readonly<(keyof typeof queries)[]>
+delete_category.shouldInvalidate = (c: QueryClient, id: { id: string }) => {
+  c.invalidateQueries(['find_category'] satisfies queryKeys)
+  c.invalidateQueries(['find_one_category', id] satisfies queryKeys)
+}
 
 export const register = async (
   { email, password, ...body }: BasicToken & RegisterUserBody,
@@ -157,6 +170,7 @@ export const login = async ({ email, password }: BasicToken) => {
 }
 
 import { DateTime } from 'luxon'
+import { queryKeys } from '.'
 
 // graphql does some transformation that actix-web does not
 // this is a hack to unify the two
@@ -175,13 +189,15 @@ export const update_profile = async ({
   const res = await gql(
     `mutation mutate($user: UserInput!) {
       updateCurrentUser(user: $user) {
-        ${user}
+        ...User
       }
-    }`,
+    }
+    ${User_F}
+    `,
     { user },
   )
 
-  return (await handler(res)).updateCurrentUser as Mutation['updateCurrentUser']
+  return (await handler(res)).updateCurrentUser as UserFragment
 }
 
 export const set_password = async ({
@@ -217,12 +233,12 @@ export async function handler(res: Response) {
     throw new RestError(json.error)
   }
 
-  if ('data' in json) {
-    return json.data
+  if ('errors' in json) {
+    throw new GraphqlError(json.errors)
   }
 
-  if ('errors' in json && json.data === null) {
-    throw new GraphqlError(json.errors)
+  if ('data' in json) {
+    return json.data
   }
 
   throw new Error('Response is not JSON')

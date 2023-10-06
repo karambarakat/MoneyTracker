@@ -1,7 +1,7 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-export const iconQuery = async () => {
+export const iconSVGQuery = async () => {
   const res = await import('./icons')
 
   return res.default.split('\n') as string[]
@@ -11,9 +11,9 @@ export const iconQuery = async () => {
  *
  * @param whichOne select specific icon or return all icons
  */
-export function useIcon(whichOne: string) {
+export function useIconSVG(whichOne?: string) {
   const res = useQuery({
-    queryFn: iconQuery,
+    queryFn: iconSVGQuery,
     suspense: false,
     queryKey: ['icons'],
     cacheTime: 1000 * 60 * 60 * 24,
@@ -21,6 +21,8 @@ export function useIcon(whichOne: string) {
   // return data of type string please
 
   const validIndex = useMemo(() => {
+    if (!whichOne) return defaultIndex
+
     const target = Number(whichOne)
 
     if (isNaN(target) || target > 876 || target < 0)
@@ -39,3 +41,5 @@ export function useIcon(whichOne: string) {
 
 export const defaultValue =
   'm38.49,32h-14.49V8h24v18h-6.04l-3.46,6Zm-18.49,4v-14c-7.73,0-14,6.27-14,14s6.27,14,14,14,14-6.27,14-14h-14Zm27.73-6h-3.46l-12.12,21c.77,1.33.96,1.67,1.73,3h24.25c.77-1.33.96-1.67,1.73-3l-12.12-21Z'
+
+export const defaultIndex = '266'

@@ -3,8 +3,9 @@ import { StoryObj, Meta as OrgMeta } from '@storybook/react'
 import { ReactRouterAddonStoryParameters } from 'storybook-addon-react-router-v6'
 import { Decorator as OrgDecorator } from '@storybook/react'
 import type { A11yParameters } from '@storybook/addon-a11y'
+import { Parameter as FrontendParameter } from '../../../apps/frontend/types/LocalSB'
 
-export interface ExpParameter {
+export interface ExpParameter extends FrontendParameter {
   layout?: 'fullscreen' | 'centered'
   form?: {
     values?: object
@@ -15,7 +16,6 @@ export interface ExpParameter {
       failed?: true
     }
   }
-  query?: boolean
   msw?: MswParameters['msw']
   mode?: 'dark' | 'light'
   reactRouter?: ReactRouterAddonStoryParameters

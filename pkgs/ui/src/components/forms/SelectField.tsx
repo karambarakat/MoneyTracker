@@ -63,6 +63,7 @@ function ListBoxStrategy<subProps extends SubProps>(props: Props<subProps>) {
         return (
           <li
             key={supProps.value}
+            data-key={supProps.value}
             onClick={() => ctx.actions.setValue(supProps.value)}
             role="option"
             aria-label={supProps.label}
@@ -85,7 +86,7 @@ const ListBoxStrategyNoReactivity = ({ label }: { label: string }) =>
         aria-label={label}
         role="listbox"
         aria-multiselectable={props.multiSelect}
-        tabIndex={0}
+        tabIndex={5}
         data-select-root
         ref={ref}
       >

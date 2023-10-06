@@ -1,12 +1,21 @@
 import 'twin.macro'
-import EntryForm from './EntryForm'
+import React from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import { EntryInput, Query } from 'types/gql/graphql'
+import { rejectGraphql } from 'ui/src/storybook_utils/msw'
+import { EntryBody, FormBody, FormFooter, FormRoot } from './_FormUtils'
+import Button from 'ui/src/components/Button'
 
-import { Root, Portal, Content } from '@radix-ui/react-dialog'
+function Component({ renderAs }: { renderAs: JSX.Element }) {
+  return <div tw="w-[400px]">{renderAs}</div>
+}
 
 export default {
   title: 'app/EntryForm',
   parameters: {
     layout: 'centered',
+    msw: [rejectGraphql],
+    query: {},
     a11y: {
       rules: [
         {
@@ -16,23 +25,95 @@ export default {
       ],
     },
   },
-  args: {
-    action: async values => console.log(values),
-  },
-  component: EntryForm,
-  render: props => (
-    <Root open>
-      <Portal>
-        <div tw="fixed inset-0 z-50 bg-gray-950/20" />
-        <Content asChild>
-          <div tw="z-50 fixed inset-0 h-screen grid place-content-center">
-            <EntryForm {...props} />
-          </div>
-        </Content>
-      </Portal>
-    </Root>
-  ),
-} satisfies SB.Meta<typeof EntryForm>
+  component: Component,
+  decorators: [
+    Story => {
+      const client = useQueryClient()
 
-export const Dark = {} satisfies SB.Story<typeof EntryForm>
-export const Light = {} satisfies SB.Story<typeof EntryForm>
+      client.setQueryData(['find_category'], [
+        {
+          id: 'sdf',
+          createdAt: 'sdf',
+          createdBy: {
+            id: 'sdf',
+            email: 'sdf',
+            createdAt: 'sdf',
+            providers: 'sdf',
+            updatedAt: 'sd',
+          },
+          title: 'sdf',
+          updatedAt: 'sdlfk',
+        },
+      ] satisfies Query['getAllCategories'])
+      return <Story />
+    },
+  ],
+} satisfies SB.Meta<typeof Component>
+
+export const CreateEntry = {
+  args: {
+    renderAs: (
+      <FormRoot
+        action={async values => console.log(values)}
+        values={undefined as unknown as EntryInput}
+        asChild
+        required={['amount', 'title']}
+      >
+        <div aria-label="Create New Entry">
+          <FormBody
+            form={<EntryBody />}
+            footer={
+              <FormFooter
+                Rest={() => (
+                  <Button
+                    variant="subtle"
+                    color="slate"
+                    size="null"
+                    tw="py-1 px-2"
+                  >
+                    Close
+                  </Button>
+                )}
+                Button={p => <Button {...p}>Create New Entry</Button>}
+              />
+            }
+          />
+        </div>
+      </FormRoot>
+    ),
+  },
+} satisfies SB.Story<typeof Component>
+
+export const UpdateEntry = {
+  args: {
+    renderAs: (
+      <FormRoot
+        action={async values => console.log(values)}
+        values={undefined as unknown as EntryInput}
+        asChild
+        required={['amount', 'title']}
+      >
+        <div aria-label="Update Entry">
+          <FormBody
+            form={<EntryBody />}
+            footer={
+              <FormFooter
+                Rest={() => (
+                  <Button
+                    variant="subtle"
+                    color="slate"
+                    size="null"
+                    tw="py-1 px-2"
+                  >
+                    Close
+                  </Button>
+                )}
+                Button={p => <Button {...p}>Update</Button>}
+              />
+            }
+          />
+        </div>
+      </FormRoot>
+    ),
+  },
+} satisfies SB.Story<typeof Component>

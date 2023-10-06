@@ -17,12 +17,12 @@ import { DefinedContext } from '../../utils/definedContext'
 
 export const formMetaInfo = new DefinedContext<{ required: string[] }>()
 
-interface Form<Values extends object, Data>
+export interface FormInterface<Values extends object, Result>
   extends Omit<FormikConfig<Values>, 'initialValues' | 'onSubmit'> {
   /**
    * react-query mutation function
    */
-  action: (input: Values) => Promise<Data>
+  action: (input: Values) => Promise<Result>
   /**
    * initial values or string of keys like ['profile.name', 'profile.meta[]']
    */
@@ -30,7 +30,7 @@ interface Form<Values extends object, Data>
   /**
    * thenable
    */
-  then?: (ctx: FormikHelpers<Values>) => void
+  then?: (ctx: FormikHelpers<Values>, result: Result) => void
   /**
    * properties that are required, maybe nested using lodash paths
    * @example ['email', 'password', 'profile.name']
@@ -43,14 +43,14 @@ interface Form<Values extends object, Data>
  * react-query, lodash, HttpError) to work together
  * provides a simple interface to create a form
  */
-export function Form<V extends object, D>({
+export function Form<V extends object, Result>({
   children,
   values,
   required,
   then,
   action,
   ...FormikProps
-}: WithChildren<Form<V, D>>) {
+}: WithChildren<FormInterface<V, Result>>) {
   const values_ = useMemo(() => {
     if (!values) return {}
 
@@ -79,13 +79,17 @@ export function Form<V extends object, D>({
           const [errors, values] = requires(v, required ?? [])
 
           if (errors) {
+            ctx.setStatus({
+              error: 'some fields are required: ' + Object.keys(errors),
+            })
             ctx.setErrors(errors)
             ctx.setSubmitting(false)
             return
           }
+
           action(values as V)
-            .then(() => {
-              then && then(ctx)
+            .then(result => {
+              then && then(ctx, result)
             })
             .catch(error => {
               if (!(error instanceof RestError)) {

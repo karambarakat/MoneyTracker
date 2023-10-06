@@ -6,7 +6,7 @@
   "scripts": {
     "db": "docker compose up -d db",
     "prepare": "husky install",
-    "dev": "RUST_ENV=dev cargo run & pnpm -F ui -F frontend --parallel dev",
+    "dev": "cross-env RUST_ENV=dev cargo run & pnpm -F ui -F frontend --parallel dev",
     "// manual deployment": "",
     "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.local.yaml",
     "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.yaml"

@@ -29,35 +29,38 @@ export const requires = <A extends object>(
 
 export default requires
 
-/** type safety: test case 1
- type test1Type = { title: string; amount: number; node?: string }
- const [_, obj1] = require<test1Type>({ title: '', amount: 12 }, ['amount', 'title'])
- 
- if (_) throw new Error('should not happen')
- 
- obj1.amount.toString // required
- obj1.title.search // required
- // @ts-expect-error ts(18048)
- obj1.node.search
- 
- */
+// eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any
+const test: any = () => {}
 
-/** type safety: test case 2
-type test2Type = { title: string; amount: number; node?: string }
-const [e2, _] = require<test2Type>({}, ['amount', 'title'])
+test('case 1', () => {
+  type Type = { title: string; amount: number; node?: string }
 
-if (e2) {
-  e2.amount?.search // string | undefined
-  e2.title?.search // string | undefined
-  e2.node?.search // string | undefined
+  const data = { title: 'new title', amount: 12 }
 
-  throw new Error('')
-}
+  const [errors, values] = requires<Type>(data, ['amount', 'title'])
 
-// should not be reachable
-_.amount.toString // required
-_.title.search // required
-// @ts-expect-error ts(18048)
-_.node.search
+  // test the typescript
+  if (errors === undefined) {
+    values.amount.toString // required
+    values.title.search // required
+    // @ts-expect-error ts(18048) 'error.node' is possibly 'undefined'.
+    values.node.search
+  }
 
- */
+  if (errors) {
+    // @ts-expect-error ts(2532) 'values' is possibly 'undefined'.
+    values.amount.toString
+    // @ts-expect-error ts(2339) Property 'amount' does not exist on type 'never'.
+    values?.amount
+  }
+
+  // test the runtime
+  expect(errors).toBeUndefined()
+  expect(values).toEqual(data)
+
+  // test 2 the runtime
+  const [errors2, values2] = requires<Type>({}, ['amount'])
+
+  expect(errors2).toEqual({ amount: 'amount is required' })
+  expect(values2).toBeUndefined()
+})

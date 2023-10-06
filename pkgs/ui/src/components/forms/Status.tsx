@@ -25,7 +25,7 @@ export default function Status(
   if (status?.success) {
     return (
       <Component tw="text-green-500">
-        <span>Success:</span>
+        <span>Success: </span>
         <span>
           {typeof status?.success === 'string'
             ? status.success

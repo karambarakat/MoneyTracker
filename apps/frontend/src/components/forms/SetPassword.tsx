@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import { Form } from 'ui/src/components/forms/_Form'
+import { FormInterface } from 'ui/src/components/forms/_Form'
 
 import SecretField from 'ui/src/components/forms/SecretField'
 import Status from 'ui/src/components/forms/Status'

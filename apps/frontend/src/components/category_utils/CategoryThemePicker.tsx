@@ -4,22 +4,14 @@ import Hoverable from 'ui/src/components/Hoverable'
 import SelectField from 'ui/src/components/forms/SelectField'
 import { useFieldContext } from 'ui/src/components/forms/_Field'
 import { CategoryIconSVG, colors } from './CategoryIcon'
-import { iconQuery } from './fetch'
+import { iconSVGQuery } from './fetch'
 import { useQuery } from '@tanstack/react-query'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useField } from 'formik'
 import ScrollArea from 'ui/src/components/ScrollArea'
 import { useEffect, useRef } from 'react'
 
-{
-  /* <Suspense
-fallback={
-  <div>
-    <AiOutlineLoading3Quarters />
-  </div>
-}
-> */
-}
+const selected = tw`bg-slate-200 dark:bg-slate-700`
 
 function selectNearestLiElement(e: HTMLElement) {
   if (e.nodeName === 'LI') return e as HTMLLIElement
@@ -45,6 +37,7 @@ const CategoryStrategy = (props: any) => {
         target.setAttribute('aria-selected', 'true')
       }
     }
+
     ref.current?.addEventListener('click', fn)
 
     return () => {
@@ -56,20 +49,19 @@ const CategoryStrategy = (props: any) => {
 }
 
 const Category = (props: { label: string; value: string; path: string }) => (
-  <CategoryIconSVG css={{ fill: 'var(--category-color)' }} icon={props.path} />
+  <Hoverable asChild>
+    <CategoryIconSVG tw="cursor-pointer" path={props.path} />
+  </Hoverable>
 )
 
 export default function CategoryThemePicker(props: {
   names: { color: string; icon: string }
 }) {
   const icons = useQuery({
-    queryFn: iconQuery,
-
-    // queryFn: () => new Promise(() => {}),
-
+    queryFn: iconSVGQuery,
     queryKey: ['icons'],
     suspense: false,
-    cacheTime: 1000 * 60 * 60 * 24,
+    cacheTime: Infinity,
   })
 
   const [_, color] = useField(props.names.color)
@@ -103,10 +95,18 @@ export default function CategoryThemePicker(props: {
         tw="h-48 mt-2"
         css={{
           ['[data-select-root]']: tw`flex-wrap`,
-          ['svg']: {
-            ['--category-color']:
-              colors.find(e => e.name === color.value)?.color || color.value,
-          },
+          ['svg']: [
+            tw`rounded p-[3px]`,
+            {
+              ['--category-color']:
+                colors.find(e => e.name === color.value)?.color ||
+                color.value ||
+                colors[1].color,
+              fill: 'var(--category-color)',
+            },
+          ],
+
+          ['li']: [tw`rounded`, { '&[aria-selected="true"]': selected }],
         }}
       >
         <ScrollArea>
@@ -132,8 +132,8 @@ const Color = ({ color, label }: { label: string; color: string }) => {
   return (
     <Hoverable
       css={[
-        tw`rounded p-2`,
-        ctx.meta.value === label && tw`bg-slate-200 dark:bg-slate-700`,
+        tw`rounded p-2 cursor-pointer`,
+        ctx.meta.value === label && selected,
       ]}
     >
       <BsFillCircleFill color={color} size={16} />

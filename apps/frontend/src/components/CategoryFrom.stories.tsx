@@ -1,12 +1,17 @@
 import 'twin.macro'
-import CategoryForm from './CategoryForm'
+import React from 'react'
+import { CategoryBody, FormBody, FormFooter, FormRoot } from './_FormUtils'
+import Button from 'ui/src/components/Button'
 
-import { Root, Portal, Content } from '@radix-ui/react-dialog'
+function Component({ renderAs }: { renderAs: JSX.Element }) {
+  return <div tw="w-[400px]">{renderAs}</div>
+}
 
 export default {
   title: 'app/CategoryForm',
   parameters: {
     layout: 'centered',
+    query: {},
     a11y: {
       rules: [
         {
@@ -16,25 +21,49 @@ export default {
       ],
     },
   },
-  args: {
-    action: async values => console.log(values),
-  },
-  component: CategoryForm,
-  render: props => (
-    <Root open>
-      <Portal>
-        <div tw="fixed inset-0 z-50 bg-gray-950/20" />
-        <Content asChild>
-          <div tw="z-50 fixed inset-0 h-screen grid place-content-center">
-            <div tw="w-[400px]">
-              <CategoryForm {...props} />
-            </div>
-          </div>
-        </Content>
-      </Portal>
-    </Root>
-  ),
-} satisfies SB.Meta<typeof CategoryForm>
+  component: Component,
+} satisfies SB.Meta<typeof Component>
 
-export const Dark = {} satisfies SB.Story<typeof CategoryForm>
-export const Light = {} satisfies SB.Story<typeof CategoryForm>
+export const CreateCategory = {
+  args: {
+    renderAs: (
+      <FormRoot
+        action={async category => console.log({ category })}
+        asChild
+        required={['title']}
+      >
+        <div aria-label="Add new Entry">
+          <FormBody
+            form={<CategoryBody />}
+            footer={
+              <FormFooter
+                Button={p => <Button {...p}>Create New Category</Button>}
+              />
+            }
+          />
+        </div>
+      </FormRoot>
+    ),
+  },
+} satisfies SB.Story<typeof Component>
+
+export const UpdateCategory = {
+  args: {
+    renderAs: (
+      <FormRoot
+        action={async category => console.log({ category })}
+        asChild
+        required={['title']}
+      >
+        <div aria-label="Add new Entry">
+          <FormBody
+            form={<CategoryBody />}
+            footer={<FormFooter Button={p => <Button {...p}>Update</Button>} />}
+          />
+        </div>
+      </FormRoot>
+    ),
+  },
+}
+
+export const Light = {} satisfies SB.Story<typeof Component>

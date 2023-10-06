@@ -1,6 +1,6 @@
 import 'twin.macro'
 import React from 'react'
-import { Form, FormBody } from 'ui/src/components/forms/_Form'
+import { FormInterface, FormBody } from 'ui/src/components/forms/_Form'
 
 import TextField from 'ui/src/components/forms/TextField'
 import Status from 'ui/src/components/forms/Status'
@@ -15,9 +15,7 @@ export default function AddCategory() {
   const mutate = useMutation({
     mutationFn: create_category,
     onSettled: () => {
-      client.invalidateQueries([
-        create_category.shouldInvalidate[0],
-      ] satisfies queryKeys)
+      create_category.shouldInvalidate(client)
     },
   })
 

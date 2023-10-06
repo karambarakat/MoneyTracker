@@ -1,68 +1,86 @@
 import 'twin.macro'
 import React from 'react'
-import { PropsOf } from '@emotion/react'
 import Button from 'ui/src/components/Button'
-import Divider from 'ui/src/components/Divider'
-import SimpleTextField from 'ui/src/components/forms/SimpleTextField'
-import { Form } from 'ui/src/components/forms/_Form'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { Suspense, useState } from 'react'
-import Tooltip from 'ui/src/components/Tooltip'
-import { CategoryIconFromForm } from './category_utils/CategoryIcon'
-import FlexSize from 'ui/src/components/Transition/FlexSize'
-// import { ColorPicker, IconPicker } from './category_utils/ColorPicker'
-import CategoryThemePicker from './category_utils/CategoryThemePicker'
+import { CategoryInput, Mutation } from 'types/gql/graphql'
+import {
+  CategoryBody,
+  FormBody,
+  FormFloating,
+  FormFooter,
+  FormRoot,
+} from './_FormUtils'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { create_category, update_category } from '../api/mutations'
+import { FormInterface } from 'ui/src/components/forms/_Form'
+import Dialog from 'ui/src/components/Dialog'
 
-export default function CategoryForm(
-  props: Omit<PropsOf<typeof Form>, 'required'>,
-) {
-  const [open, setOpen] = useState(false)
+type Input = CategoryInput
+
+export function CreateCategoryForm() {
+  const client = useQueryClient()
+  const create = useMutation({
+    mutationFn: create_category,
+    onSettled: () => {
+      create_category.shouldInvalidate(client)
+    },
+  })
 
   return (
-    <div
-      aria-label="Add new Entry"
-      tw="p-4 rounded-md dark:bg-slate-800 dark:border-slate-500 bg-slate-100 border-slate-400 border"
+    <FormRoot
+      action={async category => create.mutateAsync({ category })}
+      then={(ctx, vals) => {
+        ctx.setStatus({ success: `"${vals.title}" was added` })
+      }}
+      values={undefined as unknown as Input}
+      asChild
+      required={['title']}
     >
-      <Form
-        required={['title', 'amount']}
-        values={{ color: 'Brown', icon: '214' }}
-        {...props}
+      <div aria-label="Add New Category">
+        <FormBody
+          form={<CategoryBody />}
+          footer={
+            <FormFooter
+              Button={props => <Button {...props}>Create New Category</Button>}
+            />
+          }
+        />
+      </div>
+    </FormRoot>
+  )
+}
+
+export function UpdateCategoryFormActionPortal({
+  action,
+  initialValues,
+}: {
+  initialValues: Input
+  action: FormInterface<
+    { category: CategoryInput },
+    Mutation['updateOneCategory']
+  >['action']
+}) {
+  return (
+    <Dialog.Floating>
+      <FormRoot
+        action={async category => action({ category })}
+        values={initialValues}
+        then={(ctx, vals) => {
+          vals === true && ctx.setStatus({ success: 'updated successfully' })
+        }}
+        asChild
+        required={['title']}
       >
-        <div tw="flex flex-col gap-2">
-          <div tw="flex gap-2 w-full">
-            <Tooltip content={<div>Change Icon</div>}>
-              <div
-                onClick={() => {
-                  setOpen(o => !o)
-                }}
-              >
-                <CategoryIconFromForm
-                  names={{ icon: 'icon', color: 'color' }}
-                />
-              </div>
-            </Tooltip>
-            <div tw="flex-1">
-              <SimpleTextField
-                tw="text-2xl"
-                name="title"
-                title="Category Title"
+        <div aria-label="Update Category">
+          <FormBody
+            form={<CategoryBody />}
+            footer={
+              <FormFooter
+                Button={props => <Button {...props}>Update</Button>}
               />
-            </div>
-          </div>
-          <FlexSize no_x>
-            {open && (
-              <CategoryThemePicker names={{ color: 'color', icon: 'icon' }} />
-            )}
-          </FlexSize>
-          <SimpleTextField name="note" />
-          <Divider tw="-mx-4 my-4 dark:bg-slate-500 bg-slate-400" />
-          <div tw="flex gap-3 justify-end">
-            <Button variant="filled" size="null" tw="py-1 px-2">
-              Create New Category
-            </Button>
-          </div>
+            }
+          />
         </div>
-      </Form>
-    </div>
+      </FormRoot>
+    </Dialog.Floating>
   )
 }

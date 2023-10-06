@@ -50,6 +50,8 @@ export class GraphqlError extends Error {
   constructor(payload: Array<object>) {
     super('GraphqlError')
 
+    console.log('GraphqlError: ', payload)
+
     this.errors = payload
   }
 }

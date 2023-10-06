@@ -13,7 +13,7 @@ import GlobalStyles from '../src/GlobalStyles'
 export const DarkModeDecorator: SB.Decorator = (Story, ctx) => {
   const sbMode = useDarkMode() ? 'dark' : 'light'
 
-  const paramMode = ctx.parameters.mode
+  const paramMode = ctx.parameters?.mode || 'dark'
 
   const mode = paramMode || sbMode
 

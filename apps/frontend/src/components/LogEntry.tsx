@@ -28,16 +28,7 @@ export default function LogEntry({ log }: { log: Entry }) {
   const delete_ = useMutation({
     mutationFn: delete_entry,
     onSettled: () => {
-      // client.invalidateQueries(getQueryKey('find_one_log', { id: log.id }))
-      // client.invalidateQueries(getQueryKey('find_log', undefined as any))'
-      client.invalidateQueries([
-        delete_entry.shouldInvalidate[0],
-        undefined as never, // pagination
-      ] satisfies queryKeys)
-      client.invalidateQueries([
-        delete_entry.shouldInvalidate[1],
-        { id: log.id },
-      ] satisfies queryKeys)
+      delete_entry.shouldInvalidate(client, undefined as any, { id: log.id })
     },
   })
 

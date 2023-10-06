@@ -10,9 +10,6 @@ import { queries } from '../api'
 import { Category } from 'types/gql/graphql'
 
 export default function CategoryEntry({ category }: { category: Category }) {
-  const [expand, setExpand] = useOneState()
-  const [edit, setEdit] = useState(false)
-
   const freshData_ = useQuery({
     queryFn: () => queries.find_one_category({ id: category.id }),
     queryKey: ['find_one_category', { id: category.id }] satisfies queryKeys,
@@ -26,13 +23,7 @@ export default function CategoryEntry({ category }: { category: Category }) {
   const delete_ = useMutation({
     mutationFn: delete_category,
     onSettled: () => {
-      client.invalidateQueries([
-        delete_category.shouldInvalidate[0],
-      ] satisfies queryKeys)
-      client.invalidateQueries([
-        delete_category.shouldInvalidate[1],
-        { id: category.id },
-      ] satisfies queryKeys)
+      delete_category.shouldInvalidate(client, { id: category.id })
     },
   })
 
@@ -45,36 +36,19 @@ export default function CategoryEntry({ category }: { category: Category }) {
       <div>{data.title}</div>
       <div>{data.icon || 'no icon'}</div>
       <div>{data.color || 'no color'}</div>
-      {expand ? (
-        <button onClick={() => setExpand(false)}>show less</button>
-      ) : (
-        <button onClick={() => setExpand(true)}>expand</button>
-      )}
-      {expand && (
-        <div>
-          {edit ? (
-            <>
-              <button tw="mr-3" onClick={() => setEdit(false)}>
-                close editing
-              </button>
-              <EditCategory category={data} />
-            </>
-          ) : (
-            <button tw="mr-3" onClick={() => setEdit(true)}>
-              click to edit
-            </button>
-          )}
-          <button
-            disabled={delete_.status !== 'idle'}
-            css={
-              delete_.status !== 'idle' && tw`text-gray-300 pointer-events-none`
-            }
-            onClick={() => delete_.mutate({ id: data.id })}
-          >
-            click to delete
-          </button>
-        </div>
-      )}
+      <div>
+        <button tw="mr-3">click to edit</button>
+
+        <button
+          disabled={delete_.status !== 'idle'}
+          css={
+            delete_.status !== 'idle' && tw`text-gray-300 pointer-events-none`
+          }
+          onClick={() => delete_.mutate({ id: data.id })}
+        >
+          click to delete
+        </button>
+      </div>
     </div>
   )
 }

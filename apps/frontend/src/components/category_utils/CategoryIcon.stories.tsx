@@ -4,7 +4,7 @@ import * as c from './CategoryIcon'
 import 'twin.macro'
 import { within } from '@storybook/testing-library'
 import { useQueryClient } from '@tanstack/react-query'
-import { Form } from 'ui/src/components/forms/_Form'
+import { FormInterface } from 'ui/src/components/forms/_Form'
 import tw from 'twin.macro'
 
 export default {
@@ -27,13 +27,13 @@ export const SvgDefault = {
 export const SvgCustom = {
   args: {
     color: 'Magenta',
-    icon: icons.split('\n')[3],
+    path: icons.split('\n')[3],
   },
 } satisfies SB.Story<typeof c.CategoryIconSVG>
 
 export const Loading = {
   // I cant mimic this with MSW right the rest endpoint has to be external
-  render: p => <c.CategoryIconSVG tw="animate-pulse duration-100" {...p} />,
+  render: p => <c.CategoryIconSVGLoading {...p} />,
 } satisfies SB.Story<typeof c.CategoryIconSVG>
 
 export const InForm = {

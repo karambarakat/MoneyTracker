@@ -12,9 +12,27 @@ import type { Decorator } from '@storybook/react'
 
 fakerEN.seed(123)
 
-initialize()
+initialize({
+  onUnhandledRequest: ({ method, url }) => {
+    if (url.pathname.startsWith('/node_modules')) return
+    if (url.pathname.startsWith('/.storybook')) return
+    if (url.pathname.startsWith('/src')) return
+    if (url.pathname.startsWith('/@fs/')) return
+
+    console.warn(`Unhandled ${method} request to ${url}`)
+  },
+})
 
 const preview: Preview = {
+  decorators: [
+    // @ts-expect-error ts(2322)
+    mswDecorator as Decorator,
+    DarkModeDecorator,
+    FormDecorator,
+    TwDecoration,
+    ...frontend_decorator,
+  ] satisfies SB.Decorator[] as Decorator[],
+
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
@@ -74,15 +92,6 @@ const preview: Preview = {
       stylePreview: true,
     } satisfies Partial<DarkModeStore>,
   },
-
-  decorators: [
-    // @ts-expect-error ts(2322)
-    mswDecorator as Decorator,
-    DarkModeDecorator,
-    FormDecorator,
-    TwDecoration,
-    ...frontend_decorator,
-  ] satisfies SB.Decorator[] as Decorator[],
 }
 
 export default preview

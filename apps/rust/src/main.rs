@@ -15,7 +15,7 @@ async fn main() -> std::io::Result<()> {
     env::load_env();
 
     let port = std::env::var("PORT")
-        .unwrap_or("808".to_string())
+        .unwrap_or("9999".to_string())
         .parse::<u16>()
         .expect("port is not a number");
 
@@ -35,7 +35,8 @@ async fn main() -> std::io::Result<()> {
         .finish();
 
         let cors = actix_cors::Cors::default()
-            .allowed_origin(std::env::var("FE_URL").unwrap().as_str())
+            .allow_any_origin()
+            // .allowed_origin(std::env::var("FE_URL").unwrap().as_str())
             .allow_any_method()
             .allow_any_header()
             .expose_headers(vec!["X-Token"])

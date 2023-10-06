@@ -1,13 +1,16 @@
 /// <reference path="../../types/SB.d.ts" />
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import MetaContext from '../routes/_MetaContext'
 import { BrowserRouter, Router } from 'react-router-dom'
 import Loading from '../routes/_Loading'
 import ErrorComponent from '../routes/_Error'
-import { QueryClientProvider, useQueryClient } from '@tanstack/react-query'
-import { queryClient } from '../api/client'
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export function ProvidersDeprecated({ Story }: { Story: () => JSX.Element }) {
@@ -35,28 +38,55 @@ export function ProvidersDeprecated({ Story }: { Story: () => JSX.Element }) {
 // import {  } from '@storybook/react'
 // import {} from 'SB'
 
-export const frontend_decorator: SB.Decorator[] = [
-  (Story, ctx) => {
-    return (
-      <>
-        <QueryClientProvider client={queryClient}>
-          {
-            Story() // prettier 😠
-          }
-          <div tabIndex={-1}>
-            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-          </div>
-        </QueryClientProvider>
-      </>
-    )
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      retry: false,
+      useErrorBoundary: false,
+    },
   },
+})
+
+export const frontend_decorator: SB.Decorator[] = [
+  // (Story, ctx) => {
+  //   if (!ctx.parameters?.query) {
+  //     return Story()
+  //   }
+
+  //   const client = useQueryClient()
+
+  //   client.clear()
+  //   ctx.parameters.query.data?.forEach(({ data, key }) => {
+  //     client.setQueryData(key, data)
+  //   })
+
+  //   return <Story />
+  // },
 
   (Story, ctx) => {
-    if (ctx.parameters?.query) {
-      useQueryClient().clear()
-      return <Story />
-    }
+    const CleanUp = useMemo(() => {
+      return () => {
+        const client = useQueryClient()
 
-    return <Story />
+        client.clear()
+        ctx.parameters?.query?.data?.forEach(({ data, key }) => {
+          client.setQueryData(key, data)
+        })
+
+        return <></>
+      }
+    }, [ctx.parameters?.query])
+
+    if (ctx.parameters?.query) {
+      return (
+        <QueryClientProvider client={queryClient}>
+          {Story()}
+          <CleanUp />
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      )
+    }
+    return Story() // prettier 😠
   },
 ]
