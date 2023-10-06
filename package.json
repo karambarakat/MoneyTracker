@@ -4,6 +4,7 @@
   "description": "Easy to use money wallet",
   "private": true,
   "scripts": {
+    "postinstall": "playwright install --with-deps",
     "db": "docker compose up -d db",
     "prepare": "husky install",
     "dev": "cross-env RUST_ENV=dev cargo run & pnpm -F ui -F frontend --parallel dev",
@@ -45,6 +46,7 @@
     }
   },
   "dependencies": {
+    "playwright": "^1.35.1",
     "cross-env": "^7.0.3"
   }
 }

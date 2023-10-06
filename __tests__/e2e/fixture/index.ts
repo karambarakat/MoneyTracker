@@ -1,50 +1,51 @@
 import { Page, test as base, expect } from '@playwright/test'
+import { AuthUserInterface, UserInterface, createUser } from './pattern'
+import { BACKEND, HELPER, HELPER_CLEAN_USER } from '../constants'
 
 interface Extensions {
-  authenticated: { username: string; password: string; email: string }
-  withSomeData: object
-}
-
-async function createUser(
-  page: Page,
-  info: { username: string; password: string; email: string },
-) {
-  await page.goto('/')
-  await page.getByRole('link', { name: 'Create an account' }).click()
-  await page.getByLabel('Display Name').fill(info.username)
-  await page.getByLabel('Email').fill(info.email)
-  await page.getByLabel('Password', { exact: true }).fill(info.password)
-  await page.getByLabel('Confirm The Password').fill(info.password)
-  await page.getByRole('button', { name: 'Register' }).press('Enter')
+  unAuth: { user: string }
+  auth: { user: AuthUserInterface; token: string }
 }
 
 export const test = base.extend<Extensions>({
-  // not used yet
-  authenticated: async ({ browser, baseURL }, use, workerInfo) => {
-    const username = 'user-e' + workerInfo.workerIndex
-    const email = 'user-e' + workerInfo.workerIndex + '@gmail.com'
-    const password = 'verysecure'
+  unAuth: [
+    async ({}, use, workerInfo) => {
+      const user = 'user-' + workerInfo.workerIndex
 
+      await use({ user })
+    },
+    { scope: 'worker' as never },
+  ],
+
+  auth: async ({ browser, request, context }, use, workerInfo) => {
+    const unAuthUser: UserInterface = {
+      displayName: 'user-e' + workerInfo.workerIndex,
+      email: 'user-e' + workerInfo.workerIndex + '@gmail.com',
+      password: 'verysecure',
+    }
     const page = await browser.newPage()
-    await createUser(page, { username, password, email })
+
+    let user = undefined as any
+    let token = undefined as any
+
+    context.route(BACKEND + '/auth/local/register', async route => {
+      const response = await route.fetch()
+      const json = await response.json()
+      user = json
+      token = response.headers()['X-Token']
+
+      route.fulfill({ response, json })
+    })
+
+    await createUser(page, unAuthUser)
+
+    expect(user).toBeDefined()
+    expect(token).toBeDefined
+
     await page.close()
 
-    await use({ username, password, email })
-  },
-  withSomeData: async ({ request, context }, use, workerInfo) => {
-    // data to commit
-    const data1 = { title: 'new title' }
+    await use({ user, token })
 
-    // commit data
-    const userPage = await context.newPage()
-    await userPage.close()
-
-    // pass data to the test
-    await use({ data1 })
-
-    // clear after test
-    await request.get('http://localhost:4202/removeDataForCurrentUser')
+    await request.get(HELPER_CLEAN_USER(user.email))
   },
 })
-
-export { expect }

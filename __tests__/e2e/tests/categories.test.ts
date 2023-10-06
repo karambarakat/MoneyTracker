@@ -1,7 +1,9 @@
-import { test, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
-test.skip('main', async ({ page, context }) => {
-  await page.goto('http://localhost:5333/categories')
+import { test } from '../fixture'
+
+test('main', async ({ page, context, auth }) => {
+  await page.goto('/categories')
   await page.getByLabel('Title').click()
   await page.getByLabel('Title').fill('new cat')
   await page.getByRole('button', { name: 'Submit' }).click()

@@ -28,10 +28,6 @@ jobs:
         shell: sh
         run: pnpm install -g concurrently wait-on turbo@latest
 
-      - name: playwright dependencies
-        shell: sh
-        run: npx playwright install && npx playwright install-deps
-
       - name: turbo
         run: turbo test build typecheck
         shell: sh

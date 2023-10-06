@@ -42,9 +42,13 @@ function Entries() {
   )
 }
 
-function CategoryEntry({ category }: { category: CategoryFragment }) {
+function CategoryEntry({
+  category: { id, ...category },
+}: {
+  category: CategoryFragment
+}) {
   const { hovered, ref } = useHover()
-  const { id, ...pureValues } = category
+  // const { id, ...pureValues } = category
 
   const [editPortal, setEditPortal] = useState(false)
 
@@ -72,17 +76,21 @@ function CategoryEntry({ category }: { category: CategoryFragment }) {
         icon={category.icon || undefined}
         color={category.color as never}
       />
+
       <TextEllipsis tw="flex-1">{category.title}</TextEllipsis>
+
       {(delete_.isLoading || update.isLoading) && (
         <span>
           <Spinning />
         </span>
       )}
+
       {delete_.error && (
         <Tooltip content={'error deleting'}>
           <AiFillWarning tw="fill-red-400" />
         </Tooltip>
       )}
+
       {update.error && (
         <Tooltip content={'error updating'}>
           <AiFillWarning tw="fill-red-400" />
@@ -94,7 +102,7 @@ function CategoryEntry({ category }: { category: CategoryFragment }) {
         onOpenChange={setEditPortal}
         content={
           <UpdateCategoryFormActionPortal
-            initialValues={pureValues}
+            initialValues={category}
             action={({ category }) => update.mutateAsync({ category })}
           />
         }
