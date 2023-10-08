@@ -8,25 +8,31 @@ import {
 } from '@radix-ui/react-tooltip'
 import { WithChildren } from '../utils/WithChildren'
 import { css } from 'twin.macro'
+import { useId } from '@mantine/hooks'
+import { Slot } from '@radix-ui/react-slot'
 
 interface Props {
-  content: JSX.Element | string
+  content: string
 }
 
 export default function Tooltip(props: WithChildren<Props>) {
+  // const Component = Slot
   return (
     <Provider>
       <Root>
         <Trigger asChild>
-          <div>{props.children}</div>
+          <Slot role="tooltip" aria-label={props.content}>
+            {props.children}
+          </Slot>
         </Trigger>
         <Portal>
           <Content
             css={styles}
             tw="text-sm dark:bg-gray-600 bg-gray-800 text-white rounded px-2 py-1 shadow-sm select-none z-[9999]"
             sideOffset={10}
+            asChild
           >
-            {props.content}
+            <span>{props.content}</span>
           </Content>
         </Portal>
       </Root>

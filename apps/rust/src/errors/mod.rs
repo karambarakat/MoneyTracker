@@ -3,23 +3,30 @@ use actix_web::{
     http::{header::ContentType, StatusCode},
     HttpRequest, HttpResponse, Responder, ResponseError,
 };
+use async_graphql::ErrorExtensions;
 use backend_macro::HttpError;
 
 use std::{collections::HashMap, fmt::Debug};
+
+use convert_case::{Case, Casing};
 
 #[derive(Debug, derive_more::Display, thiserror::Error, serde::Serialize, ts_rs::TS, HttpError)]
 #[ts(export)]
 pub enum MyErrors {
     #[display(fmt = "email already exists: {0}", _0)]
-    #[http_error(status = 409, validate)]
+    #[http_error(status = 409)]
     EmailAlreadyExists(String),
+
+    #[display(fmt = "this category has some entries associated with it")]
+    #[http_error(status = 400)]
+    AssociatedEntriesExist,
 
     #[display(fmt = "email or password is incorrect")]
     #[http_error(status = 401)]
     EmailOrPasswordIncorrect,
 
     #[display(fmt = "validation error: {0}", _0)]
-    #[http_error(status = 400, validate)]
+    #[http_error(status = 400)]
     ValidationError(String),
 
     #[display(fmt = "not found")]
@@ -38,7 +45,7 @@ pub enum MyErrors {
 
     #[display(fmt = "internal error")]
     #[http_error(status = 500)]
-    #[serde(rename = "InternalServerError")]
+    #[serde(rename = "InternalError")]
     #[allow(dead_code)]
     ForTsRs,
 
@@ -48,7 +55,46 @@ pub enum MyErrors {
     BadRequest(String),
 }
 
+impl async_graphql::ErrorExtensions for MyErrors {
+    fn extend(&self) -> async_graphql::Error {
+        let error = async_graphql::Error::new(format!("{}", self.to_string()))
+            .extend_with(|_, e| {
+                if (self.user_facing()) {
+                    e.set("custom", true)
+                }
+            })
+            .extend_with(|_, e| e.set("status", self.status_code().as_str()))
+            .extend_with(|_, e| e.set("code", self.error_code().to_case(Case::Pascal)))
+            .extend_with(|_, e| {
+                if let Some(fields) = self.error_fields() {
+                    let mut bingo = async_graphql::indexmap::IndexMap::new();
+
+                    for (key, value) in fields {
+                        bingo.insert(
+                            async_graphql::Name::new(key),
+                            async_graphql::Value::String(value),
+                        );
+                    }
+
+                    let bingo = async_graphql::Value::Object(bingo);
+
+                    e.set("fields", bingo);
+                }
+            });
+
+        error
+    }
+}
+
 impl MyErrors {
+    fn user_facing(&self) -> bool {
+        match self {
+            Self::BadRequest(_) => false,
+            Self::ForTsRs => false,
+            Self::InternalError(_) => false,
+            _ => true,
+        }
+    }
     /// used forms where the body of the request has invalid fields
     fn error_fields(&self) -> Option<HashMap<String, String>> {
         match self {
@@ -71,14 +117,8 @@ impl MyErrors {
             _ => None,
         }
     }
-}
 
-impl ResponseError for MyErrors {
-    fn error_response(&self) -> HttpResponse {
-        if let Self::InternalError(reason) = self {
-            println!("internal error: {:?}", reason);
-        }
-
+    fn more_info(&self) -> serde_json::Map<String, serde_json::Value> {
         let mut info: HashMap<String, serde_json::Value> = HashMap::new();
 
         if let Some(reason) = self.error_reason() {
@@ -92,9 +132,17 @@ impl ResponseError for MyErrors {
             );
         }
 
-        let info = info.into_iter().collect::<serde_json::Map<_, _>>();
+        info.into_iter().collect::<serde_json::Map<_, _>>()
+    }
+}
 
-        use convert_case::{Case, Casing};
+impl ResponseError for MyErrors {
+    fn error_response(&self) -> HttpResponse {
+        if let Self::InternalError(reason) = self {
+            println!("internal error: {:?}", reason);
+        }
+
+        let info = self.more_info();
 
         let body = serde_json::json!({
             "data": null,

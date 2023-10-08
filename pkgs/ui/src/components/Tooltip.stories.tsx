@@ -9,7 +9,7 @@ export default {
     layout: 'centered',
   },
   args: {
-    content: <span>hover me</span>,
+    content: 'hover me',
     children: <Plus />,
   },
   component,

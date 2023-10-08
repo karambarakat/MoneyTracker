@@ -1,3 +1,5 @@
+// auto generate by export_bindings do not edit directly! 
+
 export type { BasicToken } from './bindings/BasicToken';
 export type { Jwt_ } from './bindings/Jwt_';
 export type { MyErrors } from './bindings/MyErrors';

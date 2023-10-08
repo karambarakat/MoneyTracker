@@ -221,12 +221,8 @@ export async function handler(res: Response) {
   }
 
   const token_ = res.headers.get('X-Token')
-  token_
-    ? token.setItem(token_)
-    : console.warn(
-        'api should always return token on successful requests',
-        res.headers.forEach(console.warn),
-      )
+  token_ && token.setItem(token_)
+
   const json = await res.json()
 
   if (String(res.status).startsWith('4') && 'error' in json) {
@@ -238,10 +234,17 @@ export async function handler(res: Response) {
   }
 
   if ('data' in json) {
+    token_ ||
+      console.warn(
+        'api should always return token on successful requests',
+        res.headers.forEach(console.warn),
+      )
+
     return json.data
   }
 
-  throw new Error('Response is not JSON')
+  console.error('Response is not data JSON: ', { json })
+  throw new Error(`Response is not data JSON: ${Object.keys(json)}`)
 }
 
 export function gql(query: string, variables?: object) {

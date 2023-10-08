@@ -1,12 +1,27 @@
 import tw from 'twin.macro'
-import React from 'react'
+import React, { useState } from 'react'
 import Dialog from 'ui/src/components/Dialog'
 import { setTitle } from './_MetaContext'
 import { AiFillPlusCircle } from 'react-icons/ai'
 import { CreateEntryFormPortal } from '../components/EntryForm'
+import { useQuery } from '@tanstack/react-query'
+import { queries, queryKeys } from '../api'
+import { PaginationRequest } from 'types/gql/graphql'
 
 export default function Index_Page_Component() {
   setTitle('Home')
+
+  const [page, setPage] = useState<PaginationRequest>({
+    page: 1,
+    pageSize: 10,
+  })
+
+  const data = useQuery({
+    queryFn: ({ queryKey: [fn, ...args] }) => queries[fn](...args),
+    queryKey: ['find_log', page] satisfies queryKeys,
+  })
+
+  data.data?.data[0]?.amount
 
   return (
     <div>

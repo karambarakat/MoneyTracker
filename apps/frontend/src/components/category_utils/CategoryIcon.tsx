@@ -65,25 +65,18 @@ export function CategoryIconSVGLoading(p: any) {
   )
 }
 
-export function CategoryIcon({
-  icon,
-  color,
-  ...p
-}: {
-  icon?: string
-  color?: colorNames
-}) {
-  const res = useIconPath(icon)
+export function CategoryIcon(props: { icon?: string; color?: colorNames }) {
+  const res = useIconPath(props.icon)
 
   if (res instanceof Error || res.status === 'error') {
-    return <CategoryIconSVG {...p} />
+    return <CategoryIconSVG {...props} />
   }
 
   if (res.status === 'loading') {
-    return <CategoryIconSVGLoading {...p} />
+    return <CategoryIconSVGLoading {...props} />
   }
 
-  return <CategoryIconSVG color={color} path={res.data} {...p} />
+  return <CategoryIconSVG color={props.color} path={res.data} {...props} />
 }
 
 export function CategoryIconFromForm({
@@ -130,20 +123,20 @@ export function CategoryIconFromFormId({ name, ...props }: { name: string }) {
   )
 }
 
-// export function CategoryIconFromId({ id, ...props }: { id?: string }) {
-//   const category = useOneCategory(id)
+export function CategoryIconFromId({ id, ...props }: { id?: string }) {
+  const category = useOneCategory(id)
 
-//   if (!id) return <CategoryIconSVG {...props} />
+  if (!id) return <CategoryIconSVG {...props} />
 
-//   if (category instanceof Error) return <CategoryIconSVG {...props} />
+  if (category instanceof Error) return <CategoryIconSVG {...props} />
 
-//   return category ? (
-//     <CategoryIcon
-//       icon={category.icon as string}
-//       color={category.color as colorNames}
-//       {...props}
-//     />
-//   ) : (
-//     <CategoryIconSVG {...props} />
-//   )
-// }
+  return category ? (
+    <CategoryIcon
+      icon={category.icon as string}
+      color={category.color as colorNames}
+      {...props}
+    />
+  ) : (
+    <CategoryIconSVG {...props} />
+  )
+}

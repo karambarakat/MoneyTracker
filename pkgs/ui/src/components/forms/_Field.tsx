@@ -192,9 +192,10 @@ export function Title() {
   )
 }
 
-type requiredInput = {
+export type requiredInput = {
   required?: boolean
   value: string
+  onChange?: React.ChangeEventHandler
   children?: never
 }
 
@@ -208,13 +209,15 @@ export function Input({ children, ...p }: WithComponent<requiredInput>) {
     meta_ext: { req },
   } = useFieldContext()
 
+  props.onChange
+
   return (
     <Slot>
       <Component
         tw="w-full bg-transparent pb-1 focus-visible:outline-none"
-        {...p}
         required={req}
         {...props}
+        {...p}
         value={props.value ?? ''}
         children={undefined}
       />

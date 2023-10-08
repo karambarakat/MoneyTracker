@@ -1,6 +1,6 @@
 use async_graphql::*;
 
-use crate::modules::category::Category;
+use crate::{errors::MyErrors, modules::category::Category};
 
 #[derive(Default)]
 pub struct CategoryQuery {}
@@ -160,7 +160,7 @@ impl CategoryMutation {
 
         let mut ids = Vec::new();
 
-        for category in categories {
+        for CategoryInput { title, color, icon } in categories {
             let res = sqlx::query(
                 r#"
                 insert into category (created_by, title, color, icon) 
@@ -169,9 +169,9 @@ impl CategoryMutation {
                 "#,
             )
             .bind(user.id.parse::<i32>().unwrap())
-            .bind(category.title)
-            .bind(category.color)
-            .bind(category.icon)
+            .bind(title)
+            .bind(color)
+            .bind(icon)
             .fetch_one(pool)
             .await
             .unwrap();
@@ -208,7 +208,7 @@ impl CategoryMutation {
         res
     }
 
-    async fn delete_one_category(&self, ctx: &Context<'_>, id: ID) -> bool {
+    async fn delete_one_category(&self, ctx: &Context<'_>, id: ID) -> Result<bool, Error> {
         let pool = ctx
             .data::<sqlx::Pool<sqlx::Postgres>>()
             .expect("app configured incorrectly");
@@ -227,10 +227,24 @@ impl CategoryMutation {
         .bind(id)
         .bind(user.id.parse::<i32>().unwrap())
         .execute(pool)
-        .await
-        .unwrap();
+        .await;
 
-        res.rows_affected() == 1
+        let res = match res {
+            Ok(res) => res,
+            Err(sqlx::Error::Database(err)) => match err.kind() {
+                sqlx::error::ErrorKind::ForeignKeyViolation => {
+                    // but I don't know what to do with this situation
+                    // my first instinct is to set the category foreign key to null
+                    // but I'm afraid of a messy code
+                    // for now I have to return error
+                    return Err(MyErrors::AssociatedEntriesExist.extend());
+                }
+                _ => panic!("{}", err),
+            },
+            Err(err) => panic!("{}", err),
+        };
+
+        Ok(res.rows_affected() == 1)
     }
 
     async fn delete_many_categories(&self, ctx: &Context<'_>, ids: Vec<ID>) -> u64 {

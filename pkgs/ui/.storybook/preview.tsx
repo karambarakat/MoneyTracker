@@ -14,6 +14,12 @@ fakerEN.seed(123)
 
 initialize({
   onUnhandledRequest: ({ method, url }) => {
+    if (
+      url.pathname.includes(
+        '/virtual:/@storybook/builder-vite/storybook-stories',
+      )
+    )
+      return
     if (url.pathname.startsWith('/node_modules')) return
     if (url.pathname.startsWith('/.storybook')) return
     if (url.pathname.startsWith('/src')) return

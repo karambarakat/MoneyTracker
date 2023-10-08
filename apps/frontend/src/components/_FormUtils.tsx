@@ -1,5 +1,6 @@
-import React, { Children, useState } from 'react'
+import React from 'react'
 import 'twin.macro'
+import { useState } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import Divider from 'ui/src/components/Divider'
 import { Form, FormInterface } from 'ui/src/components/forms/_Form'
@@ -23,8 +24,9 @@ export function CategoryBody() {
   return (
     <div>
       <div tw="flex gap-2 w-full">
-        <Tooltip content={<div>Change Icon</div>}>
+        <Tooltip content="Change Icon">
           <div
+            aria-label="Change Icon"
             tw="cursor-pointer"
             onClick={() => {
               setOpen(o => !o)
@@ -39,9 +41,7 @@ export function CategoryBody() {
       </div>
       <FlexSize no_x>
         {open && (
-          <div tw="mt-2">
-            <CategoryThemePicker names={{ color: 'color', icon: 'icon' }} />
-          </div>
+          <CategoryThemePicker names={{ color: 'color', icon: 'icon' }} />
         )}
       </FlexSize>
     </div>
@@ -54,7 +54,7 @@ export function EntryBody() {
   return (
     <div>
       <div tw="flex gap-2 w-full">
-        <Tooltip content={<div>Change Category</div>}>
+        <Tooltip content="Change Category">
           <div
             tw="cursor-pointer"
             onClick={() => {

@@ -35,16 +35,13 @@ function App() {
                   <Route element={<Auth.Protected />}>
                     <Route element={<AppShellLayout />}>
                       <Route index element={<Index />} />
-                      <Route path="home" element={<Index />} />
-                      {/* <Route index element={() => <>hello</>} /> */}
                       <Route path="categories" element={<Categories />} />
-
                       <Route path="profile" element={<Profile />} />
-                      {/* <Route path="charts" element={<Charts />} /> */}
                     </Route>
                   </Route>
                   <Route path="auth/*" element={<Auth.Authentication />} />
 
+                  {/* <Route path="charts" element={<Charts />} /> */}
                   {/* <Route path="about" element={<About />} /> */}
                   {/* <Route path="export" element={<Export />} /> */}
                   {/* <Route path="setting" element={<Setting />} /> */}
@@ -62,7 +59,7 @@ function App() {
                     path="changePassword"
                     element={<Profile_ChangePassword />}
                   />
-                </Route> */}
+                  </Route> */}
 
                   {/* <Route path="/auth" element={<Auth />} /> */}
                   {/* <Route

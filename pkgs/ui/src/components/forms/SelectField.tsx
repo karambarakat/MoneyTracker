@@ -8,31 +8,30 @@ import { useId } from '@mantine/hooks'
  * for the purposes of accessability, and form
  * submission there props are required for every strategy
  */
-type SubProps = {
+type StrategySubProps = {
   label: string
-  value: string | number | undefined
+  value: string | undefined
 }
 
-type Strategy = (props: Props<SubProps>) => JSX.Element
+export type Strategy = (props: StrategyProps) => JSX.Element
 
-export type SubComponent<subProps extends SubProps = SubProps> = (
-  props: subProps,
-) => JSX.Element
+export type SubComponent<subProps extends StrategySubProps = StrategySubProps> =
+  (props: subProps) => JSX.Element
 
-type Props<subProps extends SubProps> = {
+type StrategyProps<subProps extends StrategySubProps = StrategySubProps> = {
   multiSelect?: boolean
   data: subProps[]
   SubComponent: SubComponent<subProps>
 }
 
-function SelectField<subProps extends SubProps>({
+function SelectField<subProps extends StrategySubProps>({
   Strategy,
   SubComponent,
   multiSelect,
   data,
   ...formProps
 }: Omit<PropsOf<typeof FieldRoot>, 'children'> &
-  Props<subProps> & {
+  StrategyProps<subProps> & {
     Strategy?: Strategy
   }) {
   const Strategy_ = Strategy || ListBoxStrategy
@@ -48,7 +47,9 @@ function SelectField<subProps extends SubProps>({
   )
 }
 
-function ListBoxStrategy<subProps extends SubProps>(props: Props<subProps>) {
+function ListBoxStrategy<subProps extends StrategySubProps>(
+  props: StrategyProps<subProps>,
+) {
   const ctx = useFieldContext()
 
   return (
@@ -80,13 +81,13 @@ function ListBoxStrategy<subProps extends SubProps>(props: Props<subProps>) {
 
 // react component that I can pass a ref to
 const ListBoxStrategyNoReactivity = ({ label }: { label: string }) =>
-  React.forwardRef<HTMLUListElement, Props<SubProps>>((props, ref) => {
+  React.forwardRef<HTMLUListElement, StrategyProps>((props, ref) => {
     return (
       <ul
         aria-label={label}
         role="listbox"
         aria-multiselectable={props.multiSelect}
-        tabIndex={5}
+        tabIndex={0}
         data-select-root
         ref={ref}
       >

@@ -37,6 +37,7 @@ export function CreateEntryFormPortal() {
                   Rest={() => (
                     <Dialog.Close asChild>
                       <Button
+                        type="button"
                         variant="subtle"
                         color="slate"
                         size="null"

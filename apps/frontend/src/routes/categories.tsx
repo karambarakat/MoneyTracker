@@ -79,22 +79,17 @@ function CategoryEntry({
 
       <TextEllipsis tw="flex-1">{category.title}</TextEllipsis>
 
-      {(delete_.isLoading || update.isLoading) && (
-        <span>
-          <Spinning />
-        </span>
-      )}
-
-      {delete_.error && (
-        <Tooltip content={'error deleting'}>
-          <AiFillWarning tw="fill-red-400" />
-        </Tooltip>
-      )}
-
-      {update.error && (
-        <Tooltip content={'error updating'}>
-          <AiFillWarning tw="fill-red-400" />
-        </Tooltip>
+      {hovered && (
+        <Hoverable asChild>
+          <button
+            onClick={() => delete_.mutate()}
+            type="button"
+            aria-label="delete category"
+            tw="cursor-pointer rounded p-1"
+          >
+            <AiFillDelete tw="fill-red-800 dark:fill-red-400" />
+          </button>
+        </Hoverable>
       )}
 
       <Dialog
@@ -124,17 +119,22 @@ function CategoryEntry({
         }
       ></Dialog>
 
-      {hovered && (
-        <Hoverable asChild>
-          <button
-            onClick={() => delete_.mutate()}
-            type="button"
-            aria-label="delete category"
-            tw="cursor-pointer rounded p-1"
-          >
-            <AiFillDelete tw="fill-red-800 dark:fill-red-400" />
-          </button>
-        </Hoverable>
+      {(delete_.isLoading || update.isLoading) && (
+        <span>
+          <Spinning />
+        </span>
+      )}
+
+      {delete_.error && (
+        <Tooltip content={'error deleting'}>
+          <AiFillWarning tw="fill-red-400" />
+        </Tooltip>
+      )}
+
+      {update.error && (
+        <Tooltip content={'error updating'}>
+          <AiFillWarning tw="fill-red-400" />
+        </Tooltip>
       )}
     </div>
   )

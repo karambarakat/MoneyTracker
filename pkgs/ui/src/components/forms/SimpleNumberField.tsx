@@ -1,6 +1,6 @@
 import 'twin.macro'
 import { capitalCase } from 'change-case'
-import { FieldRoot, Input } from './_Field'
+import { FieldRoot, Input, requiredInput, useFieldContext } from './_Field'
 
 interface Props {
   /**
@@ -25,11 +25,38 @@ export default function SimpleNumberField(props: Props) {
       name={props.name}
       title={props.title}
     >
-      <Input>
-        {p => (
-          <input placeholder={props.title || capitalCase(props.name)} {...p} />
-        )}
-      </Input>
+      <Input children={Inner} />
     </FieldRoot>
+  )
+}
+
+function Inner(passed: requiredInput) {
+  const { props, meta_ext, actions } = useFieldContext()
+
+  meta_ext.title
+
+  return (
+    <input
+      {...passed}
+      {...props}
+      value={props.value || ''}
+      required={meta_ext.req}
+      placeholder={meta_ext.title}
+      onChange={event => {
+        const value = event.target.value
+
+        const valueNum = Number(value)
+
+        const inValid = isNaN(valueNum)
+
+        if (inValid) {
+          actions.setError('is not valid number')
+          actions.setValue(value)
+          return
+        }
+
+        actions.setValue(valueNum)
+      }}
+    />
   )
 }
