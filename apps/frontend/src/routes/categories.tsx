@@ -17,6 +17,7 @@ import {
   CreateCategoryForm,
   UpdateCategoryFormActionPortal,
 } from '../components/CategoryForm'
+import { iconBlue, iconRed } from '../utils/tw'
 
 function Entries() {
   const entries = useQuery({
@@ -79,6 +80,12 @@ function CategoryEntry({
 
       <TextEllipsis tw="flex-1">{category.title}</TextEllipsis>
 
+      {(delete_.isLoading || update.isLoading) && (
+        <span>
+          <Spinning />
+        </span>
+      )}
+
       {hovered && (
         <Hoverable asChild>
           <button
@@ -87,7 +94,7 @@ function CategoryEntry({
             aria-label="delete category"
             tw="cursor-pointer rounded p-1"
           >
-            <AiFillDelete tw="fill-red-800 dark:fill-red-400" />
+            <AiFillDelete css={iconRed} />
           </button>
         </Hoverable>
       )}
@@ -111,19 +118,13 @@ function CategoryEntry({
                   aria-label="edit category"
                   tw="cursor-pointer rounded p-1"
                 >
-                  <AiTwotoneEdit tw="fill-blue-800 dark:fill-blue-400" />
+                  <AiTwotoneEdit css={iconBlue} />
                 </button>
               </Hoverable>
             )}
           </span>
         }
       ></Dialog>
-
-      {(delete_.isLoading || update.isLoading) && (
-        <span>
-          <Spinning />
-        </span>
-      )}
 
       {delete_.error && (
         <Tooltip content={'error deleting'}>

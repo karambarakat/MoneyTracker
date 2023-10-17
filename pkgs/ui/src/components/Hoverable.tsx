@@ -11,3 +11,13 @@ export default function Hoverable({ asChild, ...props }: WithAsChild) {
     />
   )
 }
+
+export function HoverableLighter({ asChild, ...props }: WithAsChild) {
+  const Component = asChild ? Slot : 'div'
+  return (
+    <Component
+      tw="hover:bg-slate-100 active:bg-slate-200 dark:hover:bg-[#2d3a4b] dark:active:bg-[#2a3748]"
+      {...props}
+    />
+  )
+}

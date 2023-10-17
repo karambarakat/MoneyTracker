@@ -47,11 +47,26 @@ export default function Main_Layout_Component() {
         </div>
       </AppShell.SideBar>
       <AppShell.Overlay />
-      <AppShell.Content>
-        <ScrollArea tw="h-screen px-4 max-w-[700px] m-auto relative">
-          <Header tw="pt-4" />
-          <Outlet />
-        </ScrollArea>
+      <AppShell.Content asChild>
+        <main
+          css={{
+            '*, &': {
+              '--home-padding': '12px',
+            },
+          }}
+        >
+          <ScrollArea asChild tw="px-4 max-w-[700px] m-auto relative">
+            <div tw="flex flex-col min-h-screen">
+              <Header
+                tw="py-4"
+                css={{
+                  marginLeft: 'var(--home-padding)',
+                }}
+              />
+              <Outlet />
+            </div>
+          </ScrollArea>
+        </main>
       </AppShell.Content>
     </AppShell.Root>
   )

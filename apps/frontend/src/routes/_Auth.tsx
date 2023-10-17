@@ -18,7 +18,7 @@ import SecretField from 'ui/src/components/forms/SecretField'
 import EmailField from 'ui/src/components/forms/EmailField'
 import { useMutation } from '@tanstack/react-query'
 import { login, register } from '../api/mutations'
-import { FormInterface, FormBody, Form } from 'ui/src/components/forms/_Form'
+import { FormBody, Form } from 'ui/src/components/forms/_Form'
 
 import { Slot } from '@radix-ui/react-slot'
 import SubmitButton from 'ui/src/components/forms/SubmitButton'
@@ -28,6 +28,12 @@ import TextField from 'ui/src/components/forms/TextField'
 import { User } from 'types/gql/graphql'
 
 export function Authentication() {
+  const _token = token.use()
+
+  if (_token.getItem()) {
+    return <Navigate to="/" />
+  }
+
   return (
     <div>
       <div

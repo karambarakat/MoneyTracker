@@ -1,8 +1,7 @@
 import 'twin.macro'
 import React from 'react'
-import { useQueryClient } from '@tanstack/react-query'
-import { CategoryFragment, EntryInput } from 'types/gql/graphql'
-import { GraphqlMsw, rejectGraphql } from 'ui/src/storybook_utils/msw'
+import { EntryInput } from 'types/gql/graphql'
+import { GraphqlMsw } from 'ui/src/storybook_utils/msw'
 import { EntryBody, FormBody, FormFooter, FormRoot } from './_FormUtils'
 import Button from 'ui/src/components/Button'
 import { within } from '@storybook/testing-library'
@@ -85,7 +84,19 @@ export const ThemeIcon = {
   args: BasicForm.args,
   play: async ({ canvasElement }) => {
     const root = within(canvasElement)
+
+    const noAnimation = document.createElement('style')
+    noAnimation.append('* {transition-duration: 0s !important;}')
+    document.head.appendChild(noAnimation)
+
     const elem1 = await root.findByLabelText('Change Category')
     elem1.click()
+
+    await new Promise(res =>
+      setTimeout(() => {
+        noAnimation.remove()
+        res(null)
+      }, 500),
+    )
   },
 } satisfies SB.Story<typeof Component>

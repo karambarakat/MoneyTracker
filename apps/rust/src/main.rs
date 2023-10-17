@@ -15,7 +15,7 @@ async fn main() -> std::io::Result<()> {
     env::load_env();
 
     let port = std::env::var("PORT")
-        .unwrap_or("9999".to_string())
+        .expect("expected port in the environment")
         .parse::<u16>()
         .expect("port is not a number");
 

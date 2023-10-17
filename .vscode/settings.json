@@ -9,8 +9,10 @@
   "editor.tabSize": 2,
   "cSpell.minWordLength": 5,
   "cSpell.words": [
+    "actix",
     "autodocs",
     "Barakat",
+    "chrono",
     "cmnd",
     "codegen",
     "elems",
@@ -18,18 +20,17 @@
     "karam",
     "karambarakat",
     "localstorage",
+    "luxon",
     "openapi",
     "signup",
     "tabler",
     "tailwindcss",
     "tanstack",
     "TCICD",
+    "TIMESTAMPTZ",
     "Turborepo",
     "typecheck",
-    "viewports",
-    "actix",
-    "chrono",
-    "TIMESTAMPTZ"
+    "viewports"
   ],
   "eslint.options": {
     "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]

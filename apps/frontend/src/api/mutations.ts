@@ -39,9 +39,11 @@ export const create_entry = async (_input: MutationCreateOneEntryArgs) => {
 
 create_entry.shouldInvalidate = (
   c: QueryClient,
-  p: QueryGetAllEntriesArgs['pagination'],
+  p: null | QueryGetAllEntriesArgs['pagination'],
 ) => {
-  c.invalidateQueries(['find_log', p] satisfies queryKeys)
+  p !== null
+    ? c.invalidateQueries(['find_log', p] satisfies queryKeys)
+    : c.invalidateQueries(['find_log'])
 }
 
 export const update_entry = async ({
@@ -58,10 +60,21 @@ export const update_entry = async ({
   return (await handler(res)).updateOneEntry as Mutation['updateOneEntry']
 }
 
+update_entry.shouldInvalidate = (
+  c: QueryClient,
+  pagination: QueryGetAllEntriesArgs['pagination'] | null,
+  id: { id: string },
+) => {
+  pagination !== null
+    ? c.invalidateQueries(['find_log', pagination] satisfies queryKeys)
+    : c.invalidateQueries(['find_log'])
+  c.invalidateQueries(['find_one_log', id] satisfies queryKeys)
+}
+
 export const delete_entry = async ({ id }: MutationDeleteOneEntryArgs) => {
   const res = await gql(
     `mutation mutate($id: ID!) {
-      deleteOneEntry(idMutationDeleteOneEntryArgs: $id)
+      deleteOneEntry(id: $id)
     }`,
     { id },
   )
