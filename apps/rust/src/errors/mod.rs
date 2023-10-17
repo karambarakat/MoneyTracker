@@ -59,7 +59,7 @@ impl async_graphql::ErrorExtensions for MyErrors {
     fn extend(&self) -> async_graphql::Error {
         let error = async_graphql::Error::new(format!("{}", self.to_string()))
             .extend_with(|_, e| {
-                if (self.user_facing()) {
+                if self.user_facing() {
                     e.set("custom", true)
                 }
             })

@@ -213,6 +213,10 @@ export const update_profile = async ({
   return (await handler(res)).updateCurrentUser as UserFragment
 }
 
+update_profile.shouldInvalidate = (c: QueryClient) => {
+  c.invalidateQueries(['profile'] satisfies queryKeys)
+}
+
 export const set_password = async ({
   password,
 }: MutationUpdatePasswordArgs) => {

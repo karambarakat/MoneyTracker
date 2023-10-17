@@ -7,7 +7,7 @@ function TextEllipsis(props: WithAsChild) {
 
   return (
     <Component
-      tw="text-ellipsis whitespace-nowrap overflow-hidden"
+      tw="max-w-full text-ellipsis whitespace-nowrap overflow-hidden"
       {...props}
     />
   )

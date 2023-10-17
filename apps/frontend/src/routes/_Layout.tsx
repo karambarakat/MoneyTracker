@@ -53,6 +53,9 @@ export default function Main_Layout_Component() {
             '*, &': {
               '--home-padding': '12px',
             },
+            '#page': {
+              marginLeft: 'var(--home-padding)',
+            },
           }}
         >
           <ScrollArea asChild tw="px-4 max-w-[700px] m-auto relative">

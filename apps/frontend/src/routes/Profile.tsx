@@ -1,187 +1,134 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import tw from 'twin.macro'
 import { setTitle } from './_MetaContext'
 import Button from 'ui/src/components/Button'
-import ResetPassword from '../components/forms/ResetPassword'
-import SetPassword from '../components/forms/SetPassword'
-import UpdateProfile from '../components/forms/UpdateProfile'
-import { useQuery } from '@tanstack/react-query'
-import { queries, queryKeys } from '../api'
-function Profile_Page_Component() {
-  setTitle('Profile')
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { mutations, queries, queryKeys } from '../api'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { FormRoot } from '../components/_FormUtils'
+import TextField from 'ui/src/components/forms/TextField'
+import Text from 'ui/src/components/Text'
+import {
+  MutationUpdateCurrentUserArgs,
+  MutationUpdatePasswordArgs,
+  UserInput,
+} from 'types/gql/graphql'
+import SecretField from 'ui/src/components/forms/SecretField'
+import Status from 'ui/src/components/forms/Status'
+
+function Root() {
+  const nav = useNavigate()
+  const location = useLocation()
 
   const { data } = useQuery({
     queryFn: () => queries.profile(),
     queryKey: ['profile'] satisfies queryKeys,
   })
 
-  if (!data) return <div>error</div>
+  return (
+    <div tw="flex flex-col gap-3">
+      {data ? (
+        <Fragment>
+          <div>Name: {data.displayName}</div>
+          <div>Email: {data.email}</div>
+        </Fragment>
+      ) : (
+        <div>error</div>
+      )}
+      <div tw="flex gap-3">
+        <Button asChild>
+          <button onClick={() => nav('./resetPassword')}>Reset Password</button>
+        </Button>
 
-  const [open, setOpen] = useState<'password' | 'profile' | ''>('')
+        <Button asChild>
+          <button onClick={() => nav('updateProfile')}>Update Profile</button>
+        </Button>
+      </div>
+
+      {location.pathname.endsWith('resetPassword') && <ResetPassword />}
+      {location.pathname.endsWith('updateProfile') && <UpdateProfile />}
+    </div>
+  )
+}
+
+function UpdateProfile() {
+  const client = useQueryClient()
+  const action = useMutation({
+    mutationFn: (user: UserInput) => mutations.update_profile({ user }),
+    onSuccess: () => {
+      mutations.update_profile.shouldInvalidate(client)
+    },
+  })
+  const nav = useNavigate()
+  return (
+    <FormRoot
+      required={['displayName']}
+      values={{ displayName: '' }}
+      action={action.mutateAsync}
+      then={ctx => {
+        ctx.setStatus({ success: 'Profile Updated' })
+        ctx.setValues({ displayName: '' })
+        nav('../')
+      }}
+      asChild
+    >
+      <div tw="p-4 border-none flex flex-col gap-2">
+        <Status />
+        <Text>Update Display Name</Text>
+        <TextField name="displayName" />
+        <div tw="mt-4 flex justify-end">
+          <Button>Update</Button>
+        </div>
+      </div>
+    </FormRoot>
+  )
+}
+
+function ResetPassword() {
+  const action = useMutation({
+    mutationFn: ({ password }: MutationUpdatePasswordArgs) =>
+      mutations.set_password({ password }),
+  })
+
+  const nav = useNavigate()
+  return (
+    <FormRoot
+      required={['password']}
+      values={{} as MutationUpdatePasswordArgs}
+      action={action.mutateAsync}
+      then={ctx => {
+        ctx.setStatus({ success: 'Profile Updated' })
+        ctx.setValues({ password: '' })
+        nav('../')
+      }}
+      asChild
+    >
+      <div tw="p-4 border-none flex flex-col gap-2">
+        <Status />
+        <Text>Reset Password</Text>
+        <SecretField
+          autoComplete="new-password"
+          title="New Password"
+          name="password"
+        />
+        <div tw="mt-4 flex justify-end">
+          <Button type="submit">Update</Button>
+        </div>
+      </div>
+    </FormRoot>
+  )
+}
+
+function Profile_Page_Component() {
+  setTitle('Profile')
 
   return (
-    <div css={{ '&>*': tw`mt-4` }}>
-      <h1>Profile</h1>
-      <div>Name: {data.displayName}</div>
-      <div>Email: {data.email}</div>
-      <div>Picture: {data.avatar || 'no picture'}</div>
-      <div>
-        Providers:
-        {(['google', 'local'] as const)
-          .map(
-            e =>
-              data.providers.includes(e) && (
-                <div key={e}>
-                  {' '}
-                  <span>{e}</span>
-                </div>
-              ),
-          )
-          .filter(e => e)}
-      </div>
-      {data.providers.includes('local') ? (
-        <div>
-          <Button asChild>
-            <button
-              onClick={() => setOpen(o => (o === 'password' ? '' : 'password'))}
-            >
-              Reset Password
-            </button>
-          </Button>
-          {open === 'password' && <ResetPassword />}
-        </div>
-      ) : (
-        <div>
-          <Button asChild>
-            <button
-              onClick={() => setOpen(o => (o === 'password' ? '' : 'password'))}
-            >
-              Set Password
-            </button>
-          </Button>
-          {open === 'password' && <SetPassword />}
-        </div>
-      )}
-      <div>
-        <Button asChild>
-          <button
-            onClick={() => setOpen(o => (o === 'profile' ? '' : 'profile'))}
-          >
-            Update Profile
-          </button>
-        </Button>
-        {open === 'profile' && <UpdateProfile />}
-      </div>
+    <div id="page" css={{ '&>*': tw`mt-4` }}>
+      <Routes>
+        <Route path="*" element={<Root />} />
+      </Routes>
     </div>
   )
 }
 
 export default Profile_Page_Component
-
-// import { Link, useRoutes } from '../components/ReactRoute/index'
-// import TextEllipsis from 'ui/src/components/TextEllipsis'
-
-// import {
-//   Box,
-//   Avatar,
-//   Group,
-//   Text,
-//   useMantineTheme,
-//   Button,
-//   Stack,
-//   Divider,
-// } from '@mantine/core'
-// import { store } from '../redux/index'
-
-// import { ActionsObjects, RootState, UserState } from '../redux/types'
-// import { useSelector } from 'react-redux'
-// import { Outlet } from 'react-router-dom'
-// import dispatch from '../redux/dispatch'
-// import { ReactElement } from 'react'
-// import OnlineStateAction from '../components/OnlineStateAction'
-
-// function Profile() {
-//   const user = useSelector<RootState, UserState>(s => s.user)
-//   const theme = useMantineTheme()
-
-//   if (!user.profile) {
-//     return <Text>No User Found</Text>
-//   }
-//   return (
-//     <>
-//       <Group sx={{ flexWrap: 'nowrap', alignItems: 'start' }}>
-//         <Avatar size={'xl'} src={user.profile.picture} radius="sm" />
-//         <Box sx={{ overflow: 'hidden', flexGrow: 1, flexShrink: 1 }}>
-//           <Text size="xl" weight={500}>
-//             <TextEllipsis>{user.profile.displayName}</TextEllipsis>
-//           </Text>
-//           <Text color="dimmed" weight={200} size="lg">
-//             <TextEllipsis>{user.profile.email}</TextEllipsis>
-//           </Text>
-//         </Box>
-//       </Group>
-//       <Divider my={24} />
-//       <Outlet />
-//     </>
-//   )
-// }
-
-// export function ProfileIndex() {
-//   const user = useSelector<RootState, UserState>(s => s.user)
-//   const exit = useRoutes()
-
-//   return (
-//     <Stack>
-//       <Link to={'/profile/update'}>
-//         <Button style={{ width: '100%' }} size="md" variant="filled">
-//           Update the Profile
-//         </Button>
-//       </Link>
-//       {!user.profile?.providers.includes('local') && (
-//         <Link to={'/profile/setPassword'}>
-//           <Button style={{ width: '100%' }} size="md" variant="filled">
-//             Set Password
-//           </Button>
-//         </Link>
-//       )}
-//       {user.profile?.providers.includes('local') && (
-//         <Link to={'/profile/changePassword'}>
-//           <Button style={{ width: '100%' }} size="md" variant="filled">
-//             Change Password
-//           </Button>
-//         </Link>
-//       )}
-//       <OnlineStateAction>
-//         {text => {
-//           return (
-//             <Button
-//               style={{ width: '100%' }}
-//               size="md"
-//               variant="filled"
-//               onClick={() => {
-//                 exit()
-//               }}
-//             >
-//               {text}
-//             </Button>
-//           )
-//         }}
-//       </OnlineStateAction>
-
-//       <Button
-//         style={{ width: '100%' }}
-//         size="md"
-//         variant="filled"
-//         color="red"
-//         onClick={() => {
-//           dispatch('user:logout', {})
-//           exit()
-//         }}
-//       >
-//         Log Out
-//       </Button>
-//     </Stack>
-//   )
-// }
-
-// export default Profile

@@ -29,13 +29,15 @@ import ButtonIcon from 'ui/src/components/ButtonIcon'
 import { iconBlue, iconRed } from '../utils/tw'
 import Spinning from 'ui/src/components/Spinning'
 import Tooltip from 'ui/src/components/Tooltip'
+import EmptyImg from '../components/EmptyImg'
+import Pagination from '../components/Pagination'
 
 export default function Index_Page_Component() {
   setTitle('Home')
 
   const [page, setPage] = useState<PaginationRequest>({
     page: 1,
-    pageSize: 2,
+    pageSize: 10,
   })
 
   const query = useQuery({
@@ -76,6 +78,32 @@ export default function Index_Page_Component() {
   }, [data])
 
   const [dialog, setDialog] = useState(false)
+
+  if (logs.length === 0) {
+    return (
+      <div
+        tw="flex flex-col gap-5 items-center mt-12"
+        css={{ marginLeft: 'var(--home-padding)' }}
+      >
+        <EmptyImg />
+        <div>
+          your logs are empty, you can{' '}
+          <Dialog
+            open={dialog}
+            content={<CreateEntryFormPortal setState={setDialog} />}
+            trigger={
+              <span
+                onClick={() => setDialog(true)}
+                tw="cursor-pointer dark:text-blue-400 text-blue-500"
+              >
+                add new entry
+              </span>
+            }
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div tw="min-h-[100%] h-full relative flex flex-col flex-1 pb-4">
@@ -126,95 +154,6 @@ export default function Index_Page_Component() {
         )}
       </div>
     </div>
-  )
-}
-
-function Pagination({
-  pageInfo,
-  setPage,
-}: {
-  pageInfo: Omit<PaginationResponse, 'data'>
-  setPage: Dispatch<SetStateAction<PaginationRequest>>
-}) {
-  const state = useMemo(() => {
-    const slice = 4
-    return {
-      concat:
-        pageInfo.totalPages > slice
-          ? {
-              firstInvisible: pageInfo.page > slice,
-              lastInvisible: pageInfo.totalPages - pageInfo.page > slice,
-            }
-          : null,
-      list: Array.from({ length: pageInfo.totalPages })
-        .slice(0, slice)
-        .map((e, i) => {
-          return { num: i + 1, current: pageInfo.page === i + 1 }
-        }),
-    }
-  }, [pageInfo])
-
-  return (
-    <div tw="flex gap-3 items-center">
-      {state.concat?.firstInvisible && (
-        <>
-          <span tw="select-none">...</span>
-          <div
-            onClick={() => setPage({ page: 1, pageSize: pageInfo.pageSize })}
-          >
-            <PaginationUnit data={{ current: false, num: 1 }} />
-          </div>
-        </>
-      )}
-
-      {state.list.map(e => {
-        return (
-          <div
-            key={e.num}
-            onClick={() =>
-              setPage({ page: e.num, pageSize: pageInfo.pageSize })
-            }
-          >
-            <PaginationUnit data={e} />
-          </div>
-        )
-      })}
-
-      {state.concat?.lastInvisible && (
-        <>
-          <span tw="select-none">...</span>
-          <div
-            onClick={() =>
-              setPage({
-                page: pageInfo.totalPages,
-                pageSize: pageInfo.pageSize,
-              })
-            }
-          >
-            <PaginationUnit
-              data={{ current: false, num: pageInfo.totalPages }}
-            />
-          </div>
-        </>
-      )}
-    </div>
-  )
-}
-
-function PaginationUnit({ data }: { data: { current: boolean; num: number } }) {
-  return (
-    <HoverableLighter asChild>
-      <span
-        tw="rounded-md select-none p-2 px-4 aspect-square"
-        css={
-          data.current
-            ? tw`bg-slate-200 hover:bg-slate-200! dark:bg-slate-800 dark:hover:bg-slate-800!`
-            : tw`cursor-pointer`
-        }
-      >
-        {data.num}
-      </span>
-    </HoverableLighter>
   )
 }
 

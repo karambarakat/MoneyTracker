@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "rust-lang.rust-analyzer",
     "formulahendry.auto-rename-tag",
     "streetsidesoftware.code-spell-checker",
     "dbaeumer.vscode-eslint",

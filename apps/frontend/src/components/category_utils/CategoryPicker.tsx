@@ -1,26 +1,25 @@
 import tw from 'twin.macro'
-import React from 'react'
 import Hoverable from 'ui/src/components/Hoverable'
 import SelectField, {
   Strategy,
   SubComponent,
 } from 'ui/src/components/forms/SelectField'
-import { CategoryIconFromId, colors } from './CategoryIcon'
+import { CategoryIconFromId } from './CategoryIcon'
 import { useQuery } from '@tanstack/react-query'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { useField } from 'formik'
 import ScrollArea from 'ui/src/components/ScrollArea'
 import { find_category } from '../../api/queries'
 import { queryKeys } from '../../api'
 import Text from 'ui/src/components/Text'
 import { useFieldContext } from 'ui/src/components/forms/_Field'
+import TextEllipsis from 'ui/src/components/TextEllipsis'
 
 const selected = tw`bg-slate-200 dark:bg-slate-700`
 
 const Category: SubComponent = props => (
   <div tw="grid place-items-center select-none">
     <CategoryIconFromId id={props.value} />
-    <span>{props.label}</span>
+    <TextEllipsis css={{ 'text-overflow': 'clip' }}>{props.label}</TextEllipsis>
   </div>
 )
 

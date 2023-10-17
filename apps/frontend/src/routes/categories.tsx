@@ -15,9 +15,11 @@ import Tooltip from 'ui/src/components/Tooltip'
 import Dialog from 'ui/src/components/Dialog'
 import {
   CreateCategoryForm,
+  CreateCategoryFormPortal,
   UpdateCategoryFormActionPortal,
 } from '../components/CategoryForm'
 import { iconBlue, iconRed } from '../utils/tw'
+import EmptyImg from '../components/EmptyImg'
 
 function Entries() {
   const entries = useQuery({
@@ -149,13 +151,39 @@ function Category_Page_Component() {
     queryKey: ['find_category'] satisfies queryKeys,
   })
 
+  const [dialog, setDialog] = useState(false)
+
   if (!data) return <div>error</div>
 
   return (
     <div css={{ '&>*': tw`mt-4` }}>
       <CreateCategoryForm />
       <OneStateProvider>
-        <Entries />
+        {data.length === 0 ? (
+          <div
+            tw="flex flex-col gap-5 items-center mt-12"
+            css={{ marginLeft: 'var(--home-padding)' }}
+          >
+            <EmptyImg />
+            <div>
+              your categories are empty, you can{' '}
+              <Dialog
+                open={dialog}
+                content={<CreateCategoryFormPortal setState={setDialog} />}
+                trigger={
+                  <span
+                    onClick={() => setDialog(true)}
+                    tw="cursor-pointer dark:text-blue-400 text-blue-500"
+                  >
+                    add new category
+                  </span>
+                }
+              />
+            </div>
+          </div>
+        ) : (
+          <Entries />
+        )}
       </OneStateProvider>
     </div>
   )

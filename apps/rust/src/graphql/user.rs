@@ -70,7 +70,8 @@ impl UserMutation {
 
         res
     }
-
+// todo add another function to update password
+// that requires the old password to match
     async fn update_password(&self, ctx: &Context<'_>, password: String) -> bool {
         let pool = ctx
             .data::<sqlx::Pool<sqlx::Postgres>>()
