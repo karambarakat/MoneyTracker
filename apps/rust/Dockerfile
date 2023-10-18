@@ -2,10 +2,6 @@ FROM rust:latest as base
 
 WORKDIR /usr/src/backend
 
-RUN rustup target add x86_64-unknown-linux-musl
-RUN apt update && apt install -y musl-tools musl-dev
-RUN update-ca-certificates
-
 COPY . .
 
 RUN find . -type f -name "Cargo.toml" -print0 | xargs --null -I {} echo {} > cargo.log
@@ -35,14 +31,11 @@ RUN cat rs.log | xargs rm
 
 COPY . .
 
-RUN cargo build --bin backend --release --target x86_64-unknown-linux-musl
+RUN cargo build --bin backend
 
-FROM alpine
+FROM ubuntu
 
 WORKDIR /usr/dist
-COPY --from=install usr/src/backend/target/x86_64-unknown-linux-musl/release .
-
-EXPOSE 8080
 
 RUN adduser \
   --disabled-password \
@@ -55,4 +48,8 @@ RUN adduser \
 
 USER be:be
 
-CMD ["usr/dist/backend"]
+COPY --from=install usr/src/backend/target/debug .
+
+EXPOSE 8080
+
+CMD ["/usr/dist/backend"]

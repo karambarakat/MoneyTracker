@@ -33,14 +33,16 @@ services:
     build:
       context: .
       dockerfile: apps/rust/Dockerfile
-    # run sleep infinity on start
     command: ['sleep', 'infinity']
+    # command: ['/usr/dist/backend']
+    ports:
+      - 8080:8080
     environment:
       PORT: 8080
       JWT_SALT: random
       SALT: random
       FE_URL: http://localhost:5173
-      DATABASE_URL: postgres://postgres:postgres@localhost:5431/postgres
+      DATABASE_URL: postgres://postgres:postgres@db:5431/postgres
     networks:
       - network
     depends_on:

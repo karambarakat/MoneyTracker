@@ -1,23 +1,47 @@
 alerts:
-  - rule: DEPLOYMENT_FAILED
-  - rule: DOMAIN_FAILED
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+databases:
+- engine: PG
+  name: db
+  version: "12"
+features:
+- buildpack-stack=ubuntu-22
 ingress:
   rules:
-    - component:
-        name: moneytracker
-      match:
-        path:
-          prefix: /
-name: sea-turtle-app
+  - component:
+      name: moneytracker
+    match:
+      path:
+        prefix: /
+name: plankton-app
 region: sfo
 services:
-  - dockerfile_path: Dockerfile
-    github:
-      branch: master
-      deploy_on_push: true
-      repo: karam-dev/MoneyTracker
-    http_port: 8080
-    instance_count: 1
-    instance_size_slug: basic-xs
-    name: moneytracker
-    source_dir: /
+- environment_slug: node-js
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${db.DATABASE_URL}
+  - key: JWT_SALT
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:e/Lbi4p3D4nga2b5Fhy/BuzNY/B9dzHJ:Bp04PbhCr0dEgg/SdX5CKRlcCtOjVQ==]
+  - key: SALT
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:kwG/LSezpusG9V5fOyr68hDiyJnPRQK+:B7IlyYxa5kzj7guUBhLgWA2j3v1gwA==]
+  - key: FE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: tracker.karam.page
+  - key: PORT
+    scope: RUN_AND_BUILD_TIME
+    value: "8080"
+  github:
+    branch: prod
+    deploy_on_push: true
+    repo: karambarakat/MoneyTracker
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xs
+  name: moneytracker
+  source_dir: /

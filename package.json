@@ -9,8 +9,8 @@
     "prepare": "husky install",
     "dev": "cross-env RUST_ENV=dev cargo run & pnpm -F ui -F frontend --parallel dev",
     "// manual deployment": "",
-    "do-deploy:get": "doctl apps spec get f898aa0c-2753-4936-89a1-4d2ee45d2869 > do_app_spec.local.yaml",
-    "do-deploy:upload": "doctl apps update f898aa0c-2753-4936-89a1-4d2ee45d2869 --spec do_app_spec.yaml"
+    "do-deploy:get": "doctl apps spec get 534d04f5-74df-4f8d-a5fd-de38c2c06790 > do_app_spec.yaml",
+    "do-deploy:upload": "doctl apps update 534d04f5-74df-4f8d-a5fd-de38c2c06790 --spec do_app_spec.yaml"
   },
   "devDependencies": {
     "@playwright/test": "^1.34.3",
