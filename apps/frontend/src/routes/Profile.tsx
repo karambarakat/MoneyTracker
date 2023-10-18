@@ -1,18 +1,15 @@
-import React, { Fragment, useState } from 'react'
-import tw from 'twin.macro'
+import 'twin.macro'
+import { Fragment } from 'react'
 import { setTitle } from './_MetaContext'
 import Button from 'ui/src/components/Button'
+import tw from 'twin.macro'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { mutations, queries, queryKeys } from '../api'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { FormRoot } from '../components/_FormUtils'
 import TextField from 'ui/src/components/forms/TextField'
 import Text from 'ui/src/components/Text'
-import {
-  MutationUpdateCurrentUserArgs,
-  MutationUpdatePasswordArgs,
-  UserInput,
-} from 'types/gql/graphql'
+import { MutationUpdatePasswordArgs, UserInput } from 'types/gql/graphql'
 import SecretField from 'ui/src/components/forms/SecretField'
 import Status from 'ui/src/components/forms/Status'
 

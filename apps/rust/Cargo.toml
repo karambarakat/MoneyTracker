@@ -1,6 +1,6 @@
 [package]
-default-run="graphql-backend"
-name = "graphql-backend"
+default-run="backend"
+name = "backend"
 version = "0.1.0"
 edition = "2021"
 

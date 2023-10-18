@@ -30,7 +30,7 @@ export const requires = <A extends object>(
 export default requires
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any
-const test: any = () => {}
+const [test, expect] = [() => {}, () => {}] as any
 
 test('case 1', () => {
   type Type = { title: string; amount: number; node?: string }

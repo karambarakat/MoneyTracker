@@ -1,11 +1,8 @@
 import icons from './icons'
-import { rest } from 'msw'
 import * as c from './CategoryIcon'
 import 'twin.macro'
-import { within } from '@storybook/testing-library'
 import { useQueryClient } from '@tanstack/react-query'
-import { FormInterface } from 'ui/src/components/forms/_Form'
-import tw from 'twin.macro'
+import { Form } from 'ui/src/components/forms/_Form'
 
 export default {
   title: 'category_utils/Icon',
