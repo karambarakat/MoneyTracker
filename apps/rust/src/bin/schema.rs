@@ -1,6 +1,6 @@
 //! generate graphql schema.json
 
-extern crate graphql_backend;
+extern crate backend;
 
 use async_graphql::{EmptySubscription, Schema};
 
@@ -9,8 +9,8 @@ use serde_json::json;
 #[tokio::main]
 async fn main() {
     let schema = Schema::build(
-        graphql_backend::graphql::root::Query::default(),
-        graphql_backend::graphql::root::Mutation::default(),
+        backend::graphql::root::Query::default(),
+        backend::graphql::root::Mutation::default(),
         EmptySubscription,
     )
     .finish();

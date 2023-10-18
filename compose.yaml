@@ -27,3 +27,25 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - ./data:/var/lib/postgresql/data:Z
+    networks:
+      - network
+  backend:
+    build:
+      context: .
+      dockerfile: apps/rust/Dockerfile
+    # run sleep infinity on start
+    command: ['sleep', 'infinity']
+    environment:
+      PORT: 8080
+      JWT_SALT: random
+      SALT: random
+      FE_URL: http://localhost:5173
+      DATABASE_URL: postgres://postgres:postgres@localhost:5431/postgres
+    networks:
+      - network
+    depends_on:
+      - db
+
+networks:
+  network:
+    driver: bridge

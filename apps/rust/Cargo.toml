@@ -38,3 +38,6 @@ hmac = "0.12.1"
 convert_case = "0.6.0"
 async-trait = "0.1.73"
 actix-cors = "0.6.4"
+
+[target.'cfg(all(target_env = "musl", target_pointer_width = "64"))'.dependencies.jemallocator]
+version = "0.3"
