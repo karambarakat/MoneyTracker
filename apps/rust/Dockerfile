@@ -21,5 +21,6 @@ RUN cargo build --release --target x86_64-unknown-linux-musl
 
 FROM scratch
 COPY --from=builder /backend/target/x86_64-unknown-linux-musl/release/backend /backend
-ENTRYPOINT ["/backend"]
 EXPOSE 8080
+
+CMD ["/backend"]

@@ -20,21 +20,21 @@ services:
 - dockerfile_path: apps/rust/Dockerfile
   envs:
   - key: DATABASE_URL
-    scope: RUN_AND_BUILD_TIME
+    scope: RUN_TIME
     value: ${db.DATABASE_URL}
   - key: JWT_SALT
-    scope: RUN_AND_BUILD_TIME
+    scope: RUN_TIME
     type: SECRET
     value: EV[1:e/Lbi4p3D4nga2b5Fhy/BuzNY/B9dzHJ:Bp04PbhCr0dEgg/SdX5CKRlcCtOjVQ==]
   - key: SALT
-    scope: RUN_AND_BUILD_TIME
+    scope: RUN_TIME
     type: SECRET
     value: EV[1:kwG/LSezpusG9V5fOyr68hDiyJnPRQK+:B7IlyYxa5kzj7guUBhLgWA2j3v1gwA==]
   - key: FE_URL
-    scope: RUN_AND_BUILD_TIME
+    scope: RUN_TIME
     value: tracker.karam.page
   - key: PORT
-    scope: RUN_AND_BUILD_TIME
+    scope: RUN_TIME
     value: "8080"
   github:
     branch: prod

@@ -69,7 +69,7 @@ async fn main() -> std::io::Result<()> {
             )
             .default_service(web::to(|| async { crate::errors::MyErrors::NotFound }))
     })
-    .bind(("127.0.0.1", port))?
+    .bind(("0.0.0.0", port))?
     .run()
     .await
     .map_err(|val| {
