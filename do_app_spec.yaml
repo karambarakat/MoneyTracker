@@ -10,14 +10,14 @@ features:
 ingress:
   rules:
   - component:
-      name: moneytracker
+      name: backend
     match:
       path:
         prefix: /
 name: plankton-app
 region: sfo
 services:
-- environment_slug: node-js
+- dockerfile_path: apps/rust/Dockerfile
   envs:
   - key: DATABASE_URL
     scope: RUN_AND_BUILD_TIME
@@ -43,5 +43,5 @@ services:
   http_port: 8080
   instance_count: 1
   instance_size_slug: basic-xs
-  name: moneytracker
+  name: backend
   source_dir: /

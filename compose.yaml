@@ -36,7 +36,7 @@ services:
     command: ['sleep', 'infinity']
     # command: ['/usr/dist/backend']
     ports:
-      - 8080:8080
+      - 8090:8080
     environment:
       PORT: 8080
       JWT_SALT: random

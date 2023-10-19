@@ -2,6 +2,5 @@
 
 members = [
     "apps/rust",
-    "apps/leptos",
     "pkgs/backend_macro",
 ]

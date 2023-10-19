@@ -1,55 +1,25 @@
-FROM rust:latest as base
+FROM messense/rust-musl-cross:x86_64-musl as chef
+ENV SQLX_OFFLINE=true
+RUN cargo install cargo-chef
+WORKDIR /backend
 
-WORKDIR /usr/src/backend
-
-COPY . .
-
-RUN find . -type f -name "Cargo.toml" -print0 | xargs --null -I {} echo {} > cargo.log
-RUN sed -i 's/^.\///' cargo.log
-RUN cat cargo.log | sed 's/Cargo.toml//' | xargs -I {} mkdir -p ./cargo/{}
-RUN cat cargo.log | sed 's/Cargo.toml//' | xargs -I {} mkdir -p ./cargo/{}/src
-RUN cat cargo.log | sed 's/Cargo.toml//' | xargs -I {} touch ./cargo/{}/src/lib.rs
-RUN cat cargo.log | sed 's/Cargo.toml//' | xargs -I {{}} sh -c "echo 'fn main(){}' > ./cargo/{{}}/src/main.rs"
-RUN cat cargo.log | xargs -I {} cp {} ./cargo/{}
-COPY Cargo.toml ./cargo/Cargo.toml
-COPY Cargo.lock ./cargo/Cargo.lock
-
-FROM rust:latest as install
-
-WORKDIR /usr/src/backend
-COPY --from=base ./usr/src/backend/cargo .
-
-RUN ls -Rl . > cargo.log
-
-RUN cargo build
-RUN cargo build --release
-
-RUN find . -type f -name "main.rs" -print0 > rs.log
-RUN find . -type f -name "lib.rs" -print0 >> rs.log
-RUN echo >> rs.log
-RUN cat rs.log | xargs rm
+FROM chef AS planner
 
 COPY . .
 
-RUN cargo build --bin backend
+RUN cargo chef prepare --recipe-path recipe.json
 
-FROM ubuntu
+FROM chef AS builder
+COPY --from=planner /backend/recipe.json recipe.json
 
-WORKDIR /usr/dist
+RUN cargo chef cook --release --target x86_64-unknown-linux-musl --recipe-path recipe.json
 
-RUN adduser \
-  --disabled-password \
-  --gecos "" \
-  --home "/nonexistent" \
-  --shell "/sbin/nologin" \
-  --no-create-home \
-  --uid "10001" \
-  "be"
+COPY . .
 
-USER be:be
+RUN cargo build --release --target x86_64-unknown-linux-musl
 
-COPY --from=install usr/src/backend/target/debug .
 
+FROM scratch
+COPY --from=builder /backend/target/x86_64-unknown-linux-musl/release/backend /backend
+ENTRYPOINT ["/backend"]
 EXPOSE 8080
-
-CMD ["/usr/dist/backend"]
