@@ -1,7 +1,7 @@
 FROM messense/rust-musl-cross:x86_64-musl as chef
 ENV SQLX_OFFLINE=true
 RUN cargo install cargo-chef
-WORKDIR /backend
+WORKDIR /app
 
 FROM chef AS planner
 
@@ -10,7 +10,7 @@ COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
 FROM chef AS builder
-COPY --from=planner /backend/recipe.json recipe.json
+COPY --from=planner /app/recipe.json recipe.json
 
 RUN cargo chef cook --release --target x86_64-unknown-linux-musl --recipe-path recipe.json
 
@@ -18,9 +18,8 @@ COPY . .
 
 RUN cargo build --release --target x86_64-unknown-linux-musl
 
-
 FROM scratch
-COPY --from=builder /backend/target/x86_64-unknown-linux-musl/release/backend /backend
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/backend /app
 EXPOSE 8080
 
-CMD ["/backend"]
+CMD ["/app"]

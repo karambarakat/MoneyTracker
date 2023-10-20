@@ -1,46 +1,36 @@
-[![Chromatic Publish](https://github.com/karambarakat/MoneyTracker/actions/workflows/chromatic.yaml/badge.svg)](https://github.com/karambarakat/MoneyTracker/actions/workflows/chromatic.yaml)
-[![e2e test](https://github.com/karambarakat/MoneyTracker/actions/workflows/e2e.yaml/badge.svg)](https://github.com/karambarakat/MoneyTracker/actions/workflows/e2e.yaml)
+[![main CI workflows](https://github.com/karambarakat/MoneyTracker/actions/workflows/ci.yaml/badge.svg)](https://github.com/karambarakat/MoneyTracker/actions/workflows/ci.yaml)
 
-# myPocket
+# About this project
 
-This is a monorepo for `myPocket` app, this is seamless and powerfully MERN full stack app designed to simplify and assist your personal finances. it is made of React frontend application and Express backend with MongoDB as the database of choice.
+I made this project to learn more about web development and learn about maintaining a large project with many moving parts, this is a web app that tracks your expenses. it allows you to categorize your expenses, visualize them, and enables you to create an account to save your data and access it from anywhere.
 
-To opt into Truporepo cashing **provide `TURBO_REPO_CACHE_TOKEN` and `TURBO_REPO_CACHE_TEAM` secrets** in the github repo
+You can checkout a live version of the app [here](https://tracker.karam.page)
 
-# DevOps
 
-The workflow of deploying and operating this app is relying primarily on Github Actions, Terraform and Turborepo. there are two main branches in this app: develop and master. In regards of environments there is only production and I'm working on having staging and experimentation environments.
 
-Deploying infrastructure relay on Terraform Cloud, as a monorepo every app and package has its own workspace in the cloud and it defines its infrastructure in `terraform` subdirectory, from CI/CD perspective I made a script in `packages/deploy-script` that would be triggered on every commit on `master` branch by `deploy` action .
+# Features
 
-To integrate github with terraform cloud. **you have to provide `TF_Organization` and `TF_Token` secrets to your github repository**.
+- React and Vite frontend
+- Rust backend
+- Postgres database
+- Storybook isolated components
+- Chromatic visual testing
+- Unit testing with Jest
+- Playwright Integration test
+- Monorepo with Turbo
+- CI/CD with Github Actions
+- Automatic deployment
+- JWT Authentication
+- GraphQL API
 
-# Technologies
 
-## Front End:
 
-- ReactJS.
-- AJAX fetch
-- Formik
-- Mantine-UI
-- React-Router-Dom
-- Redux
+### Coming Soon / Not Stable
 
-## Back End:
-
-In the backend I used simple Server-json mocking backend, so it is not so sophisticated as far as the backend goes, the following was used to deploy to heroku and costomize the server-json:
-
-- Node and ExpressJS
-- rest API defined by OpenAPI specification
-- tested with Jest
-- Authentication with JWT
-- nodemon (as dev dep)
-
-## Database
-
-This project built with mySQL at first but later I thought that MongoDB is more suitable, for such dynamic and minimalist app
-
-- MongoDB
-- Mongo Atlas (cloud database)
-- Mongoose
-  hi
+- Benchmarking and performance monitoring
+- Figma Design
+- Offline Support
+- PWA
+- Mobile App
+- Electron App
+- Canary Deployment
