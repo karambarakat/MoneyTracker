@@ -3,8 +3,6 @@ node_modules
 
 /.VSCodeCounter
 
-out
-
 # prevent suppling production with any env by mistake
 .env
 .env.local
@@ -27,3 +25,6 @@ target
 */*/Dockerfile
 */*/.dockerignore
 */*/compose.yaml
+docker-compose.yml
+Dockerfile
+data
