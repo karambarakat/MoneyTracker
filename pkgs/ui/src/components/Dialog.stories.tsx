@@ -12,6 +12,15 @@ export default {
 
 export const Default = {
   render: () => {
-    return <Dialog content={<div>hi</div>} trigger={<Plus />} />
+    return (
+      <Dialog
+        content={<div>hi</div>}
+        trigger={
+          <button aria-label="open dialog">
+            <Plus />
+          </button>
+        }
+      />
+    )
   },
 } satisfies SB.Story<typeof component>

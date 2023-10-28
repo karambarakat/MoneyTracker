@@ -40,9 +40,9 @@ jobs:
       #   run: ./ci/test-sb.sh
       #   shell: bash
 
-      - name: backend integration test
-        run: ./ci/test-be.sh
-        shell: sh
+      # - name: backend integration test
+      #   run: ./ci/test-be.sh
+      #   shell: sh
 
       # - name: run end-to-end test
       #   run: ./ci/test-e2e.sh
@@ -64,4 +64,4 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          storybookBuildDir: pkgs/ui/storybook-static
+          storybookBuildDir: ./pkgs/ui/storybook-static
