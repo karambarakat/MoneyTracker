@@ -105,7 +105,7 @@ export function FieldError(props: JSX.IntrinsicAttributes) {
   const { meta } = useFieldContext()
 
   return (
-    <div tw="text-red-600 dark:text-red-400 text-sm" {...props}>
+    <div tw="text-red-600 dark:text-red-300 text-sm" {...props}>
       {meta.touched && meta.error}
     </div>
   )
@@ -170,7 +170,7 @@ export function Title() {
         {
           // eslint-disable-next-line quotes
           ["&[data-required='true']::after"]: css`
-            ${tw`text-red-600 dark:text-red-400`};
+            ${tw`text-red-600 dark:text-red-300`};
             content: ' *';
           `,
         },
@@ -182,7 +182,7 @@ export function Title() {
         {
           [`#${id}:focus-within &, #${id}.value &`]: tw`translate-y-0 text-xs `,
           [`#${id}:focus-within &`]: tw`text-blue-600 dark:text-blue-400`,
-          [`#${id}.error &`]: tw`text-red-600 dark:text-red-400`,
+          [`#${id}.error &`]: tw`text-red-600 dark:text-red-300`,
         },
       ]}
       data-required={req}

@@ -32,34 +32,21 @@ jobs:
         run: turbo test build typecheck
         shell: sh
 
-      # - name: run rust
-      #   run: ./ci/rust.sh
-      #   shell: bash
+      - name: run rust
+        run: ./ci/rust.sh
+        shell: bash
 
       # - name: storybook tests
-      #   if: always()
       #   run: ./ci/test-sb.sh
       #   shell: bash
 
       # - name: backend integration test
-      #   if: always()
       #   run: ./ci/test-be.sh
       #   shell: sh
 
       # - name: run end-to-end test
-      #   if: always()
       #   run: ./ci/test-e2e.sh
       #   shell: bash
-
-      # - name: file changes
-      #   run: '[ $(git diff --name-only HEAD^ HEAD | wc -l) -ne 0 ] && echo there are some changes || echo no changes'
-      #   shell: bash
-      #   if: always()
-
-      # - name: clean up
-      #   run: docker compose down
-      #   shell: sh
-      #   if: always()
 
   # chromatic:
   #   runs-on: ubuntu-latest
@@ -77,12 +64,4 @@ jobs:
   #       with:
   #         projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
   #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         storybookBuildDir: pkgs/ui/storybook-static
-
-  #     - name: 📤 Upload e2e report
-  #       uses: actions/upload-artifact@v3
-  #       if: always()
-  #       with:
-  #         name: e2e-report
-  #         path: __tests__/e2e/playwright-report/
-  #         retention-days: 20
+  #         storybookBuildDir: ./pkgs/ui/storybook-static
