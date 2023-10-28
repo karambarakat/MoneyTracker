@@ -34,3 +34,4 @@ You can checkout a live version of the app [here](https://tracker.karam.page)
 - Mobile App
 - Electron App
 - Canary Deployment
+- Staging Environment
