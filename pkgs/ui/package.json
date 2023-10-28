@@ -48,7 +48,7 @@
     "@storybook/addon-styling": "^1.0.8",
     "@storybook/addons": "^7.0.18",
     "@storybook/blocks": "7.0.22",
-    "@storybook/jest": "^0.1.0",
+    "@storybook/jest": "0.2.1",
     "@storybook/react": "7.0.22",
     "@storybook/react-vite": "7.0.22",
     "@storybook/test-runner": "^0.11.0",
@@ -71,7 +71,11 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+<<<<<<< HEAD
     "chromatic": "^6.19.8",
+=======
+    "chromatic": "^7.5.4",
+>>>>>>> dev
     "concurrently": "^8.2.0",
     "eslint-config-custom": "workspace:*",
     "eslint-plugin-mdx": "^2.1.0",

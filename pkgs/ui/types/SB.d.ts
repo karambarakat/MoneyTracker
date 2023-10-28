@@ -4,6 +4,7 @@ import { ReactRouterAddonStoryParameters } from 'storybook-addon-react-router-v6
 import { Decorator as OrgDecorator } from '@storybook/react'
 import type { A11yParameters } from '@storybook/addon-a11y'
 import { Parameter as FrontendParameter } from '../../../apps/frontend/types/LocalSB'
+import 'chromatic'
 
 export interface ExpParameter extends FrontendParameter {
   layout?: 'fullscreen' | 'centered'
@@ -20,6 +21,9 @@ export interface ExpParameter extends FrontendParameter {
   mode?: 'dark' | 'light'
   reactRouter?: ReactRouterAddonStoryParameters
   a11y?: A11yParameters['config']
+  chromatic?: {
+    disableSnapshot?: boolean
+  }
 }
 
 export type ExpTags = 'autodocs'

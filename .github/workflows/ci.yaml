@@ -48,20 +48,21 @@ jobs:
       #   run: ./ci/test-e2e.sh
       #   shell: bash
 
-  # chromatic:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: 📥 Checkout
-  #       uses: actions/checkout@v2
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v2
 
-  #     - name: 📥 Install dependencies
-  #       uses: ./.github/actions/pnpm
+      - name: 📥 Install dependencies
+        uses: ./.github/actions/pnpm
 
-  #     - run: turbo --filter ui build
+      - run: turbo --filter ui build
 
-  #     - name: chromatic
-  #       uses: chromaui/action@v1
-  #       with:
-  #         projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         storybookBuildDir: ./pkgs/ui/storybook-static
+      - name: chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          storybookBuildDir: ./pkgs/ui/storybook-static
+          skip: true
