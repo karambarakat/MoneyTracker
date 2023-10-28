@@ -1,3 +1,4 @@
+import isChromatic from 'chromatic/isChromatic'
 import type { StorybookConfig } from '@storybook/react-vite'
 import type {} from 'storybook-formik/dist/esm/register'
 const config: StorybookConfig = {
@@ -13,18 +14,20 @@ const config: StorybookConfig = {
     VITE_BACKEND_API: 'http://localhost:8080/api/v1',
   },
   addons: [
-    'addon-screen-reader',
+    // One of your manager-entries failed: http://localhost:6006/sb-addons/addon-screen-reader-12/register-bundle.js ReferenceError: regeneratorRuntime is not defined
+    // 'addon-screen-reader', // does not work, cause problems in chromatic
     'storybook-addon-react-router-v6',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
     '@storybook/addon-interactions',
     'storybook-dark-mode',
-    'storybook-formik', // todo: this doesn't work
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {},
+    options: {
+      builder: {},
+    },
   },
   docs: {
     autodocs: 'tag',
