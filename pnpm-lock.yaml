@@ -623,8 +623,8 @@ importers:
         specifier: ^6.24.1
         version: 6.24.1
       chromatic:
-        specifier: ^6.19.8
-        version: 6.19.8
+        specifier: ^7.5.4
+        version: 7.5.4
       concurrently:
         specifier: ^8.2.0
         version: 8.2.0
@@ -11687,8 +11687,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /chromatic@6.19.8:
-    resolution: {integrity: sha512-cvQAd/BkhRscXYbHuwIYwkmqzgpLz50maBGvUDa+WdfpoxzYrUvG2uZ1YU3tS857dAwMuTL5wUFiawiffDIKvQ==}
+  /chromatic@7.5.4:
+    resolution: {integrity: sha512-DiBwsn8yABN6SFSeEf5gTbwGIqhfP+rjrAQENgeLFDUV3vX3tGdI8oVgseaeCwk8tn08ZukrmB/k3ZG9RPJPTA==}
     hasBin: true
     dev: true
 
