@@ -1,0 +1,29 @@
+node_modules
+**/node_modules
+
+/.VSCodeCounter
+
+out
+
+# prevent suppling production with any env by mistake
+.env
+.env.local
+.env.*.local
+.env.prod*
+.env.production*
+
+
+# turborepo
+out
+**/.turbo
+
+*/*/dist/**/*
+*/*/.next/**/*
+
+# rust
+target
+
+# do not bust the cache while configuring docker
+*/*/Dockerfile
+*/*/.dockerignore
+*/*/compose.yaml

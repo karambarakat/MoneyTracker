@@ -1,0 +1,13 @@
+{
+  "extends": "tsconfig/ui.json",
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": [
+    "src",
+    "types",
+    "../../pkgs/ui/src/utils/requires.ts",
+    "src/api/mutations.ts"
+  ]
+}

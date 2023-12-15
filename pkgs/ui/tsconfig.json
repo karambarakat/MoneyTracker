@@ -1,0 +1,7 @@
+{
+  "extends": "tsconfig/ui.json",
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": ["./src", "./designSystem", "./types"]
+}

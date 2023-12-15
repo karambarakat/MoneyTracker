@@ -1,0 +1,36 @@
+node_modules
+/.VSCodeCounter
+
+.env.*.local
+
+# rewrite backend to rust
+# to restore `git restore --source c92f370 apps/backend pkgs/types apps/openapi-docs`
+# pkgs/types
+# apps/backend
+# apps/openapi-docs
+
+# prevent suppling production with any env by mistake
+.env
+.env.local
+.env.prod*
+.env.production*
+
+# turborepo
+out
+.turbo
+
+# build
+dist
+.next
+
+do_app_spec_prod.yaml
+*.local.*
+
+# scripts
+*.log
+
+# postgres docker compose
+data
+
+# rust
+target
