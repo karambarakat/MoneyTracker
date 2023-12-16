@@ -76,7 +76,7 @@
     "babel-plugin-macros": "^3.1.0",
     "dotenv-cli": "^7.0.0",
     "eslint": "^8.35.0",
-    "eslint-config-monorepo": "workspace:*",
+    "eslint-config-localrepo": "workspace:*",
     "eslint-plugin-storybook": "^0.6.12",
     "http-server": "^14.1.1",
     "install": "^0.13.0",

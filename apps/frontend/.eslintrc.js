@@ -6,7 +6,7 @@ module.exports = {
   },
   root: true,
   extends: [
-    'custom',
+    'localrepo',
     'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:storybook/recommended',
   ],

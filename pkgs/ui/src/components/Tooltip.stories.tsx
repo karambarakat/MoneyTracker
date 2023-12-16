@@ -19,7 +19,7 @@ export const Base = {} as SB.Story<typeof component>
 
 export const Hovered = {
   play: async ({ canvasElement }) => {
-    const elem = within(canvasElement).getByRole('button')
+    const elem = within(canvasElement).getByRole('tooltip')
     elem.focus()
   },
 } as SB.Story<typeof component>

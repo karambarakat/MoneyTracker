@@ -1,7 +1,9 @@
-version: "3.8"
+version: '3.8'
 services:
   devcontainer:
-    image: ubuntu:22.04
+    build:
+      dockerfile: .devcontainer/Dockerfile
+      context: ..
     volumes:
       - ..:/repo:cached
     network_mode: service:db

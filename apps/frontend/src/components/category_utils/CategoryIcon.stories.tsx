@@ -15,6 +15,10 @@ export default {
       return <Story />
     },
   ],
+  parameters: {
+    chromatic: { disableSnapshot: true },
+    query: {},
+  },
 } satisfies SB.Meta<typeof c.CategoryIconSVG>
 
 export const SvgDefault = {

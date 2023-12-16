@@ -1,0 +1,10 @@
+{
+    "name": "bash",
+    "id": "bash",
+    "version": "1.0.0",
+    "description": "customizing bash experience to work with git",
+    "options": {}
+    // ,"installsAfter": [
+    //     "ghcr.io/devcontainers/features/common-utils"
+    // ]
+}
