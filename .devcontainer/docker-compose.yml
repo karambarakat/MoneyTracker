@@ -6,6 +6,7 @@ services:
       context: ..
     volumes:
       - ..:/repo:cached
+      - /repo/node_modules
     network_mode: service:db
     command: sleep infinity
 

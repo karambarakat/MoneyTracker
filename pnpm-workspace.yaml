@@ -1,9 +1,10 @@
 packages:
-  - 'apps/**'
-  - 'pkgs/**'
-  - 'cnfg/**'
-  - '__tests__/**'
-  - '__tests__/e2e/db'
-  # exclude packages that are inside test directories
-  - '!**/test/**'
-  - '!apps/frontend_dep'
+  - 'echo'
+  # - 'apps/**'
+  # - 'pkgs/**'
+  # - 'cnfg/**'
+  # - '__tests__/**'
+  # - '__tests__/e2e/db'
+  # # exclude packages that are inside test directories
+  # - '!**/test/**'
+  # - '!apps/frontend_dep'

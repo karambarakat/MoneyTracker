@@ -2,7 +2,7 @@
   "name": "Rust",
   "dockerComposeFile": "docker-compose.yml",
   "service": "devcontainer",
-  "workspaceFolder": "/repo/",
+  "workspaceFolder": "/repo/echo",
   "mounts": [],
 
   "features": {
@@ -19,6 +19,6 @@
   //   }
   // },
 
-  "postStartCommand": "pnpm install --frozen-lockfile",
+  // "postStartCommand": "pnpm install --frozen-lockfile",
   "remoteUser": "root"
 }
