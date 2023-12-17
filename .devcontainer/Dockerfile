@@ -1,21 +1,32 @@
-FROM node:21-bookworm
+FROM node:21-bookworm as js
 
 RUN npm install -g pnpm
 
 WORKDIR /repo
 
-COPY .devcontainer/meta .
+COPY .devcontainer/meta/js .
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile | tee /tmp/pnpm.log
+RUN pnpm config set store-dir /pnpm/store/.pnpm-store
 
-FROM node:21-bookworm
+RUN pnpm install --frozen-lockfile
 
-RUN npm install -g pnpm
+RUN pnpm store path > /etc/pnpm-store-path
+
+FROM rust:1-bookworm as rs
 
 WORKDIR /repo
 
-COPY .devcontainer/meta-test .
+COPY .devcontainer/meta/rs .
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN cargo build 
+
+# FROM debian:bookworm
+
+# WORKDIR /repo
+
+# COPY --from=js /repo /repo
+# COPY --from=js /etc/pnpm-store-path /etc/pnpm-store-path
+# COPY --from=js /pnpm/store/.pnpm-store /pnpm/store/.pnpm-store
+# COPY --from=rs /repo /repo
 
 CMD [ "sleep", "infinitly" ]

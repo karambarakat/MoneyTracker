@@ -2,11 +2,11 @@
   "name": "Rust",
   "dockerComposeFile": "docker-compose.yml",
   "service": "devcontainer",
-  "workspaceFolder": "/repo/echo",
+  "workspaceFolder": "/repo/",
   "mounts": [],
 
   "features": {
-      "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
     //   "ghcr.io/codeman99/features/circleci-cli:1": {},
     //   "ghcr.io/devcontainers/features/rust:1": {},
     "./bash": {}
