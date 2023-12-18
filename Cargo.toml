@@ -1,6 +1,3 @@
 [workspace]
 
-members = [
-    "apps/rust",
-    "pkgs/backend_macro",
-]
+members = ["apps/rust", "pkgs/backend_macro", "pkgs/workspace"]

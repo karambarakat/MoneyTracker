@@ -4,9 +4,17 @@
   "description": "Easy to use money wallet",
   "private": true,
   "scripts": {
-    "dev": "pnpm install --lockfile-only && devcontainer up --workspace-folder ."
+    "postinstall": "playwright install --with-deps",
+    "dev": "devcontainer up --workspace-folder ."
   },
   "dependencies": {
-    "devcontainer": "latest"
+    "devcontainer": "latest",
+    "playwright": "^1.35.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "twin.macro@3.3.1": "patches/twin.macro@3.3.1.patch",
+      "storybook-dark-mode@3.0.0": "patches/storybook-dark-mode@3.0.0.patch"
+    }
   }
 }

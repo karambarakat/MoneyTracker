@@ -1,7 +1,3 @@
 [workspace]
 
-members = [
-    "apps/rust",
-    "pkgs/backend_macro",
-    "pkgs/backend_macro/http_error_derive"
-]
+members = ["apps/rust", "pkgs/backend_macro", "pkgs/workspace"]

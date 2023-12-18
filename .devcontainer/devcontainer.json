@@ -3,12 +3,16 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "devcontainer",
   "workspaceFolder": "/repo/",
-  "mounts": [],
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  // "run": ["--add-host=host.docker.internal:host-gateway"],
 
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
-    //   "ghcr.io/codeman99/features/circleci-cli:1": {},
-    //   "ghcr.io/devcontainers/features/rust:1": {},
+    "ghcr.io/codeman99/features/circleci-cli:1": {},
+    "ghcr.io/devcontainers/features/rust:1": {},
     "./bash": {}
   },
 
@@ -19,6 +23,6 @@
   //   }
   // },
 
-  // "postStartCommand": "pnpm install --frozen-lockfile",
+  "postStartCommand": "pnpm install --offline --frozen-lockfile",
   "remoteUser": "root"
 }

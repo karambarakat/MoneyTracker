@@ -1,0 +1,47 @@
+{
+  "tailwindCSS.experimental.classRegex": [
+    "tw`([^`]*)", // tw`...`
+    "tw=\"([^\"]*)", // <div tw="..." />
+    "tw={\"([^\"}]*)", // <div tw={"..."} />
+    "tw\\.\\w+`([^`]*)", // tw.xxx`...`
+    "tw\\(.*?\\)`([^`]*)" // tw(Component)`...`
+  ],
+  "editor.tabSize": 2,
+  "cSpell.minWordLength": 5,
+  "cSpell.words": [
+    "actix",
+    "autodocs",
+    "Barakat",
+    "chrono",
+    "cmnd",
+    "codegen",
+    "elems",
+    "hoverable",
+    "karam",
+    "karambarakat",
+    "localstorage",
+    "luxon",
+    "openapi",
+    "signup",
+    "tabler",
+    "tailwindcss",
+    "tanstack",
+    "TCICD",
+    "TIMESTAMPTZ",
+    "Turborepo",
+    "typecheck",
+    "viewports"
+  ],
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]
+  },
+  "eslint.validate": [
+    "markdown",
+    "mdx",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "cSpell.enableFiletypes": ["bat"]
+}

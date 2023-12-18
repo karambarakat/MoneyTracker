@@ -1,8 +1,16 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
+
+patchedDependencies:
+  storybook-dark-mode@3.0.0:
+    hash: snbl6prudut2q2k77vjgg5bmb4
+    path: patches/storybook-dark-mode@3.0.0.patch
+  twin.macro@3.3.1:
+    hash: 2s4ayig7yqzjyweu7pxsjtsyaq
+    path: patches/twin.macro@3.3.1.patch
 
 importers:
 
@@ -11,6 +19,9 @@ importers:
       devcontainer:
         specifier: latest
         version: 0.3.0
+      playwright:
+        specifier: ^1.35.1
+        version: 1.35.1
 
   apps/frontend:
     dependencies:
@@ -239,7 +250,7 @@ importers:
         version: link:../../cnfg/tsconfig
       twin.macro:
         specifier: ^3.3.1
-        version: 3.3.1(tailwindcss@3.3.2)
+        version: 3.3.1(patch_hash=2s4ayig7yqzjyweu7pxsjtsyaq)(tailwindcss@3.3.2)
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -509,7 +520,7 @@ importers:
         version: 2.0.3(@storybook/blocks@7.0.22)(@storybook/channels@7.6.5)(@storybook/components@7.6.5)(@storybook/core-events@7.6.5)(@storybook/manager-api@7.6.5)(@storybook/preview-api@7.6.5)(@storybook/theming@7.0.20)(react-dom@17.0.2)(react-router-dom@6.12.1)(react-router@6.21.0)(react@17.0.2)
       storybook-dark-mode:
         specifier: ^3.0.0
-        version: 3.0.0(@types/react-dom@17.0.10)(@types/react@17.0.33)(react-dom@17.0.2)(react@17.0.2)
+        version: 3.0.0(patch_hash=snbl6prudut2q2k77vjgg5bmb4)(@types/react-dom@17.0.10)(@types/react@17.0.33)(react-dom@17.0.2)(react@17.0.2)
       storybook-formik:
         specifier: ^2.4.2
         version: 2.4.2(@types/react@17.0.33)(formik@2.2.9)(react-dom@17.0.2)(react@17.0.2)
@@ -521,7 +532,7 @@ importers:
         version: link:../../cnfg/tsconfig
       twin.macro:
         specifier: ^3.3.1
-        version: 3.3.1(tailwindcss@3.3.2)
+        version: 3.3.1(patch_hash=2s4ayig7yqzjyweu7pxsjtsyaq)(tailwindcss@3.3.2)
       vite:
         specifier: ^4.3.9
         version: 4.3.9(less@4.2.0)
@@ -6743,7 +6754,7 @@ packages:
       '@storybook/client-logger': 7.0.18
       '@storybook/core-events': 7.0.18
       '@storybook/global': 5.0.0
-      qs: 6.11.0
+      qs: 6.11.2
       telejson: 7.2.0
     dev: true
 
@@ -6754,7 +6765,7 @@ packages:
       '@storybook/client-logger': 7.0.22
       '@storybook/core-events': 7.0.22
       '@storybook/global': 5.0.0
-      qs: 6.11.0
+      qs: 6.11.2
       telejson: 7.2.0
     dev: true
 
@@ -6765,7 +6776,7 @@ packages:
       '@storybook/client-logger': 7.0.24
       '@storybook/core-events': 7.0.24
       '@storybook/global': 5.0.0
-      qs: 6.11.0
+      qs: 6.11.2
       telejson: 7.2.0
     dev: true
 
@@ -6776,7 +6787,7 @@ packages:
       '@storybook/client-logger': 7.0.26
       '@storybook/core-events': 7.0.26
       '@storybook/global': 5.0.0
-      qs: 6.11.0
+      qs: 6.11.2
       telejson: 7.2.0
     dev: true
 
@@ -6828,7 +6839,7 @@ packages:
       '@storybook/client-logger': 7.2.0
       '@storybook/core-events': 7.2.0
       '@storybook/global': 5.0.0
-      qs: 6.11.0
+      qs: 6.11.2
       telejson: 7.2.0
       tiny-invariant: 1.3.1
     dev: true
@@ -6839,7 +6850,7 @@ packages:
       '@storybook/client-logger': 7.6.5
       '@storybook/core-events': 7.6.5
       '@storybook/global': 5.0.0
-      qs: 6.11.0
+      qs: 6.11.2
       telejson: 7.2.0
       tiny-invariant: 1.3.1
     dev: true
@@ -7042,7 +7053,7 @@ packages:
       '@storybook/theming': 6.5.16(react-dom@17.0.2)(react@17.0.2)
       core-js: 3.34.0
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
       regenerator-runtime: 0.13.11
@@ -7758,7 +7769,7 @@ packages:
       dequal: 2.0.3
       lodash: 4.17.21
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
@@ -7778,7 +7789,7 @@ packages:
       dequal: 2.0.3
       lodash: 4.17.21
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
@@ -7798,7 +7809,7 @@ packages:
       dequal: 2.0.3
       lodash: 4.17.21
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
@@ -7818,7 +7829,7 @@ packages:
       dequal: 2.0.3
       lodash: 4.17.21
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
@@ -7837,7 +7848,7 @@ packages:
       dequal: 2.0.3
       lodash: 4.17.21
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
@@ -7856,7 +7867,7 @@ packages:
       dequal: 2.0.3
       lodash: 4.17.21
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       synchronous-promise: 2.0.17
       ts-dedent: 2.2.0
       util-deprecate: 1.0.2
@@ -8033,7 +8044,7 @@ packages:
       '@storybook/client-logger': 6.5.16
       core-js: 3.34.0
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
       regenerator-runtime: 0.13.11
@@ -8047,7 +8058,7 @@ packages:
     dependencies:
       '@storybook/client-logger': 7.0.18
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
     dev: true
@@ -8060,7 +8071,7 @@ packages:
     dependencies:
       '@storybook/client-logger': 7.0.22
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
     dev: true
@@ -8073,7 +8084,7 @@ packages:
     dependencies:
       '@storybook/client-logger': 7.0.24
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
     dev: true
@@ -8086,7 +8097,7 @@ packages:
     dependencies:
       '@storybook/client-logger': 7.0.26
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
     dev: true
@@ -8099,7 +8110,7 @@ packages:
     dependencies:
       '@storybook/client-logger': 7.2.0
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
     dev: true
@@ -8109,7 +8120,7 @@ packages:
     dependencies:
       '@storybook/client-logger': 7.6.5
       memoizerific: 1.11.3
-      qs: 6.11.0
+      qs: 6.11.2
     dev: true
 
   /@storybook/semver@7.3.2:
@@ -9616,7 +9627,7 @@ packages:
     resolution: {integrity: sha512-wurZC82zzZwXRDSW0OS9l141DynaJQh7Yt0FD1xZ8niX7/Et/7RoiLiltbVU1fSF1RR9z6ndEaTUQBAmddTm1w==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@whatwg-node/node-fetch': 0.5.2
+      '@whatwg-node/node-fetch': 0.5.3
       urlpattern-polyfill: 9.0.0
     dev: true
 
@@ -9630,8 +9641,8 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@whatwg-node/node-fetch@0.5.2:
-    resolution: {integrity: sha512-uVYCnmWoCiGbv5AtnSx5nZ1kQJ+U8f269/yHB62y7wXPdjYx6o4sBSefnfwUI8HNf4rf16VbvGR/AzuABhDD5g==}
+  /@whatwg-node/node-fetch@0.5.3:
+    resolution: {integrity: sha512-toMC8N53RxgprcuU7Fc05KOrJhZV49njJCHPZvXBsjZMQBKrDm9o14Y56CsrUC85cvjQu862MaYOjd8rKgHdDw==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@kamilkisiela/fast-url-parser': 1.1.4
@@ -17473,7 +17484,6 @@ packages:
     resolution: {integrity: sha512-pNXb6CQ7OqmGDRspEjlxE49w+4YtR6a3X6mT1hZXeJHWmsEz7SunmvZeiG/+y1yyMZdHnnn73WKYdtV1er0Xyg==}
     engines: {node: '>=16'}
     hasBin: true
-    dev: true
 
   /playwright-core@1.40.1:
     resolution: {integrity: sha512-+hkOycxPiV534c4HhpfX6yrlawqVUzITRKwHAmYfmsVreltEl6fAZJ3DPfLMOODw0H3s1Itd6MDCWmP1fl/QvQ==}
@@ -17488,7 +17498,6 @@ packages:
     requiresBuild: true
     dependencies:
       playwright-core: 1.35.1
-    dev: true
 
   /polished@4.2.2:
     resolution: {integrity: sha512-Sz2Lkdxz6F2Pgnpi9U5Ng/WdWAUZxmHrNPoVlm3aAemxoy2Qy7LGjQg4uf8qKelDAUW94F4np3iH2YPf2qefcQ==}
@@ -17748,6 +17757,7 @@ packages:
 
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -17818,6 +17828,13 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
+
+  /qs@6.11.2:
+    resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: true
 
   /query-selector-shadow-dom@0.8.0:
     resolution: {integrity: sha512-dY6R/X8hfGapwcW9Xl6zSpGR1guYNdSVV7XOrO3Xb9UUyo5tEcWON2siDpNyQ+skVjAH0fH3azm3GdnTpUC/2A==}
@@ -18708,6 +18725,7 @@ packages:
 
   /sax@1.3.0:
     resolution: {integrity: sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -19197,7 +19215,7 @@ packages:
       react-router-dom: 6.12.1(react-dom@17.0.2)(react@17.0.2)
     dev: true
 
-  /storybook-dark-mode@3.0.0(@types/react-dom@17.0.10)(@types/react@17.0.33)(react-dom@17.0.2)(react@17.0.2):
+  /storybook-dark-mode@3.0.0(patch_hash=snbl6prudut2q2k77vjgg5bmb4)(@types/react-dom@17.0.10)(@types/react@17.0.33)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-aeAvqP/mmdccEiCsvx6aw3M0i7mZSiXROsrAsEQN8vl1lAg3FZN+y3Xu/f+ye59wLMRuKJC/JBp7E3/H7vLBRQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -19222,6 +19240,7 @@ packages:
       - '@types/react'
       - '@types/react-dom'
     dev: true
+    patched: true
 
   /storybook-formik@2.4.2(@types/react@17.0.33)(formik@2.2.9)(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-bF0dcbDFquhhx+UI8Kbm1nEVbWJkpdqwlTRHmDojxiB9sZut8deC4qXWO3HcXfWYXdDi9AZ6Szdfg1bbiHvPCg==}
@@ -19886,7 +19905,7 @@ packages:
       typescript: 5.2.2
     dev: true
 
-  /twin.macro@3.3.1(tailwindcss@3.3.2):
+  /twin.macro@3.3.1(patch_hash=2s4ayig7yqzjyweu7pxsjtsyaq)(tailwindcss@3.3.2):
     resolution: {integrity: sha512-V6Y1D2em218nvOp+a0iWBCe7kAOx8AEVh5F2NnEQbfyId29S9zjIAUo9gW2qTL6Fn03JAbGgrCZNHqp7alcsFQ==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
@@ -19900,6 +19919,7 @@ packages:
       postcss-selector-parser: 6.0.13
       tailwindcss: 3.3.2
     dev: true
+    patched: true
 
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -20123,7 +20143,7 @@ packages:
     resolution: {integrity: sha512-N6uOhuW6zO95P3Mel2I2zMsbsanvvtgn6jVqJv4vbVcz/JN0OkL9suomjQGmWtxJQXOCqUJvquc1sMeNz/IwlA==}
     engines: {node: '>= 0.8.0'}
     dependencies:
-      qs: 6.11.0
+      qs: 6.11.2
     dev: true
 
   /unique-string@2.0.0:

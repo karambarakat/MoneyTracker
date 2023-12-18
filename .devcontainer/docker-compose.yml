@@ -5,13 +5,14 @@ services:
       dockerfile: .devcontainer/Dockerfile
       context: ..
 
+    env_file:
+      - .env.dev
+
     volumes:
       - ..:/repo:cached
-      - /repo/.pnpm-store
-      - /repo/node_modules
-      - /repo/target
+      - /repo/node_modules # unmaped volume; belong to Dockerfile
+      - /repo/target # unmaped volume; belong to Dockerfile
 
-    network_mode: service:db
     command: sleep infinity
 
   db:
@@ -23,6 +24,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
+    expose:
+      - 5432
 
 volumes:
   postgres-data:

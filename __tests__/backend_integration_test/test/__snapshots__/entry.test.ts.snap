@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create_many_entries 1`] = `
+Object {
+  "amount": 20.88,
+  "category": Any<String>,
+  "title": "title2",
+}
+`;
+
+exports[`create_many_entries 2`] = `
+Object {
+  "amount": -30,
+  "title": "title3",
+}
+`;
+
+exports[`create_many_entries 3`] = `
+Object {
+  "amount": 20.88,
+  "category": Object {
+    "color": "color1",
+    "createdAt": Any<String>,
+    "createdBy": Object {
+      "avatar": null,
+      "createdAt": Any<String>,
+      "displayName": null,
+      "email": "testing_entry@m.c",
+      "id": Any<String>,
+      "providers": "local",
+      "updatedAt": Any<String>,
+    },
+    "icon": "icon1",
+    "id": Any<String>,
+    "title": "title1",
+    "updatedAt": Any<String>,
+  },
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_entry@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "id": Any<String>,
+  "note": null,
+  "title": "title2",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`create_many_entries 4`] = `
+Object {
+  "amount": -30,
+  "category": null,
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_entry@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "id": Any<String>,
+  "note": null,
+  "title": "title3",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`create_one_entry 1`] = `
+Object {
+  "amount": 100,
+  "category": Object {
+    "color": "color1",
+    "createdAt": Any<String>,
+    "createdBy": Object {
+      "avatar": null,
+      "createdAt": Any<String>,
+      "displayName": null,
+      "email": "testing_entry@m.c",
+      "id": Any<String>,
+      "providers": "local",
+      "updatedAt": Any<String>,
+    },
+    "icon": "icon1",
+    "id": Any<String>,
+    "title": "title1",
+    "updatedAt": Any<String>,
+  },
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_entry@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "id": Any<String>,
+  "note": null,
+  "title": "title1",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`create_one_entry 2`] = `
+Object {
+  "amount": 100,
+  "category": Any<String>,
+  "title": "title1",
+}
+`;
+
+exports[`create_one_entry 3`] = `
+Object {
+  "amount": 200,
+  "category": null,
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_entry@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "id": Any<String>,
+  "note": null,
+  "title": "title2",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`create_one_entry 4`] = `
+Object {
+  "amount": 200,
+  "title": "title2",
+}
+`;
+
+exports[`update_one_entry 1`] = `
+Object {
+  "amount": 1000,
+  "category": Object {
+    "color": "color2",
+    "createdAt": Any<String>,
+    "createdBy": Object {
+      "avatar": null,
+      "createdAt": Any<String>,
+      "displayName": null,
+      "email": "testing_entry@m.c",
+      "id": Any<String>,
+      "providers": "local",
+      "updatedAt": Any<String>,
+    },
+    "icon": "icon2",
+    "id": Any<String>,
+    "title": "title2",
+    "updatedAt": Any<String>,
+  },
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_entry@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "id": Any<String>,
+  "note": null,
+  "title": "new_title",
+  "updatedAt": Any<String>,
+}
+`;

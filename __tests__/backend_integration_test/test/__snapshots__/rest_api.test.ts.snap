@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api is working 1`] = `"api is working"`;
+
+exports[`not found 1`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "NotFound",
+    "info": Object {},
+    "message": "not found",
+    "status": 404,
+  },
+}
+`;

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`create results 1`] = `
+Object {
+  "color": null,
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_category@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "icon": null,
+  "id": Any<String>,
+  "title": "new_category",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`create_many_categories 1`] = `
+Object {
+  "color": "red",
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_category@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "icon": "icon",
+  "id": Any<String>,
+  "title": "new_category2",
+  "updatedAt": Any<String>,
+  "vars": Object {
+    "color": "red",
+    "icon": "icon",
+    "title": "new_category2",
+  },
+}
+`;
+
+exports[`create_one_category 1`] = `
+Object {
+  "color": null,
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_category@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "icon": null,
+  "id": Any<String>,
+  "title": "new_category",
+  "updatedAt": Any<String>,
+  "vars": Object {
+    "title": "new_category",
+  },
+}
+`;
+
+exports[`update_one_category 1`] = `
+Object {
+  "color": "new_color",
+  "createdAt": Any<String>,
+  "createdBy": Object {
+    "avatar": null,
+    "createdAt": Any<String>,
+    "displayName": null,
+    "email": "testing_category@m.c",
+    "id": Any<String>,
+    "providers": "local",
+    "updatedAt": Any<String>,
+  },
+  "icon": "new_icon",
+  "id": Any<String>,
+  "title": "new_title",
+  "updatedAt": Any<String>,
+}
+`;

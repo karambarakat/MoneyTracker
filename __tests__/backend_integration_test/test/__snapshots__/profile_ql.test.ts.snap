@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get_current_profile 1`] = `
+Object {
+  "avatar": null,
+  "createdAt": Any<String>,
+  "displayName": null,
+  "email": "testing_profile@m.c",
+  "id": Any<String>,
+  "providers": "local",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`update_current_user 1`] = `
+Object {
+  "user": Object {
+    "avatar": "new avatar",
+    "displayName": "new_display_name",
+  },
+}
+`;
+
+exports[`update_current_user 2`] = `
+Object {
+  "avatar": "new avatar",
+  "createdAt": Any<String>,
+  "displayName": "new_display_name",
+  "email": "testing_profile@m.c",
+  "id": Any<String>,
+  "providers": "local",
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`update_password 1`] = `true`;

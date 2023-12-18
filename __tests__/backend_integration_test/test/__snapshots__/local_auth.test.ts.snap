@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic token bad basic token 1`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "BadRequest",
+    "info": Object {
+      "reason": "token decoding failed, input is valid?",
+    },
+    "message": "Ops, some error occured, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token good basic token 1`] = `
+Object {
+  "avatar": null,
+  "created_at": Any<Number>,
+  "display_name": null,
+  "email": "admin",
+  "id": Any<String>,
+  "providers": "local",
+  "updated_at": Any<Number>,
+}
+`;
+
+exports[`basic token not a basic token 1`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "BadRequest",
+    "info": Object {
+      "reason": "not a basic token",
+    },
+    "message": "Ops, some error occured, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token protected by token 1`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "BadRequest",
+    "info": Object {
+      "reason": "header is not provided",
+    },
+    "message": "Ops, some error occured, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token protected by token: login 1`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "BadRequest",
+    "info": Object {
+      "reason": "header is not provided",
+    },
+    "message": "Ops, some error occured, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`basic token protected by token: register 1`] = `
+Object {
+  "data": null,
+  "error": Object {
+    "code": "BadRequest",
+    "info": Object {
+      "reason": "header is not provided",
+    },
+    "message": "Ops, some error occured, please try again",
+    "status": 400,
+  },
+}
+`;
+
+exports[`local auth login 1`] = `
+Object {
+  "avatar": null,
+  "created_at": Any<Number>,
+  "display_name": null,
+  "email": "admin",
+  "id": Any<String>,
+  "providers": "local",
+  "updated_at": Any<Number>,
+}
+`;

@@ -8,9 +8,9 @@ COPY .devcontainer/meta/js .
 
 RUN pnpm config set store-dir /pnpm/store/.pnpm-store
 
-RUN pnpm install --frozen-lockfile
+COPY patches patches 
 
-RUN pnpm store path > /etc/pnpm-store-path
+RUN pnpm install --frozen-lockfile
 
 FROM rust:1-bookworm as rs
 
@@ -20,13 +20,16 @@ COPY .devcontainer/meta/rs .
 
 RUN cargo build 
 
-# FROM debian:bookworm
+FROM ubuntu:22.04
 
-# WORKDIR /repo
+WORKDIR /repo
 
-# COPY --from=js /repo /repo
-# COPY --from=js /etc/pnpm-store-path /etc/pnpm-store-path
-# COPY --from=js /pnpm/store/.pnpm-store /pnpm/store/.pnpm-store
-# COPY --from=rs /repo /repo
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+COPY --from=js /root/.chache /root/.chache
+COPY --from=js /repo /repo
+COPY --from=js /pnpm /pnpm
+COPY --from=rs /repo /repo
 
 CMD [ "sleep", "infinitly" ]
